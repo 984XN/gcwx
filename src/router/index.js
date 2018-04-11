@@ -1,32 +1,48 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { AppInfo } from '@/config';
-import Login from '@/view/login';
-import Welcome from '@/view/welcome';
+import Login from 'src/view/login';
+import Welcome from 'src/view/welcome';
+import Tpl from 'src/view/tpl';
+
+import RouterArticle from 'src/router/article';
+import RouterActivity from 'src/router/activity';
+import RouterUser from 'src/router/user';
 
 Vue.use(Router);
 
 const router = new Router({
   routes: [
-    {
-      path: '/login',
-      name: 'login',
-      meta: {
-        title: '登录 - ' + AppInfo.name
-      },
-      component: Login /* ,hidden: true, // 自定义属性，在组件中可以通过 this.$route.hidden 获取值 */
-    },
+    RouterArticle,
+    RouterActivity,
+    RouterUser,
     {
       path: '/welcome',
       name: 'welcome',
       meta: {
         auth: true,
-        title: '系统首页 - ' + AppInfo.name
+        title: '系统首页'
       },
       component: Welcome
     },
     {
-      path: '*' /* 默认跳转到登录界面 */,
+      path: '/tpl',
+      name: 'tpl',
+      meta: {
+        auth: false,
+        title: '页面模板'
+      },
+      component: Tpl
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: {
+        title: '登录'
+      },
+      component: Login /* ,hidden: true, // 自定义属性，在组件中可以通过 this.$route.hidden 获取值 */
+    },
+    {
+      path: '*',
       redirect: {
         path: '/login'
       }
@@ -39,7 +55,7 @@ router.beforeEach((to, from, next) => {
 
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {
-    if (localStorage.isLogin) {
+    if (sessionStorage.isLogin) {
       // 校验通过，正常跳转到你设置好的页面
       next();
     } else {
