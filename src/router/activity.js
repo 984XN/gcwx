@@ -8,57 +8,85 @@ import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
 
 const RouterActivity = {
-  path: '/Activity',
+  path: '/activity',
   component: Activity,
-  meta: { title: '学习平台' },
+  meta: { title: '互动专区', auth: true },
   children: [
     {
       path: '/',
       redirect: {
-        path: 'yingzhiyinghui'
+        path: 'canyutoupiao'
       }
     },
     {
       path: 'canyutoupiao',
       name: 'CanYuTouPiao',
       component: ActivityCanYuTouPiao,
-      meta: { title: '参与投票', auth: true }
+      meta: {
+        title: '参与投票',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'daticuxue',
       name: 'DaTiCuXue',
       component: ActivityDaTiCuXue,
-      meta: { title: '答题促学', auth: true }
+      meta: {
+        title: '答题促学',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'zhishijingsai',
       name: 'ZhiShiJingSai',
       component: ActivityZhiShiJingSai,
-      meta: { title: '知识竞赛', auth: true }
+      meta: {
+        title: '知识竞赛',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'zhengnengliang',
       name: 'ZhengNengLiang',
       component: ActivityZhengNengLiang,
-      meta: { title: '正能量', auth: true }
+      meta: {
+        title: '正能量',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'jianyanxiance',
       name: 'JianYanXianCe',
       component: ActivityJianYanXianCe,
-      meta: { title: '建言献策', auth: true }
+      meta: {
+        title: '建言献策',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'zhibuejia',
       name: 'ZhiBuEJia',
       component: ActivityZhiBuEJia,
-      meta: { title: '支部e家', auth: true }
+      meta: {
+        title: '支部e家',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'jifenchoujiang',
       name: 'JiFenChouJiang',
       component: ActivityJiFenChouJiang,
-      meta: { title: '积分抽奖', auth: true }
+      meta: {
+        title: '积分抽奖',
+        auth: true,
+        keepAlive: false
+      }
     }
   ]
 };

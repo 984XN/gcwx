@@ -22,43 +22,71 @@ const RouterArticle = {
       path: 'yingzhiyinghui',
       name: 'YingZhiYingHui',
       component: ArticleYingZhiYingHui,
-      meta: { title: '应知应会', auth: true }
+      meta: {
+        title: '应知应会',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'dangzhangdanggui',
       name: 'DangZhangDangGui',
       component: ArticleDangZhangDangGui,
-      meta: { title: '党章党规', auth: true }
+      meta: {
+        title: '党章党规',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'xiliejianghua',
       name: 'XiLieJiangHua',
       component: ArticleXiLieJiangHua,
-      meta: { title: '系列讲话', auth: true }
+      meta: {
+        title: '系列讲话',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'dangshibolan',
       name: 'DangShiBoLan',
       component: ArticleDangShiBoLan,
-      meta: { title: '党史博览', auth: true }
+      meta: {
+        title: '党史博览',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'dianxingfengcai',
       name: 'DianXingFengCai',
       component: ArticleDianXingFengCai,
-      meta: { title: '典型风采', auth: true }
+      meta: {
+        title: '典型风采',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'buwangchuxin',
       name: 'BuWangChuXin',
       component: ArticleBuWangChuXin,
-      meta: { title: '不忘初心', auth: true }
+      meta: {
+        title: '不忘初心',
+        auth: true,
+        keepAlive: false
+      }
     },
     {
       path: 'xindetihui',
       name: 'XinDeTiHui',
       component: ArticleXinDeTiHui,
-      meta: { title: '心得体会', auth: true }
+      meta: {
+        title: '心得体会',
+        auth: true,
+        keepAlive: false
+      }
     }
   ]
 };

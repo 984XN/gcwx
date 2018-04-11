@@ -10,8 +10,8 @@
         </router-view>
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive">
-          <!-- 这里是不被缓存的视图组件 -->
-        </router-view>
+        <!-- 这里是不被缓存的视图组件 -->
+      </router-view>
     </template>
   </div>
 </template>

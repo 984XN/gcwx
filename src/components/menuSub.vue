@@ -1,46 +1,39 @@
 <template>
-  <div>
-    <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
-      <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
-    </tab>
-    /activity/
-    <router-view></router-view>
-    <Menu></Menu>
-  </div>
+  <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
+    <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
+  </tab>
 </template>
 
 <script>
 import { Tab, TabItem } from 'vux';
-import Menu from 'src/components/menu';
 
 export default {
   components: {
     Tab,
-    TabItem,
-    Menu
+    TabItem
   },
   data() {
     return {
       tabs: [
-        { name: '参与投票', route: '/activity/canyutoupiao' },
-        { name: '答题促学', route: '/activity/daticuxue' },
-        { name: '知识竞赛', route: '/activity/zhishijingsai' },
-        { name: '正能量', route: '/activity/zhengnengliang' },
-        { name: '建言献策', route: '/activity/jianyanxiance' },
-        { name: '支部e家', route: '/activity/zhibuejia' },
-        { name: '积分抽奖', route: '/activity/jifenchoujiang' }
+        { name: '应知应会', route: '/article/yingzhiyinghui' },
+        { name: '党章党规', route: '/article/dangzhangdanggui' },
+        { name: '系列讲话', route: '/article/xiliejianghua' },
+        { name: '党史博览', route: '/article/dangshibolan' },
+        { name: '典型风采', route: '/article/dianxingfengcai' },
+        { name: '不忘初心', route: '/article/buwangchuxin' },
+        { name: '心得体会', route: '/article/xindetihui' }
       ]
     };
   },
   computed: {
     tabIndex: {
       get() {
-        let index = this.$store.state.tabActive.activity;
+        let index = this.$store.state.tabActive.article;
         return index;
       },
       set(val) {
         this.$store.commit('setTabActive', {
-          tab: 'activity',
+          tab: 'article',
           index: val
         });
       }
@@ -66,7 +59,7 @@ export default {
         }
       }
       this.tabIndex = index;
-      this.$store.commit('setTabActive', { tab: 'activity', index: index });
+      this.$store.commit('setTabActive', { tab: 'article', index: index });
       // 把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
       if (index > 3) {
         let tab = this.$el.querySelector('.vux-tab.scrollable');
