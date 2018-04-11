@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     // 设置当前激活的tab
     setTabActive(state, json) {
       this.state.tabItemActive[json.tab] = json.index;
+      // console.log(new Date().getTime(), 'store.setTabActive', json);
     }
   }
 });

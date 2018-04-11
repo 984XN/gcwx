@@ -55,6 +55,7 @@ router.beforeEach((to, from, next) => {
 
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {
+    console.log('登录检测', to.fullPath, '[sessionStorage.isLogin]:', sessionStorage.isLogin);
     if (sessionStorage.isLogin) {
       // 校验通过，正常跳转到你设置好的页面
       next();
