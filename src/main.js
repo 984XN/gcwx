@@ -6,6 +6,7 @@ import router from './router'
 import store from './store';
 
 import 'src/assets/common.styl';
+import 'src/assets/font/iconfont.css';
 
 // 数据类型是 observer 使用时总是 undefined
 // // 全局导航菜单数据 this.$menu
