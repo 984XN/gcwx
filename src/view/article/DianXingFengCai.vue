@@ -1,13 +1,17 @@
 <template>
-  <Frame :list="list" :name="'dianxingfengcai'" />
+  <container>
+    <ArticleList :list="list"></ArticleList>
+  </container>
 </template>
 
 <script>
-import Frame from './__frame';
+import Container from 'src/components/container';
+import ArticleList from 'src/components/articlelist';
 
 export default {
   components: {
-    Frame
+    Container,
+    ArticleList
   },
   data() {
     return {

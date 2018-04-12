@@ -7,6 +7,11 @@ import store from './store';
 
 import 'src/assets/common.styl';
 
+// 数据类型是 observer 使用时总是 undefined
+// // 全局导航菜单数据 this.$menu
+// import Menu from 'src/config';
+// Vue.use(Menu);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
