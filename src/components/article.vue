@@ -36,15 +36,15 @@ export default {
 
 <style lang="stylus" scoped>
 .article {
-  border-radius 5px
-  margin 10px
+  // border-radius 5px
+  // margin 10px
   background-color #fff
   .article-head {
     padding 20px 10px 10px
     border-bottom 1px dotted #EEE
     text-align center
     h1 {
-      font-size 18px
+      font-size 20px
       font-weight normal
       padding-bottom 10px
     }
