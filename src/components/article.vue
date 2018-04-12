@@ -60,6 +60,8 @@ export default {
     padding 20px
     p {
       margin 1em 0
+      word-wrap break-word
+      word-break break-all
       &:first-child {
         margin-top 0
       }

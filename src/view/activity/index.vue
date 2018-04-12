@@ -1,7 +1,14 @@
 <template>
   <div class="page page-hudongzhuanqu">
-    <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
-      <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
+    <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched" class="tab-icon">
+      <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
+        <div class="icon">
+          <i class="iconfont" :class="tab.icon"></i>
+        </div>
+        <div class="label">
+          {{tab.name}}
+        </div>
+      </tab-item>
     </tab>
     /activity/
     <router-view></router-view>
@@ -22,13 +29,41 @@ export default {
   data() {
     return {
       tabs: [
-        { name: '参与投票', route: '/activity/canyutoupiao' },
-        { name: '答题促学', route: '/activity/daticuxue' },
-        { name: '知识竞赛', route: '/activity/zhishijingsai' },
-        { name: '正能量', route: '/activity/zhengnengliang' },
-        { name: '建言献策', route: '/activity/jianyanxiance' },
-        { name: '支部e家', route: '/activity/zhibuejia' },
-        { name: '积分抽奖', route: '/activity/jifenchoujiang' }
+        {
+          name: '参与投票',
+          route: '/activity/canyutoupiao',
+          icon: 'icon-favor'
+        },
+        {
+          name: '答题促学',
+          route: '/activity/daticuxue',
+          icon: 'icon-read'
+        },
+        {
+          name: '知识竞赛',
+          route: '/activity/zhishijingsai',
+          icon: 'icon-upstage'
+        },
+        {
+          name: '正能量',
+          route: '/activity/zhengnengliang',
+          icon: 'icon-appreciate'
+        },
+        {
+          name: '建言献策',
+          route: '/activity/jianyanxiance',
+          icon: 'icon-new'
+        },
+        {
+          name: '支部e家',
+          route: '/activity/zhibuejia',
+          icon: 'icon-home'
+        },
+        {
+          name: '积分抽奖',
+          route: '/activity/jifenchoujiang',
+          icon: 'icon-goods_favor_light'
+        }
       ]
     };
   },
