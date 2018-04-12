@@ -1,25 +1,13 @@
 <template>
-  <div class="page-article-yingzhiyinghui">
-    <MenuSub></MenuSub>
-    <container>
-      <ArticleList :list="list"></ArticleList>
-    </container>
-    <Menu></Menu>
-  </div>
+  <Frame :list="list" :name="'yingzhiyinghui'" />
 </template>
 
 <script>
-import Menu from 'src/components/menu';
-import MenuSub from 'src/components/menuSub';
-import Container from 'src/components/container';
-import ArticleList from 'src/components/ArticleList';
+import Frame from './__frame';
 
 export default {
   components: {
-    Menu,
-    MenuSub,
-    Container,
-    ArticleList
+    Frame
   },
   data() {
     return {
