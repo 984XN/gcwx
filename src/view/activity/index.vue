@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page page-hudongzhuanqu">
     <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
       <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
     </tab>

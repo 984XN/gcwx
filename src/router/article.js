@@ -6,6 +6,7 @@ import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
 import ArticleDianXingFengCai from 'src/view/article/DianXingFengCai';
 import ArticleBuWangChuXin from 'src/view/article/BuWangChuXin';
 import ArticleXinDeTiHui from 'src/view/article/XinDeTiHui';
+import ArticleDetail from 'src/view/article/detail';
 
 const RouterArticle = {
   path: '/article',
@@ -84,6 +85,16 @@ const RouterArticle = {
       component: ArticleXinDeTiHui,
       meta: {
         title: '心得体会',
+        auth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: 'detail',
+      name: 'detail-article',
+      component: ArticleDetail,
+      meta: {
+        title: '正文',
         auth: true,
         keepAlive: false
       }

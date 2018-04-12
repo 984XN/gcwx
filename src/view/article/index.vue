@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
-      <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
-    </tab>
-    /active/
-    <router-view></router-view>
-    <Menu></Menu>
+  <div class="page page-xuexipingtai">
+    <template v-if="$route.name !=='detail-article'">
+      <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" @on-index-change="tabSwitched">
+        <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
+      </tab>
+      <router-view></router-view>
+      <Menu></Menu>
+    </template>
+    <template v-if="$route.name ==='detail-article'">
+      <router-view></router-view>
+    </template>
   </div>
 </template>
 
