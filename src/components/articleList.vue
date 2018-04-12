@@ -1,5 +1,5 @@
 <template>
-  <ul class="articleList" :style="styleContainer">
+  <ul class="articleList">
     <li v-for="(item,n) in list" :key="n">
       <router-link to="detail">
         <div class="thumb" v-if="item.thumb">
@@ -21,18 +21,12 @@
 </template>
 
 <script>
-import bgi from 'src/assets/img/articleBg.png';
-
 export default {
   props: {
     list: Array
   },
   data() {
     return {
-      styleContainer: {
-        background: 'url(' + bgi + ') center top no-repeat',
-        backgroundSize: 'contain'
-      }
     };
   },
   methods: {
@@ -71,10 +65,9 @@ export default {
 
 <style lang="stylus" scoped>
 .articleList {
-  // background url('/src/assets/img/articleBg.png') center top no-repeat
-  // background-size contain
-  padding 200px 10px 0
+  padding 10px
   list-style none
+  position: relative;
   li {
     background-color #fff
     padding 10px

@@ -1,20 +1,33 @@
 <template>
   <container>
+    <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center" class="swiper"></swiper>
     <ArticleList :list="list"></ArticleList>
   </container>
 </template>
 
 <script>
+import { Swiper } from 'vux';
 import Container from 'src/components/container';
 import ArticleList from 'src/components/articlelist';
 
 export default {
   components: {
+    Swiper,
     Container,
     ArticleList
   },
   data() {
     return {
+      banners: [
+        {
+          url: 'javascript:',
+          img: '/static/banner/02.png'
+        },
+        {
+          url: 'javascript:',
+          img: '/static/banner/02.png'
+        }
+      ],
       list: [
         {
           id: new Date().getTime(),
@@ -61,8 +74,7 @@ export default {
           thumb: '',
           title: '藁城区党建移动端招标书',
           sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。',
+          intro: '色电影是指红色题材的电影。',
           view: '235',
           date: '2016-02-05'
         },
@@ -101,3 +113,9 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus">
+.swiper {
+  -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
+}
+</style>
