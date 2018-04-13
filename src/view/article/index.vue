@@ -57,27 +57,36 @@ export default {
     },
     tabSwitched() {
       // console.log(new Date().getTime(), 'methods - tabSwitched');
+    },
+    setTabItemActive(target) {
+      // 定位顶部 tab
+      // 1.激活路由对应的 tabItem 项
+      let i = 0;
+      for (i = 0; i < this.tabs.length; i++) {
+        if (target.fullPath === this.tabs[i].route) {
+          break;
+        }
+      }
+      this.tabIndex = i;
+      this.$store.commit('setTabActive', { tab: 'article', index: i });
+      // 2.把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
+      if (i > 3) {
+        let tab = this.$el.querySelector('.vux-tab.scrollable');
+        let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
+        tab.scrollLeft = tabItemWidth * (i - 1);
+      }
     }
   },
   mounted() {
     this.$nextTick(function() {
-      // 激活路由对应的 tabItem 项
-      let index = 0;
-      for (let i = 0; i < this.tabs.length; i++) {
-        if (this.$route.fullPath === this.tabs[i].route) {
-          index = i;
-          break;
-        }
-      }
-      this.tabIndex = index;
-      this.$store.commit('setTabActive', { tab: 'article', index: index });
-      // 把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
-      if (index > 3) {
-        let tab = this.$el.querySelector('.vux-tab.scrollable');
-        let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
-        tab.scrollLeft = tabItemWidth * (index - 1);
-      }
+      this.setTabItemActive(this.$route)
     });
+  },
+  watch: {
+    $route(to) {
+      // console.log('\narticle/index.vue watch $route.to', to);
+      this.setTabItemActive(to);
+    }
   }
 };
 </script>

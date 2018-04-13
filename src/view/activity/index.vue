@@ -102,32 +102,40 @@ export default {
     tabItemClicked(index) {
       let path = this.tabs[index].route;
       this.$router.push({ path: path });
-    }
-  },
-  mounted() {
-    this.$nextTick(function() {
+    },
+    setTabItemActive(target) {
       // 定位顶部 tab
       if (this.fullpages.indexOf(this.$route.name) === -1) {
         // 1.激活路由对应的 tabItem 项
-        let index = 0;
-        for (let i = 0; i < this.tabs.length; i++) {
-          if (this.$route.fullPath === this.tabs[i].route) {
-            index = i;
+        let i = 0;
+        for (i = 0; i < this.tabs.length; i++) {
+          if (target.fullPath === this.tabs[i].route) {
             break;
           }
         }
-        this.tabIndex = index;
-        this.$store.commit('setTabActive', { tab: 'activity', index: index });
+        this.tabIndex = i;
+        this.$store.commit('setTabActive', { tab: 'article', index: i });
         // 2.把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
-        if (index > 3) {
+        if (i > 3) {
           let tab = this.$el.querySelector('.vux-tab.scrollable');
           let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
-          tab.scrollLeft = tabItemWidth * (index - 1);
+          tab.scrollLeft = tabItemWidth * (i - 1);
         }
       } else {
         console.log('没有顶部tab');
       }
+    }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      this.setTabItemActive(this.$route)
     });
+  },
+  watch: {
+    $route(to) {
+      // console.log('\narticle/index.vue watch $route.to', to);
+      this.setTabItemActive(to);
+    }
   }
 };
 </script>

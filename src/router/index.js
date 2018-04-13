@@ -73,8 +73,8 @@ router.beforeEach((to, from, next) => {
     console.log('route back...');
     from.meta.keepAlive = false;
     to.meta.keepAlive = true;
+    next();
   }
-  next();
 });
 
 export default router;
