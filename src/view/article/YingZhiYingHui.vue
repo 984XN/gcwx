@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.page-xuexipingtai-yingzhiyinghui {
+.page-xuexipingtai-yingzhiyinghui .container {
   padding 10px
   height auto
 }
