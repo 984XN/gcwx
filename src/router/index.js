@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from 'src/view/login';
 import Welcome from 'src/view/welcome';
+import NotFound from 'src/view/404';
 import Tpl from 'src/view/tpl';
 
 import RouterArticle from 'src/router/article';
@@ -16,6 +17,12 @@ const router = new Router({
     RouterActivity,
     RouterUser,
     {
+      path: '/',
+      redirect: {
+        path: '/article'
+      }
+    },
+    {
       path: '/welcome',
       name: 'welcome',
       meta: {
@@ -23,6 +30,15 @@ const router = new Router({
         title: '系统首页'
       },
       component: Welcome
+    },
+    {
+      path: '/404',
+      name: 'not-found',
+      meta: {
+        auth: false,
+        title: '404 Not Found'
+      },
+      component: NotFound
     },
     {
       path: '/tpl',
@@ -39,12 +55,12 @@ const router = new Router({
       meta: {
         title: '登录'
       },
-      component: Login /* ,hidden: true, // 自定义属性，在组件中可以通过 this.$route.hidden 获取值 */
+      component: Login
     },
     {
       path: '*',
       redirect: {
-        path: '/login'
+        path: '/404'
       }
     }
   ]
@@ -55,14 +71,20 @@ router.beforeEach((to, from, next) => {
 
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {
-    console.log('登录检测', to.fullPath, '[sessionStorage.isLogin]:', sessionStorage.isLogin);
-    if (sessionStorage.isLogin) {
+    // sessionStorage存储的内容是string类型的，所以不管你是设置为true或者是false，都是 true
+    let isLogin = JSON.parse(sessionStorage.isLogin);
+    if (isLogin) {
+      console.log('已登录', isLogin, sessionStorage.isLogin);
       // 校验通过，正常跳转到你设置好的页面
       next();
     } else {
+      console.log('未登录', isLogin, sessionStorage.isLogin);
       // 校验失败，跳转至登录界面
       // 将跳转的路由path作为参数，用于在登录成功后获取并跳转到该路径
-      next({ path: '/login', query: { redirect: to.fullPath } });
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
     }
   }
 
@@ -73,8 +95,8 @@ router.beforeEach((to, from, next) => {
     console.log('route back...');
     from.meta.keepAlive = false;
     to.meta.keepAlive = true;
-    next();
   }
+  next();
 });
 
 export default router;
