@@ -9,14 +9,17 @@
       <x-input title="姓名" placeholder="无法验证身份" :disabled="true"></x-input>
       <x-input title="手机" placeholder="无法验证身份" :disabled="true"></x-input>
     </group>
-    <div style="padding:15px;">
+    <div class="control">
+      <check-icon :value.sync="agree" type="plain"> 同意 </check-icon><a href="javascript:;" class="agree">《相关协议》</a>
+    </div>
+    <div class="control">
       <x-button type="warn">提交</x-button>
     </div>
   </div>
 </template>
 
 <script>
-import { XInput, Group, XButton, XTextarea, Selector } from 'vux';
+import { XInput, Group, XButton, XTextarea, Selector, CheckIcon } from 'vux';
 
 export default {
   components: {
@@ -24,14 +27,16 @@ export default {
     XButton,
     Group,
     XTextarea,
-    Selector
+    Selector,
+    CheckIcon
   },
   data() {
     return {
       title: '',
       content: '',
       target: '',
-      options: [{ key: 'gd', value: '张小三' }, { key: 'gx', value: '李小四' }]
+      options: [{ key: 'gd', value: '张小三' }, { key: 'gx', value: '李小四' }],
+      agree: true
     };
   }
 };
@@ -40,5 +45,11 @@ export default {
 <style lang="stylus" scoped>
 .page-hudongzhuanqu-jianyanxiance {
   padding-top 1px // 子元素有 mt，也可以用 bd
+}
+.agree {
+  color #666;
+}
+.control {
+  margin 15px
 }
 </style>
