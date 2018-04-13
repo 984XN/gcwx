@@ -27,6 +27,7 @@
         <group>
           <cell title="个人资料" link="/user/profile" value="白求恩"></cell>
           <cell title="微信绑定" @click.native="wechat" is-link value="某某人"></cell>
+          <cell title="修改密码" link="/user/password" value="当前密码已使用865天"></cell>
         </group>
         <group>
           <cell title="个人积分" @click.native="log" is-link value="0"></cell>
