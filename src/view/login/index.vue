@@ -44,10 +44,13 @@ export default {
       // JS验证
       if (!this.user.username || !this.user.password) {
         this.errMessage = ' 帐号和密码不能为空 ';
-        sessionStorage.isLogin = false;
+        sessionStorage.isLogin = 0;
       } else {
-        sessionStorage.isLogin = true;
-        this.$router.push({ path: '/article' });
+        // api 验证
+        sessionStorage.isLogin = 1;
+        // 转到登录前的页面
+        let jumpTo = this.$route.query.redirect || '/article';
+        this.$router.push({ path: jumpTo });
       }
       // // 登录
       // this.$Progress.start();
@@ -77,7 +80,10 @@ export default {
       // });
     }
   },
-  computed: {}
+  computed: {},
+  mounted() {
+    console.log('login.vue mount');
+  }
 };
 </script>
 
