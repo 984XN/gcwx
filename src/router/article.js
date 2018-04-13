@@ -1,5 +1,6 @@
 import Article from 'src/view/article/index';
 import ArticleYingZhiYingHui from 'src/view/article/YingZhiYingHui';
+import ArticleYingZhiYingHuiDetail from 'src/view/article/YingZhiYingHuiDetail';
 import ArticleDangZhangDangGui from 'src/view/article/DangZhangDangGui';
 import ArticleXiLieJiangHua from 'src/view/article/XiLieJiangHua';
 import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
@@ -21,17 +22,30 @@ const RouterArticle = {
     },
     {
       path: 'yingzhiyinghui',
-      name: 'YingZhiYingHui',
+      name: 'yingzhiyinghui',
       component: ArticleYingZhiYingHui,
       meta: {
         title: '应知应会',
         auth: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: 'detail',
+          name: 'yingzhiyinghui-detail',
+          component: ArticleYingZhiYingHuiDetail,
+          meta: {
+            title: '应知应会',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'dangzhangdanggui',
-      name: 'DangZhangDangGui',
+      name: 'dangzhangdanggui',
       component: ArticleDangZhangDangGui,
       meta: {
         title: '党章党规',
@@ -41,7 +55,7 @@ const RouterArticle = {
     },
     {
       path: 'xiliejianghua',
-      name: 'XiLieJiangHua',
+      name: 'xiliejianghua',
       component: ArticleXiLieJiangHua,
       meta: {
         title: '系列讲话',
@@ -51,7 +65,7 @@ const RouterArticle = {
     },
     {
       path: 'dangshibolan',
-      name: 'DangShiBoLan',
+      name: 'dangshibolan',
       component: ArticleDangShiBoLan,
       meta: {
         title: '党史博览',
@@ -61,7 +75,7 @@ const RouterArticle = {
     },
     {
       path: 'dianxingfengcai',
-      name: 'DianXingFengCai',
+      name: 'dianxingfengcai',
       component: ArticleDianXingFengCai,
       meta: {
         title: '典型风采',
@@ -71,7 +85,7 @@ const RouterArticle = {
     },
     {
       path: 'buwangchuxin',
-      name: 'BuWangChuXin',
+      name: 'buwangchuxin',
       component: ArticleBuWangChuXin,
       meta: {
         title: '不忘初心',
@@ -81,7 +95,7 @@ const RouterArticle = {
     },
     {
       path: 'xindetihui',
-      name: 'XinDeTiHui',
+      name: 'xindetihui',
       component: ArticleXinDeTiHui,
       meta: {
         title: '心得体会',
@@ -91,11 +105,12 @@ const RouterArticle = {
     },
     {
       path: 'detail',
-      name: 'detail-article',
+      name: 'article-detail',
       component: ArticleDetail,
       meta: {
         title: '正文',
         auth: true,
+        fullpage: true,
         keepAlive: false
       }
     }

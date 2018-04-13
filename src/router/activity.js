@@ -20,7 +20,7 @@ const RouterActivity = {
     },
     {
       path: 'canyutoupiao',
-      name: 'CanYuTouPiao',
+      name: 'canyutoupiao',
       component: ActivityCanYuTouPiao,
       meta: {
         title: '参与投票',
@@ -30,7 +30,7 @@ const RouterActivity = {
     },
     {
       path: 'daticuxue',
-      name: 'DaTiCuXue',
+      name: 'daticuxue',
       component: ActivityDaTiCuXue,
       meta: {
         title: '答题促学',
@@ -40,7 +40,7 @@ const RouterActivity = {
     },
     {
       path: 'zhishijingsai',
-      name: 'ZhiShiJingSai',
+      name: 'zhishijingsai',
       component: ActivityZhiShiJingSai,
       meta: {
         title: '知识竞赛',
@@ -50,7 +50,7 @@ const RouterActivity = {
     },
     {
       path: 'zhengnengliang',
-      name: 'ZhengNengLiang',
+      name: 'zhengnengliang',
       component: ActivityZhengNengLiang,
       meta: {
         title: '正能量',
@@ -60,17 +60,18 @@ const RouterActivity = {
     },
     {
       path: 'jianyanxiance',
-      name: 'JianYanXianCe',
+      name: 'jianyanxiance',
       component: ActivityJianYanXianCe,
       meta: {
         title: '建言献策',
         auth: true,
+        fullpage: true,
         keepAlive: false
       }
     },
     {
       path: 'zhibuejia',
-      name: 'ZhiBuEJia',
+      name: 'zhibuejia',
       component: ActivityZhiBuEJia,
       meta: {
         title: '支部e家',
@@ -80,7 +81,7 @@ const RouterActivity = {
     },
     {
       path: 'jifenchoujiang',
-      name: 'JiFenChouJiang',
+      name: 'jifenchoujiang',
       component: ActivityJiFenChouJiang,
       meta: {
         title: '积分抽奖',

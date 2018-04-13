@@ -1,6 +1,6 @@
 <template>
   <div class="page page-hudongzhuanqu">
-    <template v-if="fullpages.indexOf($route.name) === -1">
+    <template v-if="$route.meta.fullpage !== true">
       <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
         <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
@@ -15,7 +15,7 @@
       <router-view></router-view>
       <Menu></Menu>
     </template>
-    <template v-if="fullpages.indexOf($route.name) !== -1">
+    <template v-if="$route.meta.fullpage === true">
       <router-view></router-view>
     </template>
   </div>
@@ -34,7 +34,6 @@ export default {
   },
   data() {
     return {
-      fullpages: ['JianYanXianCe'],
       banners: [
         {
           url: 'javascript:',
@@ -105,21 +104,23 @@ export default {
     },
     setTabItemActive(target) {
       // 定位顶部 tab
-      if (this.fullpages.indexOf(this.$route.name) === -1) {
+      if (target.meta.fullpage !== true) {
         // 1.激活路由对应的 tabItem 项
-        let i = 0;
-        for (i = 0; i < this.tabs.length; i++) {
-          if (target.fullPath === this.tabs[i].route) {
+        let index = 0;
+        for (let i = 0; i < this.tabs.length; i++) {
+          if (target.path === this.tabs[i].route) {
+            index = i;
             break;
           }
         }
-        this.tabIndex = i;
-        this.$store.commit('setTabActive', { tab: 'article', index: i });
+        console.log('tabPos:', index);
+        this.tabIndex = index;
+        this.$store.commit('setTabActive', { tab: 'article', index: index });
         // 2.把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
-        if (i > 3) {
+        if (index > 3) {
           let tab = this.$el.querySelector('.vux-tab.scrollable');
           let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
-          tab.scrollLeft = tabItemWidth * (i - 1);
+          tab.scrollLeft = tabItemWidth * (index - 1);
         }
       } else {
         console.log('没有顶部tab');
@@ -128,7 +129,7 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-      this.setTabItemActive(this.$route)
+      this.setTabItemActive(this.$route);
     });
   },
   watch: {
