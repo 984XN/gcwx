@@ -1,20 +1,33 @@
 <template>
   <container>
+    <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center" class="swiper"></swiper>
     <ArticleList :list="list"></ArticleList>
   </container>
 </template>
 
 <script>
+import { Swiper } from 'vux';
 import Container from 'src/components/container';
 import ArticleList from 'src/components/articlelist';
 
 export default {
   components: {
+    Swiper,
     Container,
     ArticleList
   },
   data() {
     return {
+      banners: [
+        {
+          url: 'javascript:',
+          img: '/static/img/banner/02.png'
+        },
+        {
+          url: 'javascript:',
+          img: '/static/img/banner/02.png'
+        }
+      ],
       list: [
         {
           id: new Date().getTime(),
@@ -102,3 +115,9 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus">
+.swiper {
+  -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
+}
+</style>

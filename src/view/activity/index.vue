@@ -38,11 +38,11 @@ export default {
       banners: [
         {
           url: 'javascript:',
-          img: '/static/banner/01.png'
+          img: '/static/img/banner/01.png'
         },
         {
           url: 'javascript:',
-          img: '/static/banner/01.png'
+          img: '/static/img/banner/01.png'
         }
       ],
       tabs: [
