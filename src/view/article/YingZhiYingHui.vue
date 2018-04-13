@@ -1,112 +1,86 @@
 <template>
-  <container>
-    <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center" class="swiper"></swiper>
-    <ArticleList :list="list"></ArticleList>
-  </container>
+  <div class="page-xuexipingtai-yingzhiyinghui">
+    <template v-if="$route.name !=='yingzhiyinghui-detail'">
+      <container>
+        <ul class="manualList">
+          <li v-for="(item,n) in list" :key="n">
+            <template v-if="n === 0">
+              <a href="javascript:;">
+                <div class="thumb">
+                  <img :src="item.thumb" :alt="item.title">
+                </div>
+                <div class="title">{{item.title}}</div>
+              </a>
+            </template>
+            <template v-if="n !== 0">
+              <router-link :to="{path: 'detail', query: item}" append>
+                <div class="thumb">
+                  <img :src="item.thumb" :alt="item.title">
+                </div>
+                <div class="title">{{item.title}}</div>
+              </router-link>
+            </template>
+          </li>
+        </ul>
+      </container>
+    </template>
+    <template v-if="$route.name ==='yingzhiyinghui-detail'">
+      <router-view></router-view>
+    </template>
+  </div>
 </template>
 
 <script>
-import { Swiper } from 'vux';
 import Container from 'src/components/container';
 import ArticleList from 'src/components/articlelist';
 
 export default {
   components: {
-    Swiper,
     Container,
     ArticleList
   },
   data() {
     return {
-      banners: [
-        {
-          url: 'javascript:',
-          img: '/static/banner/02.png'
-        },
-        {
-          url: 'javascript:',
-          img: '/static/banner/02.png'
-        }
-      ],
       list: [
         {
-          id: new Date().getTime(),
-          thumb: require('src/assets/img/default.png'),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '党务手册',
+          thumb: '/static/img/YingZhiYingHui/0.gif'
         },
         {
-          id: new Date().getTime(),
-          thumb: require('src/assets/img/default.png'),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          sign: 'doc',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂党的纪律处分',
+          thumb: '/static/img/YingZhiYingHui/1.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: require('src/assets/img/default.png'),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          sign: 'xlsx',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂入党程序',
+          thumb: '/static/img/YingZhiYingHui/2.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: '',
-          title: '藁城区党建移动端招标书',
-          sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂党费交多少、怎么交',
+          thumb: '/static/img/YingZhiYingHui/3.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: '',
-          title: '藁城区党建移动端招标书',
-          sign: 'ppt',
-          intro: '色电影是指红色题材的电影。',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂“两学一做”',
+          thumb: '/static/img/YingZhiYingHui/4.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: '',
-          title: '藁城区党建移动端招标书',
-          sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂“三严三实”专题教育如何开展',
+          thumb: '/static/img/YingZhiYingHui/5.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: require('src/assets/img/default.png'),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂党组与部门党委、地方党委、机关党委的七个区别',
+          thumb: '/static/img/YingZhiYingHui/6.jpg'
         },
         {
-          id: new Date().getTime(),
-          thumb: '',
-          title: '藁城区党建移动端招标书',
-          sign: 'ppt',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          view: '235',
-          date: '2016-02-05'
+          title: '一张图读懂《中国共产党廉洁自律准则》',
+          thumb: '/static/img/YingZhiYingHui/7.jpg'
+        },
+        {
+          title: '一张图读懂《中国共产党问责条例》',
+          thumb: '/static/img/YingZhiYingHui/8.jpg'
+        },
+        {
+          title: '一张图读懂《中国共产党纪律处分条例》',
+          thumb: '/static/img/YingZhiYingHui/9.jpg'
         }
       ]
     };
@@ -115,7 +89,74 @@ export default {
 </script>
 
 <style lang="stylus">
-.swiper {
-  -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
+.page-xuexipingtai-yingzhiyinghui {
+  padding 10px
+  height auto
+}
+.manualList {
+  border-color #CCC
+  padding 0 20px
+  background-color #fff
+  list-style none
+  border-radius 5px
+}
+.manualList li {
+  border-bottom 1px solid #EFF1F3
+}
+.manualList li:last-child {
+  border none
+}
+.manualList li a {
+  position relative
+  display block
+  color #000
+  padding 10px 0
+  min-height 54px
+}
+.manualList li a:after {
+  content ''
+  display block
+  clear both
+  height 0
+}
+.manualList li .thumb {
+  height 54px
+  overflow hidden
+  float right
+  margin-left 24px
+  background-color #b7b7b7
+  border-radius 3px
+}
+.manualList li .thumb,
+.manualList li .thumb img {
+  width 54px
+}
+.manualList li .title {
+  line-height 140%
+}
+.manualList li:first-child {
+  padding 10px 0
+}
+.manualList li:first-child .thumb,
+.manualList li:first-child img {
+  width 100%
+  height 43vw
+  overflow hidden
+}
+.manualList li:first-child a {
+  padding-bottom 0
+}
+.manualList li:first-child img {
+  height auto
+}
+.manualList li:first-child .title {
+  display none
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  background rgba(0, 0, 0, 0.7)
+  color #FFF
+  padding 10px 24px
 }
 </style>
