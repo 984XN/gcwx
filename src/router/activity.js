@@ -55,6 +55,7 @@ const RouterActivity = {
       meta: {
         title: '正能量',
         auth: true,
+        fullpage: true,
         keepAlive: false
       }
     },
