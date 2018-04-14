@@ -27,8 +27,12 @@ export default {
         top: '44px',
         bottom: '50px'
       };
-      if (this.top) style.top = this.top + 'px';
-      if (this.bottom) style.bottom = this.bottom + 'px';
+      if (this.top !== undefined) {
+        style.top = this.top + 'px';
+      }
+      if (this.bottom !== undefined) {
+        style.bottom = this.bottom + 'px';
+      }
       return style;
     }
   }
