@@ -72,7 +72,8 @@ router.beforeEach((to, from, next) => {
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {
     // sessionStorage存储的内容是string类型的，所以不管你是设置为true或者是false，都是 true
-    let isLogin = JSON.parse(sessionStorage.isLogin);
+    let isLogin = sessionStorage.isLogin || 0;
+    isLogin = JSON.parse(isLogin);
     if (isLogin) {
       console.log('已登录', isLogin, sessionStorage.isLogin);
       // 校验通过，正常跳转到你设置好的页面
