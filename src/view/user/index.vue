@@ -6,6 +6,7 @@
           <div class="avatar">
             <img :src="url">
           </div>
+          <div class="name">动感超人</div>
         </blur>
         <!-- <divider></divider> -->
         <card>
@@ -142,6 +143,13 @@ export default {
       border-radius 50%
       margin 45px auto 0
     }
+  }
+  .name {
+    text-align center
+    color #FFF
+    text-shadow 0 0 2px #000
+    font-size 14px
+    padding-top 5px
   }
 }
 .card-flex {
