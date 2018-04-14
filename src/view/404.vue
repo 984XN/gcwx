@@ -26,6 +26,7 @@ h1 {
   font-weight normal
   padding 50px 0 30px
   font-size 20px
+  color #f17474
 }
 .subTitle {
   color #999
@@ -46,6 +47,9 @@ h1 {
       display block
       color #666
       padding 10px
+      &:active {
+        color #f17474
+      }
     }
   }
 }
