@@ -1,5 +1,6 @@
 <template>
   <div class="page-hudongzhuanqu-zhengnengliang">
+    <template v-if="$route.name === 'zhengnengliang'">
     <Container top="0" :bottom="containerBottom" @click.native.stop="hideReplyForm">
       <ol class="messageList">
         <li v-for="(message, messageIndex) in list" :key="messageIndex" class="message">
@@ -51,6 +52,10 @@
     <router-link to="zhengnengliang/add" class="btnMessageAdd" :style="StyleAddMessageBtn">
       <i class="iconfont icon-roundadd"></i>
     </router-link>
+    </template>
+    <template v-if="$route.name !== 'zhengnengliang'">
+      <router-view></router-view>
+    </template>
   </div>
 </template>
 

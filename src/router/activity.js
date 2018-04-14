@@ -3,6 +3,7 @@ import ActivityCanYuTouPiao from 'src/view/activity/CanYuTouPiao';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
+import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
@@ -57,7 +58,19 @@ const RouterActivity = {
         auth: true,
         fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: 'add',
+          component: ActivityZhengNengLiangForm,
+          meta: {
+            title: '正能量',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'jianyanxiance',
