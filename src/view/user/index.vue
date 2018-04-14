@@ -1,7 +1,7 @@
 <template>
   <div class="page page-user">
     <template v-if="$route.name === 'user'">
-      <container top="0">
+      <Container top="0">
         <blur :blur-amount=40 :url="url" class="userInfo">
           <div class="avatar">
             <img :src="url">
@@ -25,7 +25,9 @@
           </div>
         </card>
         <group>
-          <cell title="个人资料" link="/user/profile" value="白求恩"></cell>
+          <cell title="个人资料" link="/user/profile" value="白求恩">
+            <img slot="icon" style="display:block;margin-right:5px;" src="http://dn-placeholder.qbox.me/110x110/FF2D55/000" width="24" height="24">
+          </cell>
           <cell title="微信绑定" @click.native="wechat" is-link value="某某人"></cell>
           <cell title="修改密码" link="/user/password" value="当前密码已使用865天"></cell>
         </group>
@@ -43,7 +45,7 @@
             <div>解除与“某某人”的绑定关系吗？</div>
           </confirm>
         </div>
-      </container>
+      </Container>
       <Menu></Menu>
     </template>
     <template v-if="$route.meta.fullpage === true || $route.name !== 'user'">
