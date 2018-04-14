@@ -100,6 +100,7 @@ const RouterActivity = {
       meta: {
         title: '积分抽奖',
         auth: true,
+        fullpage: true,
         keepAlive: false
       }
     }
