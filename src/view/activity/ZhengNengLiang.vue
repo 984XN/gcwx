@@ -48,6 +48,9 @@
         <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
       </label>
     </form>
+    <router-link to="zhengnengliang/add" class="btnMessageAdd" :style="StyleAddMessageBtn">
+      <i class="iconfont icon-roundadd"></i>
+    </router-link>
   </div>
 </template>
 
@@ -105,6 +108,10 @@ export default {
       let bottom = this.form.visible ? 45 : 0;
       // console.log('bottom', bottom);
       return bottom;
+    },
+    StyleAddMessageBtn: function() {
+      let bottom = this.form.visible ? 65 : 20;
+      return { bottom: bottom + 'px' };
     }
   },
   data() {
@@ -578,6 +585,24 @@ export default {
       outline none
       background #FFF
     }
+  }
+}
+.btnMessageAdd {
+  position fixed
+  right 20px
+  bottom 50px
+  width 50px
+  height 50px
+  line-height 50px
+  border-radius 5px
+  background-color #f17474ba
+  text-align center
+  &:hover {
+    background-color #f17474
+  }
+  i {
+    color #FFF
+    font-size 36px
   }
 }
 </style>
