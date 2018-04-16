@@ -1,6 +1,8 @@
 import Activity from 'src/view/activity/index';
 import ActivityCanYuTouPiao from 'src/view/activity/CanYuTouPiao';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
+import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
+import ActivityDaTiCuXueRecords from 'src/view/activity/DaTiCuXueRecords';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
 import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
@@ -36,8 +38,37 @@ const RouterActivity = {
       meta: {
         title: '答题促学',
         auth: true,
+        fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'list'
+          }
+        },
+        {
+          path: 'list',
+          component: ActivityDaTiCuXueList,
+          meta: {
+            title: '答题练习',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'records',
+          component: ActivityDaTiCuXueRecords,
+          meta: {
+            title: '学习记录',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'zhishijingsai',
