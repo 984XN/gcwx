@@ -19,91 +19,6 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
-.turntable {
-  background-color #d63e50
-  padding 20px
-  margin 20px
-  border-radius 10px
-  position relative
-  .gifts {
-    margin 0 auto
-    position relative
-    ol {
-      list-style none
-      position relative
-    }
-    .gift {
-      position absolute
-      width 60px
-      height 60px
-      box-sizing border-box
-      .box {
-        position absolute
-        left 1px
-        top 1px
-        right 1px
-        bottom 1px
-        padding 1px
-        border-radius 5px
-        background-color #FFF
-        overflow hidden
-        text-align center
-        display flex
-        flex-direction column
-        white-space nowrap
-        border-bottom 2px solid #f9bab8
-        &.active {
-          box-shadow 0 0 0 3px #fddf13
-          position relative
-          z-index 1
-        }
-        .img {
-          display flex
-          justify-content center
-          overflow hidden
-          img {
-            height 50px
-          }
-        }
-        .name {
-          color #802520
-          font-size 12px
-          line-height 20px
-        }
-      }
-    }
-    .control {
-      padding 10px
-      position absolute
-      box-sizing border-box
-      .run {
-        display block
-        outline none
-        border-radius 5px
-        background-color #fddf13
-        background-image linear-gradient(-45deg, #fed515 25%, transparent 25%, transparent 50%, #fed515 50%, #fed515 75%, transparent 75%, transparent)
-        background-size 20px 20px
-        border none
-        color #fc3b14
-        width 100%
-        height 100%
-        .text {
-          font-size 28px
-          line-height 1
-          width 2em
-          margin 0 auto
-        }
-        .tip {
-          font-size 12px
-          padding-top 5px
-        }
-      }
-    }
-  }
-}
-</style>
-
 <script>
 export default {
   computed: {
@@ -257,3 +172,88 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus" scoped>
+.turntable {
+  background-color #d63e50
+  padding 20px
+  margin 20px
+  border-radius 10px
+  position relative
+  .gifts {
+    margin 0 auto
+    position relative
+    ol {
+      list-style none
+      position relative
+    }
+    .gift {
+      position absolute
+      width 60px
+      height 60px
+      box-sizing border-box
+      .box {
+        position absolute
+        left 1px
+        top 1px
+        right 1px
+        bottom 1px
+        padding 1px
+        border-radius 5px
+        background-color #FFF
+        overflow hidden
+        text-align center
+        display flex
+        flex-direction column
+        white-space nowrap
+        border-bottom 2px solid #f9bab8
+        &.active {
+          box-shadow 0 0 0 3px #fddf13
+          position relative
+          z-index 1
+        }
+        .img {
+          display flex
+          justify-content center
+          overflow hidden
+          img {
+            height 50px
+          }
+        }
+        .name {
+          color #802520
+          font-size 12px
+          line-height 20px
+        }
+      }
+    }
+    .control {
+      padding 10px
+      position absolute
+      box-sizing border-box
+      .run {
+        display block
+        outline none
+        border-radius 5px
+        background-color #fddf13
+        background-image linear-gradient(-45deg, #fed515 25%, transparent 25%, transparent 50%, #fed515 50%, #fed515 75%, transparent 75%, transparent)
+        background-size 20px 20px
+        border none
+        color #fc3b14
+        width 100%
+        height 100%
+        .text {
+          font-size 28px
+          line-height 1
+          width 2em
+          margin 0 auto
+        }
+        .tip {
+          font-size 12px
+          padding-top 5px
+        }
+      }
+    }
+  }
+}
+</style>
