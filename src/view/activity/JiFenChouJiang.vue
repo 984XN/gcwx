@@ -11,13 +11,26 @@
         </marquee-item>
       </marquee>
     </div>
-    <Turntable></Turntable>
+    <div class="pageTitle">
+      <div class="text">幸运大转盘</div>
+    </div>
+    <Turntable :score="5254" :price="200" :gifts="gifts" :gift="2"></Turntable>
+    <dl class="rule">
+      <dt>活动规则</dt>
+      <dd>
+        <ol>
+          <li>1. 若中奖奖品为实物商品，客服核实信息之后将于10个工作日内安排发货。</li>
+          <li>2. 若奖品为积分，系统在72小时内发到账户，可在“我的积分”中查看。</li>
+          <li>3. 最终解释权归”藁城区智慧党建“所有。</li>
+        </ol>
+      </dd>
+    </dl>
   </div>
 </template>
 
 <script>
 import { Marquee, MarqueeItem } from 'vux';
-import Turntable from 'src/components/turntable'
+import Turntable from 'src/components/turntable';
 
 export default {
   components: {
@@ -27,7 +40,68 @@ export default {
   },
   data() {
     return {
-      asyncCount: 0
+      gifts: [
+        {
+          id: 10,
+          name: '麝香毛巾',
+          img: '/static/img/gift/011.png'
+        },
+        {
+          id: 10,
+          name: '洗洁精500ml',
+          img: '/static/img/gift/012.png'
+        },
+        {
+          id: 10,
+          name: '吸尘器',
+          img: '/static/img/gift/013.png'
+        },
+        {
+          id: 10,
+          name: '麝香毛巾',
+          img: '/static/img/gift/011.png'
+        },
+        {
+          id: 10,
+          name: '洗衣液500ml',
+          img: '/static/img/gift/014.png'
+        },
+        {
+          id: 10,
+          name: '100积分',
+          img: '/static/img/gift/020.png'
+        },
+        {
+          id: 10,
+          name: '100积分',
+          img: '/static/img/gift/020.png'
+        },
+        {
+          id: 10,
+          name: '牙膏250ml',
+          img: '/static/img/gift/017.png'
+        },
+        {
+          id: 10,
+          name: '自动洗衣机',
+          img: '/static/img/gift/018.png'
+        },
+        {
+          id: 10,
+          name: '50积分',
+          img: '/static/img/gift/019.png'
+        },
+        {
+          id: 10,
+          name: '电饭煲',
+          img: '/static/img/gift/015.png'
+        },
+        {
+          id: 10,
+          name: '麝香毛巾',
+          img: '/static/img/gift/011.png'
+        }
+      ]
     };
   }
 };
@@ -37,6 +111,7 @@ export default {
 .page-activity-jifenchoujiang {
   height 100%
   background-color #fbc40f
+  overflow auto
 }
 .banner {
   background-color #f94240
@@ -69,6 +144,54 @@ export default {
   }
   .date {
     float right
+  }
+}
+.pageTitle {
+  margin 10px 40px 18px
+  color #d22b3f
+  font-size 16px
+  line-height 20px
+  height 10px
+  border-bottom 1px solid #d22b3f
+  .text {
+    background-color #fbc40f
+    margin 0 auto
+    width 8em
+    text-align center
+    position relative
+    &:before,
+    &:after {
+      padding 0 0.5em
+    }
+    &:before {
+      content '●'
+    }
+    &:after {
+      content '●'
+    }
+  }
+}
+.rule {
+  border 1px dashed #b18700
+  padding 15px
+  border-radius 5px
+  margin 20px
+  dt {
+    font-size 12px
+    color #fbc40f
+    background-color #d22b3f
+    padding 0.5em 1em
+    float left
+    line-height 1
+  }
+  dd {
+    padding-top 10px
+    clear both
+    font-size 9px
+    ol {
+      list-style none
+      color #000
+    }
   }
 }
 </style>

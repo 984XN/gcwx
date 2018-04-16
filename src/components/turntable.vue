@@ -1,8 +1,19 @@
 <template>
   <div class="turntable">
+    <div class="jeton">
+      <router-link class="expenditure" to="deatil" replace>中奖详情</router-link>
+      <div class="value">剩余积分：{{jeton}}</div>
+    </div>
+    <div class="decoration">
+      <div class="bg"></div>
+      <div class="dot">
+        <div v-for="num in 100" :key="num"></div>
+      </div>
+      <div class="mask"></div>
+    </div>
     <div class="gifts" :style="styleCube" ref="gifts">
       <ol :style="styleCube">
-        <li v-for="(gift,n) in gifts" :key="n" :style="style[n]" class="gift">
+        <li v-for="(gift,n) in gifts" :key="n" :style="style[n]" class="gift" :class="'gift-'+n">
           <div class="box">
             <div class="img"><img :src="gift.img"></div>
             <div class="name">{{gift.name}}</div>
@@ -12,7 +23,7 @@
       <div class="control" :style="styleControl">
         <button class="run" @click="luckDraw">
           <div class="text">立即抽奖</div>
-          <div class="tip">200积分/次</div>
+          <div class="tip">{{price}}积分/次</div>
         </button>
       </div>
     </div>
@@ -20,8 +31,103 @@
 </template>
 
 <script>
+import { AlertModule } from 'vux';
+
 export default {
+  props: {
+    gift: Number, // 指定中哪个奖（required）
+    gifts: Array, // 转盘物品清单（奖品会重复）
+    score: Number, // 积分总数
+    price: Number // 每转一次扣这个数
+  },
+  methods: {
+    luckDraw: function() {
+      let self = this;
+      let total = self.gifts.length;
+      let turntableObj = self.$refs.gifts;
+      let turntableInitData = JSON.parse(JSON.stringify(self.turntable));
+      // console.log(self.$refs.gifts);
+      if (self.turntable.runing) {
+        console.log('转盘运行中');
+        return;
+      }
+      if (self.jeton < self.price) {
+        AlertModule.show({
+          title: '积分不够',
+          content:
+            '每次需要扣除' + this.price + '积分，剩余积分为' + this.jeton,
+          onShow() {
+            console.log("Module: I'm showing");
+          },
+          onHide() {
+            console.log("Module: I'm hiding now");
+          }
+        });
+        console.log('积分不够');
+        return;
+      }
+      self.turntable.runing = true;
+      function roll() {
+        let timesIndex = self.turntable.timesIndex;
+        let speedFrom = 30;
+        let speedTo = 500;
+        let speedStep = 0;
+        if (timesIndex > self.turntable.times - 1) {
+          speedStep = Math.floor(
+            (speedTo - speedFrom) / (total + self.giftIndex)
+          );
+          self.turntable.speed += speedStep;
+        } else {
+          self.turntable.speed = speedFrom;
+        }
+        // console.log('speed:', speed, 'timesIndex:', timesIndex, speedStep);
+        if (
+          timesIndex > self.turntable.times &&
+          self.turntable.index >= self.giftIndex
+        ) {
+          // console.log(
+          //   `转够 ${self.turntable.timesIndex} 圈了，清除 ${
+          //     self.turntable.timer
+          //   }`
+          // );
+          clearTimeout(self.turntable.timer);
+          self.turntable = turntableInitData;
+          // console.log('self.turntable:', self.turntable);
+          // 扣除积分
+          self.jeton -= self.price;
+          console.log('抽奖完成，剩余积分：', self.jeton);
+          // 保存抽奖记录
+          // todo
+          return false;
+        } else {
+          // 第一次时是从-1开始转
+          self.turntable.index++;
+          let i = self.turntable.index;
+          // 去除 其它 .box 的 active
+          turntableObj.querySelectorAll('.gift .box').forEach(element => {
+            element.className = 'box';
+          });
+          // 设置 active
+          turntableObj.querySelector('.gift-' + i + ' .box').className =
+            'box active';
+          // 检测 activeIndex 是否超出一圈的最大 index
+          if (i >= total - 1) {
+            self.turntable.index = -1;
+            self.turntable.timesIndex++;
+            // console.log('timesIndex:', self.turntable.timesIndex);
+          }
+        }
+        self.turntable.timer = setTimeout(roll, self.turntable.speed);
+        // console.log(self.turntable.timer);
+        return false;
+      }
+      roll();
+    }
+  },
   computed: {
+    giftIndex: function() {
+      return this.gift;
+    },
     styleCube: function() {
       return {
         width: this.cube.itemWidth * this.cube.col + 'px',
@@ -93,90 +199,141 @@ export default {
   },
   data() {
     return {
+      jeton: this.score,
+      // 转盘控制属性
+      turntable: {
+        index: -1, // 转动时的当前项
+        speed: 0,
+        timer: 0, // setTimeout
+        stop: -1, // 中奖位置
+        timesIndex: 0, // 当前转的次数
+        times: 3, // 转够这个次数再开始往奖品那里转
+        runing: false
+      },
+      // 转盘外观设置
       cube: {
-        itemWidth: 75,
+        itemWidth: 75, // mounted() 会根据设备宽度重新设置这个值
         itemHeight: 75,
         col: 4,
         row: 4
-      },
-      gifts: [
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        },
-        {
-          id: 10,
-          name: '洗洁精500ml',
-          img: '/static/img/gift/012.png'
-        },
-        {
-          id: 10,
-          name: '吸尘器',
-          img: '/static/img/gift/013.png'
-        },
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        },
-        {
-          id: 10,
-          name: '洗衣液500ml',
-          img: '/static/img/gift/014.png'
-        },
-        {
-          id: 10,
-          name: '100积分',
-          img: '/static/img/gift/020.png'
-        },
-        {
-          id: 10,
-          name: '100积分',
-          img: '/static/img/gift/020.png'
-        },
-        {
-          id: 10,
-          name: '牙膏250ml',
-          img: '/static/img/gift/017.png'
-        },
-        {
-          id: 10,
-          name: '自动洗衣机',
-          img: '/static/img/gift/018.png'
-        },
-        {
-          id: 10,
-          name: '50积分',
-          img: '/static/img/gift/019.png'
-        },
-        {
-          id: 10,
-          name: '电饭煲',
-          img: '/static/img/gift/015.png'
-        },
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        }
-      ]
+      }
+      // 奖品清单
+      // gifts: [
+      //   {
+      //     id: 10,
+      //     name: '麝香毛巾',
+      //     img: '/static/img/gift/011.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '洗洁精500ml',
+      //     img: '/static/img/gift/012.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '吸尘器',
+      //     img: '/static/img/gift/013.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '麝香毛巾',
+      //     img: '/static/img/gift/011.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '洗衣液500ml',
+      //     img: '/static/img/gift/014.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '100积分',
+      //     img: '/static/img/gift/020.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '100积分',
+      //     img: '/static/img/gift/020.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '牙膏250ml',
+      //     img: '/static/img/gift/017.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '自动洗衣机',
+      //     img: '/static/img/gift/018.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '50积分',
+      //     img: '/static/img/gift/019.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '电饭煲',
+      //     img: '/static/img/gift/015.png'
+      //   },
+      //   {
+      //     id: 10,
+      //     name: '麝香毛巾',
+      //     img: '/static/img/gift/011.png'
+      //   }
+      // ]
     };
   },
-  methods: {
-    luckDraw: function() {
-      let total = this.gifts.length;
-      for (let i = 0; i < total; i++) {}
-      console.log(this.$refs.gifts);
-    }
+  mounted() {
+    this.$nextTick(function() {
+      let cubeWidth = Number.parseInt(
+        document.defaultView.getComputedStyle(
+          document.querySelector('.turntable')
+        )['width']
+      );
+      let itemWidth = Math.floor(cubeWidth / this.cube.col);
+      this.cube.itemWidth = itemWidth;
+      console.log('itemWidth:', itemWidth, ' by mounted');
+    });
   }
 };
 </script>
 
 <style lang="stylus" scoped>
+@keyframes light1 {
+  0% {
+    background-color #c00
+  }
+  33% {
+    background-color #8bc34a
+  }
+  66% {
+    background-color #fddf13
+  }
+}
+@keyframes light2 {
+  0% {
+    background-color #fddf13
+  }
+  33% {
+    background-color #c00
+  }
+  66% {
+    background-color #8bc34a
+  }
+}
+@keyframes light3 {
+  0% {
+    background-color #8bc34a
+  }
+  33% {
+    background-color #fddf13
+  }
+  66% {
+    background-color #c00
+  }
+}
 .turntable {
   background-color #d63e50
-  padding 20px
+  padding 50px 40px 40px
   margin 20px
   border-radius 10px
   position relative
@@ -208,9 +365,10 @@ export default {
         white-space nowrap
         border-bottom 2px solid #f9bab8
         &.active {
-          box-shadow 0 0 0 3px #fddf13
-          position relative
           z-index 1
+          box-shadow 0 0 0 3px #fddf13
+          // box-shadow 0 0 0 3px #d63e50
+          // background-color #fddf13
         }
         .img {
           display flex
@@ -232,6 +390,7 @@ export default {
       position absolute
       box-sizing border-box
       .run {
+        box-shadow 0 0 10px rgba(0, 0, 0, 0.3)
         display block
         outline none
         border-radius 5px
@@ -242,6 +401,10 @@ export default {
         color #fc3b14
         width 100%
         height 100%
+        &:active {
+          box-shadow none
+          color #b7290c
+        }
         .text {
           font-size 28px
           line-height 1
@@ -253,6 +416,101 @@ export default {
           padding-top 5px
         }
       }
+    }
+  }
+  .decoration {
+    position absolute
+    left 15px
+    top 25px
+    right 15px
+    bottom 15px
+    .dot {
+      position absolute
+      left -5px
+      top -5px
+      right -5px
+      bottom -5px
+      div {
+        width 10%
+        height 10%
+        float left
+        position relative
+        &:before {
+          content ''
+          display block
+          width 6px
+          height 6px
+          border-radius 50%
+          background-color #C00
+          position absolute
+          left 50%
+          top 50%
+          margin-left -3px
+          margin-top -3px
+          animation light1 1s infinite ease-in-out
+        }
+        &:nth-child(3n+1) {
+          &:before {
+            background-color #fddf13
+            animation light2 1s infinite ease-in-out
+          }
+        }
+        &:nth-child(3n+2) {
+          &:before {
+            background-color #8BC34A
+            animation light3 1s infinite ease-in-out
+          }
+        }
+        &:nth-child(1):before {
+          margin-left -1px
+          margin-top -1px
+        }
+        &:nth-child(10):before {
+          margin-left -5px
+          margin-top -1px
+        }
+        &:nth-child(91):before {
+          margin-left -1px
+          margin-top -5px
+        }
+        &:nth-child(100):before {
+          margin-left -5px
+          margin-top -5px
+        }
+      }
+    }
+    .bg {
+      position absolute
+      left 7px
+      top 7px
+      right 7px
+      bottom 7px
+      background-color #fd5c57
+      border-radius 5px
+    }
+    .mask {
+      position absolute
+      left 20px
+      top 20px
+      right 20px
+      bottom 20px
+      border-radius 5px
+      background-color #eb3d34
+    }
+  }
+  .jeton {
+    position absolute
+    top 10px
+    left 25px
+    right 25px
+    z-index 1
+    font-size 12px
+    .value {
+      color #fddf13
+    }
+    .expenditure {
+      color #fddf13
+      float right
     }
   }
 }
