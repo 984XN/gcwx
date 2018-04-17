@@ -4,13 +4,16 @@
     <p class="subTitle">404 NotFound</p>
     <ul class="links">
       <li>
-        <router-link to="/">返回首页</router-link>
+        <a @click="$router.go(-1)" href="javascript:;">返回上一页</a>
       </li>
       <li>
-        <router-link to="/user">个人中心</router-link>
+        <router-link to="/">学习平台</router-link>
       </li>
       <li>
         <router-link to="/activity">互动专区</router-link>
+      </li>
+      <li>
+        <router-link to="/user">个人中心</router-link>
       </li>
     </ul>
   </div>
@@ -21,6 +24,7 @@
   height 100%
   background-color #fff
   text-align center
+  border-top 5px solid #f17474
 }
 h1 {
   font-weight normal
