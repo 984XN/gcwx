@@ -68,6 +68,7 @@ export default {
   padding 10px
   list-style none
   position: relative;
+  z-index 11
   li {
     background-color #fff
     padding 10px

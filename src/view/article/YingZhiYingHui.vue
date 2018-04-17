@@ -1,33 +1,27 @@
 <template>
-  <div class="page-xuexipingtai-yingzhiyinghui">
-    <template v-if="$route.name !=='yingzhiyinghui-detail'">
-      <container>
-        <ul class="manualList">
-          <li v-for="(item,n) in list" :key="n">
-            <template v-if="n === 0">
-              <a href="javascript:;">
-                <div class="thumb">
-                  <img :src="item.thumb" :alt="item.title">
-                </div>
-                <div class="title">{{item.title}}</div>
-              </a>
-            </template>
-            <template v-if="n !== 0">
-              <router-link :to="{path: 'detail', query: item}" append>
-                <div class="thumb">
-                  <img :src="item.thumb" :alt="item.title">
-                </div>
-                <div class="title">{{item.title}}</div>
-              </router-link>
-            </template>
-          </li>
-        </ul>
-      </container>
-    </template>
-    <template v-if="$route.name ==='yingzhiyinghui-detail'">
-      <router-view></router-view>
-    </template>
-  </div>
+  <container :top="containerStyle.top" :bottom="containerStyle.bottom" class="page-xuexipingtai-yingzhiyinghui">
+    <ul class="manualList" v-if="$route.name !=='yingzhiyinghui-detail'">
+      <li v-for="(item,n) in list" :key="n">
+        <template v-if="n === 0">
+          <a href="javascript:;">
+            <div class="thumb">
+              <img :src="item.thumb" :alt="item.title">
+            </div>
+            <div class="title">{{item.title}}</div>
+          </a>
+        </template>
+        <template v-if="n !== 0">
+          <router-link :to="{path: 'detail', query: item}" append>
+            <div class="thumb">
+              <img :src="item.thumb" :alt="item.title">
+            </div>
+            <div class="title">{{item.title}}</div>
+          </router-link>
+        </template>
+      </li>
+    </ul>
+    <router-view v-if="$route.name ==='yingzhiyinghui-detail'"></router-view>
+  </container>
 </template>
 
 <script>
@@ -38,6 +32,19 @@ export default {
   components: {
     Container,
     ArticleList
+  },
+  computed: {
+    containerStyle: function() {
+      let style = {};
+      if (this.$route.name === 'yingzhiyinghui-detail') {
+        style.top = 0;
+        style.bottom = 0;
+      } else {
+        style.top = 44;
+        style.bottom = 50;
+      }
+      return style;
+    }
   },
   data() {
     return {
