@@ -1,18 +1,20 @@
 <template>
   <div class="page page-hudongzhuanqu">
     <template v-if="$route.meta.fullpage !== true">
-      <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
-      <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
-        <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
-          <div class="icon">
-            <i class="iconfont" :class="tab.icon"></i>
-          </div>
-          <div class="label">
-            {{tab.name}}
-          </div>
-        </tab-item>
-      </tab>
-      <router-view></router-view>
+      <Container top="0">
+        <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
+        <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
+          <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
+            <div class="icon">
+              <i class="iconfont" :class="tab.icon"></i>
+            </div>
+            <div class="label">
+              {{tab.name}}
+            </div>
+          </tab-item>
+        </tab>
+        <router-view></router-view>
+      </Container>
       <Menu></Menu>
     </template>
     <template v-if="$route.meta.fullpage === true">
@@ -23,6 +25,7 @@
 
 <script>
 import { Swiper, Tab, TabItem } from 'vux';
+import Container from 'src/components/container';
 import Menu from 'src/components/menu';
 
 export default {
@@ -30,6 +33,7 @@ export default {
     Swiper,
     Tab,
     TabItem,
+    Container,
     Menu
   },
   data() {
