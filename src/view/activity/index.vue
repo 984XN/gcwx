@@ -46,8 +46,8 @@ export default {
       ],
       tabs: [
         {
-          name: '参与投票',
-          route: '/activity/canyutoupiao',
+          name: '亮点投票',
+          route: '/activity/liangdiantoupiao',
           icon: 'icon-favor'
         },
         {

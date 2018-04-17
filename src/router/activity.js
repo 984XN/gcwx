@@ -1,5 +1,5 @@
 import Activity from 'src/view/activity/index';
-import ActivityCanYuTouPiao from 'src/view/activity/CanYuTouPiao';
+import ActivityLiangDianTouPiao from 'src/view/activity/LiangDianTouPiao';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
 import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
@@ -20,13 +20,13 @@ const RouterActivity = {
     {
       path: '/',
       redirect: {
-        path: 'canyutoupiao'
+        path: 'liangdiantoupiao'
       }
     },
     {
-      path: 'canyutoupiao',
-      name: 'canyutoupiao',
-      component: ActivityCanYuTouPiao,
+      path: 'liangdiantoupiao',
+      name: 'liangdiantoupiao',
+      component: ActivityLiangDianTouPiao,
       meta: {
         title: '参与投票',
         auth: true,
