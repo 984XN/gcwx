@@ -67,6 +67,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filename:
         process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
       template: 'index.html',
+      favicon: 'static/favicon.ico',
       inject: true,
       minify: {
         removeComments: true,
@@ -75,6 +76,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
+      // chunks: ['manifest', 'vendor', 'app'],
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
@@ -98,6 +100,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
+      // chunks: ['vendor'],
       minChunks: Infinity
     }),
     // This instance extracts shared chunks from code splitted chunks and bundles them
