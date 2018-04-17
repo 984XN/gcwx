@@ -481,19 +481,19 @@ export default {
     }
     .bg {
       position absolute
-      left 7px
-      top 7px
-      right 7px
-      bottom 7px
+      left 1%
+      top 1%
+      right 1%
+      bottom 1%
       background-color #fd5c57
       border-radius 5px
     }
     .mask {
       position absolute
-      left 20px
-      top 20px
-      right 20px
-      bottom 20px
+      left 6%
+      top 6%
+      right 6%
+      bottom 6%
       border-radius 5px
       background-color #eb3d34
     }
