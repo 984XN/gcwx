@@ -22,7 +22,7 @@ export default {
     switchTab(to) {
       let path = '/activity/daticuxue/' + to;
       console.log(path);
-      this.$router.push({ path: path });
+      this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
       if (target.path === '/activity/daticuxue/list') {
