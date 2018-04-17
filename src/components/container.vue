@@ -11,7 +11,9 @@
   top 44px
   right 0
   bottom 50px
-  overflow scroll
+  overflow auto
+  overflow-scrolling touch
+  -webkit-overflow-scrolling touch
 }
 </style>
 
