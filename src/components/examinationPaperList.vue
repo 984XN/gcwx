@@ -1,7 +1,7 @@
 <template>
-  <ul class="articleList">
+  <ul class="examinationPaperList">
     <li v-for="(item,n) in list" :key="n">
-      <router-link to="detail">
+      <router-link to="paper">
         <div class="thumb" v-if="item.thumb">
           <img :src="item.thumb" :alt="item.title">
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
@@ -9,25 +9,27 @@
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
         <div class="intro" v-if="!item.thumb">{{item.intro}}</div>
         <div class="attr" :style="getStyleAttr(item)">
-          <span class="view">
-            <i class="iconfont icon-eye"></i>
-            {{item.view}}
-          </span>
-          <span class="date">{{item.date}}</span>
+          <span class="date">开始时间：{{item.date}}</span>
         </div>
+        <x-button v-if="!item.done" mini type="warn">开始测试</x-button>
+        <x-button v-if="item.done" mini disabled>已完成</x-button>
       </router-link>
     </li>
   </ul>
 </template>
 
 <script>
+import { XButton } from 'vux';
+
 export default {
+  components: {
+    XButton
+  },
   props: {
     list: Array
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     getStyleTitle(item) {
@@ -40,7 +42,7 @@ export default {
       };
       if (item.thumb) {
         style['-webkit-line-clamp'] = '2';
-        style.height = '44px';
+        style.height = '38px';
       } else {
         style['-webkit-line-clamp'] = '1';
         style.height = '22px';
@@ -49,13 +51,10 @@ export default {
     },
     getStyleAttr(item) {
       let style = {};
-      if (item.thumb) {
-        style = {
-          position: 'absolute',
-          bottom: '0',
-          right: '0',
-          left: '170px'
-        };
+      if (!item.thumb) {
+        style = {};
+      } else {
+        style.paddingTop = 0;
       }
       return style;
     }
@@ -64,10 +63,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.articleList {
+.examinationPaperList {
   padding 10px
   list-style none
-  position: relative;
+  position relative
   z-index 11
   li {
     background-color #fff
@@ -92,8 +91,8 @@ export default {
       overflow hidden
       position relative
       img {
-        width 160px
-        height 110px
+        width 120px
+        height 90px
         float left
       }
       .sign {
@@ -110,7 +109,8 @@ export default {
       }
     }
     .title {
-      font-size 16px
+      color rgb(234, 61, 61)
+      font-size 14px
       margin-bottom 5px
       overflow hidden
       text-overflow ellipsis
@@ -120,34 +120,38 @@ export default {
     }
     .intro {
       font-size 11px
-      height 48px // 3行的高度
+      height 32px // 3行的高度
       overflow hidden
       text-overflow ellipsis
       display -webkit-box
       -webkit-box-orient vertical
-      -webkit-line-clamp 3
+      -webkit-line-clamp 2
       color #666
     }
     .attr {
       font-size 12px
-      padding-top 10px
+      padding 20px 0 10px
       line-height 1
+      float left
       &:after {
         content ''
         display block
         clear both
       }
       .date {
-        float right
-      }
-      .view {
         float left
-        i {
-          color rgb(18, 162, 263)
-          font-size 12px
-          margin-right 3px
-        }
+        color #999
       }
+    }
+    .weui-btn {
+      position absolute
+      right 0
+      bottom 0
+      font-size 12px
+      line-height 30px
+      min-width 6em
+      display inline-block
+      padding 0
     }
   }
 }

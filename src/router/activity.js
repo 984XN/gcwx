@@ -1,7 +1,9 @@
 import Activity from 'src/view/activity/index';
 import ActivityCanYuTouPiao from 'src/view/activity/CanYuTouPiao';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
+import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
 import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
+import ActivityDaTiCuXuePaper from 'src/view/activity/DaTiCuXuePaper';
 import ActivityDaTiCuXueRecords from 'src/view/activity/DaTiCuXueRecords';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
@@ -33,8 +35,10 @@ const RouterActivity = {
     },
     {
       path: 'daticuxue',
-      name: 'daticuxue',
-      component: ActivityDaTiCuXue,
+      components: {
+        tab: ActivityDaTiCuXueTab,
+        default: ActivityDaTiCuXue
+      },
       meta: {
         title: '答题促学',
         auth: true,
@@ -50,7 +54,10 @@ const RouterActivity = {
         },
         {
           path: 'list',
-          component: ActivityDaTiCuXueList,
+          components: {
+            tab: ActivityDaTiCuXueTab,
+            default: ActivityDaTiCuXueList
+          },
           meta: {
             title: '答题练习',
             auth: true,
@@ -59,8 +66,21 @@ const RouterActivity = {
           }
         },
         {
+          path: 'paper',
+          component: ActivityDaTiCuXuePaper,
+          meta: {
+            title: '试卷',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
           path: 'records',
-          component: ActivityDaTiCuXueRecords,
+          components: {
+            tab: ActivityDaTiCuXueTab,
+            default: ActivityDaTiCuXueRecords
+          },
           meta: {
             title: '学习记录',
             auth: true,
