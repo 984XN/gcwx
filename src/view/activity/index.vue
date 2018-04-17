@@ -100,7 +100,7 @@ export default {
   methods: {
     tabItemClicked(index) {
       let path = this.tabs[index].route;
-      this.$router.push({ path: path });
+      this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
       // 定位顶部 tab

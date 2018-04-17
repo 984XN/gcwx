@@ -11,21 +11,21 @@
         <!-- <divider></divider> -->
         <card>
           <div slot="content" class="card-flex">
-            <router-link to="/user/profile" class="card-item vux-1px-r">
+            <router-link :to="{path:'/user/profile', replace: true}" class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
               <div>未读通知</div>
               <span>1130</span>
             </router-link>
-            <router-link to="/user/profile" class="card-item vux-1px-r">
+            <router-link :to="{path:'/user/profile', replace: true}" class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
               <div>个人积分</div>
               <span>15</span>
             </router-link>
-            <router-link to="/user/profile" class="card-item">
+            <router-link :to="{path:'/user/profile', replace: true}" class="card-item">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
