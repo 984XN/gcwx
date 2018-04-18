@@ -9,6 +9,10 @@ import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
 import ActivityDaTiCuXuePaper from 'src/view/activity/DaTiCuXuePaper';
 import ActivityDaTiCuXueRecords from 'src/view/activity/DaTiCuXueRecords';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
+import ActivityZhiShiJingSaiTab from 'src/view/activity/ZhiShiJingSaiTab';
+import ActivityZhiShiJingSaiList from 'src/view/activity/ZhiShiJingSaiList';
+import ActivityZhiShiJingSaiPaper from 'src/view/activity/ZhiShiJingSaiPaper';
+import ActivityZhiShiJingSaiRecords from 'src/view/activity/ZhiShiJingSaiRecords';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
 import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
@@ -139,13 +143,56 @@ const RouterActivity = {
     },
     {
       path: 'zhishijingsai',
-      name: 'zhishijingsai',
       component: ActivityZhiShiJingSai,
       meta: {
         title: '知识竞赛',
         auth: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'list'
+          }
+        },
+        {
+          path: 'list',
+          components: {
+            tab: ActivityZhiShiJingSaiTab,
+            default: ActivityZhiShiJingSaiList
+          },
+          meta: {
+            title: '答题练习',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'paper',
+          component: ActivityZhiShiJingSaiPaper,
+          meta: {
+            title: '试卷',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'records',
+          components: {
+            tab: ActivityZhiShiJingSaiTab,
+            default: ActivityZhiShiJingSaiRecords
+          },
+          meta: {
+            title: '学习记录',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'zhengnengliang',
