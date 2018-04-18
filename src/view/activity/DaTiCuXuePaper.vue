@@ -300,18 +300,13 @@ input[type='radio'] + i {
   }
 }
 .paperTitle {
-  padding 10px
+  margin 15px 10px
+  padding-left 10px
   font-size 20px
   line-height 1.2
   font-weight normal
   color #ea3d3d
-  text-align center
-  &:before {
-    content '《'
-  }
-  &:after {
-    content '》'
-  }
+  border-left 5px solid #ea3d3d
 }
 .questions {
   padding-bottom 65px
