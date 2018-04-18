@@ -11,7 +11,7 @@ const webpack = require('webpack');
 const config = require('../config');
 const webpackConfig = require('./webpack.prod.conf');
 
-const spinner = ora('building for production...');
+const spinner = ora('正在构建为线上项目……');
 spinner.start();
 
 rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
@@ -30,15 +30,15 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
     );
 
     if (stats.hasErrors()) {
-      console.log(chalk.red('  Build failed with errors.\n'));
+      console.log(chalk.red('  构建出错了\n'));
       process.exit(1);
     }
 
-    console.log(chalk.cyan('  Build complete.\n'));
+    console.log(chalk.cyan('  构建成功！构建文件位于 dist/\n'));
     console.log(
       chalk.yellow(
-        '  Tip: built files are meant to be served over an HTTP server.\n' +
-          "  Opening index.html over file:// won't work.\n"
+        '  提示：构建的文件只能在 HTTP 服务器环境中运行，\n' +
+          "        直接打开 index.html 是预览不了项目的！\n"
       )
     );
   });
