@@ -11,6 +11,7 @@
         <div class="item">考试类型：常规考试</div>
         <div class="item">题目数量：17</div>
         <div class="item">总分：170分（每题10分）</div>
+        <div class="item">考生：特朗普</div>
       </div>
     </div>
     <div class="questions">
