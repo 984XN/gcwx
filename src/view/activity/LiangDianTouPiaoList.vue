@@ -3,7 +3,7 @@
     <ol class="voteList">
       <router-link to="vote/21" tag="li" class="vote">
         <div class="author">发布单位：中共石家庄市藁城区委员会</div>
-        <div class="title">晒赛主题党日“优秀案例评选”活动</div>
+        <div class="title">3.12植树节</div>
         <div class="attr">
           <span class="link">前往投票</span>
           <div class="date">2017-09-18 至 2017-10-18</div>
@@ -56,7 +56,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .voteList {
   margin 10px
   .vote {
@@ -81,6 +81,7 @@
       font-size 12px
       line-height 1
       color #999
+      padding-top 5px
       &:after {
         content ''
         display block

@@ -2,6 +2,7 @@ import Activity from 'src/view/activity/index';
 import ActivityLiangDianTouPiao from 'src/view/activity/LiangDianTouPiao';
 import ActivityLiangDianTouPiaoList from 'src/view/activity/LiangDianTouPiaoList';
 import ActivityLiangDianTouPiaoVote from 'src/view/activity/LiangDianTouPiaoVote';
+import ActivityLiangDianTouPiaoDetail from 'src/view/activity/LiangDianTouPiaoDetail';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
 import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
@@ -57,6 +58,18 @@ const RouterActivity = {
           path: 'vote/:id',
           components: {
             vote: ActivityLiangDianTouPiaoVote
+          },
+          meta: {
+            title: '亮点投票',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'detail/:id',
+          components: {
+            vote: ActivityLiangDianTouPiaoDetail
           },
           meta: {
             title: '亮点投票',
