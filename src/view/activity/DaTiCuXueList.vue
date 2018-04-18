@@ -1,5 +1,5 @@
 <template>
-  <container bottom="0">
+  <container bottom="0" class="page-activity-datucuxue-list">
     <ExaminationPaperList :list="list"></ExaminationPaperList>
   </container>
 </template>
