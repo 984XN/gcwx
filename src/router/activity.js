@@ -1,5 +1,7 @@
 import Activity from 'src/view/activity/index';
 import ActivityLiangDianTouPiao from 'src/view/activity/LiangDianTouPiao';
+import ActivityLiangDianTouPiaoList from 'src/view/activity/LiangDianTouPiaoList';
+import ActivityLiangDianTouPiaoVote from 'src/view/activity/LiangDianTouPiaoVote';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
 import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
@@ -25,13 +27,45 @@ const RouterActivity = {
     },
     {
       path: 'liangdiantoupiao',
-      name: 'liangdiantoupiao',
       component: ActivityLiangDianTouPiao,
       meta: {
-        title: '参与投票',
+        title: '亮点投票',
         auth: true,
+        // fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'list'
+          }
+        },
+        {
+          path: 'list',
+          components: {
+            list: ActivityLiangDianTouPiaoList
+          },
+          meta: {
+            title: '亮点投票',
+            auth: true,
+            // fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'vote/:id',
+          components: {
+            vote: ActivityLiangDianTouPiaoVote
+          },
+          meta: {
+            title: '亮点投票',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'daticuxue',
