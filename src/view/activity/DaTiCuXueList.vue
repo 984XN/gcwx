@@ -1,17 +1,17 @@
 <template>
   <container bottom="0">
-    <AxaminationPaperList :list="list"></AxaminationPaperList>
+    <ExaminationPaperList :list="list"></ExaminationPaperList>
   </container>
 </template>
 
 <script>
 import Container from 'src/components/container';
-import AxaminationPaperList from 'src/components/examinationPaperList';
+import ExaminationPaperList from 'src/components/examinationPaperList';
 
 export default {
   components: {
     Container,
-    AxaminationPaperList
+    ExaminationPaperList
   },
   data() {
     return {
