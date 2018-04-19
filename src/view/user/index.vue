@@ -52,6 +52,9 @@
           <cell title="党费查询" @click.native="log" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
+          <cell title="中奖记录" @click.native="log" is-link>
+            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+          </cell>
         </group>
         <group>
           <cell title="通知公告" @click.native="log" is-link>
