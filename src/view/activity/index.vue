@@ -80,7 +80,7 @@ export default {
           icon: 'icon-home'
         },
         {
-          name: '积分抽奖',
+          name: '抽奖专区',
           route: '/activity/jifenchoujiang',
           icon: 'icon-goods_favor_light'
         }

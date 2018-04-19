@@ -1,5 +1,5 @@
 <template>
-  <div class="page-activity-jifenchoujiang-turntable">
+  <Container top="0" bottom="44" class="page-activity-jifenchoujiang-turntable">
     <div class="banner">
       <img src="./img/jifenchoujiang/banner.png">
     </div>
@@ -25,15 +25,17 @@
         </ol>
       </dd>
     </dl>
-  </div>
+  </Container>
 </template>
 
 <script>
 import { Marquee, MarqueeItem } from 'vux';
+import Container from 'src/components/container';
 import Turntable from 'src/components/turntable';
 
 export default {
   components: {
+    Container,
     Marquee,
     MarqueeItem,
     Turntable
@@ -116,9 +118,7 @@ export default {
 
 <style lang="stylus" scoped>
 .page-activity-jifenchoujiang-turntable {
-  height 100%
   background-color #fbc40f
-  overflow auto
 }
 .banner {
   background-color #f94240

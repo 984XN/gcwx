@@ -28,6 +28,7 @@ import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia_XinDeTiHui'
 import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia_SiXiangHuiBao';
 import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJiaDetail';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
+import ActivityJiFenChouJiangTab from 'src/view/activity/JiFenChouJiangTab';
 import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
 import ActivityJiFenChouJiangRecords from 'src/view/activity/JiFenChouJiangRecords';
 
@@ -380,16 +381,30 @@ const RouterActivity = {
         {
           path: '/',
           redirect: {
-            path: 'turntable'
+            path: 'turntable-score'
           }
         },
         {
-          path: 'turntable',
+          path: 'turntable-score',
           components: {
+            tab: ActivityJiFenChouJiangTab,
             turntable: ActivityJiFenChouJiangTurntable
           },
           meta: {
             title: '积分抽奖',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'turntable-question',
+          components: {
+            tab: ActivityJiFenChouJiangTab,
+            turntable: ActivityJiFenChouJiangTurntable
+          },
+          meta: {
+            title: '答题抽奖',
             auth: true,
             fullpage: true,
             keepAlive: false
