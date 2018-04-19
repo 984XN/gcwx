@@ -6,6 +6,7 @@
     </group>
     <div style="padding:15px;">
       <x-button @click.native="loginFn" type="warn">登录</x-button>
+      <div style="font-size:12px;text-align:center;padding:10px;">更新时间：201804191419</div>
       <div class="error" center show-icon v-if="errMessage" @click="clearMessage" :closable="false">{{errMessage}}</div>
     </div>
   </div>
