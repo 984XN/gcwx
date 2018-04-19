@@ -16,6 +16,9 @@ import ActivityZhiShiJingSaiOrder from 'src/view/activity/ZhiShiJingSaiOrder';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
 import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
+import ActivityJianYanXianCeTab from 'src/view/activity/JianYanXianCeTab';
+import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
+import ActivityJianYanXianCeRecords from 'src/view/activity/JianYanXianCeRecords';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
 import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
@@ -221,14 +224,47 @@ const RouterActivity = {
     },
     {
       path: 'jianyanxiance',
-      name: 'jianyanxiance',
       component: ActivityJianYanXianCe,
       meta: {
         title: '建言献策',
         auth: true,
         fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'form'
+          }
+        },
+        {
+          path: 'form',
+          components: {
+            tab: ActivityJianYanXianCeTab,
+            form: ActivityJianYanXianCeForm
+          },
+          meta: {
+            title: '建言献策',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'records',
+          components: {
+            tab: ActivityJianYanXianCeTab,
+            records: ActivityJianYanXianCeRecords
+          },
+          meta: {
+            title: '建言献策',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'zhibuejia',
