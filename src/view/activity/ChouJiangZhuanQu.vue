@@ -1,5 +1,5 @@
 <template>
-  <div class="page-activity-jifenchoujiang">
+  <div class="page-activity-choujiangzhuanqu">
     <router-view name="tab"></router-view>
     <router-view name="turntable"></router-view>
     <router-view name="records"></router-view>
@@ -7,7 +7,7 @@
 </template>
 
 <style lang="stylus" scoped>
-.page-activity-jifenchoujiang {
+.page-activity-choujiangzhuanqu {
   height 100%
   position relative
 }

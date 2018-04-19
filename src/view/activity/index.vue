@@ -81,7 +81,7 @@ export default {
         },
         {
           name: '抽奖专区',
-          route: '/activity/jifenchoujiang',
+          route: '/activity/choujiangzhuanqu',
           icon: 'icon-goods_favor_light'
         }
       ]

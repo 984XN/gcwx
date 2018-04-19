@@ -27,11 +27,11 @@ import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia_DangWuZiXu
 import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia_XinDeTiHui';
 import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia_SiXiangHuiBao';
 import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJiaDetail';
-import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
-import ActivityJiFenChouJiangTab from 'src/view/activity/JiFenChouJiangTab';
-import ActivityJiFenChouJiangTurntableScore from 'src/view/activity/JiFenChouJiangTurntableScore';
-import ActivityJiFenChouJiangTurntableQuestion from 'src/view/activity/JiFenChouJiangTurntableQuestion';
-import ActivityJiFenChouJiangRecords from 'src/view/activity/JiFenChouJiangRecords';
+import ActivityChouJiangZhuanQu from 'src/view/activity/ChouJiangZhuanQu';
+import ActivityChouJiangZhuanQuTab from 'src/view/activity/ChouJiangZhuanQuTab';
+import ActivityChouJiangZhuanQuTurntableScore from 'src/view/activity/ChouJiangZhuanQuTurntableScore';
+import ActivityChouJiangZhuanQuTurntableQuestion from 'src/view/activity/ChouJiangZhuanQuTurntableQuestion';
+import ActivityChouJiangZhuanQuRecords from 'src/view/activity/ChouJiangZhuanQuRecords';
 
 const RouterActivity = {
   path: '/activity',
@@ -370,10 +370,10 @@ const RouterActivity = {
       ]
     },
     {
-      path: 'jifenchoujiang',
-      component: ActivityJiFenChouJiang,
+      path: 'choujiangzhuanqu',
+      component: ActivityChouJiangZhuanQu,
       meta: {
-        title: '积分抽奖',
+        title: '抽奖专区',
         auth: true,
         fullpage: true,
         keepAlive: false
@@ -388,11 +388,11 @@ const RouterActivity = {
         {
           path: 'turntable-score',
           components: {
-            tab: ActivityJiFenChouJiangTab,
-            turntable: ActivityJiFenChouJiangTurntableScore
+            tab: ActivityChouJiangZhuanQuTab,
+            turntable: ActivityChouJiangZhuanQuTurntableScore
           },
           meta: {
-            title: '积分抽奖',
+            title: '抽奖专区',
             auth: true,
             fullpage: true,
             keepAlive: false
@@ -401,8 +401,8 @@ const RouterActivity = {
         {
           path: 'turntable-question',
           components: {
-            tab: ActivityJiFenChouJiangTab,
-            turntable: ActivityJiFenChouJiangTurntableQuestion
+            tab: ActivityChouJiangZhuanQuTab,
+            turntable: ActivityChouJiangZhuanQuTurntableQuestion
           },
           meta: {
             title: '答题抽奖',
@@ -414,10 +414,10 @@ const RouterActivity = {
         {
           path: 'records',
           components: {
-            records: ActivityJiFenChouJiangRecords
+            records: ActivityChouJiangZhuanQuRecords
           },
           meta: {
-            title: '积分抽奖',
+            title: '抽奖专区',
             auth: true,
             fullpage: true,
             keepAlive: false

@@ -20,14 +20,14 @@ export default {
   },
   methods: {
     switchTab(to) {
-      let path = '/activity/jifenchoujiang/' + to;
+      let path = '/activity/choujiangzhuanqu/' + to;
       console.log(path);
       this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
-      if (target.path === '/activity/jifenchoujiang/turntable-score') {
+      if (target.path === '/activity/choujiangzhuanqu/turntable-score') {
         this.tabIndex = 0;
-      } else if (target.path === '/activity/jifenchoujiang/turntable-question') {
+      } else if (target.path === '/activity/choujiangzhuanqu/turntable-question') {
         this.tabIndex = 1;
       } else {
       }

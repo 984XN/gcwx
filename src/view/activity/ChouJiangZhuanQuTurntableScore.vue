@@ -1,7 +1,7 @@
 <template>
-  <Container bottom="0" class="page-activity-jifenchoujiang-turntable">
+  <Container bottom="0" class="page-activity-choujiangzhuanqu-turntable">
     <div class="banner">
-      <img src="./img/jifenchoujiang/banner_question.png">
+      <img src="./img/choujiangzhuanqu/banner_score.png">
     </div>
     <div class="nameList">
       <marquee>
@@ -14,7 +14,7 @@
     <div class="pageTitle">
       <div class="text">幸运大转盘</div>
     </div>
-    <Turntable :score="1" :price="1" unit="次数" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
+    <Turntable :score="235" :price="200" unit="积分" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
     <dl class="rule">
       <dt>活动规则</dt>
       <dd>
@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.page-activity-jifenchoujiang-turntable {
+.page-activity-choujiangzhuanqu-turntable {
   background-color #fbc40f
 }
 .banner {
@@ -146,7 +146,7 @@ export default {
     left 8%
     width 50px
     height 33px
-    background url('img/jifenchoujiang/notice.png')
+    background url('img/choujiangzhuanqu/notice.png')
     background-size contain
   }
   .date {

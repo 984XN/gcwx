@@ -61,7 +61,7 @@ export default {
     }
     .text {
       display block
-      background url('./img/jifenchoujiang/notice.png')
+      background url('./img/choujiangzhuanqu/notice.png')
       width 100px
       height 66px
       position relative
