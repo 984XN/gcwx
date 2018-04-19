@@ -104,7 +104,7 @@ const RouterArticle = {
       }
     },
     {
-      path: 'detail',
+      path: 'detail/:id',
       name: 'article-detail',
       component: ArticleDetail,
       meta: {
