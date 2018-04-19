@@ -61,6 +61,7 @@ export default {
 <style lang="stylus" scoped>
 .imgs {
   margin-top -5px
+  list-style none
   &:after {
     content ''
     display block
