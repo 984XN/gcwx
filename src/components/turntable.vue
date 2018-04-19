@@ -23,7 +23,7 @@
       <div class="control" :style="styleControl">
         <button class="run" @click="luckDraw">
           <div class="text">立即抽奖</div>
-          <div class="tip">{{price}}{{unit}}/次</div>
+          <div class="tip" v-if="jeton > price">{{price}}{{unit}}/次</div>
         </button>
       </div>
     </div>
