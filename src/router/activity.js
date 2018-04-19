@@ -21,6 +21,12 @@ import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
 import ActivityJianYanXianCeRecords from 'src/view/activity/JianYanXianCeRecords';
 import ActivityJianYanXianCeDetail from 'src/view/activity/JianYanXianCeDetail';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
+import ActivityZhiBuEJiaTab from 'src/view/activity/ZhiBuEJiaTab';
+import ActivityZhiBuEJiaLiuYanPingLun from 'src/view/activity/ZhiBuEJia_LiuYanPingLun';
+import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia_DangWuZiXun';
+import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia_XinDeTiHui';
+import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia_SiXiangHuiBao';
+import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJiaDetail';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
 import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
 import ActivityJiFenChouJiangRecords from 'src/view/activity/JiFenChouJiangRecords';
@@ -281,13 +287,85 @@ const RouterActivity = {
     },
     {
       path: 'zhibuejia',
-      name: 'zhibuejia',
       component: ActivityZhiBuEJia,
       meta: {
         title: '支部e家',
         auth: true,
+        fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'liuyanpinglun'
+          }
+        },
+        {
+          path: 'liuyanpinglun',
+          components: {
+            tab: ActivityZhiBuEJiaTab,
+            page: ActivityZhiBuEJiaLiuYanPingLun
+          },
+          meta: {
+            title: '留言评论',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'dangwuzixun',
+          components: {
+            tab: ActivityZhiBuEJiaTab,
+            page: ActivityZhiBuEJiaDangWuZiXun
+          },
+          meta: {
+            title: '党务咨询',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'xindetihui',
+          components: {
+            tab: ActivityZhiBuEJiaTab,
+            page: ActivityZhiBuEJiaXinDeTiHui
+          },
+          meta: {
+            title: '心得体会',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'sixianghuibao',
+          components: {
+            tab: ActivityZhiBuEJiaTab,
+            page: ActivityZhiBuEJiaSiXiangHuiBao
+          },
+          meta: {
+            title: '思想汇报',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'detail/:id',
+          components: {
+            detail: ActivityZhiBuEJiaDetail
+          },
+          meta: {
+            title: 'detail',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'jifenchoujiang',
