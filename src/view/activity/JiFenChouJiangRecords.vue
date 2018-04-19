@@ -38,7 +38,7 @@ export default {
 
 <style lang="stylus" scoped>
 .page-activity-zhishijingsai-order {
-  padding 10px
+  padding 0 10px 10px
   background linear-gradient(rgb(252, 95, 90) 70%, transparent)
   .pageTitle {
     font-size 30px
