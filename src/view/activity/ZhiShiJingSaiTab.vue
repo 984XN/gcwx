@@ -1,7 +1,7 @@
 <template>
   <tab v-model="tabIndex" active-color="#f17474">
     <tab-item selected @on-item-click="switchTab('list')">竞赛列表</tab-item>
-    <tab-item @on-item-click="switchTab('records')">学习记录</tab-item>
+    <tab-item @on-item-click="switchTab('order')">竞赛排名</tab-item>
   </tab>
 </template>
 
@@ -27,7 +27,7 @@ export default {
     setTabItemActive(target) {
       if (target.path === '/activity/zhishijingsai/list') {
         this.tabIndex = 0;
-      } else if (target.path === '/activity/zhishijingsai/records') {
+      } else if (target.path === '/activity/zhishijingsai/order') {
         this.tabIndex = 1;
       } else {
       }

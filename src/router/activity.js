@@ -12,7 +12,7 @@ import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
 import ActivityZhiShiJingSaiTab from 'src/view/activity/ZhiShiJingSaiTab';
 import ActivityZhiShiJingSaiList from 'src/view/activity/ZhiShiJingSaiList';
 import ActivityZhiShiJingSaiPaper from 'src/view/activity/ZhiShiJingSaiPaper';
-import ActivityZhiShiJingSaiRecords from 'src/view/activity/ZhiShiJingSaiRecords';
+import ActivityZhiShiJingSaiOrder from 'src/view/activity/ZhiShiJingSaiOrder';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
 import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
@@ -180,13 +180,13 @@ const RouterActivity = {
           }
         },
         {
-          path: 'records',
+          path: 'order',
           components: {
             tab: ActivityZhiShiJingSaiTab,
-            default: ActivityZhiShiJingSaiRecords
+            default: ActivityZhiShiJingSaiOrder
           },
           meta: {
-            title: '学习记录',
+            title: '竞赛排名',
             auth: true,
             fullpage: true,
             keepAlive: false
