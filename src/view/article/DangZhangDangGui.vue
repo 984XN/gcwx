@@ -117,7 +117,8 @@ export default {
 </script>
 
 <style lang="stylus">
-.swiper {
-  -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
-}
+// 倒影在手机端的 z-index 不生效，JS重画时会挡住列表
+// .swiper {
+//   -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
+// }
 </style>
