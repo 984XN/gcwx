@@ -46,7 +46,7 @@ export default {
       let total = self.gifts.length;
       let turntableObj = self.$refs.gifts;
       let turntableInitData = JSON.parse(JSON.stringify(self.turntable));
-      // console.log(self.$refs.gifts);
+      console.log('giftIndex:', self.gift);
       if (self.turntable.runing) {
         console.log('转盘运行中');
         return;
@@ -72,7 +72,8 @@ export default {
         let speedFrom = 30;
         let speedTo = 500;
         let speedStep = 0;
-        if (timesIndex > self.turntable.times - 1) {
+        // 最后一圈时降速
+        if (timesIndex > self.turntable.times - 2) {
           speedStep = Math.floor(
             (speedTo - speedFrom) / (total + self.giftIndex)
           );
@@ -80,9 +81,44 @@ export default {
         } else {
           self.turntable.speed = speedFrom;
         }
-        // console.log('speed:', speed, 'timesIndex:', timesIndex, speedStep);
+
+        /**
+         * 设置转到的位置的激活样式
+         */
+        // 设置 turntable.index
+        if (self.turntable.index >= total - 1) {
+          self.turntable.index = -1;
+          self.turntable.timesIndex++;
+          timesIndex = self.turntable.timesIndex;
+          console.log('一圈了');
+        }
+        self.turntable.index++;
+        let i = self.turntable.index;
+
+        // if (timesIndex >= self.turntable.times + 1) {
+        //   debugger;
+        // }
+        // 去除 其它 .box 的 active
+        turntableObj.querySelectorAll('.gift .box').forEach(element => {
+          element.className = 'box';
+        });
+        // 设置 active
+        turntableObj.querySelector('.gift-' + i + ' .box').className =
+          'box active';
+
+        console.log(
+          'speed:',
+          self.turntable.speed + '/' + speedStep,
+          'times:',
+          timesIndex + '/' + self.turntable.times,
+          'self.turntable.index:',
+          self.turntable.index + '/' + self.giftIndex
+        );
+        /**
+         * 转到奖品处时停止
+         */
         if (
-          timesIndex > self.turntable.times &&
+          timesIndex >= self.turntable.times &&
           self.turntable.index >= self.giftIndex
         ) {
           // console.log(
@@ -98,24 +134,9 @@ export default {
           console.log('抽奖完成，剩余积分：', self.jeton);
           // 保存抽奖记录
           // todo
+          // self.$emit('update:giftIndex', self.giftIndex + 1); // 设置下一抽奖项为奖品
+          self.$emit('update:giftIndex', Math.floor(Math.random() * 12)); // 随机更新奖品
           return false;
-        } else {
-          // 第一次时是从-1开始转
-          self.turntable.index++;
-          let i = self.turntable.index;
-          // 去除 其它 .box 的 active
-          turntableObj.querySelectorAll('.gift .box').forEach(element => {
-            element.className = 'box';
-          });
-          // 设置 active
-          turntableObj.querySelector('.gift-' + i + ' .box').className =
-            'box active';
-          // 检测 activeIndex 是否超出一圈的最大 index
-          if (i >= total - 1) {
-            self.turntable.index = -1;
-            self.turntable.timesIndex++;
-            // console.log('timesIndex:', self.turntable.timesIndex);
-          }
         }
         self.turntable.timer = setTimeout(roll, self.turntable.speed);
         // console.log(self.turntable.timer);
@@ -126,7 +147,7 @@ export default {
   },
   computed: {
     giftIndex: function() {
-      return this.gift;
+      return this.gift < this.gifts.length ? this.gift : -1;
     },
     styleCube: function() {
       return {

@@ -14,7 +14,7 @@
     <div class="pageTitle">
       <div class="text">幸运大转盘</div>
     </div>
-    <Turntable :score="5254" :price="200" :gifts="gifts" :gift="2"></Turntable>
+    <Turntable :score="5254" :price="200" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
     <dl class="rule">
       <dt>活动规则</dt>
       <dd>
@@ -40,6 +40,7 @@ export default {
   },
   data() {
     return {
+      giftIndex: 11,
       gifts: [
         {
           id: 10,
@@ -103,6 +104,12 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    update(giftIndex = 0) {
+      this.giftIndex = giftIndex;
+      console.log('methods.update:giftIndex to:', giftIndex);
+    }
   }
 };
 </script>
