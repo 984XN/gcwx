@@ -1,7 +1,7 @@
 <template>
-  <Container top="0" bottom="44" class="page-activity-jifenchoujiang-turntable">
+  <Container bottom="0" class="page-activity-jifenchoujiang-turntable">
     <div class="banner">
-      <img src="./img/jifenchoujiang/banner.png">
+      <img src="./img/jifenchoujiang/banner_score.png">
     </div>
     <div class="nameList">
       <marquee>
@@ -14,7 +14,7 @@
     <div class="pageTitle">
       <div class="text">幸运大转盘</div>
     </div>
-    <Turntable :score="5254" :price="200" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
+    <Turntable :score="235" :price="200" unit="积分" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
     <dl class="rule">
       <dt>活动规则</dt>
       <dd>

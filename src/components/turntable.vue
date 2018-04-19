@@ -2,7 +2,7 @@
   <div class="turntable">
     <div class="jeton">
       <router-link class="expenditure" to="records">中奖详情</router-link>
-      <div class="value">剩余积分：{{jeton}}</div>
+      <div class="value">剩余{{unit}}：{{jeton}}</div>
     </div>
     <div class="decoration">
       <div class="bg"></div>
@@ -23,7 +23,7 @@
       <div class="control" :style="styleControl">
         <button class="run" @click="luckDraw">
           <div class="text">立即抽奖</div>
-          <div class="tip">{{price}}积分/次</div>
+          <div class="tip">{{price}}{{unit}}/次</div>
         </button>
       </div>
     </div>
@@ -38,6 +38,7 @@ export default {
     gift: Number, // 指定中哪个奖（required）
     gifts: Array, // 转盘物品清单（奖品会重复）
     score: Number, // 积分总数
+    unit: String, // 单位（积分、道题、份试卷）
     price: Number // 每转一次扣这个数
   },
   methods: {
@@ -53,9 +54,9 @@ export default {
       }
       if (self.jeton < self.price) {
         AlertModule.show({
-          title: '积分不够',
+          title: this.unit + '不够',
           content:
-            '每次需要扣除' + this.price + '积分，剩余积分为' + this.jeton,
+            '每次需要扣除' + this.price + this.unit + '，剩余' + this.unit + '为' + this.jeton,
           onShow() {
             console.log("Module: I'm showing");
           },
@@ -63,7 +64,7 @@ export default {
             console.log("Module: I'm hiding now");
           }
         });
-        console.log('积分不够');
+        console.log(this.unit + '不够');
         return;
       }
       self.turntable.runing = true;

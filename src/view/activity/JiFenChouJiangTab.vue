@@ -1,5 +1,5 @@
 <template>
-  <tab v-model="tabIndex" bar-position="top">
+  <tab v-model="tabIndex" bar-position="bottom">
     <tab-item selected @on-item-click="switchTab('turntable-score')">积分抽奖</tab-item>
     <tab-item @on-item-click="switchTab('turntable-question')">答题抽奖</tab-item>
   </tab>

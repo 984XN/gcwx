@@ -29,7 +29,8 @@ import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia_SiXiangH
 import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJiaDetail';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
 import ActivityJiFenChouJiangTab from 'src/view/activity/JiFenChouJiangTab';
-import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
+import ActivityJiFenChouJiangTurntableScore from 'src/view/activity/JiFenChouJiangTurntableScore';
+import ActivityJiFenChouJiangTurntableQuestion from 'src/view/activity/JiFenChouJiangTurntableQuestion';
 import ActivityJiFenChouJiangRecords from 'src/view/activity/JiFenChouJiangRecords';
 
 const RouterActivity = {
@@ -388,7 +389,7 @@ const RouterActivity = {
           path: 'turntable-score',
           components: {
             tab: ActivityJiFenChouJiangTab,
-            turntable: ActivityJiFenChouJiangTurntable
+            turntable: ActivityJiFenChouJiangTurntableScore
           },
           meta: {
             title: '积分抽奖',
@@ -401,7 +402,7 @@ const RouterActivity = {
           path: 'turntable-question',
           components: {
             tab: ActivityJiFenChouJiangTab,
-            turntable: ActivityJiFenChouJiangTurntable
+            turntable: ActivityJiFenChouJiangTurntableQuestion
           },
           meta: {
             title: '答题抽奖',
