@@ -1,5 +1,5 @@
 <template>
-  <tab v-model="tabIndex" active-color="#f17474">
+  <tab v-model="tabIndex">
     <tab-item selected @on-item-click="switchTab('xindetihui')">心得体会</tab-item>
     <tab-item @on-item-click="switchTab('liuyanpinglun')">留言评论</tab-item>
     <tab-item @on-item-click="switchTab('sixianghuibao')">思想汇报</tab-item>

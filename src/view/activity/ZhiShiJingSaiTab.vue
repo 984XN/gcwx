@@ -1,5 +1,5 @@
 <template>
-  <tab v-model="tabIndex" active-color="#f17474">
+  <tab v-model="tabIndex">
     <tab-item selected @on-item-click="switchTab('list')">竞赛列表</tab-item>
     <tab-item @on-item-click="switchTab('order')">竞赛排名</tab-item>
   </tab>

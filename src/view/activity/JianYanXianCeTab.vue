@@ -1,5 +1,5 @@
 <template>
-  <tab v-model="tabIndex" active-color="#f17474">
+  <tab v-model="tabIndex">
     <tab-item selected @on-item-click="switchTab('form')">建言献策</tab-item>
     <tab-item @on-item-click="switchTab('records')">历史记录</tab-item>
   </tab>
