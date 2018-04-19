@@ -1,5 +1,5 @@
 <template>
-  <div class="page page-hudongzhuanqu">
+  <div class="page page-activity">
     <template v-if="$route.meta.fullpage !== true">
       <Container top="0">
         <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>

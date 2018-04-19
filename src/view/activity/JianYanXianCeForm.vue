@@ -1,5 +1,5 @@
 <template>
-  <div class="page-hudongzhuanqu-jianyanxiance">
+  <div class="page-activity-jianyanxiance">
     <group>
       <x-input title="标题" placeholder="请输入内容" v-model="title"></x-input>
       <x-textarea title="正文" placeholder="请输入内容" v-model="content" :max="200" :show-counter="true" autosize :height="100" :rows="4"></x-textarea>
@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.page-hudongzhuanqu-jianyanxiance {
+.page-activity-jianyanxiance {
   padding-top 1px // 子元素有 mt，也可以用 bd
 }
 .agree {

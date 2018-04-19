@@ -1,5 +1,5 @@
 <template>
-  <div class="page-hudongzhuanqu-zhengnengliang">
+  <div class="page-activity-zhengnengliang">
     <template v-if="$route.name === 'zhengnengliang'">
       <Container top="0" :bottom="containerBottom" @click.native.stop="hideReplyForm">
         <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
@@ -411,7 +411,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.page-hudongzhuanqu-zhengnengliang {
+.page-activity-zhengnengliang {
   height 100%
   padding-top 1px
   box-sizing border-box
