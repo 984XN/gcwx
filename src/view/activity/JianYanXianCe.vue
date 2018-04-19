@@ -3,7 +3,7 @@
     <router-view name="tab"></router-view>
     <router-view name="form"></router-view>
     <router-view name="records"></router-view>
-    <router-view></router-view>
+    <router-view name="detail"></router-view>
   </div>
 </template>
 

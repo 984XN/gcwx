@@ -19,6 +19,7 @@ import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
 import ActivityJianYanXianCeTab from 'src/view/activity/JianYanXianCeTab';
 import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
 import ActivityJianYanXianCeRecords from 'src/view/activity/JianYanXianCeRecords';
+import ActivityJianYanXianCeDetail from 'src/view/activity/JianYanXianCeDetail';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
 import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
@@ -256,6 +257,18 @@ const RouterActivity = {
           components: {
             tab: ActivityJianYanXianCeTab,
             records: ActivityJianYanXianCeRecords
+          },
+          meta: {
+            title: '建言献策',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'detail/:id',
+          components: {
+            detail: ActivityJianYanXianCeDetail
           },
           meta: {
             title: '建言献策',
