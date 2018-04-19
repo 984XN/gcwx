@@ -18,6 +18,8 @@ import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
 import ActivityJiFenChouJiang from 'src/view/activity/JiFenChouJiang';
+import ActivityJiFenChouJiangTurntable from 'src/view/activity/JiFenChouJiangTurntable';
+import ActivityJiFenChouJiangRecords from 'src/view/activity/JiFenChouJiangRecords';
 
 const RouterActivity = {
   path: '/activity',
@@ -240,14 +242,45 @@ const RouterActivity = {
     },
     {
       path: 'jifenchoujiang',
-      name: 'jifenchoujiang',
       component: ActivityJiFenChouJiang,
       meta: {
         title: '积分抽奖',
         auth: true,
         fullpage: true,
         keepAlive: false
-      }
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'turntable'
+          }
+        },
+        {
+          path: 'turntable',
+          components: {
+            turntable: ActivityJiFenChouJiangTurntable
+          },
+          meta: {
+            title: '积分抽奖',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'records',
+          components: {
+            records: ActivityJiFenChouJiangRecords
+          },
+          meta: {
+            title: '积分抽奖',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     }
   ]
 };
