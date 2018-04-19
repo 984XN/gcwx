@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.page-activity-jifenchoujiang {
+.page-activity-jifenchoujiang-turntable {
   height 100%
   background-color #fbc40f
   overflow auto
