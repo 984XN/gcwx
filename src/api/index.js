@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 const service = axios.create({
   timeout: 5000
 });
@@ -7,12 +8,10 @@ const service = axios.create({
 service.interceptors.response.use(
   response => response,
   error => {
-    console.log('err' + error); // for debug
+    console.log('ERROR:', error); // for debug
     alert(error.message);
     return Promise.reject(error);
   }
 );
 
-export default {
-  service
-};
+export default service;

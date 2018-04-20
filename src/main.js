@@ -13,6 +13,10 @@ import 'src/assets/font/iconfont.css';
 // import Menu from 'src/config';
 // Vue.use(Menu);
 
+import { LoadingPlugin, AlertPlugin } from 'vux';
+Vue.use(LoadingPlugin);
+Vue.use(AlertPlugin);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

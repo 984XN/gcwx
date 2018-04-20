@@ -9,6 +9,7 @@
 import { Swiper } from 'vux';
 import Container from 'src/components/container';
 import ArticleList from 'src/components/articleList';
+import * as api from 'src/api/article';
 
 export default {
   components: {
@@ -28,7 +29,8 @@ export default {
           img: '/static/img/banner/02.png'
         }
       ],
-      list: [
+      list: [],
+      listTpl: [
         {
           id: new Date().getTime(),
           thumb: require('src/assets/img/default.png'),
@@ -112,13 +114,19 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.$vux.loading.show({
+      text: 'Loading'
+    });
+    api.getArticleList().then(res => {
+      // console.log('res:', res);
+      this.list = res.data;
+      this.$vux.loading.hide();
+    });
   }
 };
 </script>
 
 <style lang="stylus">
-// 倒影在手机端的 z-index 不生效，JS重画时会挡住列表
-// .swiper {
-//   -webkit-box-reflect below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.7)));
-// }
 </style>
