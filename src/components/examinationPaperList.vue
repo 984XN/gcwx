@@ -65,7 +65,7 @@ export default {
   z-index 11
   li {
     background-color #fff
-    padding 10px
+    padding 15px
     margin-bottom 5px
     border-radius 5px
     a {
