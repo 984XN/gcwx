@@ -1,6 +1,9 @@
 import Article from 'src/view/article/index';
+import ArticleTab from 'src/view/article/indexTab';
+import ArticleMenu from 'src/view/article/indexMenu';
 import ArticleYingZhiYingHui from 'src/view/article/YingZhiYingHui';
 import ArticleYingZhiYingHuiDetail from 'src/view/article/YingZhiYingHuiDetail';
+import ArticleYingZhiYingHuiList from 'src/view/article/YingZhiYingHuiList';
 import ArticleDangZhangDangGui from 'src/view/article/DangZhangDangGui';
 import ArticleXiLieJiangHua from 'src/view/article/XiLieJiangHua';
 import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
@@ -22,8 +25,9 @@ const RouterArticle = {
     },
     {
       path: 'yingzhiyinghui',
-      name: 'yingzhiyinghui',
-      component: ArticleYingZhiYingHui,
+      components: {
+        page: ArticleYingZhiYingHui
+      },
       meta: {
         title: '应知应会',
         auth: true,
@@ -31,9 +35,24 @@ const RouterArticle = {
       },
       children: [
         {
+          path: '/',
+          components: {
+            tab: ArticleTab,
+            menu: ArticleMenu,
+            page: ArticleYingZhiYingHuiList
+          },
+          meta: {
+            title: '应知应会',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
           path: 'detail',
-          name: 'yingzhiyinghui-detail',
-          component: ArticleYingZhiYingHuiDetail,
+          components: {
+            detail: ArticleYingZhiYingHuiDetail
+          },
           meta: {
             title: '应知应会',
             auth: true,
@@ -45,8 +64,11 @@ const RouterArticle = {
     },
     {
       path: 'dangzhangdanggui',
-      name: 'dangzhangdanggui',
-      component: ArticleDangZhangDangGui,
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleDangZhangDangGui
+      },
       meta: {
         title: '党章党规',
         auth: true,
@@ -55,8 +77,12 @@ const RouterArticle = {
     },
     {
       path: 'xiliejianghua',
-      name: 'xiliejianghua',
-      component: ArticleXiLieJiangHua,
+      // name: 'xiliejianghua',
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleXiLieJiangHua
+      },
       meta: {
         title: '系列讲话',
         auth: true,
@@ -65,8 +91,12 @@ const RouterArticle = {
     },
     {
       path: 'dangshibolan',
-      name: 'dangshibolan',
-      component: ArticleDangShiBoLan,
+      // name: 'dangshibolan',
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleDangShiBoLan
+      },
       meta: {
         title: '党史博览',
         auth: true,
@@ -75,8 +105,12 @@ const RouterArticle = {
     },
     {
       path: 'dianxingfengcai',
-      name: 'dianxingfengcai',
-      component: ArticleDianXingFengCai,
+      // name: 'dianxingfengcai',
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleDianXingFengCai
+      },
       meta: {
         title: '典型风采',
         auth: true,
@@ -85,8 +119,12 @@ const RouterArticle = {
     },
     {
       path: 'buwangchuxin',
-      name: 'buwangchuxin',
-      component: ArticleBuWangChuXin,
+      // name: 'buwangchuxin',
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleBuWangChuXin
+      },
       meta: {
         title: '不忘初心',
         auth: true,
@@ -95,8 +133,12 @@ const RouterArticle = {
     },
     {
       path: 'xindetihui',
-      name: 'xindetihui',
-      component: ArticleXinDeTiHui,
+      // name: 'xindetihui',
+      components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
+        page: ArticleXinDeTiHui
+      },
       meta: {
         title: '心得体会',
         auth: true,
@@ -105,8 +147,11 @@ const RouterArticle = {
     },
     {
       path: 'detail/:id',
-      name: 'article-detail',
+      // name: 'article-detail',
       component: ArticleDetail,
+      components: {
+        detail: ArticleDetail
+      },
       meta: {
         title: '正文',
         auth: true,

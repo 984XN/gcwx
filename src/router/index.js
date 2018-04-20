@@ -75,11 +75,11 @@ router.beforeEach((to, from, next) => {
     let isLogin = sessionStorage.isLogin || 0;
     isLogin = JSON.parse(isLogin);
     if (isLogin) {
-      console.log('已登录', isLogin, sessionStorage.isLogin);
+      // console.log('已登录', isLogin, sessionStorage.isLogin);
       // 校验通过，正常跳转到你设置好的页面
       next();
     } else {
-      console.log('未登录', isLogin, sessionStorage.isLogin);
+      // console.log('未登录', isLogin, sessionStorage.isLogin);
       // 校验失败，跳转至登录界面
       // 将跳转的路由path作为参数，用于在登录成功后获取并跳转到该路径
       next({

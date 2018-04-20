@@ -1,5 +1,5 @@
 <template>
-  <tabbar v-model="tabbarIndex">
+  <tabbar v-model="tabbarIndex" class="menu-main">
     <tabbar-item :link="tab.route" v-for="(tab,n) in tabs" :key="n">
       <img slot="icon" :src="tab.icon">
       <img slot="icon-active" :src="tab.iconActive">
