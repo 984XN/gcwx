@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from 'src/view/login';
+import LoginFromBrowser from 'src/view/login/browser';
+import LoginFromWechat from 'src/view/login/wechat';
 import Welcome from 'src/view/welcome';
 import NotFound from 'src/view/404';
 import Tpl from 'src/view/tpl';
@@ -51,11 +53,38 @@ const router = new Router({
     },
     {
       path: '/login',
-      name: 'login',
       meta: {
         title: '登录'
       },
-      component: Login
+      component: Login,
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'browser'
+          }
+        },
+        {
+          path: 'browser',
+          component: LoginFromBrowser,
+          meta: {
+            title: '系统登录',
+            auth: false,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'wechat',
+          component: LoginFromWechat,
+          meta: {
+            title: '微信登录',
+            auth: false,
+            fullpage: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: '*',
@@ -75,17 +104,21 @@ router.beforeEach((to, from, next) => {
     let isLogin = sessionStorage.isLogin || 0;
     isLogin = JSON.parse(isLogin);
     if (isLogin) {
-      // console.log('已登录', isLogin, sessionStorage.isLogin);
+      console.log('已登录', isLogin, sessionStorage.isLogin);
       // 校验通过，正常跳转到你设置好的页面
       next();
     } else {
-      // console.log('未登录', isLogin, sessionStorage.isLogin);
       // 校验失败，跳转至登录界面
       // 将跳转的路由path作为参数，用于在登录成功后获取并跳转到该路径
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      });
+      let path = { path: '/login/browser', query: { redirect: to.fullPath } };
+      if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
+        path = {
+          path: '/login/wechat',
+          query: { redirect: to.fullPath }
+        };
+      }
+      console.log('未登录', isLogin, sessionStorage.isLogin, path);
+      next(path);
     }
   }
 
