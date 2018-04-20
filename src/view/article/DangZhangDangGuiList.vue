@@ -7,13 +7,11 @@
 
 <script>
 import { Swiper } from 'vux';
-import Container from 'src/components/container';
 import ArticleList from 'src/components/articleList';
 
 export default {
   components: {
     Swiper,
-    Container,
     ArticleList
   },
   data() {

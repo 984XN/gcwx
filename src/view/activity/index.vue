@@ -1,7 +1,7 @@
 <template>
   <div class="page page-activity">
     <template v-if="$route.meta.fullpage !== true">
-      <Container top="0">
+      <container top="0">
         <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
         <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
           <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
@@ -14,7 +14,7 @@
           </tab-item>
         </tab>
         <router-view></router-view>
-      </Container>
+      </container>
       <Menu></Menu>
     </template>
     <template v-if="$route.meta.fullpage === true">
@@ -24,16 +24,12 @@
 </template>
 
 <script>
-import { Swiper, Tab, TabItem } from 'vux';
-import Container from 'src/components/container';
+import { Swiper } from 'vux';
 import Menu from 'src/components/menu';
 
 export default {
   components: {
     Swiper,
-    Tab,
-    TabItem,
-    Container,
     Menu
   },
   data() {

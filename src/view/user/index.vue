@@ -1,7 +1,7 @@
 <template>
   <div class="page page-user">
     <template v-if="$route.name === 'user'">
-      <Container top="0">
+      <container top="0">
         <blur :blur-amount=40 :url="url" class="userInfo">
           <div class="avatar">
             <img :src="url">
@@ -72,7 +72,7 @@
             <div>解除与“某某人”的绑定关系吗？</div>
           </confirm>
         </div>
-      </Container>
+      </container>
       <Menu></Menu>
     </template>
     <template v-if="$route.meta.fullpage === true || $route.name !== 'user'">
@@ -82,13 +82,9 @@
 </template>
 
 <script>
-import Container from 'src/components/container';
-
 import {
   Card,
   Blur,
-  Group,
-  Cell,
   Confirm,
   TransferDomDirective as TransferDom
 } from 'vux';
@@ -99,11 +95,8 @@ export default {
     TransferDom
   },
   components: {
-    Container,
     Card,
     Blur,
-    Group,
-    Cell,
     Menu,
     Confirm
   },

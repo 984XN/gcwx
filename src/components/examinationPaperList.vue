@@ -19,12 +19,7 @@
 </template>
 
 <script>
-import { XButton } from 'vux';
-
 export default {
-  components: {
-    XButton
-  },
   props: {
     list: Array
   },

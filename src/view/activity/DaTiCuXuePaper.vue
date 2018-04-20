@@ -1,5 +1,5 @@
 <template>
-  <Container top="0" bottom="0" class="page-activity-datucuxue-paper">
+  <container top="0" bottom="0" class="page-activity-datucuxue-paper">
     <div class="banner">
       <div class="sign">
         <div class="main">
@@ -194,20 +194,8 @@
         <x-button type="warn" action-type="button">交卷</x-button>
       </div>
     </div>
-  </Container>
+  </container>
 </template>
-
-<script>
-import { XButton } from 'vux';
-import Container from 'src/components/container';
-
-export default {
-  components: {
-    Container,
-    XButton
-  }
-};
-</script>
 
 <style lang="stylus" scoped>
 .label.checkbox label,

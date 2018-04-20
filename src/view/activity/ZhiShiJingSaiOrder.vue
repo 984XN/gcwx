@@ -1,5 +1,5 @@
 <template>
-  <Container bottom="0" class="page-activity-zhishijingsai-order">
+  <container bottom="0" class="page-activity-zhishijingsai-order">
     <h1 class="pageTitle">竞赛排名</h1>
     <dl class="examOrderList">
       <dt>
@@ -22,16 +22,11 @@
         </table>
       </dd>
     </dl>
-  </Container>
+  </container>
 </template>
 
 <script>
-import Container from 'src/components/container';
-
 export default {
-  components: {
-    Container
-  },
   data() {
     return {
       list: []

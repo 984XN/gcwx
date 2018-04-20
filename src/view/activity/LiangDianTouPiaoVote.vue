@@ -122,12 +122,7 @@
 </template>
 
 <script>
-import { XButton } from 'vux';
-
 export default {
-  components: {
-    XButton
-  },
   mounted() {
     console.log('$route.params:', this.$route.params);
   }

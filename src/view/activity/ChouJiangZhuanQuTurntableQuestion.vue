@@ -1,5 +1,5 @@
 <template>
-  <Container bottom="0" class="page-activity-choujiangzhuanqu-turntable">
+  <container bottom="0" class="page-activity-choujiangzhuanqu-turntable">
     <div class="banner">
       <img src="./img/choujiangzhuanqu/banner_question.png">
     </div>
@@ -25,17 +25,15 @@
         </ol>
       </dd>
     </dl>
-  </Container>
+  </container>
 </template>
 
 <script>
 import { Marquee, MarqueeItem } from 'vux';
-import Container from 'src/components/container';
 import Turntable from 'src/components/turntable';
 
 export default {
   components: {
-    Container,
     Marquee,
     MarqueeItem,
     Turntable

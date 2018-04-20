@@ -44,13 +44,11 @@
 </template>
 
 <script>
-import { XButton } from 'vux';
 import Matrix from 'src/components/matrix';
 
 export default {
   components: {
-    Matrix,
-    XButton
+    Matrix
   },
   props: {
     list: Array

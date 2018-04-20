@@ -44,15 +44,7 @@
 </template>
 
 <script>
-import { Group, XButton, XTextarea, CheckIcon } from 'vux';
-
 export default {
-  components: {
-    XButton,
-    Group,
-    XTextarea,
-    CheckIcon
-  },
   data() {
     return {
       content: '',

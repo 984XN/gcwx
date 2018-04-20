@@ -1,8 +1,8 @@
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
-    <Container :bottom="containerBottom" @click.native.stop="hideReplyForm">
+    <container :bottom="containerBottom" @click.native.stop="hideReplyForm">
       <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
-    </Container>
+    </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
       <label>
         <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
@@ -15,12 +15,10 @@
 </template>
 
 <script>
-import Container from 'src/components/container';
 import MessageList from 'src/components/messageList';
 
 export default {
   components: {
-    Container,
     MessageList
   },
   methods: {

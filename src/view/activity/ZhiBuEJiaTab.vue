@@ -8,13 +8,7 @@
 </template>
 
 <script>
-import { Tab, TabItem } from 'vux';
-
 export default {
-  components: {
-    Tab,
-    TabItem
-  },
   data() {
     return {
       tabIndex: 0

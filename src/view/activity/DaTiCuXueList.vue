@@ -5,12 +5,10 @@
 </template>
 
 <script>
-import Container from 'src/components/container';
 import ExaminationPaperList from 'src/components/examinationPaperList';
 
 export default {
   components: {
-    Container,
     ExaminationPaperList
   },
   data() {

@@ -13,16 +13,9 @@
 </template>
 
 <script>
-import { XInput, Group, XButton, Cell } from 'vux';
 // import * as user from 'src/api/user';
 
 export default {
-  components: {
-    XInput,
-    XButton,
-    Group,
-    Cell
-  },
   data() {
     return {
       user: {

@@ -1,5 +1,5 @@
 <template>
-  <Container top="0" bottom="0" class="page-activity-zhishijingsai-paper">
+  <container top="0" bottom="0" class="page-activity-zhishijingsai-paper">
     <div class="banner">
       <div class="clock">
         <div class="minute">{{minute}}</div>
@@ -41,22 +41,16 @@
     <div v-transfer-dom>
       <loading :show="loading" text="加载中"></loading>
     </div>
-  </Container>
+  </container>
 </template>
 
 <script>
-import { Loading, TransferDomDirective as TransferDom, XButton } from 'vux';
-import Container from 'src/components/container';
+import { TransferDomDirective as TransferDom } from 'vux';
 import { setTimeout } from 'timers';
 
 export default {
   directives: {
     TransferDom
-  },
-  components: {
-    Loading,
-    Container,
-    XButton
   },
   data() {
     return {

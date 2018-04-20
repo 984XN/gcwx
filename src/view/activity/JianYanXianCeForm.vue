@@ -19,17 +19,7 @@
 </template>
 
 <script>
-import { XInput, Group, XButton, XTextarea, Selector, CheckIcon } from 'vux';
-
 export default {
-  components: {
-    XInput,
-    XButton,
-    Group,
-    XTextarea,
-    Selector,
-    CheckIcon
-  },
   data() {
     return {
       title: '',
