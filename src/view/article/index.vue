@@ -1,5 +1,5 @@
 <template>
-  <div class="page page-xuexipingtai">
+  <div class="page page-article">
     <template v-if="$route.meta.fullpage !== true">
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474">
         <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>

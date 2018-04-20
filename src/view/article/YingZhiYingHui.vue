@@ -1,5 +1,5 @@
 <template>
-  <container :top="containerStyle.top" :bottom="containerStyle.bottom" class="page-xuexipingtai-yingzhiyinghui">
+  <container :top="containerStyle.top" :bottom="containerStyle.bottom" class="page-article-yingzhiyinghui">
     <ul class="manualList" v-if="$route.name !=='yingzhiyinghui-detail'">
       <li v-for="(item,n) in list" :key="n">
         <template v-if="n === 0">
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.page-xuexipingtai-yingzhiyinghui {
+.page-article-yingzhiyinghui {
   padding 10px
   height auto
 }

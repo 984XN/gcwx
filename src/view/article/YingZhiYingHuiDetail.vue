@@ -1,5 +1,5 @@
 <template>
-  <div class="page-xuexipingtai-yingzhiyinghui-detail">
+  <div class="page-article-yingzhiyinghui-detail">
     <Article :article="article"></Article>
   </div>
 </template>
