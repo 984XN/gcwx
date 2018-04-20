@@ -110,10 +110,15 @@ router.beforeEach((to, from, next) => {
     } else {
       // 校验失败，跳转至登录界面
       // 将跳转的路由path作为参数，用于在登录成功后获取并跳转到该路径
-      let path = { path: '/login/browser', query: { redirect: to.fullPath } };
+      let path = {
+        path: '/login/browser',
+        replace: true,
+        query: { redirect: to.fullPath }
+      };
       if (navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
         path = {
           path: '/login/wechat',
+          replace: true,
           query: { redirect: to.fullPath }
         };
       }
