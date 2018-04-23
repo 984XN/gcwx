@@ -6,6 +6,7 @@
 
 <script>
 import ArticleList from 'src/components/articleList';
+import * as api from 'src/api/article';
 
 export default {
   components: {
@@ -13,7 +14,8 @@ export default {
   },
   data() {
     return {
-      list: [
+      list: [],
+      listOld: [
         {
           id: new Date().getTime(),
           thumb: '',
@@ -88,6 +90,18 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    api
+      .getArticleList({
+        model: {},
+        pageModel: { Page: 61, Limit: 100 },
+        Theme: 20
+      })
+      .then(res => {
+        console.log('res:', res);
+        this.list = res.data;
+      });
   }
 };
 </script>

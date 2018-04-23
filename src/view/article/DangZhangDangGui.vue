@@ -114,8 +114,12 @@ export default {
     };
   },
   mounted() {
-    api.getArticleList({ mod: 'dangzhangdanggui' }).then(res => {
-      // console.log('res:', res);
+    api.getArticleList({
+      model: {},
+      pageModel: { Page: 1, Start: 0, Limit: 10 },
+      Theme: 10
+    }).then(res => {
+      console.log('res:', res);
       this.list = res.data;
     });
   }

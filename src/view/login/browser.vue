@@ -3,6 +3,9 @@
     <group title="登录">
       <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate></x-input>
       <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password"></x-input>
+      <x-input title="验证码" v-model="user.vcode" :icon-type="passwordValid" novalidate class="vcode">
+        <img slot="right-full-height" src="/api/Sys/SysUser/GetValidateCode" onclick="this.src=this.src+'?'+Math.random()">
+      </x-input>
     </group>
     <div style="padding:15px;">
       <x-button @click.native="loginFn" type="warn">登录</x-button>
@@ -19,8 +22,9 @@ export default {
   data() {
     return {
       user: {
+        vcode: '',
         username: localStorage.getItem('username') || 'admin',
-        password: '123456'
+        password: '21192X'
       },
       usernameValid: '',
       passwordValid: '',
@@ -38,7 +42,7 @@ export default {
       // JS验证
       if (!this.user.username || !this.user.password) {
         this.errMessage = ' 帐号和密码不能为空 ';
-        sessionStorage.isLogin = 0;
+        sessionStorage.logined = 0;
       } else {
         // // api 验证
         // // 转到登录前的页面
@@ -46,13 +50,14 @@ export default {
         let self = this;
         api
           .login({
+            ValidateCode: self.user.vcode,
             LoginName: self.user.username,
             LoginPWD: self.user.password
           })
           .then(res => {
             if (res.success === true) {
               console.log('登录成功');
-              sessionStorage.isLogin = 1;
+              sessionStorage.logined = 1;
               this.$router.push({ path: jumpTo });
             } else {
               self.errMessage = res.Message;
@@ -69,7 +74,7 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .error {
   width 100%
   padding 8px 16px

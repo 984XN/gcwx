@@ -1,21 +1,23 @@
 <template>
   <div class="feedback">
+    <div class="pageTitle">请将这个页面截屏发给我们</div>
     <dl>
-      <dt class="feedback-head">请将这个页面截屏发给我们</dt>
+      <dt class="feedback-head">帮助信息</dt>
       <dd class="feedback-body">
         <table>
           <tr v-for="(value, key, index) in data" :key="index">
             <th class="name">{{ key }}</th>
-            <td class="value">{{ value }}</td>
+            <td class="value">{{ value | substr(0, 4096) }}</td>
           </tr>
         </table>
       </dd>
       <dd class="feedback-footer">
         <div class="tel">联系我们：
-          <a href="tel:0379-60185975">0379-60185975</a>
+          <a href="tel:0379-60185975">0379-60115975</a>
         </div>
       </dd>
     </dl>
+    <div class="tip">提示：<br />解决刚刚的问题需要以上全部的信息，请务必完整发给我们！如果一屏截不完，可以分多次截屏。</div>
   </div>
 </template>
 
@@ -32,12 +34,13 @@ export default {
     }
     let params = this.$route.params;
     let data = {
+      status: params.response.request.status,
+      statusText: params.response.request.statusText,
       url: params.config.url,
+      responseURL: params.request.responseURL,
       method: params.config.method,
       data: params.config.data,
       timeout: params.config.timeout,
-      status: params.response.request.status,
-      statusText: params.response.request.statusText,
       response: params.response.request.response,
       readyState: params.response.request.readyState,
       withCredentials: params.response.request.withCredentials
@@ -53,41 +56,56 @@ export default {
   height 100%
   box-sizing border-box
   border-top 1px solid #EEE
+  background linear-gradient(#ffffffb0, transparent)
+}
+.pageTitle {
+  text-align center
+  padding 20px 0
+  font-size 18px
 }
 dl {
   background-color #fff
   border 1px solid #DDD
   border-radius 5px
-  margin 10px
+  margin 0 10px 10px
+  font-size 12px
   dt {
-    padding 20px 15px
+    padding 10px 15px
     border-bottom 1px solid #EEE
-    text-align center
+    color #999
+    &:after {
+      content '：'
+    }
   }
   dd {
     padding 15px
     &.feedback-footer {
       text-align center
-      color #C00
       border-top 1px solid #EEE
       a {
-        color #C00
-        border-bottom 1px dotted #C00
+        color #000
+        border-bottom 1px dotted #CCC
       }
     }
   }
   table {
     width 100%
-    font-size 12px
+    line-height 1.4
     th {
       text-align right
-      padding 3px 5px
       font-weight normal
       color #999
     }
     td {
-      word-break: break-all;
+      padding 5px 0 5px 5px
+      word-break break-all
     }
   }
+}
+.tip {
+  font-size 12px
+  text-align center
+  padding 5px 15px
+  color #C00
 }
 </style>

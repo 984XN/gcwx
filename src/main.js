@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './store';
+import filter from './filter';
 import {
   AlertPlugin,
   Cell,
@@ -29,6 +30,8 @@ import 'src/assets/font/iconfont.css';
 // // 全局导航菜单数据 this.$menu
 // import Menu from 'src/config';
 // Vue.use(Menu);
+
+Vue.use(filter);
 
 Vue.use(AlertPlugin);
 Vue.use(ConfirmPlugin);
