@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import Login from 'src/view/login';
 import LoginFromBrowser from 'src/view/login/browser';
 import LoginFromWechat from 'src/view/login/wechat';
+import LoginFromWechatRoot from 'src/view/login/wechatRoot';
+import LoginFromWechatCode from 'src/view/login/wechatCode';
 import Welcome from 'src/view/welcome';
 import NotFound from 'src/view/404';
 import Feedback from 'src/view/feedback';
@@ -92,7 +94,29 @@ const router = new Router({
             auth: false,
             fullpage: true,
             keepAlive: false
-          }
+          },
+          children: [
+            {
+              path: '/',
+              components: { root: LoginFromWechatRoot },
+              meta: {
+                title: '微信登录',
+                auth: false,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'code',
+              components: { code: LoginFromWechatCode },
+              meta: {
+                title: '微信登录',
+                auth: false,
+                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
         }
       ]
     },

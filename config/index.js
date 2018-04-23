@@ -16,6 +16,20 @@ module.exports = {
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/wechat_get_code': {
+        target: 'https://open.weixin.qq.com/connect/oauth2/authorize',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wechat_get_code': ''
+        }
+      },
+      '/wechat_get_access_token': {
+        target: 'https://api.weixin.qq.com/sns/oauth2/access_token',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/wechat_get_access_token': ''
+        }
       }
     },
 

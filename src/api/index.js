@@ -2,7 +2,6 @@ import Vue from 'vue';
 // import { AlertPlugin } from 'vux';
 import axios from 'axios';
 import router from 'src/router';
-
 // Vue.use(AlertPlugin);
 
 const service = axios.create({
@@ -10,7 +9,7 @@ const service = axios.create({
 });
 
 const STATUS_CODE = {
-  'HTTP': {
+  HTTP: {
     401: '身份未验证',
     403: '服务器拒绝请求',
     404: '服务器找不到请求的网页',
@@ -38,7 +37,7 @@ const STATUS_CODE = {
     505: '服务器不支持请求中所用的 HTTP 协议版本',
     511: '要求网络认证'
   },
-  'SYSTEM': {
+  SYSTEM: {
     10001: '请先登录' // 此 code 仅用于占位 201804231118
   }
 };
@@ -46,7 +45,7 @@ const STATUS_CODE = {
 function getStatusText(code, type) {
   let text = '未知状态码';
   if (STATUS_CODE[type][code] !== undefined) {
-    text = STATUS_CODE[code];
+    text = STATUS_CODE[type][code];
   }
   return text;
 }
@@ -69,7 +68,7 @@ service.interceptors.response.use(
       let statusCode = error.response.status;
       Vue.$vux.confirm.show({
         title: '出错了',
-        content: statusText + '[' + statusCode + ']',
+        content: statusText + ' [' + statusCode + ']',
         cancelText: '返回上一页',
         confirmText: '寻求帮助',
         onConfirm: function() {
@@ -95,7 +94,7 @@ service.interceptors.response.use(
         content: error.message
       });
       // alert(error.message);
-      // console.log('Error', error.message);
+      console.log('未知错误:', error);
     }
     return Promise.reject(error);
   }
