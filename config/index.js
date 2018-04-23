@@ -11,7 +11,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://api.gcdj',
+        target: 'http://192.168.0.121',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''

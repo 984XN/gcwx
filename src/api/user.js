@@ -1,9 +1,10 @@
-import service from './api';
+import service from 'src/api';
 
 export const login = params => {
-  return service.post('/user/login', params).then(
-    res => res.data
-  );
+  console.log('params:', params);
+  return service
+    .post('/api/Sys/SysUser/LoginByWeChat', params)
+    .then(res => res.data);
 };
 
 export default {

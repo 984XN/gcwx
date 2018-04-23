@@ -6,14 +6,14 @@
     </group>
     <div style="padding:15px;">
       <x-button @click.native="loginFn" type="warn">登录</x-button>
-      <div class="version">GCDJ1.0 (180419)</div>
       <div class="error" center show-icon v-if="errMessage" @click="clearMessage" :closable="false">{{errMessage}}</div>
+      <div class="version">GCDJ1.0 (180419)</div>
     </div>
   </div>
 </template>
 
 <script>
-// import * as user from 'src/api/user';
+import * as api from 'src/api/user';
 
 export default {
   data() {
@@ -40,38 +40,26 @@ export default {
         this.errMessage = ' 帐号和密码不能为空 ';
         sessionStorage.isLogin = 0;
       } else {
-        // api 验证
-        sessionStorage.isLogin = 1;
-        // 转到登录前的页面
+        // // api 验证
+        // // 转到登录前的页面
         let jumpTo = this.$route.query.redirect || '/article';
-        this.$router.push({ path: jumpTo });
+        let self = this;
+        api
+          .login({
+            LoginName: self.user.username,
+            LoginPWD: self.user.password
+          })
+          .then(res => {
+            if (res.success === true) {
+              console.log('登录成功');
+              sessionStorage.isLogin = 1;
+              this.$router.push({ path: jumpTo });
+            } else {
+              self.errMessage = res.Message;
+              console.log('登录失败:', res.Message);
+            }
+          });
       }
-      // // 登录
-      // this.$Progress.start();
-      // let _this = this;
-      // user.login(this.login).then(res => {
-      //   if (res.status === 1200) {
-      //     window.sessionStorage['userInfo'] = JSON.stringify(res.data.userInfo);
-      //     if (res.data.popedoms) {
-      //       window.sessionStorage['popedoms'] = JSON.stringify(
-      //         res.data.popedoms
-      //       );
-      //       if (this.$route.query.redirect) {
-      //         // 跳转到指定链接
-      //         this.$router.push({ path: this.$route.query.redirect });
-      //       } else {
-      //         this.$router.push({ path: '/article' });
-      //       }
-      //     } else {
-      //       _this.errMessage = '当前用户无操作权限，请联系管理员处理！';
-      //     }
-      //   } else if (res.status === 1100) {
-      //     _this.errMessage = res.message;
-      //   } else {
-      //     _this.errMessage = '登录失败，请联系管理员处理！';
-      //   }
-      //   _this.$Progress.finish();
-      // });
     }
   },
   computed: {},
