@@ -85,6 +85,9 @@ dl {
       font-weight normal
       color #999
     }
+    td {
+      word-break: break-all;
+    }
   }
 }
 </style>
