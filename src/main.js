@@ -8,6 +8,7 @@ import {
   AlertPlugin,
   Cell,
   CheckIcon,
+  ConfirmPlugin,
   Group,
   Loading,
   LoadingPlugin,
@@ -29,8 +30,9 @@ import 'src/assets/font/iconfont.css';
 // import Menu from 'src/config';
 // Vue.use(Menu);
 
-Vue.use(LoadingPlugin);
 Vue.use(AlertPlugin);
+Vue.use(ConfirmPlugin);
+Vue.use(LoadingPlugin);
 
 Vue.component('cell', Cell);
 Vue.component('check-icon', CheckIcon);

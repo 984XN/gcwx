@@ -114,13 +114,9 @@ export default {
     };
   },
   mounted() {
-    this.$vux.loading.show({
-      text: 'Loading'
-    });
-    api.getArticleList().then(res => {
+    api.getArticleList({ mod: 'dangzhangdanggui' }).then(res => {
       // console.log('res:', res);
       this.list = res.data;
-      this.$vux.loading.hide();
     });
   }
 };

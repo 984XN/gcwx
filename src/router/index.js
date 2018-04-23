@@ -5,6 +5,7 @@ import LoginFromBrowser from 'src/view/login/browser';
 import LoginFromWechat from 'src/view/login/wechat';
 import Welcome from 'src/view/welcome';
 import NotFound from 'src/view/404';
+import Feedback from 'src/view/feedback';
 import Tpl from 'src/view/tpl';
 
 import RouterArticle from 'src/router/article';
@@ -41,6 +42,15 @@ const router = new Router({
         title: '404 Not Found'
       },
       component: NotFound
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      meta: {
+        auth: false,
+        title: '系统问题反馈'
+      },
+      component: Feedback
     },
     {
       path: '/tpl',
