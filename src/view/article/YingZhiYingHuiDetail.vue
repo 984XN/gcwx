@@ -19,7 +19,7 @@ export default {
   computed: {
     article: function() {
       let title = this.$route.query.title;
-      let content = '<img src="' + this.$route.query.thumb + '"/>';
+      let content = '<img src="' + this.$route.query.file + '"/>';
       let article = {
         title: title,
         content: content

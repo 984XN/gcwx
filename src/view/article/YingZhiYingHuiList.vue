@@ -36,43 +36,53 @@ export default {
       list: [
         {
           title: '党务手册',
-          thumb: '/static/img/YingZhiYingHui/0.gif'
+          thumb: '/static/img/YingZhiYingHui/0.gif',
+          file: '/static/img/YingZhiYingHui/0.gif'
         },
         {
           title: '一张图读懂党的纪律处分',
-          thumb: '/static/img/YingZhiYingHui/1.jpg'
+          thumb: '/static/img/YingZhiYingHui/1_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/1.jpg'
         },
         {
           title: '一张图读懂入党程序',
-          thumb: '/static/img/YingZhiYingHui/2.jpg'
+          thumb: '/static/img/YingZhiYingHui/2_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/2.jpg'
         },
         {
           title: '一张图读懂党费交多少、怎么交',
-          thumb: '/static/img/YingZhiYingHui/3.jpg'
+          thumb: '/static/img/YingZhiYingHui/3_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/3.jpg'
         },
         {
           title: '一张图读懂“两学一做”',
-          thumb: '/static/img/YingZhiYingHui/4.jpg'
+          thumb: '/static/img/YingZhiYingHui/4_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/4.jpg'
         },
         {
           title: '一张图读懂“三严三实”专题教育如何开展',
-          thumb: '/static/img/YingZhiYingHui/5.jpg'
+          thumb: '/static/img/YingZhiYingHui/5_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/5.jpg'
         },
         {
           title: '一张图读懂党组与部门党委、地方党委、机关党委的七个区别',
-          thumb: '/static/img/YingZhiYingHui/6.jpg'
+          thumb: '/static/img/YingZhiYingHui/6_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/6.jpg'
         },
         {
           title: '一张图读懂《中国共产党廉洁自律准则》',
-          thumb: '/static/img/YingZhiYingHui/7.jpg'
+          thumb: '/static/img/YingZhiYingHui/7_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/7.jpg'
         },
         {
           title: '一张图读懂《中国共产党问责条例》',
-          thumb: '/static/img/YingZhiYingHui/8.jpg'
+          thumb: '/static/img/YingZhiYingHui/8_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/8.jpg'
         },
         {
           title: '一张图读懂《中国共产党纪律处分条例》',
-          thumb: '/static/img/YingZhiYingHui/9.jpg'
+          thumb: '/static/img/YingZhiYingHui/9_thumb.jpg',
+          file: '/static/img/YingZhiYingHui/9.jpg'
         }
       ]
     };
