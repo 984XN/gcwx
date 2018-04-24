@@ -12,6 +12,7 @@
       <cell title="工作岗位" value="非公有企业工勤岗位"></cell>
       <cell title="所在党组织" value="中共洛阳鸿卓电子信息技术有限公司支部委员会"></cell>
     </group>
+    <load-more :show-loading="false" background-color="#fbf9fe"></load-more>
   </div>
 </template>
 
@@ -25,6 +26,13 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    username() {
+      let username = this.$store.userInfo.user.UserName;
+      let nickname = this.$store.userInfo.wechat.nickName;
+      return username || nickname;
+    }
   }
 };
 </script>

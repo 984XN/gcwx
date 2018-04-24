@@ -4,12 +4,6 @@ import axios from 'axios';
 import router from 'src/router';
 // Vue.use(AlertPlugin);
 
-axios.defaults.withCredentials = true;
-
-const service = axios.create({
-  timeout: 15000
-});
-
 const STATUS_CODE = {
   HTTP: {
     401: '身份未验证',
@@ -52,6 +46,12 @@ function getStatusText(code, type) {
   return text;
 }
 
+const service = axios.create({
+  timeout: 30000
+});
+
+axios.defaults.withCredentials = true;
+
 // respone interceptor
 service.interceptors.response.use(
   // response => response,
@@ -61,6 +61,14 @@ service.interceptors.response.use(
     // console.log('response.statusText:', response.statusText); // 来自服务器响应的 HTTP 状态信息
     // console.log('response.headers:', response.headers); // 服务器响应的头
     // console.log('response.config:', response.config); // 为请求提供的配置信息
+    if (response.data.StatusCode === 1500) {
+      Vue.$vux.alert.show({
+        title: '无权访问',
+        content: response.data.Message + ' 请联系您的上级部门',
+        buttonText: '知道了'
+      });
+      return Promise.reject(response);
+    }
     return response;
   },
   error => {
@@ -89,6 +97,16 @@ service.interceptors.response.use(
       // console.log('error.response.data:', error.response.data);
       // console.log('error.response.status:', error.response.status);
       // console.log('error.response.headers:', error.response.headers);
+    } else if (
+      error.code === 'ECONNABORTED' &&
+      error.message.indexOf('timeout') !== -1
+    ) {
+      Vue.$vux.alert.show({
+        title: '请求超时',
+        content: '请刷新页面重试 [' + error + ']'
+      });
+      // alert(error.message);
+      console.log('未知错误:', error, error.code);
     } else {
       // Something happened in setting up the request that triggered an Error
       Vue.$vux.alert.show({
@@ -96,7 +114,7 @@ service.interceptors.response.use(
         content: error.message
       });
       // alert(error.message);
-      console.log('未知错误:', error);
+      console.log('未知错误:', error, error.code);
     }
     return Promise.reject(error);
   }

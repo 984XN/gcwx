@@ -6,7 +6,7 @@
           <div class="avatar">
             <img :src="url">
           </div>
-          <div class="name">动感超人</div>
+          <div class="name">{{name}}</div>
         </blur>
         <!-- <divider></divider> -->
         <card>
@@ -35,10 +35,10 @@
           </div>
         </card>
         <group>
-          <cell title="个人资料" link="/user/profile" value="白求恩">
+          <cell title="个人资料" link="/user/profile" :value="username">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="微信绑定" @click.native="wechat" is-link value="某某人">
+          <cell title="微信绑定" @click.native="wechat" is-link :value="nickname">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
           <cell title="修改密码" link="/user/password" value="当前密码已使用865天">
@@ -82,12 +82,7 @@
 </template>
 
 <script>
-import {
-  Card,
-  Blur,
-  Confirm,
-  TransferDomDirective as TransferDom
-} from 'vux';
+import { Card, Blur, Confirm, TransferDomDirective as TransferDom } from 'vux';
 import Menu from 'src/components/menu';
 
 export default {
@@ -103,8 +98,18 @@ export default {
   data() {
     return {
       wechatDialog: false,
-      url: 'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg'
+      url: 'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg',
+      username: this.$store.state.userInfo.user.UserName,
+      nickname: this.$store.state.userInfo.wechat.nickName
     };
+  },
+  computed: {
+    name() {
+      let username = this.$store.state.userInfo.user.UserName;
+      let nickname = this.$store.state.userInfo.wechat.nickName;
+      console.log(this.$store.state.userInfo.wechat);
+      return username || nickname || '无名氏';
+    }
   },
   methods: {
     wechat() {

@@ -95,12 +95,13 @@ export default {
     api
       .getArticleList({
         model: {},
-        pageModel: { Page: 61, Limit: 100 },
+        pageModel: { Page: 1, Start: 0, Limit: 10 },
         Theme: 20
       })
       .then(res => {
-        console.log('res:', res);
-        this.list = res.data;
+        if (res.Data.PageData) {
+          this.list = res.Data.PageData;
+        }
       });
   }
 };
