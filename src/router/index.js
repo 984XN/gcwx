@@ -2,9 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Login from 'src/view/login';
 import LoginFromBrowser from 'src/view/login/browser';
-import LoginFromWechat from 'src/view/login/wechat';
-import LoginFromWechatRoot from 'src/view/login/wechatRoot';
-import LoginFromWechatCode from 'src/view/login/wechatCode';
+import LoginWechat from 'src/view/login/wechat';
+import LoginWechatGetCode from 'src/view/login/wechatGetCode';
+import LoginWechatGetUser from 'src/view/login/wechatGetUser';
 import Welcome from 'src/view/welcome';
 import NotFound from 'src/view/404';
 import Feedback from 'src/view/feedback';
@@ -88,7 +88,7 @@ const router = new Router({
         },
         {
           path: 'wechat',
-          component: LoginFromWechat,
+          component: LoginWechat,
           meta: {
             title: '微信登录',
             auth: false,
@@ -98,7 +98,13 @@ const router = new Router({
           children: [
             {
               path: '/',
-              components: { root: LoginFromWechatRoot },
+              redirect: {
+                path: 'get-code'
+              }
+            },
+            {
+              path: 'get-code',
+              components: { code: LoginWechatGetCode },
               meta: {
                 title: '微信登录',
                 auth: false,
@@ -107,8 +113,8 @@ const router = new Router({
               }
             },
             {
-              path: 'code',
-              components: { code: LoginFromWechatCode },
+              path: 'get-user',
+              components: { code: LoginWechatGetUser },
               meta: {
                 title: '微信登录',
                 auth: false,
@@ -131,6 +137,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title;
+  console.log('router to:', to);
+  console.log('router from:', from);
 
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {

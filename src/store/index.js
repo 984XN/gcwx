@@ -12,16 +12,50 @@ const store = new Vuex.Store({
       activity: 0,
       user: 0
     },
-    userInfo: {}
+    userInfo: {
+      user: {
+        id: '',
+        mid: ''
+      },
+      wechat: {
+        id: '',
+        subscribe: '',
+        openid: '',
+        unionid: '',
+        nickname: '',
+        sex: '',
+        language: '',
+        city: '',
+        province: '',
+        country: '',
+        headimgurl: '',
+        subscribe_time: '',
+        remark: '',
+        groupid: '',
+        tagid_list: '',
+        latitude: '',
+        longitude: '',
+        precision: ''
+      }
+    }
   },
   mutations: {
     // 设置当前激活的tab，json: 哪个 tabbar 的哪个 tab
     setTabActive(state, json) {
-      this.state.tabActive[json.tab] = json.index;
+      state.tabActive[json.tab] = json.index;
     },
     // 设置当前激活的tab
     setTabbarActive(state, index) {
-      this.state.tabbarActive = index;
+      state.tabbarActive = index;
+    },
+    setUserInfo(state, json) {
+      state.userInfo = json;
+    },
+    setWechatUserInfo(state, json) {
+      state.userInfo.wechat = json;
+    },
+    setSystemUserInfo(state, json) {
+      state.userInfo.user = json;
     }
   }
 });

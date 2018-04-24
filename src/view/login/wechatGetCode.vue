@@ -24,38 +24,8 @@ export default {
       '&state=' +
       Wechat.state +
       '#wechat_redirect';
-    console.log(codeUrl);
+    // console.log(codeUrl);
     window.location.href = codeUrl;
   }
 };
 </script>
-
-<style lang="stylus" scoped>
-.login-wechat {
-  height 100%
-  background-color #fff
-  display flex
-  justify-content center
-  align-items center
-  .tipBox {
-    padding 10px
-    text-align center
-    width 50vw
-    position relative
-    margin-top -40vh
-    i {
-      font-size 120px
-      line-height 1
-      color rgb(81, 195, 50)
-    }
-    .text {
-      font-size 18px
-    }
-    .process {
-      color #999
-      text-align center
-      font-size 12px
-    }
-  }
-}
-</style>

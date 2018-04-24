@@ -6,10 +6,10 @@ export const Server = {
 };
 
 export const Wechat = {
-  appid: 'wxeb3a2d83f29c5cf6',
-  redirect_uri: 'http://gaochengdangjian.dev.honzh.com/#/login/wechat/code',
+  appid: 'wxaea78a1e2fe89d49',
+  redirect_uri: 'http://gaochengdangjian.dev.honzh.com/#/login/wechat/get-user',
   response_type: 'code',
-  scope: 'snsapi_base',
+  scope: 'snsapi_userinfo',
   state: 1
 }; // snsapi_base or snsapi_userinfo
 
