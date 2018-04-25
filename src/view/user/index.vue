@@ -105,9 +105,15 @@ export default {
   },
   computed: {
     name() {
-      let username = this.$store.state.userInfo.user.UserName;
-      let nickname = this.$store.state.userInfo.wechat.nickName;
-      console.log(this.$store.state.userInfo.wechat);
+      let userSystem = sessionStorage.userSystem
+        ? JSON.parse(sessionStorage.userSystem)
+        : { UserName: '' };
+      let userWechat = sessionStorage.userWechat
+        ? JSON.parse(sessionStorage.userWechat)
+        : { nickname: '' };
+      let username = userSystem.UserName;
+      let nickname = userWechat.nickname;
+      // console.log(userSystem, userWechat, username, nickname);
       return username || nickname || '无名氏';
     }
   },

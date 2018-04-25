@@ -28,9 +28,16 @@ export default {
     return {};
   },
   computed: {
-    username() {
-      let username = this.$store.userInfo.user.UserName;
-      let nickname = this.$store.userInfo.wechat.nickName;
+    name() {
+      let userSystem = sessionStorage.userSystem
+        ? JSON.parse(sessionStorage.userSystem)
+        : { UserName: '' };
+      let userWechat = sessionStorage.userWechat
+        ? JSON.parse(sessionStorage.userWechat)
+        : { nickname: '' };
+      let username = userSystem.UserName;
+      let nickname = userWechat.nickname;
+      // console.log(userSystem, userWechat, username, nickname);
       return username || nickname;
     }
   }
