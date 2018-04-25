@@ -11,34 +11,6 @@ const store = new Vuex.Store({
       article: 0,
       activity: 0,
       user: 0
-    },
-    userInfo: {
-      user: {
-        ID: '',
-        UserName: '',
-        DefaultUserTypeId: '',
-        UserTypes: []
-      },
-      wechat: {
-        id: '',
-        subscribe: '',
-        openid: '',
-        unionid: '',
-        nickname: '',
-        sex: '',
-        language: '',
-        city: '',
-        province: '',
-        country: '',
-        headimgurl: '',
-        subscribe_time: '',
-        remark: '',
-        groupid: '',
-        tagid_list: '',
-        latitude: '',
-        longitude: '',
-        precision: ''
-      }
     }
   },
   mutations: {

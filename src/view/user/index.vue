@@ -35,10 +35,10 @@
           </div>
         </card>
         <group>
-          <cell title="个人资料" link="/user/profile" :value="username">
+          <cell title="个人资料" @click.native="getUserLink" is-link :value="userName">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="微信绑定" @click.native="wechat" is-link :value="nickname">
+          <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
           <cell title="修改密码" link="/user/password" value="当前密码已使用865天">
@@ -67,11 +67,6 @@
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
         </group>
-        <div v-transfer-dom>
-          <confirm v-model="wechatDialog" :title="'解除绑定'" @on-confirm="wechatDialogConfirm" @on-cancel="onCancel" @on-show="onShow" @on-hide="onHide">
-            <div>解除与“某某人”的绑定关系吗？</div>
-          </confirm>
-        </div>
       </container>
       <Menu></Menu>
     </template>
@@ -84,6 +79,7 @@
 <script>
 import { Card, Blur, Confirm, TransferDomDirective as TransferDom } from 'vux';
 import Menu from 'src/components/menu';
+import * as api from 'src/api/user';
 
 export default {
   directives: {
@@ -97,43 +93,70 @@ export default {
   },
   data() {
     return {
+      userSystem: {},
+      userWechat: {},
       wechatDialog: false,
-      url: 'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg',
-      username: this.$store.state.userInfo.user.UserName,
-      nickname: this.$store.state.userInfo.wechat.nickName
+      url: 'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg'
     };
   },
   computed: {
     name() {
-      let userSystem = sessionStorage.userSystem
-        ? JSON.parse(sessionStorage.userSystem)
-        : { UserName: '' };
-      let userWechat = sessionStorage.userWechat
-        ? JSON.parse(sessionStorage.userWechat)
-        : { nickname: '' };
-      let username = userSystem.UserName;
-      let nickname = userWechat.nickname;
+      let username = this.userSystem.UserName || '';
+      let nickname = this.userWechat.NickName || '';
       // console.log(userSystem, userWechat, username, nickname);
       return username || nickname || '无名氏';
+    },
+    userName() {
+      return this.userSystem.UserName || '点击绑定';
+    },
+    wechatName() {
+      return this.userWechat.OpenId ? this.userWechat.NickName : '点击授权';
     }
   },
   methods: {
-    wechat() {
-      this.wechatDialog = true;
+    getUserLink() {
+      if (this.userSystem.ID) {
+        this.$router.push({ path: 'profile', append: true });
+      } else {
+        this.$router.push({ path: 'wechat/binding', append: true });
+      }
     },
-    wechatDialogConfirm() {
-      this.wechatDialog = false;
+    getWechatLink() {
+      let mid = this.userSystem.ID || 0;
+      let username = this.userSystem.UserName || '';
+      let openid = this.userWechat.OpenId || 0;
+      let nickname = this.userWechat.NickName || '';
+      if (openid && mid) {
+        this.$vux.confirm.show({
+          title: '解除绑定',
+          content:
+            '解除微信“' + nickname + '”与党员“' + username + '”的绑定关系吗？',
+          onConfirm() {
+            this.wechatUnbindMember();
+          }
+        });
+      } else {
+        this.$vux.alert.show({
+          title: '不能解除绑定',
+          content: '如需解绑，请使用其它微信绑定这个党员帐号'
+        });
+        // this.$router.push({ path: '/login/wechat' });
+      }
     },
-    onCancel() {
-      console.log('on cancel');
-    },
-    onHide() {
-      console.log('on hide');
-    },
-    onShow() {
-      console.log('on show');
-    },
-    log() {}
+    wechatUnbindMember() {
+      this.$vux.loading.show({
+        text: '正在从微信上解除党员关系'
+      });
+      api.wechatUnbindMember().then(res => {
+        this.wechatDialog = false;
+        this.$vux.loading.hide();
+        console.log('wechatUnbindMember', res);
+      });
+    }
+  },
+  mounted() {
+    this.userSystem = this.session('userSystem');
+    this.userWechat = this.session('userWechat');
   }
 };
 </script>

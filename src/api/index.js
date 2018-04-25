@@ -62,9 +62,26 @@ service.interceptors.response.use(
     // console.log('response.headers:', response.headers); // 服务器响应的头
     // console.log('response.config:', response.config); // 为请求提供的配置信息
     if (response.data.StatusCode === 1500) {
+      Vue.$vux.loading.hide();
+      // Vue.$vux.alert.hide();
+      Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
         title: '无权访问',
         content: response.data.Message + ' 请联系您的上级部门',
+        buttonText: '知道了'
+      });
+      return Promise.reject(response);
+    }
+    if (response.data === '') {
+      Vue.$vux.loading.hide();
+      // Vue.$vux.alert.hide();
+      Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
+      Vue.$vux.alert.show({
+        title: '系统错误',
+        content:
+          '服务器可能心情不好，请求数据时她没有理咱们，要不喝杯茶再来？',
         buttonText: '知道了'
       });
       return Promise.reject(response);
@@ -76,6 +93,10 @@ service.interceptors.response.use(
       // 请求已发出，但服务器响应的状态码不在 2xx 范围内
       let statusText = getStatusText(error.response.status, 'HTTP');
       let statusCode = error.response.status;
+      Vue.$vux.loading.hide();
+      Vue.$vux.alert.hide();
+      // Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
       Vue.$vux.confirm.show({
         title: '出错了',
         content: statusText + ' [' + statusCode + ']',
@@ -101,6 +122,10 @@ service.interceptors.response.use(
       error.code === 'ECONNABORTED' &&
       error.message.indexOf('timeout') !== -1
     ) {
+      Vue.$vux.loading.hide();
+      // Vue.$vux.alert.hide();
+      Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
         title: '请求超时',
         content: '请刷新页面重试 [' + error + ']'
@@ -108,7 +133,10 @@ service.interceptors.response.use(
       // alert(error.message);
       console.log('未知错误:', error, error.code);
     } else {
-      // Something happened in setting up the request that triggered an Error
+      Vue.$vux.loading.hide();
+      // Vue.$vux.alert.hide();
+      Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
         title: '未知错误',
         content: error.message

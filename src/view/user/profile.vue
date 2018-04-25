@@ -34,9 +34,9 @@ export default {
         : { UserName: '' };
       let userWechat = sessionStorage.userWechat
         ? JSON.parse(sessionStorage.userWechat)
-        : { nickname: '' };
+        : { NickName: '' };
       let username = userSystem.UserName;
-      let nickname = userWechat.nickname;
+      let nickname = userWechat.NickName;
       // console.log(userSystem, userWechat, username, nickname);
       return username || nickname;
     }

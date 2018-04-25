@@ -29,6 +29,10 @@ export default {
     };
   },
   mounted() {
+    this.$vux.loading.hide();
+    this.$vux.alert.hide();
+    this.$vux.confirm.hide();
+    // this.$vux.toast.hide();
     if (JSON.stringify(this.$route.params) === '{}') {
       this.$router.go(-1);
     }

@@ -19,6 +19,8 @@ import {
   Selector,
   Tab,
   TabItem,
+  Toast,
+  ToastPlugin,
   XButton,
   XInput,
   XTextarea
@@ -39,6 +41,7 @@ Vue.use(func);
 Vue.use(AlertPlugin);
 Vue.use(ConfirmPlugin);
 Vue.use(LoadingPlugin);
+Vue.use(ToastPlugin);
 
 Vue.component('badge', Badge);
 Vue.component('cell', Cell);
@@ -50,6 +53,7 @@ Vue.component('load-more', LoadMore);
 Vue.component('selector', Selector);
 Vue.component('tab', Tab);
 Vue.component('tab-item', TabItem);
+Vue.component('toast', Toast);
 Vue.component('x-button', XButton);
 Vue.component('x-input', XInput);
 Vue.component('x-textarea', XTextarea);
