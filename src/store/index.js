@@ -14,8 +14,10 @@ const store = new Vuex.Store({
     },
     userInfo: {
       user: {
-        id: '',
-        mid: ''
+        ID: '',
+        UserName: '',
+        DefaultUserTypeId: '',
+        UserTypes: []
       },
       wechat: {
         id: '',

@@ -4,12 +4,13 @@
       <container top="0">
         <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
         <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
-          <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">
+          <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
             <div class="icon">
               <i class="iconfont" :class="tab.icon"></i>
             </div>
             <div class="label">
               {{tab.name}}
+              <i class="iconfont icon-lock" v-if="!hasPower(tab.allow)"></i>
             </div>
           </tab-item>
         </tab>
@@ -48,37 +49,44 @@ export default {
         {
           name: '亮点投票',
           route: '/activity/liangdiantoupiao',
-          icon: 'icon-favor'
+          icon: 'icon-favor',
+          allow: 'all'
         },
         {
           name: '答题促学',
           route: '/activity/daticuxue',
-          icon: 'icon-read'
+          icon: 'icon-read',
+          allow: 'member'
         },
         {
           name: '知识竞赛',
           route: '/activity/zhishijingsai',
-          icon: 'icon-upstage'
+          icon: 'icon-upstage',
+          allow: 'member'
         },
         {
           name: '正能量',
           route: '/activity/zhengnengliang',
-          icon: 'icon-appreciate'
+          icon: 'icon-appreciate',
+          allow: 'member'
         },
         {
           name: '建言献策',
           route: '/activity/jianyanxiance',
-          icon: 'icon-new'
+          icon: 'icon-new',
+          allow: 'all'
         },
         {
           name: '支部e家',
           route: '/activity/zhibuejia',
-          icon: 'icon-home'
+          icon: 'icon-home',
+          allow: 'member'
         },
         {
           name: '抽奖专区',
           route: '/activity/choujiangzhuanqu',
-          icon: 'icon-goods_favor_light'
+          icon: 'icon-goods_favor_light',
+          allow: 'member'
         }
       ]
     };

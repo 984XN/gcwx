@@ -21,11 +21,31 @@ export default {
     }
   },
   mounted() {
-    let code = this.getParam('code');
+    let self = this;
+    let code = self.getParam('code');
     api.getWechatUserInfoByCode({ code: code }).then(res => {
       console.log('getWechatUserInfoByCode:', res);
-      sessionStorage.logined = 1;
-      this.$store.commit('setUserInfo', res.Data);
+      if (res.StatusCode === 1200) {
+        sessionStorage.logined = 1;
+        sessionStorage.binded = res.Data.IsBinding;
+        sessionStorage.userWechat = JSON.stringify(res.Data.WechatInfo);
+        // self.$store.commit('setUserInfo', res.Data);
+        self.$router.replace({ path: '/' });
+      } else {
+        let message = res.Message || '登录失败';
+        self.$vux.confirm.show({
+          title: '登录出错',
+          content: message + ' [' + res.StatusCode + ']',
+          confirmText: '重新登录',
+          cancelText: '返回首页',
+          onCancel() {
+            self.$router.replace({ path: '/' });
+          },
+          onConfirm() {
+            self.$router.replace({ path: '/login/wechat' });
+          }
+        });
+      }
     });
   }
 };

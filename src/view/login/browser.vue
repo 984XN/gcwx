@@ -58,7 +58,8 @@ export default {
             if (res.success === true) {
               console.log('登录成功');
               sessionStorage.logined = 1;
-              this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
+              sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
+              // this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
               this.$router.push({ path: jumpTo });
             } else {
               self.errMessage = res.Message;

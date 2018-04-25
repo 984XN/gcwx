@@ -1,6 +1,9 @@
 <template>
   <tab v-model="tabIndex" :scroll-threshold="4" class="menu-sub">
-    <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n">{{tab.name}}</tab-item>
+    <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
+      {{tab.name}}
+      <i class="iconfont icon-lock" v-if="!hasPower(tab.allow)"></i>
+    </tab-item>
   </tab>
 </template>
 
@@ -8,14 +11,23 @@
 export default {
   data() {
     return {
+      // rights: ['member','wechat','all'],
       tabs: [
-        { name: '应知应会', route: '/article/yingzhiyinghui' },
-        { name: '党章党规', route: '/article/dangzhangdanggui' },
-        { name: '系列讲话', route: '/article/xiliejianghua' },
-        { name: '党史博览', route: '/article/dangshibolan' },
-        { name: '典型风采', route: '/article/dianxingfengcai' },
-        { name: '不忘初心', route: '/article/buwangchuxin' },
-        { name: '心得体会', route: '/article/xindetihui' }
+        { name: '应知应会', allow: 'all', route: '/article/yingzhiyinghui' },
+        {
+          name: '党章党规',
+          allow: 'all',
+          route: '/article/dangzhangdanggui'
+        },
+        { name: '系列讲话', allow: 'all', route: '/article/xiliejianghua' },
+        { name: '党史博览', allow: 'all', route: '/article/dangshibolan' },
+        {
+          name: '典型风采',
+          allow: 'all',
+          route: '/article/dianxingfengcai'
+        },
+        { name: '不忘初心', allow: 'all', route: '/article/buwangchuxin' },
+        { name: '心得体会', allow: 'member', route: '/article/xindetihui' }
       ]
     };
   },

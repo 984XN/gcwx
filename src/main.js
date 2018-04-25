@@ -5,8 +5,10 @@ import App from './App';
 import router from './router';
 import store from './store';
 import filter from './filter';
+import func from './function';
 import {
   AlertPlugin,
+  Badge,
   Cell,
   CheckIcon,
   ConfirmPlugin,
@@ -32,11 +34,13 @@ import 'src/assets/font/iconfont.css';
 // Vue.use(Menu);
 
 Vue.use(filter);
+Vue.use(func);
 
 Vue.use(AlertPlugin);
 Vue.use(ConfirmPlugin);
 Vue.use(LoadingPlugin);
 
+Vue.component('badge', Badge);
 Vue.component('cell', Cell);
 Vue.component('check-icon', CheckIcon);
 Vue.component('container', Container);
