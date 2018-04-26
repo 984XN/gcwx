@@ -1,7 +1,7 @@
 <template>
   <ul class="articleList">
     <li v-for="(item,n) in list" :key="n">
-      <router-link :to="'detail/'+n">
+      <router-link :to="'detail/'+item.id">
         <div class="thumb" v-if="item.thumb">
           <img :src="item.thumb" :alt="item.title">
           <div class="sign" v-if="item.sign">{{item.sign}}</div>

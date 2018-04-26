@@ -61,10 +61,9 @@ export default {
               });
             }
           } else {
-            let message = res.Message || '登录失败';
             self.$vux.confirm.show({
               title: '登录出错',
-              content: message + ' [' + res.StatusCode + ']',
+              content: res.Message || '未知错误',
               confirmText: '重新登录',
               cancelText: '返回首页',
               onCancel() {

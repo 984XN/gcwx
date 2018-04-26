@@ -4,6 +4,7 @@
 
 <script>
 import Article from 'src/components/article';
+import * as api from 'src/api/article';
 
 export default {
   components: {
@@ -11,7 +12,8 @@ export default {
   },
   data() {
     return {
-      article: {
+      article: {},
+      articleTpl: {
         title: 'Lorem ipsum，中文又称“乱数假文”',
         author: '某某人',
         date: '2018-04-12 14:29',
@@ -26,6 +28,26 @@ export default {
         `
       }
     };
+  },
+  mounted() {
+    // console.log('this.$route', this.$route);
+    let id = this.$route.params.id || 0;
+    if (!id) {
+      this.$router.replace({
+        path: '/',
+        query: { error: 'missing-id', from: this.$route.fullPath }
+      });
+    }
+    api.article
+      .get({
+        ID: id
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(() => {
+        this.$router.go(-1);
+      });
   }
 };
 </script>

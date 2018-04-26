@@ -83,12 +83,17 @@ service.interceptors.response.use(
         cancelText: '关闭提示',
         confirmText: '重新登录',
         onConfirm: function() {
-          router.push({ path: router.getLoginUrl(), replace: true });
+          router.push({
+            path: router.getLoginUrl(),
+            replace: true,
+            query: { redirect: router.currentRoute.fullPath }
+          });
         },
         onCancel: function() {
           router.go(-1);
         }
       });
+
       return Promise.reject(response);
     }
     if (response.data === '') {

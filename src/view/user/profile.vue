@@ -8,7 +8,7 @@
       <cell title="学历" value="研究生"></cell>
       <cell title="联系电话" value="176-3034-6541"></cell>
       <cell title="人员类别" value="正式党员"></cell>
-      <cell title="缴费标准" value="200元"></cell>
+      <!-- <cell title="缴费标准" value="200元"></cell> -->
       <cell title="工作岗位" value="非公有企业工勤岗位"></cell>
       <cell title="所在党组织" value="中共洛阳鸿卓电子信息技术有限公司支部委员会"></cell>
     </group>

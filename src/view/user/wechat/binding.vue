@@ -62,7 +62,7 @@ export default {
           } else {
             self.$vux.alert.show({
               title: '绑定出错',
-              content: res.Message + ' [' + res.StatusCode + ']'
+              content: res.Message || '未知错误'
             });
           }
         });

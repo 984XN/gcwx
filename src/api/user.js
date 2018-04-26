@@ -4,6 +4,12 @@ export const login = params => {
   return service.post('/api/Sys/SysUser/LoginV2', params).then(res => res.data);
 };
 
+export const password = params => {
+  return service
+    .post('/api/Sys/SysUser/UpdatePwd', params)
+    .then(res => res.data);
+};
+
 export const getWechatUserInfoByCode = params => {
   return service
     .post('/api/Sys/SysUser/GetWechatUserInfo', params)
@@ -24,6 +30,7 @@ export const wechatUnbindMember = params => {
 
 export default {
   login,
+  password,
   getWechatUserInfoByCode,
   wechatBindMember,
   wechatUnbindMember

@@ -1,0 +1,20 @@
+2018/4/23 15:13:14
+接口：/PartyStudy/PsPartyStudyCoursewareV2/Query
+参数：model{int Page,int Start,int Limit},pageModel{},string Theme
+
+2018/4/24 15:05:45
+/Sys/SysUser/GetWechatUserInfo(string code)
+
+赵安林 2018/4/25 11:08:43
+微信绑定接口：/Sys/SysUser/BindPartyMember 参数：model{string LoginName, string LoginPWD}
+微信解绑接口：/Sys/SysUser/UnBindPartyMember
+
+赵安林 2018/4/26 14:16:05
+资料详情接口：/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID 参数：int ID
+阅读次数接口：/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber 参数：int ID
+阅读得积分接口：/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral 参数：int ID, string Title, int Minute
+备注：ID均为资料主键ID, Title为资料标题，Minute为学习时长(单位为分钟)
+
+赵安林 2018/4/26 15:10:08
+修改密码接口：/Sys/SysUser/UpdatePwd 参数：string OldLoginPWD, string NewLoginPWD
+

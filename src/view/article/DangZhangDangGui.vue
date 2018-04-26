@@ -52,8 +52,8 @@ export default {
   },
   mounted() {
     this.loadMore.loading = true;
-    api
-      .getArticleList({
+    api.article
+      .getList({
         model: {},
         pageModel: this.page,
         Theme: 10

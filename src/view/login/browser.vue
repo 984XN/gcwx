@@ -4,7 +4,7 @@
       <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate></x-input>
       <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password"></x-input>
       <x-input title="验证码" v-model="user.vcode" :icon-type="passwordValid" novalidate class="vcode">
-        <img slot="right-full-height" src="/api/Sys/SysUser/GetValidateCode" onclick="this.src=this.src+'?'+Math.random()">
+        <img slot="right-full-height" :src="'/api/Sys/SysUser/GetValidateCode?'+random" onclick="this.src=this.src+'?'+Math.random()">
       </x-input>
     </group>
     <div style="padding:15px;">
@@ -29,7 +29,7 @@ export default {
       usernameValid: '',
       passwordValid: '',
       errMessage: '',
-      random: Math.floor(Math.random(0, 1) * 3)
+      random: ''
     };
   },
   methods: {
@@ -72,6 +72,7 @@ export default {
               // this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
               this.$router.push({ path: jumpTo });
             } else {
+              self.random = Math.random();
               self.errMessage = res.Message;
               console.log('登录失败:', res.Message);
             }

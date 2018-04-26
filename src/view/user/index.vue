@@ -9,15 +9,15 @@
           <div class="name">{{name}}</div>
         </div>
         <!-- <divider></divider> -->
-        <card>
+        <!-- <card>
           <div slot="content" class="card-flex">
-            <!-- <router-link :to="{path:'profile', replace: true}" append class="card-item vux-1px-r">
+            <router-link :to="{path:'profile', replace: true}" append class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
               <div>未读通知</div>
               <span>1130</span>
-            </router-link> -->
+            </router-link>
             <router-link :to="{path:'profile', replace: true}" append class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
@@ -33,7 +33,7 @@
               <span>0</span>
             </router-link>
           </div>
-        </card>
+        </card> -->
         <group>
           <cell title="个人资料" @click.native="getUserLink" is-link :value="userName">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
