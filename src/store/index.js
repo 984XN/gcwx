@@ -21,15 +21,6 @@ const store = new Vuex.Store({
     // 设置当前激活的tab
     setTabbarActive(state, index) {
       state.tabbarActive = index;
-    },
-    setUserInfo(state, json) {
-      state.userInfo = json;
-    },
-    setWechatUserInfo(state, json) {
-      state.userInfo.wechat = json;
-    },
-    setSystemUserInfo(state, json) {
-      state.userInfo.user = json;
     }
   }
 });

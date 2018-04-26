@@ -72,6 +72,24 @@ service.interceptors.response.use(
         buttonText: '知道了'
       });
       return Promise.reject(response);
+    } else if (response.data.StatusCode === 1300) {
+      Vue.$vux.loading.hide();
+      Vue.$vux.alert.hide();
+      // Vue.$vux.confirm.hide();
+      Vue.$vux.toast.hide();
+      Vue.$vux.confirm.show({
+        title: '登录超时',
+        content: response.data.Message,
+        cancelText: '关闭提示',
+        confirmText: '重新登录',
+        onConfirm: function() {
+          router.push({ path: router.getLoginUrl(), replace: true });
+        },
+        onCancel: function() {
+          router.go(-1);
+        }
+      });
+      return Promise.reject(response);
     }
     if (response.data === '') {
       Vue.$vux.loading.hide();
@@ -80,8 +98,7 @@ service.interceptors.response.use(
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
         title: '系统错误',
-        content:
-          '服务器可能心情不好，请求数据时她没有理咱们，要不喝杯茶再来？',
+        content: '服务器可能心情不好，请求数据时她没有理咱们，要不喝杯茶再来？',
         buttonText: '知道了'
       });
       return Promise.reject(response);

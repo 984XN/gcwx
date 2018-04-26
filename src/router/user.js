@@ -3,6 +3,7 @@ import UserProfile from 'src/view/user/profile';
 import UserWechat from 'src/view/user/wechat/index';
 import UserWechatBinding from 'src/view/user/wechat/binding';
 import UserWechatUnbinding from 'src/view/user/wechat/unbinding';
+import UserPassword from 'src/view/user/password';
 
 const RouterUser = {
   path: '/user',
@@ -38,6 +39,11 @@ const RouterUser = {
           meta: { title: '微信解绑', auth: true }
         }
       ]
+    },
+    {
+      path: 'password',
+      component: UserPassword,
+      meta: { title: '修改密码', auth: true }
     }
   ]
 };

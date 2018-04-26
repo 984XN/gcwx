@@ -2,30 +2,30 @@
   <div class="page page-user">
     <template v-if="$route.name === 'user'">
       <container top="0">
-        <blur :blur-amount=40 :url="url" class="userInfo">
+        <div class="userInfo">
           <div class="avatar">
-            <img :src="url">
+            <img :src="userWechat.HeadImgUrl">
           </div>
           <div class="name">{{name}}</div>
-        </blur>
+        </div>
         <!-- <divider></divider> -->
         <card>
           <div slot="content" class="card-flex">
-            <router-link :to="{path:'/user/profile', replace: true}" class="card-item vux-1px-r">
+            <!-- <router-link :to="{path:'profile', replace: true}" append class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
               <div>未读通知</div>
               <span>1130</span>
-            </router-link>
-            <router-link :to="{path:'/user/profile', replace: true}" class="card-item vux-1px-r">
+            </router-link> -->
+            <router-link :to="{path:'profile', replace: true}" append class="card-item vux-1px-r">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
               <div>个人积分</div>
               <span>15</span>
             </router-link>
-            <router-link :to="{path:'/user/profile', replace: true}" class="card-item">
+            <router-link :to="{path:'profile', replace: true}" append class="card-item">
               <div>
                 <i class="iconfont icon-roundadd"></i>
               </div>
@@ -41,7 +41,7 @@
           <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="修改密码" link="/user/password" value="当前密码已使用865天">
+          <cell title="修改密码" :link="{path:'password',append:true}" value="">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
         </group>
@@ -93,10 +93,9 @@ export default {
   },
   data() {
     return {
+      binded: false,
       userSystem: {},
-      userWechat: {},
-      wechatDialog: false,
-      url: 'https://o3e85j0cv.qnssl.com/tulips-1083572__340.jpg'
+      userWechat: {}
     };
   },
   computed: {
@@ -122,21 +121,23 @@ export default {
       }
     },
     getWechatLink() {
-      let mid = this.userSystem.ID || 0;
-      let username = this.userSystem.UserName || '';
-      let openid = this.userWechat.OpenId || 0;
-      let nickname = this.userWechat.NickName || '';
-      if (openid && mid) {
-        this.$vux.confirm.show({
+      let self = this;
+      let mid = self.userSystem.ID || 0;
+      let username = self.userSystem.UserName || '';
+      let openid = self.userWechat.OpenId || 0;
+      let nickname = self.userWechat.NickName || '';
+      let binded = self.binded || false;
+      if (binded || (openid && mid)) {
+        self.$vux.confirm.show({
           title: '解除绑定',
           content:
             '解除微信“' + nickname + '”与党员“' + username + '”的绑定关系吗？',
           onConfirm() {
-            this.wechatUnbindMember();
+            self.wechatUnbindMember();
           }
         });
       } else {
-        this.$vux.alert.show({
+        self.$vux.alert.show({
           title: '不能解除绑定',
           content: '如需解绑，请使用其它微信绑定这个党员帐号'
         });
@@ -144,17 +145,39 @@ export default {
       }
     },
     wechatUnbindMember() {
-      this.$vux.loading.show({
+      let self = this;
+      self.$vux.loading.show({
         text: '正在从微信上解除党员关系'
       });
       api.wechatUnbindMember().then(res => {
-        this.wechatDialog = false;
-        this.$vux.loading.hide();
+        self.$vux.loading.hide();
         console.log('wechatUnbindMember', res);
+        // toto: 解除绑定的操作
+        // sessionStorage.binded = false
+        // sessionStorage.userSystem = JSON.stringify({});;
+        if (res.StatusCode === 1200) {
+          this.binded = sessionStorage.binded = false;
+          this.userSystem = sessionStorage.userSystem = JSON.stringify({
+            unbinding: true
+          });
+          self.$vux.toast.show({
+            text: '成功解绑',
+            time: 1000,
+            onHide() {
+              // self.$router.go(-1);
+            }
+          });
+        } else {
+          self.$vux.alert.show({
+            title: '解除绑定失败',
+            content: res.Message
+          });
+        }
       });
     }
   },
   mounted() {
+    this.binded = this.session('binded');
     this.userSystem = this.session('userSystem');
     this.userWechat = this.session('userWechat');
   }
@@ -165,13 +188,15 @@ export default {
 .userInfo {
   position relative
   margin-bottom 1.17647059em
+  padding 45px 0 20px
+  background-color #f17474
   .avatar {
     img {
       width 100px
       height 100px
       display block
       border-radius 50%
-      margin 45px auto 0
+      margin 0 auto
     }
   }
   .name {

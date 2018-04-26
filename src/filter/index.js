@@ -1,13 +1,16 @@
+// 去除开头和结尾的空白
 const trim = string => {
   return typeof string === 'string' ? string.replace(/(^\s*)|(\s*$)/g, '') : '';
 };
 
+// 强制转换为数值
 const int = val => {
   // 强制转换为非NAN的数值
   val = parseInt(val);
   return isNaN(val) ? 0 : val;
 };
 
+// 字符串截取
 const substr = (string, start, length, usetail = true) => {
   var newString = '';
   var prefix = '';

@@ -1,4 +1,9 @@
+/**
+ * 全局函数
+ * 用法：Vue.funcName() 或 this.funcName()
+ */
 exports.install = function(Vue, options) {
+  // 简易权限判断（党员可读、微信可读、所有人可读）
   Vue.prototype.hasPower = allow => {
     let hasPower = false;
     let userSystem = sessionStorage.userSystem
@@ -26,9 +31,13 @@ exports.install = function(Vue, options) {
     // console.log('hasPower:', allow, hasPower, userSystem, userWechat);
     return hasPower;
   };
+
+  // 从 sessionStorage 中取出 SESSION
   Vue.prototype.session = item => {
     return sessionStorage[item] ? JSON.parse(sessionStorage[item]) : {};
   };
+
+  // 是否身份证号
   Vue.prototype.isIdCardNo = string => {
     var id = string;
     var a = id.toUpperCase().split('');
@@ -45,5 +54,18 @@ exports.install = function(Vue, options) {
     var r = s % 11;
     r = d[r];
     return f || (n && r === v); // 通过15位正则 或者 （通过18位正则并且校验码正确）
+  };
+
+  // 是否微信内置浏览器（router.js里也有类似的功能，见 router.getLoginUrl）
+  // Vue.prototype.isWechat = () => {
+  //   return navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
+  // };
+
+  // 获取URL坡地中的参数
+  Vue.prototype.getUrlParam = name => {
+    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(
+      window.location.href
+    );
+    return results && results[1] ? results[1] : '';
   };
 };

@@ -48,6 +48,9 @@ export default {
         // // 转到登录前的页面
         let jumpTo = this.$route.query.redirect || '/article';
         let self = this;
+        self.$vux.loading.show({
+          text: '正在登录'
+        });
         api
           .login({
             ValidateCode: self.user.vcode,
@@ -55,10 +58,17 @@ export default {
             LoginPWD: self.user.password
           })
           .then(res => {
+            self.$vux.loading.hide();
+            sessionStorage.clear();
             if (res.success === true) {
               console.log('登录成功');
               sessionStorage.logined = 1;
-              sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
+              sessionStorage.userSystem = JSON.stringify(
+                res.Data.UserInfo || { UserInfo: false }
+              );
+              sessionStorage.userWechat = JSON.stringify(
+                res.Data.WechatUserInfo || { WechatUserInfo: false }
+              );
               // this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
               this.$router.push({ path: jumpTo });
             } else {
@@ -71,7 +81,7 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log('login.vue mount');
+    console.log('wechatBrowser:', this.$route);
   }
 };
 </script>

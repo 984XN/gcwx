@@ -36,18 +36,35 @@ export default {
   },
   methods: {
     binding() {
-      this.$vux.loading.show({
+      let self = this;
+      self.$vux.loading.show({
         text: '正在绑定'
       });
       // console.log('wechat binding...', this.wechat, this.user);
       api
         .wechatBindMember({
-          LoginName: this.user.username,
-          LoginPWD: this.user.password
+          LoginName: self.user.username,
+          LoginPWD: self.user.password
         })
         .then(res => {
-          this.$vux.loading.hide();
+          self.$vux.loading.hide();
           // console.log('wechatUnbindMember', res);
+          if (res.StatusCode === 1200) {
+            sessionStorage.binded = true;
+            sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
+            self.$vux.toast.show({
+              text: '绑定成功',
+              time: 1000,
+              onHide() {
+                self.$router.replace({ path: '/' });
+              }
+            });
+          } else {
+            self.$vux.alert.show({
+              title: '绑定出错',
+              content: res.Message + ' [' + res.StatusCode + ']'
+            });
+          }
         });
     },
     skip() {
