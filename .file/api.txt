@@ -1,20 +1,39 @@
-2018/4/23 15:13:14
-接口：/PartyStudy/PsPartyStudyCoursewareV2/Query
-参数：model{int Page,int Start,int Limit},pageModel{},string Theme
+学习平台
+/PartyStudy/PsPartyStudyCoursewareV2/Query
+model{ int Page,int Start,int Limit, pageModel{}, string Theme}
 
-2018/4/24 15:05:45
-/Sys/SysUser/GetWechatUserInfo(string code)
 
-赵安林 2018/4/25 11:08:43
-微信绑定接口：/Sys/SysUser/BindPartyMember 参数：model{string LoginName, string LoginPWD}
-微信解绑接口：/Sys/SysUser/UnBindPartyMember
+微信登录
+/Sys/SysUser/GetWechatUserInfo
+model{ string code }
 
-赵安林 2018/4/26 14:16:05
-资料详情接口：/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID 参数：int ID
-阅读次数接口：/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber 参数：int ID
-阅读得积分接口：/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral 参数：int ID, string Title, int Minute
+
+微信绑定
+/Sys/SysUser/BindPartyMember
+model{ string LoginName, string LoginPWD }
+
+
+微信解绑
+/Sys/SysUser/UnBindPartyMember
+{}
+
+
+资料详情
+/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID
+model{ int ID }
+
+
+阅读次数
+/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber
+model{ int ID }
+
+
+阅读得积分
+/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral
+model{ int ID, string Title, int Minute }
 备注：ID均为资料主键ID, Title为资料标题，Minute为学习时长(单位为分钟)
 
-赵安林 2018/4/26 15:10:08
-修改密码接口：/Sys/SysUser/UpdatePwd 参数：string OldLoginPWD, string NewLoginPWD
+修改密码
+/Sys/SysUser/UpdatePwd
+model{ string OldLoginPWD, string NewLoginPWD }
 

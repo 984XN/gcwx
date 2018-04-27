@@ -46,24 +46,24 @@
           </cell>
         </group>
         <group>
-          <cell title="个人积分" @click.native="log" is-link value="0">
+          <cell title="个人积分" is-link :is-loading="score === null" :value="score">
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="党费查询" @click.native="log" is-link>
+          <cell title="党费查询" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="中奖记录" @click.native="log" is-link>
+          <cell title="中奖记录" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
         </group>
         <group>
-          <cell title="通知公告" @click.native="log" is-link>
+          <cell title="通知公告" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="党务公开" @click.native="log" is-link>
+          <cell title="党务公开" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
-          <cell title="党建动态" @click.native="log" is-link>
+          <cell title="党建动态" is-link>
             <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
           </cell>
         </group>
@@ -93,6 +93,7 @@ export default {
   },
   data() {
     return {
+      score: null,
       binded: false,
       userSystem: {},
       userWechat: {}
@@ -180,6 +181,9 @@ export default {
     this.binded = this.session('binded');
     this.userSystem = this.session('userSystem');
     this.userWechat = this.session('userWechat');
+    setTimeout(() => {
+      this.score = 650
+    }, 2000)
   }
 };
 </script>

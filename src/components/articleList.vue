@@ -13,7 +13,7 @@
             <i class="iconfont icon-eye"></i>
             {{item.view}}
           </span>
-          <span class="date">{{item.date}}</span>
+          <span class="date">{{item.date|substr(0,10,false)}}</span>
         </div>
       </router-link>
     </li>
@@ -26,8 +26,7 @@ export default {
     list: Array
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     getStyleTitle(item) {
@@ -67,7 +66,7 @@ export default {
 .articleList {
   padding 10px
   list-style none
-  position: relative;
+  position relative
   z-index 11
   li {
     background-color #fff

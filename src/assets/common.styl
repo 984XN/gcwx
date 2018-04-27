@@ -12,7 +12,7 @@ body,
   height 100%
 }
 body {
-  background-color #EEE
+  background-color #F6F6F6
   font-family Arial, -apple-system-font, 'Helvetica Neue', sans-serif !important
 }
 .weui-tabbar__icon {
@@ -48,8 +48,8 @@ body {
 .article {
   // border-radius 5px
   // margin 10px
-  background-color #fff
   .article-head {
+    background-color #fff
     padding 20px 10px 10px
     border-bottom 1px dotted #EEE
     text-align center
@@ -67,20 +67,23 @@ body {
     }
   }
   .article-body {
-    padding 20px
-    p {
-      margin 1em 0
-      word-wrap break-word
-      word-break break-all
-      &:first-child {
-        margin-top 0
+    .article-body-content {
+      background-color #fff
+      padding 20px
+      p {
+        margin 1em 0
+        word-wrap break-word
+        word-break break-all
+        &:first-child {
+          margin-top 0
+        }
+        &:last-child {
+          margin-bottom 0
+        }
       }
-      &:last-child {
-        margin-bottom 0
+      img {
+        max-width 100%
       }
-    }
-    img {
-      max-width 100%
     }
   }
 }
@@ -217,5 +220,5 @@ body {
 }
 .vux-tab-item.vux-tab-disabled i {
   font-size inherit
-  opacity .7
+  opacity 0.7
 }

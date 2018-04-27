@@ -46,28 +46,60 @@ export const article = {
         return res.data;
       });
   },
-  get: params => {
+  getOne: params => {
     return service
-      .post('/api/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID', params)
+      .post(
+        '/api/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID',
+        params
+      )
       .then(res => {
-        let list = [];
-        if (res.data.Data.PageData) {
-          list = res.data.Data.PageData.map((val, index, arr) => {
+        let article = {
+          baseInfo: {},
+          files: []
+        };
+        if (res.data.Data.Courseware) {
+          let val = res.data.Data.Courseware;
+          article.baseInfo = {
+            type: val.FileType || '',
+            id: val.ID || '',
+            title: val.Title || '未命名',
+            author: val.CreateUser || '',
+            view: val.ReadNumber || 0,
+            content: val.Remark || '暂无备注',
+            date: val.CreateDate || ''
+          };
+        }
+        if (res.data.Data.ListCover[0]) {
+          article.baseInfo.cover = res.data.Data.ListCover[0].FilePath;
+        }
+        if (res.data.Data.ListVideo) {
+          article.files = res.data.Data.ListVideo.map((val, index, arr) => {
             return {
-              id: val.ID,
-              title: val.Title,
-              author: val.FilePath,
-              content: val.Remark,
-              date: val.CreateDate
+              id: val.ID || 0,
+              name: val.FileName || '',
+              path: val.FilePath || ''
             };
           });
         }
-        res.data.Data.PageData = list;
+        res.data.Data.Article = article;
         return res.data;
       });
-  }, // 增加点击
-  addViewTimes: params => {}, // 增加积分
-  addScore: params => {}
+  },
+  // 增加点击
+  setViewd: params => {
+    return service
+      .post('/api/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber', params)
+      .then(res => res.data);
+  },
+  // 增加积分
+  addScore: params => {
+    return service
+      .post(
+        '/api/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral',
+        params
+      )
+      .then(res => res.data);
+  }
 };
 
 export default {

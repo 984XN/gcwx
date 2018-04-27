@@ -70,7 +70,7 @@ export default {
                 res.Data.WechatUserInfo || { WechatUserInfo: false }
               );
               // this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
-              this.$router.push({ path: jumpTo });
+              this.$router.replace({ path: jumpTo });
             } else {
               self.random = Math.random();
               self.errMessage = res.Message;

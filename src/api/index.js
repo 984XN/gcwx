@@ -2,6 +2,7 @@ import Vue from 'vue';
 // import { AlertPlugin } from 'vux';
 import axios from 'axios';
 import router from 'src/router';
+import { API_LIST } from 'src/config/apiList';
 // Vue.use(AlertPlugin);
 
 const STATUS_CODE = {
@@ -61,13 +62,18 @@ service.interceptors.response.use(
     // console.log('response.statusText:', response.statusText); // 来自服务器响应的 HTTP 状态信息
     // console.log('response.headers:', response.headers); // 服务器响应的头
     // console.log('response.config:', response.config); // 为请求提供的配置信息
-    if (response.data.StatusCode === 1500) {
+    let api = response.config.url.replace('/api/', '/');
+    let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块';
+    if (response.data.StatusCode === 200) {
+      response.data.StatusCodeOrigin = response.data.StatusCode;
+      response.data.StatusCode = 1200;
+    } else if (response.data.StatusCode === 1500) {
       Vue.$vux.loading.hide();
       // Vue.$vux.alert.hide();
       Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
-        title: '无权访问',
+        title: '无权访问' + moduleName,
         content: response.data.Message + ' 请联系您的上级部门',
         buttonText: '知道了'
       });
@@ -102,8 +108,11 @@ service.interceptors.response.use(
       Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
-        title: '系统错误',
-        content: '服务器可能心情不好，请求数据时她没有理咱们，要不喝杯茶再来？',
+        title: '获取不到数据',
+        content:
+          '服务器可能心情不好，请求' +
+          moduleName +
+          '的数据时她没有理咱们，要不喝杯茶再来？',
         buttonText: '知道了'
       });
       return Promise.reject(response);
@@ -115,22 +124,52 @@ service.interceptors.response.use(
       // 请求已发出，但服务器响应的状态码不在 2xx 范围内
       let statusText = getStatusText(error.response.status, 'HTTP');
       let statusCode = error.response.status;
+      let api = error.config.url.replace('/api/', '/');
+      let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块';
+      // 服务器会把登录超时的链接强行302到 '/Home/Login'
+      if (
+        statusCode === 404 &&
+        error.request.responseURL.indexOf('/Home/Login')
+      ) {
+        Vue.$vux.confirm.show({
+          title: '登录超时',
+          content: '请求' + moduleName + '时服务器给了个登录地址让重新登录',
+          cancelText: '关闭提示',
+          confirmText: '重新登录',
+          onConfirm: function() {
+            router.push({
+              path: router.getLoginUrl(),
+              replace: true,
+              query: {
+                redirect: router.currentRoute.fullPath
+              }
+            });
+          }
+        });
+        return false;
+      }
       Vue.$vux.loading.hide();
       Vue.$vux.alert.hide();
       // Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
       Vue.$vux.confirm.show({
-        title: '出错了',
+        title: moduleName + '出错了',
         content: statusText + ' [' + statusCode + ']',
         cancelText: '返回上一页',
         confirmText: '寻求帮助',
         onConfirm: function() {
-          let feedbackData = { ...error };
+          let feedbackData = {
+            ...error
+          };
           console.log(
             '系统 ' + statusCode + ' 错误，转到系统反馈页',
-            feedbackData
+            feedbackData,
+            API_LIST
           );
-          router.push({ name: 'feedback', params: feedbackData });
+          router.push({
+            name: 'feedback',
+            params: feedbackData
+          });
         },
         onCancel: function() {
           router.go(-1);

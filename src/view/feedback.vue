@@ -50,7 +50,7 @@ export default {
       withCredentials: params.response.request.withCredentials
     };
     this.data = data;
-    console.log('$route.params:', this.$route.params, data);
+    // console.log('$route.params:', this.$route.params, data);
   }
 };
 </script>

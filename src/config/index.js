@@ -1,9 +1,9 @@
-// export const Server = {
-//   protocol: 'http:',
-//   host: 'localhost:8080',
-//   pathname: '/',
-//   origin: 'http://localhost:8080/'
-// };
+export const ApiServer = {
+  protocol: 'http:',
+  host: '192.168.0.121:80',
+  pathname: '/',
+  origin: 'http://192.168.0.121:80/'
+};
 
 export const Wechat = {
   appid: 'wxaea78a1e2fe89d49',
@@ -14,6 +14,6 @@ export const Wechat = {
 }; // snsapi_base or snsapi_userinfo
 
 export default {
-  // Server,
+  ApiServer,
   Wechat
 };

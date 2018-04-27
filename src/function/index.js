@@ -68,4 +68,45 @@ exports.install = function(Vue, options) {
     );
     return results && results[1] ? results[1] : '';
   };
+
+  // 当前时间戳
+  Vue.prototype.time = (dateString = '') => {
+    dateString = dateString.replace(/-/g, '/');
+    return Date.parse(dateString || new Date()) / 1000;
+  };
+
+  /**
+   * 时间戳转日期
+   * @param format 只支持 'Y-m-d H:i:s','Y-m-d','H:i:s' 三种调用方式
+   * @param time 为空时，取当前时间
+   * @return 日期格式化的字符串
+   */
+  Vue.prototype.date = (format, time) => {
+    var _temp = time != null ? new Date(time * 1000) : new Date();
+    var _return = '';
+    if (/Y-m-d/.test(format)) {
+      var _day = [
+        _temp.getFullYear(),
+        addzero(1 + _temp.getMonth()),
+        addzero(_temp.getDate())
+      ];
+      _return = _day.join('-');
+    }
+    if (/H:i:s/.test(format)) {
+      var _time = [
+        addzero(_temp.getHours()),
+        addzero(_temp.getMinutes()),
+        addzero(_temp.getSeconds())
+      ];
+      _return += ' ' + _time.join(':');
+    }
+    return _return;
+    function addzero(i) {
+      if (i <= 9) {
+        return '0' + i;
+      } else {
+        return i;
+      }
+    }
+  }
 };
