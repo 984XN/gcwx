@@ -21,8 +21,10 @@ export default {
       let title = this.$route.query.title;
       let content = '<img src="' + this.$route.query.file + '"/>';
       let article = {
-        title: title,
-        content: content
+        baseInfo: {
+          title: title,
+          content: content
+        }
       };
       window.document.title = title;
       return article;
@@ -30,6 +32,3 @@ export default {
   }
 };
 </script>
-
-<style lang="stylus" scoped>
-</style>
