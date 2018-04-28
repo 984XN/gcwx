@@ -162,15 +162,15 @@ router.beforeEach((to, from, next) => {
     }
   }
 
-  // 前进刷新，后退不刷新 https://juejin.im/post/5a69894a518825733b0f12f2
-  const toDepth = to.path.split('/').length;
-  const fromDepth = from.path.split('/').length;
-  if (toDepth < fromDepth) {
-    console.log('route back...');
-    from.meta.keepAlive = false;
-    to.meta.keepAlive = true;
-  }
-  next();
+  // // 前进刷新，后退不刷新 https://juejin.im/post/5a69894a518825733b0f12f2
+  // const toDepth = to.path.split('/').length;
+  // const fromDepth = from.path.split('/').length;
+  // if (toDepth < fromDepth) {
+  //   console.log('route back...');
+  //   from.meta.keepAlive = false;
+  //   to.meta.keepAlive = true;
+  // }
+  // next();
 });
 
 router.getLoginUrl = () => {

@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <group :title="'文件清单 (共' + this.article.files.length + '个)'" v-if="article.files && article.baseInfo.type === 20" class="article-body-files article-body-files-document">
+      <group :title="'文件清单 (共' + article.files.length + '个)'" v-if="article.files.length && article.baseInfo.type === 20" class="article-body-files article-body-files-document">
         <cell :title="(index+1) + '、' + val.name" :link="getArticleLink(val.path)" v-for="(val, index) in article.files" :key="index" class="file-item"></cell>
       </group>
     </div>

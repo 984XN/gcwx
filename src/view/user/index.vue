@@ -4,7 +4,7 @@
       <container top="0">
         <div class="userInfo">
           <div class="avatar">
-            <img :src="userWechat.HeadImgUrl">
+            <img :src="userWechat.HeadImgUrl" alt="头像">
           </div>
           <div class="name">{{name}}</div>
         </div>
@@ -36,35 +36,38 @@
         </card> -->
         <group>
           <cell title="个人资料" @click.native="getUserLink" is-link :value="userName">
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-profile_light"></i>
           </cell>
           <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-custom-wechat"></i>
           </cell>
           <cell title="修改密码" :link="{path:'password',append:true}" value="">
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-password"></i>
           </cell>
         </group>
         <group>
           <cell title="个人积分" is-link :is-loading="score === null" :value="score">
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-coin"></i>
           </cell>
           <cell title="党费查询" is-link>
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-money-square"></i>
           </cell>
           <cell title="中奖记录" is-link>
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-gift"></i>
+          </cell>
+          <cell title="我的正能量" is-link>
+            <i slot="icon" class="listIcon iconfont icon-Business_-Honor"></i>
           </cell>
         </group>
         <group>
           <cell title="通知公告" is-link>
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-tongzhi"></i>
           </cell>
           <cell title="党务公开" is-link>
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-shangwu"></i>
           </cell>
           <cell title="党建动态" is-link>
-            <i slot="icon" class="listIcon iconfont icon-roundadd"></i>
+            <i slot="icon" class="listIcon iconfont icon-article"></i>
           </cell>
         </group>
       </container>
@@ -198,9 +201,13 @@ export default {
     img {
       width 100px
       height 100px
+      line-height 100px
+      text-align center
       display block
       border-radius 50%
       margin 0 auto
+      background-color #C00
+      color #FFF
     }
   }
   .name {
