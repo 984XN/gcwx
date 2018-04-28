@@ -300,7 +300,7 @@ const RouterActivity = {
         {
           path: '/',
           redirect: {
-            path: 'liuyanpinglun'
+            path: 'xindetihui'
           }
         },
         {

@@ -170,7 +170,9 @@ router.beforeEach((to, from, next) => {
   //   from.meta.keepAlive = false;
   //   to.meta.keepAlive = true;
   // }
-  // next();
+
+  // 继续向下执行，这行不能删除
+  next();
 });
 
 router.getLoginUrl = () => {

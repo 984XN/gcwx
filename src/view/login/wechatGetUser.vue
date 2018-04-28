@@ -18,17 +18,10 @@ export default {
       loadingProcess: '正在等待微信返回数据'
     };
   },
-  methods: {
-    // getParam(name) {
-    //   var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(
-    //     window.location.href
-    //   );
-    //   return results && results[1] ? results[1] : 0;
-    // }
-  },
   mounted() {
     let self = this;
     let code = self.$route.query.code || '';
+    console.log('微信登录中…');
     if (!code) {
       self.$router.replace({ path: '/login/wechat' });
     } else {
