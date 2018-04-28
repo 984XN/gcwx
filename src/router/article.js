@@ -9,7 +9,6 @@ import ArticleXiLieJiangHua from 'src/view/article/XiLieJiangHua';
 import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
 import ArticleDianXingFengCai from 'src/view/article/DianXingFengCai';
 import ArticleBuWangChuXin from 'src/view/article/BuWangChuXin';
-import ArticleXinDeTiHui from 'src/view/article/XinDeTiHui';
 import ArticleDetail from 'src/view/article/detail';
 
 const RouterArticle = {
@@ -127,20 +126,6 @@ const RouterArticle = {
       },
       meta: {
         title: '不忘初心',
-        auth: true,
-        keepAlive: false
-      }
-    },
-    {
-      path: 'xindetihui',
-      // name: 'xindetihui',
-      components: {
-        tab: ArticleTab,
-        menu: ArticleMenu,
-        page: ArticleXinDeTiHui
-      },
-      meta: {
-        title: '心得体会',
         auth: true,
         keepAlive: false
       }

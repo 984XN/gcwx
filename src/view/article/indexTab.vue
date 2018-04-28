@@ -26,8 +26,7 @@ export default {
           allow: 'all',
           route: '/article/dianxingfengcai'
         },
-        { name: '不忘初心', allow: 'all', route: '/article/buwangchuxin' },
-        { name: '心得体会', allow: 'member', route: '/article/xindetihui' }
+        { name: '不忘初心', allow: 'all', route: '/article/buwangchuxin' }
       ]
     };
   },
