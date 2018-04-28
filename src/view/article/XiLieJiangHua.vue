@@ -1,5 +1,5 @@
 <template>
-  <container>
+  <container :lazyload="lazyload" @loadData="loadData">
     <ArticleList :list="list"></ArticleList>
   </container>
 </template>
@@ -14,6 +14,12 @@ export default {
   },
   data() {
     return {
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
       list: [],
       listOld: [
         {
@@ -91,18 +97,40 @@ export default {
       ]
     };
   },
-  mounted() {
-    api
-      .getArticleList({
-        model: {},
-        pageModel: { Page: 1, Start: 0, Limit: 10 },
-        Theme: 20
-      })
-      .then(res => {
-        if (res.Data.PageData) {
-          this.list = res.Data.PageData;
-        }
-      });
-  }
+  methods: {
+    loadData() {
+      // console.log('XiLieJianHua.loadData...');
+      let self = this;
+      if (self.lazyload.loading) {
+        // console.log('已经在加载中，return');
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        // console.log('XiLieJianHua.loadData...没有数据了');
+        self.lazyload.loading = false;
+      } else {
+        // console.log('XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据');
+        api
+          .getArticleList({
+            model: {},
+            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
+            Theme: 20
+          })
+          .then(res => {
+            // console.log('loadData res:', res);
+            if (res.Data.PageData && res.Data.PageData.length > 0) {
+              this.list = [...this.list, ...res.Data.PageData];
+              self.lazyload.page += 1;
+            } else {
+              // console.log('木有数据了');
+              self.lazyload.nodata = true;
+            }
+            self.lazyload.loading = false;
+          });
+      }
+    }
+  },
+  mounted() {}
 };
 </script>

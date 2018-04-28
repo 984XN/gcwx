@@ -1,10 +1,7 @@
 <template>
-  <container>
+  <container :lazyload="lazyload" @loadData="loadData">
     <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center" class="swiper"></swiper>
     <ArticleList :list="list"></ArticleList>
-    <load-more :show-loading="true" v-show="loadMore.loading" tip="正在获取数据"></load-more>
-    <load-more :show-loading="false" v-show="loadMore.isAll" tip="没有了" background-color="#fbf9fe"></load-more>
-    <load-more :show-loading="false" v-show="loadMore.noData" tip="暂无数据" background-color="#fbf9fe"></load-more>
   </container>
 </template>
 
@@ -20,11 +17,11 @@ export default {
   },
   data() {
     return {
-      page: { Page: 1, Limit: 10 },
-      loadMore: {
+      lazyload: {
+        enable: true,
+        nodata: false,
         loading: false,
-        isAll: false,
-        noData: false
+        page: 1
       },
       banners: [
         {
@@ -50,27 +47,44 @@ export default {
       ]
     };
   },
+  methods: {
+    loadData() {
+      // console.log('XiLieJianHua.loadData...');
+      let self = this;
+      if (self.lazyload.loading) {
+        // console.log('已经在加载中，return');
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        // console.log('XiLieJianHua.loadData...没有数据了');
+        self.lazyload.loading = false;
+      } else {
+        // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
+        api
+          .getArticleList({
+            model: {},
+            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
+            Theme: 10
+          })
+          .then(res => {
+            // console.log('loadData res:', res);
+            if (res.Data.PageData && res.Data.PageData.length > 0) {
+              this.list = [...this.list, ...res.Data.PageData];
+              self.lazyload.page += 1;
+            } else {
+              // console.log('木有数据了');
+              self.lazyload.nodata = true;
+            }
+            self.lazyload.loading = false;
+          });
+      }
+    }
+  },
   mounted() {
-    this.loadMore.loading = true;
-    api.article
-      .getList({
-        model: {},
-        pageModel: this.page,
-        Theme: 10
-      })
-      .then(res => {
-        this.loadMore.loading = false;
-        if (res.Data.PageData) {
-          this.page.Page += 1;
-          this.list = res.Data.PageData;
-        } else {
-          if (this.page.Page > 1) {
-            this.loadMore.isAll = true;
-          } else {
-            this.loadMore.noData = true;
-          }
-        }
-      });
+    this.$nextTick(function() {
+      // console.log(this.lazyload);
+    });
   }
 };
 </script>

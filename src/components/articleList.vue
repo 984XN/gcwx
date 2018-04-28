@@ -1,5 +1,5 @@
 <template>
-  <ul class="articleList">
+  <ul class="articleList dataList">
     <li v-for="(item,n) in list" :key="n">
       <router-link :to="'detail/'+item.id">
         <div class="thumb" v-if="item.thumb">
