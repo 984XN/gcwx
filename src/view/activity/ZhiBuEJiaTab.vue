@@ -1,6 +1,6 @@
 <template>
   <tab v-model="tabIndex">
-    <tab-item selected @on-item-click="switchTab('xuexixinde')">学习心得</tab-item>
+    <tab-item selected @on-item-click="switchTab('xindetihui')">心得体会</tab-item>
     <tab-item @on-item-click="switchTab('liuyanpinglun')">留言评论</tab-item>
     <tab-item @on-item-click="switchTab('sixianghuibao')">思想汇报</tab-item>
     <tab-item @on-item-click="switchTab('dangwuzixun')">党务咨询</tab-item>
@@ -21,7 +21,7 @@ export default {
       this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
-      if (target.path === '/activity/zhibuejia/xuexixinde') {
+      if (target.path === '/activity/zhibuejia/xindetihui') {
         this.tabIndex = 0;
       } else if (target.path === '/activity/zhibuejia/liuyanpinglun') {
         this.tabIndex = 1;

@@ -330,13 +330,13 @@ const RouterActivity = {
           }
         },
         {
-          path: 'xuexixinde',
+          path: 'xindetihui',
           components: {
             tab: ActivityZhiBuEJiaTab,
             page: ActivityZhiBuEJiaXinDeTiHui
           },
           meta: {
-            title: '学习心得',
+            title: '心得体会',
             auth: true,
             fullpage: true,
             keepAlive: false
