@@ -1,5 +1,5 @@
 <template>
-  <div class="login-browser">
+  <div class="login-browser" @keyup.enter="loginFn">
     <group title="登录">
       <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate></x-input>
       <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password"></x-input>
