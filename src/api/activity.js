@@ -14,13 +14,13 @@ export const activity = {
         if (res.data.Data.PageData) {
           list = res.data.Data.PageData.map((val, index, arr) => {
             return {
-              id: val.ID,
-              title: val.ExperienceTitle,
+              id: val.ID ? val.ID : '',
+              title: val.ExperienceTitle ? val.ExperienceTitle : '',
               thumb: '',
-              author: val.UserName + '(' + val.OrganizationName + ')',
-              intro: val.ExperienceContent.replace(/<[^>]+>/g, ''),
+              author: val.UserName ? val.UserName + '(' + val.OrganizationName + ')' : '',
+              intro: val.ExperienceContent ? val.ExperienceContent.replace(/<[^>]+>/g, '') : '[暂无内容]',
               view: 0,
-              date: val.CreateDate
+              date: val.CreateDate ? val.CreateDate : ''
             };
           });
         }
@@ -70,14 +70,14 @@ export const activity = {
   // 增加点击
   setViewd: params => {
     return service
-      .post('/api/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber', params)
+      .post('/api', params)
       .then(res => res.data);
   },
   // 点赞
   setLiked: params => {
     return service
       .post(
-        '/api/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral',
+        '/api',
         params
       )
       .then(res => res.data);

@@ -1,5 +1,5 @@
 <template>
-  <container :lazyload="lazyload" @loadData="loadData">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0">
     <ArticleList :list="list"></ArticleList>
   </container>
 </template>
@@ -35,7 +35,7 @@ export default {
       } else {
         api.activity
           .getList({
-            Type: 1,
+            Type: 1, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
             // queryModel: { Type: 1 }, // 经测试这样传 Type 也可以
             OrganizationCode: '',
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
