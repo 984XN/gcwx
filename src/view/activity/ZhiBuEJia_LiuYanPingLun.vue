@@ -1,6 +1,6 @@
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
-    <container :bottom="containerBottom" @click.native.stop="hideReplyForm">
+    <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
       <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
     </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
@@ -8,7 +8,7 @@
         <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
       </label>
     </form>
-    <router-link to="zhibuejia/add" class="btnMessageAdd" :style="StyleAddMessageBtn">
+    <router-link to="add" class="btnMessageAdd" :style="StyleAddMessageBtn" :append="true">
       <i class="iconfont icon-roundadd"></i>
     </router-link>
   </div>
@@ -16,12 +16,39 @@
 
 <script>
 import MessageList from 'src/components/messageList';
+import * as api from 'src/api/activity';
 
 export default {
   components: {
     MessageList
   },
   methods: {
+    loadData() {
+      let self = this;
+      if (self.lazyload.loading) {
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        self.lazyload.loading = false;
+      } else {
+        api.activity
+          .getList({
+            Type: 2, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
+            OrganizationCode: '',
+            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
+          })
+          .then(res => {
+            if (res.Data.PageData && res.Data.PageData.length > 0) {
+              this.list = [...this.list, ...res.Data.PageData];
+              self.lazyload.page += 1;
+            } else {
+              self.lazyload.nodata = true;
+            }
+            self.lazyload.loading = false;
+          });
+      }
+    },
     // 显示缩略图的大图
     show(index) {
       this.$refs.previewer.show(index);
@@ -75,7 +102,14 @@ export default {
         replyId: 0, // 回复给谁
         content: '' // 回复的内容
       },
-      list: [
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      list: [],
+      listTpl: [
         {
           id: 1,
           name: '刘傅傅',
