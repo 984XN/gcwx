@@ -190,7 +190,7 @@ service.interceptors.response.use(
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
         title: '请求超时',
-        content: '请刷新页面重试 [504]'
+        content: '请重新操作 [504]'
       });
       // alert(error.message);
       console.log('未知错误:', error, error.code);
