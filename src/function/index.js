@@ -75,6 +75,15 @@ exports.install = function(Vue, options) {
     return Date.parse(dateString || new Date()) / 1000;
   };
 
+  // UUID
+  Vue.prototype.uuid = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      let r = (Math.random() * 16) | 0;
+      let v = c === 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  };
+
   /**
    * 时间戳转日期
    * @param format 只支持 'Y-m-d H:i:s','Y-m-d','H:i:s' 三种调用方式
@@ -108,5 +117,17 @@ exports.install = function(Vue, options) {
         return i;
       }
     }
-  }
+  };
+  // 上传时预览的图片地址
+  Vue.prototype.getObjectURL = file => {
+    let url = null;
+    if (window.createObjectURL !== undefined) {
+      url = window.createObjectURL(file);
+    } else if (window.URL !== undefined) {
+      url = window.URL.createObjectURL(file);
+    } else if (window.webkitURL !== undefined) {
+      url = window.webkitURL.createObjectURL(file);
+    }
+    return url;
+  };
 };

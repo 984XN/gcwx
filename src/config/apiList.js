@@ -49,6 +49,11 @@ export const API_LIST = {
     name: '获取支部e家详情',
     params: '{ int ID }',
     remark: ''
+  },
+  '/PartyActivity/PaPartyIndividualActivities/UploadFile?op=upload': {
+    name: '支部e家的图片上传',
+    params: '{ name file }',
+    remark: ''
   }
 };
 // 支部E家：新增、编辑、删除、回复

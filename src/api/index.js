@@ -155,7 +155,8 @@ service.interceptors.response.use(
       Vue.$vux.confirm.show({
         title: moduleName + '出错了',
         content: statusText + ' [' + statusCode + ']',
-        cancelText: '返回上一页',
+        // cancelText: '返回上一页',
+        cancelText: '关闭提示',
         confirmText: '寻求帮助',
         onConfirm: function() {
           let feedbackData = {
@@ -172,7 +173,7 @@ service.interceptors.response.use(
           });
         },
         onCancel: function() {
-          router.go(-1);
+          // router.go(-1);
         }
       });
       // alert(error.response.status);

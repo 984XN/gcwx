@@ -17,8 +17,12 @@ export const activity = {
               id: val.ID ? val.ID : '',
               title: val.ExperienceTitle ? val.ExperienceTitle : '',
               thumb: '',
-              author: val.UserName ? val.UserName + '(' + val.OrganizationName + ')' : '',
-              intro: val.ExperienceContent ? val.ExperienceContent.replace(/<[^>]+>/g, '') : '[暂无内容]',
+              author: val.UserName
+                ? val.UserName + '(' + val.OrganizationName + ')'
+                : '',
+              intro: val.ExperienceContent
+                ? val.ExperienceContent.replace(/<[^>]+>/g, '')
+                : '[暂无内容]',
               view: 0,
               date: val.CreateDate ? val.CreateDate : ''
             };
@@ -69,16 +73,28 @@ export const activity = {
   },
   // 增加点击
   setViewd: params => {
-    return service
-      .post('/api', params)
-      .then(res => res.data);
+    return service.post('/api', params).then(res => res.data);
   },
   // 点赞
   setLiked: params => {
+    return service.post('/api', params).then(res => res.data);
+  },
+  // 支部e家增加数据
+  add: params => {
     return service
       .post(
-        '/api',
+        '/api/PartyActivity/PaPartyIndividualActivities/InsertIndividualActivities',
         params
+      )
+      .then(res => res.data);
+  },
+  // 支部e家上传图片
+  upload: (data, config) => {
+    return service
+      .post(
+        '/api/PartyActivity/PaPartyIndividualActivities/UploadFile?op=upload',
+        data,
+        config
       )
       .then(res => res.data);
   }
