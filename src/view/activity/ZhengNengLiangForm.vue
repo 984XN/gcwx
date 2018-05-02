@@ -1,5 +1,5 @@
 <template>
-  <div class="page-activity-jianyanxiance">
+  <div class="page-activity-zhengnengliang-add">
     <group title="正文">
       <x-textarea :max="200" placeholder="请输入内容" v-model="content"></x-textarea>
     </group>
