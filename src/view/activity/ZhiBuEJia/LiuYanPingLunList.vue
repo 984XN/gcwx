@@ -8,7 +8,7 @@
         <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
       </label>
     </form>
-    <router-link to="add" class="btnMessageAdd" :style="StyleAddMessageBtn" :append="true">
+    <router-link to="add" class="btnMessageAdd" :style="StyleAddMessageBtn">
       <i class="iconfont icon-roundadd"></i>
     </router-link>
   </div>

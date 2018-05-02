@@ -20,13 +20,15 @@ import ActivityJianYanXianCeTab from 'src/view/activity/JianYanXianCeTab';
 import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
 import ActivityJianYanXianCeRecords from 'src/view/activity/JianYanXianCeRecords';
 import ActivityJianYanXianCeDetail from 'src/view/activity/JianYanXianCeDetail';
-import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia';
-import ActivityZhiBuEJiaTab from 'src/view/activity/ZhiBuEJiaTab';
-import ActivityZhiBuEJiaLiuYanPingLun from 'src/view/activity/ZhiBuEJia_LiuYanPingLun';
-import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia_DangWuZiXun';
-import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia_XinDeTiHui';
-import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia_SiXiangHuiBao';
-import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJiaDetail';
+import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia/index';
+import ActivityZhiBuEJiaTab from 'src/view/activity/ZhiBuEJia/Tab';
+import ActivityZhiBuEJiaLiuYanPingLun from 'src/view/activity/ZhiBuEJia/LiuYanPingLun';
+import ActivityZhiBuEJiaLiuYanPingLunList from 'src/view/activity/ZhiBuEJia/LiuYanPingLunList';
+import ActivityZhiBuEJiaLiuYanPingLunAdd from 'src/view/activity/ZhiBuEJia/LiuYanPingLunAdd';
+import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia/DangWuZiXun';
+import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia/XinDeTiHui';
+import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia/SiXiangHuiBao';
+import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJia/Detail';
 import ActivityChouJiangZhuanQu from 'src/view/activity/ChouJiangZhuanQu';
 import ActivityChouJiangZhuanQuTab from 'src/view/activity/ChouJiangZhuanQuTab';
 import ActivityChouJiangZhuanQuTurntableScore from 'src/view/activity/ChouJiangZhuanQuTurntableScore';
@@ -306,7 +308,6 @@ const RouterActivity = {
         {
           path: 'liuyanpinglun',
           components: {
-            tab: ActivityZhiBuEJiaTab,
             page: ActivityZhiBuEJiaLiuYanPingLun
           },
           meta: {
@@ -314,7 +315,40 @@ const RouterActivity = {
             auth: true,
             fullpage: true,
             keepAlive: false
-          }
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaLiuYanPingLunList
+              },
+              meta: {
+                title: '留言评论',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaLiuYanPingLunAdd
+              },
+              meta: {
+                title: '增加留言',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
         },
         {
           path: 'dangwuzixun',
