@@ -104,7 +104,7 @@ export default {
       return list;
     },
     addBtnDisabled() {
-      return this.title === '' || this.content === '';
+      return (this.useTitle && this.title === '') || this.content === '';
     }
   },
   methods: {
@@ -248,6 +248,7 @@ export default {
           if (res.StatusCode === 1200) {
             self.$vux.toast.show({
               text: '添加成功',
+              time: 1000,
               onHide() {
                 self.$router.go(-1);
               }
