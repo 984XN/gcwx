@@ -146,7 +146,7 @@ router.beforeEach((to, from, next) => {
     let logined = sessionStorage.logined || 0;
     logined = JSON.parse(logined);
     if (logined) {
-      console.log('已登录', logined, sessionStorage.logined);
+      // console.log('已登录', logined, sessionStorage.logined);
       // 校验通过，正常跳转到你设置好的页面
       next();
     } else {
@@ -157,7 +157,7 @@ router.beforeEach((to, from, next) => {
         replace: true,
         query: { redirect: to.fullPath }
       };
-      console.log('未登录', logined, sessionStorage.logined, path);
+      // console.log('未登录', logined, sessionStorage.logined, path);
       next(path);
     }
   }

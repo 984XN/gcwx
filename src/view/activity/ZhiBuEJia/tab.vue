@@ -1,6 +1,6 @@
 <template>
-  <tab v-model="tabIndex">
-    <tab-item selected @on-item-click="switchTab('xindetihui')">心得体会</tab-item>
+  <tab v-model="tabIndex" :animate="false">
+    <tab-item @on-item-click="switchTab('xindetihui')" selected>心得体会</tab-item>
     <tab-item @on-item-click="switchTab('liuyanpinglun')">留言评论</tab-item>
     <tab-item @on-item-click="switchTab('sixianghuibao')">思想汇报</tab-item>
     <tab-item @on-item-click="switchTab('dangwuzixun')">党务咨询</tab-item>
@@ -17,17 +17,18 @@ export default {
   methods: {
     switchTab(to) {
       let path = '/activity/zhibuejia/' + to;
-      console.log(path);
+      // console.log(path);
       this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
-      if (target.path === '/activity/zhibuejia/xindetihui') {
+      // console.log('target:', target);
+      if (target.path.indexOf('/zhibuejia/xindetihui') > 0) {
         this.tabIndex = 0;
-      } else if (target.path === '/activity/zhibuejia/liuyanpinglun') {
+      } else if (target.path.indexOf('/zhibuejia/liuyanpinglun') > 0) {
         this.tabIndex = 1;
-      } else if (target.path === '/activity/zhibuejia/sixianghuibao') {
+      } else if (target.path.indexOf('/zhibuejia/sixianghuibao') > 0) {
         this.tabIndex = 2;
-      } else if (target.path === '/activity/zhibuejia/dangwuzixun') {
+      } else if (target.path.indexOf('/zhibuejia/dangwuzixun') > 0) {
         this.tabIndex = 3;
       } else {
       }
