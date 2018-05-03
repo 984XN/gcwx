@@ -9,7 +9,7 @@ export const activity = {
         params
       )
       .then(res => {
-        console.log('activity.getList:', res);
+        // console.log('activity.getList:', res);
         let list = [];
         if (res.data.Data.PageData) {
           list = res.data.Data.PageData.map((val, index, arr) => {
@@ -17,12 +17,11 @@ export const activity = {
               id: val.ID ? val.ID : '',
               title: val.ExperienceTitle ? val.ExperienceTitle : '',
               thumb: '',
-              author: val.UserName
-                ? val.UserName + '(' + val.OrganizationName + ')'
-                : '',
+              author: val.UserName ? val.UserName : '',
+              organization: val.OrganizationName ? val.OrganizationName : '',
               content: val.ExperienceContent
                 ? val.ExperienceContent.replace(/<[^>]+>/g, '')
-                : '[暂无内容]',
+                : '',
               view: 0,
               date: val.CreateDate ? val.CreateDate : ''
             };
@@ -39,6 +38,7 @@ export const activity = {
         params
       )
       .then(res => {
+        // console.log('activity.api getOne res:', res.data);
         let article = {
           baseInfo: {},
           files: []
@@ -55,7 +55,7 @@ export const activity = {
             date: val.CreateDate || ''
           };
         }
-        if (res.data.Data.ListCover[0]) {
+        if (res.data.Data.ListCover && res.data.Data.ListCover[0]) {
           article.baseInfo.cover = res.data.Data.ListCover[0].FilePath;
         }
         if (res.data.Data.ListVideo) {
@@ -97,7 +97,8 @@ export const activity = {
         config
       )
       .then(res => res.data);
-  }
+  },
+  delete: id => {}
 };
 
 export default {
