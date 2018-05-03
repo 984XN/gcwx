@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       typeId: 2, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
-      useTitle: true,
+      useTitle: false,
       MaxNumberOfWords: 200
     };
   }

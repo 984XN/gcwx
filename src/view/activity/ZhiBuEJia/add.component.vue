@@ -31,19 +31,19 @@
                 </template>
               </ul>
               <div class="weui-uploader__input-box" v-show="files.length < maxNumberOfFiles">
-                <input @change="add2queue($event)" :disabled="addBtnDisabled" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*" multiple="">
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="control">
+    <!-- <div class="control">
       <check-icon :value.sync="agree" type="plain"> 同意 </check-icon>
       <a href="javascript:;" class="agree">《相关协议》</a>
-    </div>
+    </div> -->
     <div class="control">
-      <x-button @click.native="add" type="warn">保存</x-button>
+      <x-button @click.native="add" type="warn" :disabled="addBtnDisabled">保存</x-button>
     </div>
     <!-- <div v-transfer-dom>
       <previewer :list="previewerList" :options="previewerOptions" ref="previewer" @on-index-change="logIndexChange">
@@ -77,7 +77,7 @@ export default {
       title: '',
       content: '',
       agree: true,
-      addBtnDisabled: false
+      uploadBtnDisabled: false
       // previewerOptions: {
       //   isClickableElement: function(el) {
       //     return /previewer-delete-icon/.test(el.className);
@@ -102,6 +102,9 @@ export default {
         list.push(this.files[index].fid);
       }
       return list;
+    },
+    addBtnDisabled() {
+      return this.title === '' || this.content === '';
     }
   },
   methods: {
@@ -138,7 +141,7 @@ export default {
       let file = null;
       let allUploaded = true;
       let index = null;
-      self.addBtnDisabled = true;
+      self.uploadBtnDisabled = true;
 
       for (index in self.files) {
         if (self.files.hasOwnProperty(index)) {
@@ -151,7 +154,7 @@ export default {
         }
       }
       if (allUploaded) {
-        self.addBtnDisabled = false;
+        self.uploadBtnDisabled = false;
         return false;
       }
       let formData = new FormData();
@@ -211,6 +214,14 @@ export default {
     },
     add() {
       let self = this;
+      if (self.title === '' && self.useTitle) {
+        self.$vux.toast.show({
+          type: 'warn',
+          width: '10em',
+          text: '请填写标题'
+        });
+        return false;
+      }
       if (self.content === '') {
         self.$vux.toast.show({
           type: 'warn',
@@ -252,6 +263,11 @@ export default {
           self.$vux.loading.hide();
         });
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      console.log('add.component.vue mounted:', this.useTitle);
+    });
   }
 };
 </script>
