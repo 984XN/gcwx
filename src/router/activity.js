@@ -21,7 +21,7 @@ import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
 import ActivityJianYanXianCeRecords from 'src/view/activity/JianYanXianCeRecords';
 import ActivityJianYanXianCeDetail from 'src/view/activity/JianYanXianCeDetail';
 import ActivityZhiBuEJia from 'src/view/activity/ZhiBuEJia/index';
-import ActivityZhiBuEJiaTab from 'src/view/activity/ZhiBuEJia/Tab';
+import ActivityZhiBuEJiaTab from 'src/view/activity/ZhiBuEJia/tab';
 import ActivityZhiBuEJiaLiuYanPingLun from 'src/view/activity/ZhiBuEJia/LiuYanPingLun';
 import ActivityZhiBuEJiaLiuYanPingLunList from 'src/view/activity/ZhiBuEJia/LiuYanPingLunList';
 import ActivityZhiBuEJiaLiuYanPingLunAdd from 'src/view/activity/ZhiBuEJia/LiuYanPingLunAdd';
@@ -30,7 +30,7 @@ import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia/XinDeTiHui'
 import ActivityZhiBuEJiaXinDeTiHuiList from 'src/view/activity/ZhiBuEJia/XinDeTiHuiList';
 import ActivityZhiBuEJiaXinDeTiHuiAdd from 'src/view/activity/ZhiBuEJia/XinDeTiHuiAdd';
 import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia/SiXiangHuiBao';
-import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJia/Detail';
+import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJia/detail';
 import ActivityChouJiangZhuanQu from 'src/view/activity/ChouJiangZhuanQu';
 import ActivityChouJiangZhuanQuTab from 'src/view/activity/ChouJiangZhuanQuTab';
 import ActivityChouJiangZhuanQuTurntableScore from 'src/view/activity/ChouJiangZhuanQuTurntableScore';
@@ -54,7 +54,6 @@ const RouterActivity = {
       meta: {
         title: '亮点投票',
         auth: true,
-        // fullpage: true,
         keepAlive: false
       },
       children: [
@@ -72,7 +71,6 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            // fullpage: true,
             keepAlive: false
           }
         },
