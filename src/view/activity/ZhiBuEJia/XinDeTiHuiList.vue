@@ -1,6 +1,9 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0">
     <ArticleList :list="list"></ArticleList>
+    <router-link to="add" class="btnAdd">
+      <i class="iconfont icon-add"></i>
+    </router-link>
   </container>
 </template>
 
@@ -59,3 +62,24 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus">
+.btnAdd {
+  position fixed
+  right 20px
+  bottom 20px
+  width 50px
+  height 50px
+  line-height 50px
+  border-radius 5px
+  background-color #f17474ba
+  text-align center
+  &:hover {
+    background-color #f17474
+  }
+  i {
+    color #FFF
+    font-size 36px
+  }
+}
+</style>

@@ -8,8 +8,8 @@
         <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
       </label>
     </form>
-    <router-link to="add" class="btnMessageAdd" :style="StyleAddMessageBtn">
-      <i class="iconfont icon-roundadd"></i>
+    <router-link to="add" class="btnAdd" :style="StyleAddMessageBtn">
+      <i class="iconfont icon-add"></i>
     </router-link>
   </div>
 </template>
@@ -241,10 +241,10 @@ export default {
     }
   }
 }
-.btnMessageAdd {
+.btnAdd {
   position fixed
   right 20px
-  bottom 50px
+  bottom 20px
   width 50px
   height 50px
   line-height 50px

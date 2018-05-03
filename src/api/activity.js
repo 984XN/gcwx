@@ -38,36 +38,27 @@ export const activity = {
         params
       )
       .then(res => {
-        // console.log('activity.api getOne res:', res.data);
+        // console.log(res.data.Data);
         let article = {
-          baseInfo: {},
-          files: []
-        };
-        if (res.data.Data.Courseware) {
-          let val = res.data.Data.Courseware;
-          article.baseInfo = {
-            type: val.FileType || '',
-            id: val.ID || '',
-            title: val.Title || '未命名',
-            author: val.CreateUser || '',
-            view: val.ReadNumber || 0,
-            content: val.Remark || '暂无备注',
-            date: val.CreateDate || ''
-          };
-        }
-        if (res.data.Data.ListCover && res.data.Data.ListCover[0]) {
-          article.baseInfo.cover = res.data.Data.ListCover[0].FilePath;
-        }
-        if (res.data.Data.ListVideo) {
-          article.files = res.data.Data.ListVideo.map((val, index, arr) => {
+          baseInfo: res.data.Data.activitie.map(val => {
             return {
-              id: val.ID || 0,
-              name: val.FileName || '',
-              path: val.FilePath || ''
+              id: val.ID || '',
+              title: val.ExperienceTitle || '未命名',
+              author: val.UserName || '',
+              view: val.ReadNumber || 0,
+              content:
+                val.ExperienceContent.replace(/\n/g, '<br />') ||
+                '[暂无正文内容]',
+              date: val.CreateDate || ''
             };
-          });
-        }
+          })[0],
+          imgs: res.data.Data.img.map((val, index, arr) => {
+            return { src: val.FilePath };
+          }),
+          replies: res.data.Data.Data
+        };
         res.data.Data.Article = article;
+        // console.log('activity.api getOne res:', res.data);
         return res.data;
       });
   },

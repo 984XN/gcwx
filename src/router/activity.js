@@ -337,6 +337,18 @@ const RouterActivity = {
               }
             },
             {
+              path: 'detail/:id',
+              components: {
+                page: ActivityZhiBuEJiaDetail
+              },
+              meta: {
+                title: '正文',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
               path: 'add',
               components: {
                 page: ActivityZhiBuEJiaLiuYanPingLunAdd
@@ -389,6 +401,18 @@ const RouterActivity = {
               },
               meta: {
                 title: '心得体会',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'detail/:id',
+              components: {
+                page: ActivityZhiBuEJiaDetail
+              },
+              meta: {
+                title: '正文',
                 auth: true,
                 fullpage: true,
                 keepAlive: false

@@ -67,9 +67,17 @@ export default {
           this.article = res.Data.Article;
           // console.log('getOne:', res);
         })
-        .catch(() => {
+        .catch(e => {
           this.$vux.loading.hide();
-          this.$router.go(-1);
+          this.$vux.confirm.show({
+            title: '出错了',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              this.$router.go(-1);
+            }
+          });
         });
     });
   }
