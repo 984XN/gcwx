@@ -26,6 +26,8 @@ import ActivityZhiBuEJiaLiuYanPingLun from 'src/view/activity/ZhiBuEJia/LiuYanPi
 import ActivityZhiBuEJiaLiuYanPingLunList from 'src/view/activity/ZhiBuEJia/LiuYanPingLunList';
 import ActivityZhiBuEJiaLiuYanPingLunAdd from 'src/view/activity/ZhiBuEJia/LiuYanPingLunAdd';
 import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia/DangWuZiXun';
+import ActivityZhiBuEJiaDangWuZiXunList from 'src/view/activity/ZhiBuEJia/DangWuZiXunList';
+import ActivityZhiBuEJiaDangWuZiXunAdd from 'src/view/activity/ZhiBuEJia/DangWuZiXunAdd';
 import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia/XinDeTiHui';
 import ActivityZhiBuEJiaXinDeTiHuiList from 'src/view/activity/ZhiBuEJia/XinDeTiHuiList';
 import ActivityZhiBuEJiaXinDeTiHuiAdd from 'src/view/activity/ZhiBuEJia/XinDeTiHuiAdd';
@@ -337,18 +339,6 @@ const RouterActivity = {
               }
             },
             {
-              path: 'detail/:id',
-              components: {
-                page: ActivityZhiBuEJiaDetail
-              },
-              meta: {
-                title: '正文',
-                auth: true,
-                fullpage: true,
-                keepAlive: false
-              }
-            },
-            {
               path: 'add',
               components: {
                 page: ActivityZhiBuEJiaLiuYanPingLunAdd
@@ -365,7 +355,6 @@ const RouterActivity = {
         {
           path: 'dangwuzixun',
           components: {
-            tab: ActivityZhiBuEJiaTab,
             page: ActivityZhiBuEJiaDangWuZiXun
           },
           meta: {
@@ -373,7 +362,40 @@ const RouterActivity = {
             auth: true,
             fullpage: true,
             keepAlive: false
-          }
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaDangWuZiXunList
+              },
+              meta: {
+                title: '党务咨询',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaDangWuZiXunAdd
+              },
+              meta: {
+                title: '增加党务咨询',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
         },
         {
           path: 'xindetihui',

@@ -1,3 +1,7 @@
 <template>
-  <div>ActivityZhiBuEJiaDangWuZiXun 同 留言评论</div>
+  <div class="page-activity-zhibuejia-liuyanpinglun">
+    <router-view name="tab"></router-view>
+    <router-view name="page"></router-view>
+    <router-view name="detail"></router-view>
+  </div>
 </template>

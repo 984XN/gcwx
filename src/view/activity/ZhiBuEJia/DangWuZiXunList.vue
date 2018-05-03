@@ -1,0 +1,223 @@
+<template>
+  <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
+    <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
+      <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
+    </container>
+    <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
+      <label>
+        <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
+      </label>
+    </form>
+    <router-link to="add" class="btnAdd" :style="StyleAddMessageBtn">
+      <i class="iconfont icon-add"></i>
+    </router-link>
+  </div>
+</template>
+
+<script>
+import Vue from 'vue';
+import { System } from 'src/config';
+import MessageList from 'src/components/messageList';
+import * as api from 'src/api/activity';
+
+export default {
+  components: {
+    MessageList
+  },
+  data() {
+    return {
+      form: {
+        visible: false,
+        replyId: 0, // 回复给谁
+        content: '' // 回复的内容
+      },
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      list: []
+    };
+  },
+  computed: {
+    containerBottom: function() {
+      // replyForm 显示时 bottom 45px
+      let bottom = this.form.visible ? 45 : 0;
+      // console.log('bottom', bottom);
+      return bottom;
+    },
+    StyleAddMessageBtn: function() {
+      let bottom = this.form.visible ? 65 : 20;
+      return { bottom: bottom + 'px' };
+    }
+  },
+  methods: {
+    loadData() {
+      let self = this;
+      if (self.lazyload.loading) {
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        self.lazyload.loading = false;
+      } else {
+        api.activity
+          .getList({
+            Type: 4, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
+            OrganizationCode: '',
+            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
+          })
+          .then(res => {
+            if (res.Data.PageData && res.Data.PageData.length > 0) {
+              res.Data.PageData = res.Data.PageData.map(val => {
+                return {
+                  avatar: System.avatarDefault,
+                  detailAppended: false,
+                  ...val
+                };
+              });
+              this.list = [...this.list, ...res.Data.PageData];
+              self.lazyload.page += 1;
+              self.appendDetail();
+            } else {
+              self.lazyload.nodata = true;
+            }
+            self.lazyload.loading = false;
+            // console.log('loadData:', res);
+          });
+      }
+    },
+    appendDetail() {
+      let self = this;
+      // console.log('in appendDetail:', self.list);
+      let allAppended = true;
+      let message = null;
+      let index = null;
+      for (index = 0; index < self.list.length; index++) {
+        let m = self.list[index];
+        if (!m.detailAppended) {
+          message = m;
+          allAppended = false;
+          break;
+        }
+      }
+      if (allAppended) {
+        return false;
+      }
+      api.activity
+        .getOne({ ID: message.id })
+        .then(res => {
+          // console.log('appendDetail res:', message.id);
+          let body = res.Data.activitie[0];
+          self.list[index].detailAppended = true;
+          self.list[index].avatar = body.PhotoName || System.avatarDefault;
+          self.list[index].replies = res.Data.Data || [];
+          self.list[index].imgs =
+            res.Data.img.map(img => {
+              return {
+                src: img.FilePath
+              };
+            }) || [];
+          Vue.set(self.list, index, self.list[index]);
+          // console.log(self.list[index]);
+          self.appendDetail();
+        })
+        .catch(a => {
+          // console.log('appendDetail catch:', message.id, a);
+          self.list[index].detailAppended = true;
+          Vue.set(self.list, index, self.list[index]);
+          self.appendDetail();
+        });
+    },
+    // 显示缩略图的大图
+    show(index) {
+      this.$refs.previewer.show(index);
+    },
+    // 回复
+    submit() {
+      console.log('form.submited', this.form);
+      return false;
+    },
+    // 设置被回复消息的ID，用于replyForm
+    setId4ReplyTo(id) {
+      if (id) {
+        this.form.visible = true;
+      } else {
+        // 0 值用于隐藏 replyForm
+        this.form.visible = false;
+      }
+      this.form.replyId = id;
+      // console.log('this.form:', this.form);
+    },
+    hideReplyForm() {
+      this.setId4ReplyTo(0);
+    },
+    like(listIndex, id, liked) {
+      if (!liked) {
+        this.list[listIndex].like++;
+        console.log(`给 ${id} 点赞`);
+      } else {
+        this.list[listIndex].like--;
+        console.log(`撤回对 ${id} 点赞`);
+      }
+      this.list[listIndex].liked = !liked;
+    }
+  }
+};
+</script>
+
+<style lang="stylus" scoped>
+.page-hudongzhuanqu-zhengnengliang {
+  height 100%
+  padding-top 1px
+  box-sizing border-box
+}
+.formReply {
+  position fixed
+  left 0
+  right 0
+  bottom 0
+  height 44px
+  background #f0f0f0
+  border-top 1px solid #d4d4d4
+  label {
+    display block
+    position absolute
+    left 0
+    top 0
+    right 0
+    bottom 0
+    padding 5px 10px
+    input {
+      display block
+      width 100%
+      height 34px
+      padding 0 5px
+      border-radius 3px
+      box-sizing border-box
+      border solid 1px #d4d4d4
+      outline none
+      background #FFF
+    }
+  }
+}
+.btnAdd {
+  position fixed
+  right 20px
+  bottom 20px
+  width 50px
+  height 50px
+  line-height 50px
+  border-radius 5px
+  background-color #f17474ba
+  text-align center
+  &:hover {
+    background-color #f17474
+  }
+  i {
+    color #FFF
+    font-size 36px
+  }
+}
+</style>
