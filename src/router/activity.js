@@ -32,6 +32,8 @@ import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia/XinDeTiHui'
 import ActivityZhiBuEJiaXinDeTiHuiList from 'src/view/activity/ZhiBuEJia/XinDeTiHuiList';
 import ActivityZhiBuEJiaXinDeTiHuiAdd from 'src/view/activity/ZhiBuEJia/XinDeTiHuiAdd';
 import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia/SiXiangHuiBao';
+import ActivityZhiBuEJiaSiXiangHuiBaoList from 'src/view/activity/ZhiBuEJia/SiXiangHuiBaoList';
+import ActivityZhiBuEJiaSiXiangHuiBaoAdd from 'src/view/activity/ZhiBuEJia/SiXiangHuiBaoAdd';
 import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJia/detail';
 import ActivityChouJiangZhuanQu from 'src/view/activity/ChouJiangZhuanQu';
 import ActivityChouJiangZhuanQuTab from 'src/view/activity/ChouJiangZhuanQuTab';
@@ -457,7 +459,6 @@ const RouterActivity = {
         {
           path: 'sixianghuibao',
           components: {
-            tab: ActivityZhiBuEJiaTab,
             page: ActivityZhiBuEJiaSiXiangHuiBao
           },
           meta: {
@@ -465,7 +466,52 @@ const RouterActivity = {
             auth: true,
             fullpage: true,
             keepAlive: false
-          }
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaSiXiangHuiBaoList
+              },
+              meta: {
+                title: '思想汇报',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'detail/:id',
+              components: {
+                page: ActivityZhiBuEJiaDetail
+              },
+              meta: {
+                title: '正文',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaSiXiangHuiBaoAdd
+              },
+              meta: {
+                title: '增加思想汇报',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
         },
         {
           path: 'detail/:id',

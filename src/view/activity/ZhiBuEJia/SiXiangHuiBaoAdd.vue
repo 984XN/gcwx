@@ -1,0 +1,20 @@
+<template>
+  <add-from :typeId="typeId" :useTitle="useTitle" :MaxNumberOfWords="MaxNumberOfWords"></add-from>
+</template>
+
+<script>
+import AddFrom from './Add.component';
+
+export default {
+  components: {
+    AddFrom
+  },
+  data() {
+    return {
+      typeId: 3, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
+      useTitle: true,
+      MaxNumberOfWords: 1000
+    };
+  }
+};
+</script>
