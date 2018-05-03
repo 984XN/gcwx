@@ -1,20 +1,24 @@
 <template>
   <div class="page-activity-liuyanpinglun-add">
-    <group title="正文">
-      <x-textarea :max="200" placeholder="请输入内容" v-model="content"></x-textarea>
+    <group title="留言">
+      <x-textarea :max="200" placeholder="请输入留言内容" v-model="content"></x-textarea>
     </group>
     <div class="weui-cells weui-cells_form">
       <div class="weui-cell">
         <div class="weui-cell__bd">
           <div class="weui-uploader">
             <div class="weui-uploader__hd">
-              <p class="weui-uploader__title">图片上传</p>
+              <p class="weui-uploader__title">添加图片</p>
               <div class="weui-uploader__info">{{files.length}}/{{maxNumberOfFiles}}</div>
             </div>
             <div class="weui-uploader__bd">
               <ul class="weui-uploader__files" id="uploaderFiles">
                 <template v-for="(file, index) in files">
-                  <li @click="del(file.uuid)" v-if="file.uploaded && !file.uploadError" :key="index" :style="'background-image:url('+file.corver+')'" class="weui-uploader__file"></li>
+                  <li @click="del(file.uuid)" v-if="file.uploaded && !file.uploadError" :key="index" :style="'background-image:url('+file.corver+')'" class="weui-uploader__file weui-uploader__file_status">
+                    <div class="weui-uploader__file-content">
+                      <i class="iconfont icon-delete"></i>
+                    </div>
+                  </li>
                   <li @click="del(file.uuid)" v-if="file.uploadError" :key="index" :style="'background-image:url('+file.corver+')'" class="weui-uploader__file weui-uploader__file_status">
                     <div class="weui-uploader__file-content">
                       <i class="iconfont icon-error"></i>
@@ -26,7 +30,7 @@
                 </template>
               </ul>
               <div class="weui-uploader__input-box" v-show="files.length < maxNumberOfFiles">
-                <input @change="add2queue($event)" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                <input @change="add2queue($event)" :disabled="addBtnDisabled" class="weui-uploader__input" type="file" accept="image/*" multiple="">
               </div>
             </div>
           </div>
@@ -40,23 +44,51 @@
     <div class="control">
       <x-button @click.native="add" type="warn">提交</x-button>
     </div>
+    <!-- <div v-transfer-dom>
+      <previewer :list="previewerList" :options="previewerOptions" ref="previewer" @on-index-change="logIndexChange">
+        <i class="iconfont icon-delete previewer-delete-icon" @click.prevent.stop="del"></i>
+      </previewer>
+    </div> -->
   </div>
 </template>
 
 <script>
 import Vue from 'vue';
+// import { Previewer, TransferDom } from 'vux';
 import * as api from 'src/api/activity.js';
 
 export default {
+  // directives: {
+  //   TransferDom
+  // },
+  // components: {
+  //   Previewer
+  // },
   data() {
     return {
-      maxNumberOfFiles: 10,
+      maxNumberOfFiles: 3,
       files: [],
       content: '',
-      agree: true
+      agree: true,
+      addBtnDisabled: false
+      // previewerOptions: {
+      //   isClickableElement: function(el) {
+      //     return /previewer-delete-icon/.test(el.className);
+      //   }
+      // }
     };
   },
   computed: {
+    // previewerList() {
+    //   return this.files.map((val, index, arr) => {
+    //     return {
+    //       src: val.path
+    //       // msrc: val.path, // 缩略图
+    //       // w: 800, // 实际尺寸
+    //       // h: 400
+    //     };
+    //   });
+    // },
     fids() {
       let list = [];
       for (let index = 0; index < this.files.length; index++) {
@@ -72,6 +104,7 @@ export default {
         return false;
       }
       e.preventDefault();
+      // 增加上传状态标记
       for (let i = 0; i < e.target.files.length; i++) {
         e.target.files[i].uuid = self.uuid();
         e.target.files[i].pct = 0;
@@ -79,8 +112,18 @@ export default {
         e.target.files[i].uploadError = false;
         e.target.files[i].uploaded = false;
       }
-      self.files = [...self.files, ...e.target.files];
-      // console.log(e.target.files, self.files);
+      // 余位3选了5时多出的2个也要扔掉
+      let newFiles = [];
+      let surplus = self.maxNumberOfFiles - self.files.length;
+      if (surplus >= e.target.files.length) {
+        newFiles = e.target.files;
+      } else {
+        newFiles = Array.from(e.target.files).slice(0, surplus);
+        // console.log('newFiles', newFiles);
+      }
+      // 合并已选文件清单
+      self.files = [...self.files, ...newFiles];
+      // 上传
       self.upload();
     },
     upload() {
@@ -88,6 +131,7 @@ export default {
       let file = null;
       let allUploaded = true;
       let index = null;
+      self.addBtnDisabled = true;
 
       for (index in self.files) {
         if (self.files.hasOwnProperty(index)) {
@@ -99,7 +143,10 @@ export default {
           }
         }
       }
-      if (allUploaded) return false;
+      if (allUploaded) {
+        self.addBtnDisabled = false;
+        return false;
+      }
       let formData = new FormData();
       formData.append('file', file);
       formData.append('flowChunkNumber', 1);
@@ -130,7 +177,7 @@ export default {
           if (res.StatusCode === 1200) {
             self.files[index].fid = res.Data.Item1 || 0;
             self.files[index].path = res.Data.Item2 || '';
-            console.log('upload res:', self.files[index], res);
+            // console.log('upload res:', self.files[index], res);
           }
           Vue.set(self.files, index, self.files[index]);
           // 上传下一张
@@ -157,6 +204,17 @@ export default {
     },
     add() {
       let self = this;
+      if (self.content === '') {
+        self.$vux.toast.show({
+          type: 'warn',
+          width: '10em',
+          text: '请填写留言内容'
+        });
+        return false;
+      }
+      self.$vux.loading.show({
+        text: '正在提交'
+      });
       api.activity
         .add({
           model: {
@@ -167,26 +225,24 @@ export default {
           List: self.fids
         })
         .then(function(res) {
+          self.$vux.loading.hide();
           console.log('add res:', res);
           if (res.StatusCode === 1200) {
             self.$vux.toast.show({
               text: '添加成功',
               onHide() {
-                console.log("Plugin: I'm hiding");
+                self.$router.go(-1);
               }
             });
           } else {
             self.$vux.alert.show({
               title: '添加失败',
-              content: res.Message,
-              onShow() {
-                console.log("Plugin: I'm showing");
-              },
-              onHide() {
-                console.log("Plugin: I'm hiding now");
-              }
+              content: res.Message
             });
           }
+        })
+        .catch(function() {
+          self.$vux.loading.hide();
         });
     }
   }
