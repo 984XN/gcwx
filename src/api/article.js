@@ -12,7 +12,7 @@ export const getArticleList = params => {
             id: val.ID,
             thumb: val.FilePath,
             title: val.Title,
-            intro: val.Remark,
+            content: val.Remark,
             view: val.ReadNumber,
             date: val.CreateDate
           };
@@ -36,7 +36,7 @@ export const article = {
               id: val.ID,
               thumb: val.FilePath,
               title: val.Title,
-              intro: val.Remark,
+              content: val.Remark,
               view: val.ReadNumber,
               date: val.CreateDate
             };

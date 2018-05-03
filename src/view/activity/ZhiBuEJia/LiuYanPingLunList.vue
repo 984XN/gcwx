@@ -22,6 +22,73 @@ export default {
   components: {
     MessageList
   },
+  data() {
+    return {
+      form: {
+        visible: false,
+        replyId: 0, // 回复给谁
+        content: '' // 回复的内容
+      },
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      list: [],
+      listTpl: [
+        {
+          id: 1,
+          name: '刘傅傅',
+          avatar:
+            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+          date: '02-26 17:53:11',
+          liked: false,
+          like: Math.floor(Math.random() * 1000),
+          view: Math.floor(Math.random() * 1000),
+          content:
+            '跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球',
+          imgs: [
+            {
+              msrc:
+                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+              src:
+                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+              w: 800,
+              h: 400
+            }
+          ],
+          replies: [
+            {
+              name: '张小三',
+              content: '这是一条短的评论'
+            },
+            {
+              name: '李小四',
+              content:
+                '这是一条非常非常非常非常长的评论，一行有可能都显示不下，不过不知道有没有能显示成一行的大屏'
+            },
+            {
+              name: '张小三',
+              content: '这是一条短的评论'
+            }
+          ]
+        }
+      ]
+    };
+  },
+  computed: {
+    containerBottom: function() {
+      // replyForm 显示时 bottom 45px
+      let bottom = this.form.visible ? 45 : 0;
+      // console.log('bottom', bottom);
+      return bottom;
+    },
+    StyleAddMessageBtn: function() {
+      let bottom = this.form.visible ? 65 : 20;
+      return { bottom: bottom + 'px' };
+    }
+  },
   methods: {
     loadData() {
       let self = this;
@@ -82,357 +149,6 @@ export default {
       }
       this.list[listIndex].liked = !liked;
     }
-  },
-  computed: {
-    containerBottom: function() {
-      // replyForm 显示时 bottom 45px
-      let bottom = this.form.visible ? 45 : 0;
-      // console.log('bottom', bottom);
-      return bottom;
-    },
-    StyleAddMessageBtn: function() {
-      let bottom = this.form.visible ? 65 : 20;
-      return { bottom: bottom + 'px' };
-    }
-  },
-  data() {
-    return {
-      form: {
-        visible: false,
-        replyId: 0, // 回复给谁
-        content: '' // 回复的内容
-      },
-      lazyload: {
-        enable: true,
-        nodata: false,
-        loading: false,
-        page: 1
-      },
-      list: [],
-      listTpl: [
-        {
-          id: 1,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: false,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content:
-            '跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            }
-          ],
-          replies: [
-            {
-              name: '张小三',
-              content: '这是一条短的评论'
-            },
-            {
-              name: '李小四',
-              content:
-                '这是一条非常非常非常非常长的评论，一行有可能都显示不下，不过不知道有没有能显示成一行的大屏'
-            },
-            {
-              name: '张小三',
-              content: '这是一条短的评论'
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            }
-          ],
-          replies: []
-        },
-        {
-          id: 3,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            }
-          ],
-          replies: []
-        },
-        {
-          id: 4,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            }
-          ],
-          replies: []
-        },
-        {
-          id: 5,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            }
-          ],
-          replies: []
-        },
-        {
-          id: 6,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            }
-          ],
-          replies: []
-        },
-        {
-          id: 7,
-          name: '刘傅傅',
-          avatar:
-            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-          date: '02-26 17:53:11',
-          liked: true,
-          like: Math.floor(Math.random() * 1000),
-          view: Math.floor(Math.random() * 1000),
-          content: '跟随组织去保护地球',
-          imgs: [
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
-              w: 800,
-              h: 400
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwvqwuoaj20xc0p0t9s.jpg',
-              w: 1200,
-              h: 900
-            },
-            {
-              msrc:
-                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwwcynw2j20p00b4js9.jpg',
-              src:
-                'http://ww1.sinaimg.cn/large/663d3650gy1fplwwcynw2j20p00b4js9.jpg'
-            }
-          ],
-          replies: []
-        }
-      ]
-    };
   }
 };
 </script>

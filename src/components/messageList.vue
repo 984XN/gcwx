@@ -31,7 +31,7 @@
           {{message.like}}
         </x-button>
       </div>
-      <div class="replies" v-if="message.replies.length">
+      <div class="replies" v-if="message.replies && message.replies.length">
         <ol class="list">
           <li class="reply" v-for="(reply, replyIndex) in message.replies" :key="replyIndex">
             <span class="name">{{reply.name}}</span>

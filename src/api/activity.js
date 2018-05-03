@@ -20,7 +20,7 @@ export const activity = {
               author: val.UserName
                 ? val.UserName + '(' + val.OrganizationName + ')'
                 : '',
-              intro: val.ExperienceContent
+              content: val.ExperienceContent
                 ? val.ExperienceContent.replace(/<[^>]+>/g, '')
                 : '[暂无内容]',
               view: 0,

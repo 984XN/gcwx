@@ -7,7 +7,7 @@
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
-        <div class="intro" v-if="!item.thumb">{{item.intro}}</div>
+        <div class="intro" v-if="!item.thumb">{{item.content}}</div>
         <div class="attr" :style="getStyleAttr(item)">
           <span class="date">开始时间：{{item.date}}</span>
         </div>
