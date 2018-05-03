@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { System } from 'src/config';
 import MessageList from 'src/components/messageList';
 import * as api from 'src/api/activity';
 
@@ -107,14 +109,65 @@ export default {
           })
           .then(res => {
             if (res.Data.PageData && res.Data.PageData.length > 0) {
+              res.Data.PageData = res.Data.PageData.map(val => {
+                return {
+                  avatar: System.avatarDefault,
+                  detailAppended: false,
+                  ...val
+                };
+              });
               this.list = [...this.list, ...res.Data.PageData];
               self.lazyload.page += 1;
+              self.appendDetail();
             } else {
               self.lazyload.nodata = true;
             }
             self.lazyload.loading = false;
+            // console.log('loadData:', res);
           });
       }
+    },
+    appendDetail() {
+      let self = this;
+      // console.log('in appendDetail:', self.list);
+      let allAppended = true;
+      let message = null;
+      let index = null;
+      for (index = 0; index < self.list.length; index++) {
+        let m = self.list[index];
+        if (!m.detailAppended) {
+          message = m;
+          allAppended = false;
+          break;
+        }
+      }
+      if (allAppended) {
+        return false;
+      }
+      api.activity
+        .getOne({ ID: message.id })
+        .then(res => {
+          // console.log('appendDetail res:', message.id);
+          let body = res.Data.activitie[0];
+          self.list[index].detailAppended = true;
+          self.list[index].avatar = body.PhotoName || System.avatarDefault;
+          self.list[index].replies = res.Data.Data || [];
+          self.list[index].imgs =
+            res.Data.img.map(img => {
+              return {
+                src: img.FilePath
+              };
+            }) || [];
+          Vue.set(self.list, index, self.list[index]);
+          // console.log(self.list[index]);
+          self.appendDetail();
+        })
+        .catch(a => {
+          // console.log('appendDetail catch:', message.id, a);
+          self.list[index].detailAppended = true;
+          Vue.set(self.list, index, self.list[index]);
+          self.appendDetail();
+        });
     },
     // 显示缩略图的大图
     show(index) {

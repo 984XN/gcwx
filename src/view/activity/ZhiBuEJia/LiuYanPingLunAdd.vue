@@ -66,7 +66,7 @@ export default {
   // },
   data() {
     return {
-      maxNumberOfFiles: 3,
+      maxNumberOfFiles: 10, // 每条记录最大允许上传的文件数量
       files: [],
       content: '',
       agree: true,
@@ -222,7 +222,7 @@ export default {
             ExperienceContent: self.content,
             Type: 2 // 1.心得体会2.留言评论3.思想汇报4.党务咨询
           },
-          List: self.fids
+          imageID: self.fids
         })
         .then(function(res) {
           self.$vux.loading.hide();

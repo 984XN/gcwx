@@ -45,14 +45,36 @@ export const API_LIST = {
     params: '{int Type}, string OrganizationCode, pageModel{}',
     remark: ''
   },
+  '/PartyActivity/PaPartyIndividualActivities/InsertIndividualActivities': {
+    name: '增加支部e家内容',
+    params:
+      'model{string ExperienceTitle(标题), string ExperienceContent(内容), int? Type},List<int> imageID',
+    remark: 'Type(1.心得体会2.留言评论3.思想汇报4.党务咨询)}'
+  },
+  '/PartyActivity/PaPartyIndividualActivities/UpdateIndividualActivities': {
+    name: '编辑支部e家内容',
+    params: '',
+    remark: '把收到的数据编辑后原样返回去'
+  },
   '/PartyActivity/PaPartyIndividualActivities/GetGetIndividualActivitiesByID': {
     name: '获取支部e家详情',
+    params: '{ int ID }',
+    remark: ''
+  },
+  '/PartyActivity/PaPartyIndividualActivities/DeleteIndividualActivities': {
+    name: '删除支部e家内容',
     params: '{ int ID }',
     remark: ''
   },
   '/PartyActivity/PaPartyIndividualActivities/UploadFile?op=upload': {
     name: '支部e家的图片上传',
     params: '{ name file }',
+    remark: ''
+  },
+  '/PartyActivity/ PaPartyCommentMsg/ InsertCommentMsg': {
+    name: '支部e家留言增加评论',
+    params:
+      'model{int UserID, int? BeUserID, int? ActivitiesID, string CommentContent, int? BeMsgID}',
     remark: ''
   }
 };

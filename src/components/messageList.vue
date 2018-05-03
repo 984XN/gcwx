@@ -6,7 +6,7 @@
           <img :src="message.avatar" alt="AVATAR">
         </div>
         <div class="message-head-info">
-          <div class="name">{{message.name}}</div>
+          <div class="name">{{message.author}}</div>
           <div class="date">{{message.date}}</div>
         </div>
         <div class="message-head-other">
@@ -121,6 +121,7 @@ export default {
       .text {
         padding-top 10px
         line-height 1.4
+        word-wrap break-word
       }
       .imgs {
         padding-top 10px
