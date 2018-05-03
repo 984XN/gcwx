@@ -27,6 +27,8 @@ import ActivityZhiBuEJiaLiuYanPingLunList from 'src/view/activity/ZhiBuEJia/LiuY
 import ActivityZhiBuEJiaLiuYanPingLunAdd from 'src/view/activity/ZhiBuEJia/LiuYanPingLunAdd';
 import ActivityZhiBuEJiaDangWuZiXun from 'src/view/activity/ZhiBuEJia/DangWuZiXun';
 import ActivityZhiBuEJiaXinDeTiHui from 'src/view/activity/ZhiBuEJia/XinDeTiHui';
+import ActivityZhiBuEJiaXinDeTiHuiList from 'src/view/activity/ZhiBuEJia/XinDeTiHuiList';
+import ActivityZhiBuEJiaXinDeTiHuiAdd from 'src/view/activity/ZhiBuEJia/XinDeTiHuiAdd';
 import ActivityZhiBuEJiaSiXiangHuiBao from 'src/view/activity/ZhiBuEJia/SiXiangHuiBao';
 import ActivityZhiBuEJiaDetail from 'src/view/activity/ZhiBuEJia/Detail';
 import ActivityChouJiangZhuanQu from 'src/view/activity/ChouJiangZhuanQu';
@@ -366,7 +368,6 @@ const RouterActivity = {
         {
           path: 'xindetihui',
           components: {
-            tab: ActivityZhiBuEJiaTab,
             page: ActivityZhiBuEJiaXinDeTiHui
           },
           meta: {
@@ -374,7 +375,40 @@ const RouterActivity = {
             auth: true,
             fullpage: true,
             keepAlive: false
-          }
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaXinDeTiHuiList
+              },
+              meta: {
+                title: '心得体会',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaXinDeTiHuiAdd
+              },
+              meta: {
+                title: '增加心得体会',
+                auth: true,
+                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
         },
         {
           path: 'sixianghuibao',

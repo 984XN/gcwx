@@ -11,9 +11,9 @@ export default {
   },
   data() {
     return {
-      typeId: 2, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
+      typeId: 1, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
       useTitle: true,
-      MaxNumberOfWords: 200
+      MaxNumberOfWords: 1000
     };
   }
 };
