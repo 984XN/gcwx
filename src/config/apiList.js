@@ -1,119 +1,103 @@
-// 目前用于系统出错时，判断出是哪个模块，用于 /src/api/index.js
+// 目前用于系统出错时，判断出是哪个模块，例如“this.$vux.alert({title:'获取学习平台列表时出错'})”，见 /src/api/index.js
 export const API_LIST = {
   '/PartyStudy/PsPartyStudyCoursewareV2/Query': {
     name: '获取学习平台列表',
     params: {
-      model: { Page: 'string', Start: 'string', Limit: 'string' },
+      model: { Page: '', Start: '', Limit: '' },
       pageModel: {},
-      Theme: 'string'
-    },
-    remark: ''
+      Theme: ''
+    }
   },
   '/Sys/SysUser/GetWechatUserInfo': {
     name: '微信登录',
-    params: { model: { code: 'string' } },
-    remark: ''
+    params: { model: { code: '' } }
   },
   '/Sys/SysUser/BindPartyMember': {
     name: '微信绑定',
-    params: { model: { LoginName: 'string', LoginPWD: 'string' } },
-    remark: ''
+    params: { model: { LoginName: '', LoginPWD: '' } }
   },
   '/Sys/SysUser/UnBindPartyMember': {
     name: '微信解绑',
-    params: {},
-    remark: ''
+    params: {}
   },
   '/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID': {
     name: '获取资料详情',
-    params: { model: { ID: 'string' } },
-    remark: ''
+    params: { ID: '' }
   },
   '/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber': {
     name: '增加阅读次数',
-    params: { model: { ID: 'string' } },
-    remark: ''
+    params: { ID: '' }
   },
   '/PartyStudy/PsPartyStudyCoursewareV2/InsertStudyintegral': {
     name: '阅读得积分',
-    params: { model: { ID: 'string', Title: 'string', Minute: 'string' } },
-    remark: 'ID为资料主键ID, Title为资料标题，Minute为学习时长(单位为分钟)'
+    params: { ID: '', Title: '', Minute: '' }
   },
   '/Sys/SysUser/UpdatePwd': {
     name: '修改密码',
-    params: { model: { OldLoginPWD: 'string', NewLoginPWD: 'string' } },
-    remark: ''
+    params: { model: { OldLoginPWD: '', NewLoginPWD: '' } }
   },
   '/PartyActivity/PaPartyIndividualActivities/GetIndividualActivities': {
     name: '获取支部e家列表',
     params: {
-      model: { Type: 'string' },
-      OrganizationCode: 'string',
+      model: { Type: '' },
+      OrganizationCode: '',
       pageModel: {}
-    },
-    remark: ''
+    }
   },
   '/PartyActivity/PaPartyIndividualActivities/InsertIndividualActivities': {
     name: '增加支部e家内容',
     params: {
       model: {
-        ExperienceTitle: 'string',
-        ExperienceContent: 'string',
-        Type: 'string'
+        ExperienceTitle: '',
+        ExperienceContent: '',
+        Type: '1.心得体会2.留言评论3.思想汇报4.党务咨询' // number
       },
-      imageID: 'string'
-    },
-    remark: 'Type(1.心得体会2.留言评论3.思想汇报4.党务咨询)}'
-  },
-  '/PartyActivity/PaPartyIndividualActivities/UpdateIndividualActivities': {
-    name: '编辑支部e家内容',
-    params: {},
-    remark: '把收到的数据编辑后原样返回去'
+      imageID: ''
+    }
   },
   '/PartyActivity/PaPartyIndividualActivities/GetGetIndividualActivitiesByID': {
     name: '获取支部e家详情',
-    params: { model: { ID: 'string' } },
+    params: { ID: '' }
+  },
+  '/PartyActivity/PaPartyIndividualActivities/UpdateIndividualActivities': {
+    name: '编辑支部e家内容',
+    params: {}, // 把收到的数据编辑后原样返回去
     remark: ''
   },
   '/PartyActivity/PaPartyIndividualActivities/DeleteIndividualActivities': {
     name: '删除支部e家内容',
-    params: { model: { ID: 'string' } },
-    remark: ''
+    params: { ID: '' }
   },
   '/PartyActivity/PaPartyIndividualActivities/UploadFile?op=upload': {
     name: '支部e家的图片上传',
-    params: { file: 'formData' },
-    remark: ''
+    params: { file: 'formData' }
   },
   '/PartyActivity/PaPartyCommentMsg/InsertCommentMsg': {
     name: '支部e家留言增加评论',
     params: {
       model: {
-        UserID: 'string',
-        BeUserID: 'string',
-        ActivitiesID: 'string',
-        CommentContent: 'string',
-        BeMsgID: 'string'
+        UserID: '',
+        BeUserID: '',
+        ActivitiesID: '',
+        CommentContent: '',
+        BeMsgID: ''
       }
-    },
-    remark: ''
+    }
   },
   '/PartyActivity/PaPartyReadData/InsertReadData': {
     name: '支部e家设为已读',
-    params: { model: { ForeignID: 'string' } },
-    remark: ''
+    params: { ForeignID: '' }
   },
   // 建言献策
   '/PartyActivity/PaPartySuggestions/InsertSuggestions': {
     name: '录入建言献策',
     params: {
       model: {
-        OrganizationID: 'string',
-        SuggestionsTitle: 'string',
-        SuggestionsContent: 'string'
+        OrganizationID: '',
+        SuggestionsTitle: '',
+        SuggestionsContent: ''
       }
-    },
-    remark: ''
+    }
   },
   '/PartyActivity/PaPartySuggestions/GetOrgByLoginMmeber': {
     name: '获取登录人所属单位',
@@ -122,39 +106,109 @@ export const API_LIST = {
   },
   '/PartyActivity/PaPartySuggestions/GetSuggestions': {
     name: '获取建言献策列表',
-    params: { queryModel: {}, pageModel: {} },
-    remark: ''
+    params: { queryModel: {}, pageModel: {} }
   },
   '/PartyActivity/PaPartySuggestions/GetSuggestionsByID': {
     name: '获取建言献策详情',
     params: {
       model: {
-        UserID: 'string',
-        BeUserID: 'string',
-        SuggestionsID: 'string',
-        CommentContent: 'string',
-        BeMsgID: 'string'
+        UserID: '',
+        BeUserID: '',
+        SuggestionsID: '',
+        CommentContent: '',
+        BeMsgID: ''
       }
-    },
-    remark: ''
+    }
   },
   '/PartyActivity/PaPartySuggestionsCommentMsg/InsertCommentMsg': {
     name: '评论建言献策',
     params: {
       model: {
-        UserID: 'string',
-        BeUserID: 'string',
-        SuggestionsID: 'string',
-        CommentContent: 'string',
-        BeMsgID: 'string'
+        UserID: '',
+        BeUserID: '',
+        SuggestionsID: '',
+        CommentContent: '',
+        BeMsgID: ''
       }
-    },
-    remark: ''
+    }
+  },
+  // 正能量
+  '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy': {
+    name: '正能量列表',
+    params: {
+      model: {
+        IsAdopt: '1所有人审核通过的，0所有人审核没通过的，默认0' // string
+      },
+      OrganizationCode: '', // number
+      pageModel: {}
+    }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID': {
+    name: '我的正能量',
+    params: {
+      pageModel: {}
+    }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/InsertPositiveEnergy': {
+    name: '增加正能量',
+    params: {
+      model: {
+        PositiveEnergyTitle: '标题', // string
+        PositiveEnergyContent: '内容' // string
+      },
+      imageID: [] // number
+    }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByID': {
+    name: '正能量详情信息',
+    params: { ID: '' }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/UpdatePositiveEnergy': {
+    name: '编辑正能量',
+    params: {
+      model: {
+        PositiveEnergyTitle: '标题', // string
+        PositiveEnergyContent: '内容' // string
+      },
+      imageID: [] // number
+    }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/DeletePositiveEnergyByID': {
+    name: '删除正能量',
+    params: { ID: '' }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/UploadFile?op=upload': {
+    name: '上传图片',
+    params: {}
+  },
+  '/PartyActivity/PaPartyPositiveEnergyCommentMsg/InsertCommentMsg': {
+    name: '评论正能量',
+    params: {
+      model: {
+        UserID: '', // int
+        EnergyID: '', // int
+        ActivitiesID: '', // int
+        CommentContent: '', // string
+        BeMsgID: '' // int?
+      }
+    }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/ReadNumber': {
+    name: '设为已读',
+    params: { ID: '' }
+  },
+  '/PartyActivity/PaPartyFabulousRecord/InsertFabulous': {
+    name: '点赞',
+    params: {
+      model: {
+        Type: '1.党建动态2.正能量', // number
+        ActivityID: '活动ID' // number
+      }
+    }
   },
   ____________: {
     name: '默认的空接口',
-    params: {},
-    remark: ''
+    params: {}
   }
 };
 // 支部E家：新增、编辑、删除、回复、评论

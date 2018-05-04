@@ -200,27 +200,28 @@ export const activity = {
                 date: val.CreateDate || ''
               };
             })[0],
-            replies: res.data.Data.msg.map(val => {
-              return {
-                id: val.ID || '',
-                uid: val.UserID ? val.UserID : '',
-                author: val.Commentator || '',
-                content: val.CommentContent || '',
-                avatar: val.PhotoName || System.avatarDefault,
-                date: val.CommentDate || '',
-                comment:
-                  val.comment.map(val => {
-                    return {
-                      id: val.ID || '',
-                      uid: val.UserID ? val.UserID : '',
-                      author: val.Commentator || '',
-                      content: val.CommentContent || '',
-                      avatar: val.PhotoName || System.avatarDefault,
-                      date: val.CommentDate || ''
-                    };
-                  }) || []
-              };
-            }) || []
+            replies:
+              res.data.Data.msg.map(val => {
+                return {
+                  id: val.ID || '',
+                  uid: val.UserID ? val.UserID : '',
+                  author: val.Commentator || '',
+                  content: val.CommentContent || '',
+                  avatar: val.PhotoName || System.avatarDefault,
+                  date: val.CommentDate || '',
+                  comment:
+                    val.comment.map(val => {
+                      return {
+                        id: val.ID || '',
+                        uid: val.UserID ? val.UserID : '',
+                        author: val.Commentator || '',
+                        content: val.CommentContent || '',
+                        avatar: val.PhotoName || System.avatarDefault,
+                        date: val.CommentDate || ''
+                      };
+                    }) || []
+                };
+              }) || []
             // replies: [
             //   {
             //     id: 103,
@@ -306,6 +307,95 @@ export const activity = {
           params
         )
         .then(res => res.data);
+    }
+  },
+  ZhengNengLiang: {
+    list: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy', {
+          model: {
+            IsAdopt: 1 // 1所有人审核通过的，0所有人审核没通过的，默认0
+          },
+          ...params
+        })
+        .then(res => {
+          return res.data;
+        });
+    },
+    detail: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    add: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergy/InsertPositiveEnergy',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    edit: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergy/UpdatePositiveEnergy',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    delete: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergy/DeletePositiveEnergyByID',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    upload: (data, config) => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergy/UploadFile?op=upload',
+          data,
+          config
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    reply: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyPositiveEnergyCommentMsg/InsertCommentMsg',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
+    },
+    setViewed: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyPositiveEnergy/ReadNumber', params)
+        .then(res => {
+          return res.data;
+        });
+    },
+    like: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyFabulousRecord/InsertFabulous', params)
+        .then(res => {
+          return res.data;
+        });
     }
   }
 };
