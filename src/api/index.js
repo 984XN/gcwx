@@ -112,7 +112,7 @@ service.interceptors.response.use(
         content:
           '服务器可能心情不好，请求' +
           moduleName +
-          '的数据时她没有理咱们，要不喝杯茶再来？',
+          '的数据时她没有理咱们，要不等一会再来？',
         buttonText: '知道了'
       });
       return Promise.reject(response);
