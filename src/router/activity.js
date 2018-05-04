@@ -14,7 +14,8 @@ import ActivityZhiShiJingSaiList from 'src/view/activity/ZhiShiJingSaiList';
 import ActivityZhiShiJingSaiPaper from 'src/view/activity/ZhiShiJingSaiPaper';
 import ActivityZhiShiJingSaiOrder from 'src/view/activity/ZhiShiJingSaiOrder';
 import ActivityZhengNengLiang from 'src/view/activity/ZhengNengLiang';
-import ActivityZhengNengLiangForm from 'src/view/activity/ZhengNengLiangForm';
+import ActivityZhengNengLiangList from 'src/view/activity/ZhengNengLiangList';
+import ActivityZhengNengLiangAdd from 'src/view/activity/ZhengNengLiangAdd';
 import ActivityJianYanXianCe from 'src/view/activity/JianYanXianCe';
 import ActivityJianYanXianCeTab from 'src/view/activity/JianYanXianCeTab';
 import ActivityJianYanXianCeForm from 'src/view/activity/JianYanXianCeForm';
@@ -226,8 +227,26 @@ const RouterActivity = {
       },
       children: [
         {
+          path: '/',
+          redirect: {
+            path: 'list'
+          }
+        },
+        {
+          path: 'list',
+          components: {
+            list: ActivityZhengNengLiangList
+          },
+          meta: {
+            title: '正能量',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
           path: 'add',
-          component: ActivityZhengNengLiangForm,
+          components: { form: ActivityZhengNengLiangAdd },
           meta: {
             title: '正能量',
             auth: true,
