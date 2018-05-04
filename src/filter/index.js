@@ -38,10 +38,43 @@ const substr = (string, start, length, usetail = true) => {
   return newString;
 };
 
+const textTime = time => {
+  var str = '';
+  var now = new Date();
+  if (typeof time === 'string') {
+    time = new Date(Date.parse(time));
+  }
+  var span = now - time;
+  var minutes = (span / 1000).toFixed(0);
+  if (minutes < -60 * 60 * 24 * 30) {
+    str = (-minutes / (60 * 60 * 24 * 30)).toFixed(0) + '月';
+  } else if (minutes < -60 * 60 * 24) {
+    str = (-minutes / (60 * 60 * 24)).toFixed(0) + '天';
+  } else if (minutes < 60 * 60) str = (minutes / 60).toFixed(0) + '分钟前';
+  else if (minutes < 60 * 60 * 24) {
+    if (
+      (minutes / (60 * 60)).toFixed(0) >= 24 &&
+      (minutes / (60 * 60)).toFixed(0) <= 48
+    ) {
+      str = '昨天';
+    } else {
+      str = (minutes / (60 * 60)).toFixed(0) + '小时前';
+    }
+  } else if (minutes < 60 * 60 * 24 * 30) {
+    str = (minutes / (60 * 60 * 24)).toFixed(0) + '天前';
+  } else if (minutes < 60 * 60 * 24 * 365) {
+    str = (minutes / (60 * 60 * 24 * 30)).toFixed(0) + '月前';
+  } else {
+    str = (minutes / (60 * 60 * 24 * 365)).toFixed(0) + '年前';
+  }
+  return str;
+};
+
 export default {
   install(Vue) {
     Vue.filter('trim', trim);
     Vue.filter('int', int);
     Vue.filter('substr', substr);
+    Vue.filter('textTime', textTime);
   }
 };
