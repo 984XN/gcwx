@@ -57,6 +57,7 @@ body {
       font-size 20px
       font-weight normal
       padding-bottom 10px
+      word-wrap break-word
     }
     .atricle-head-attr {
       color #999
@@ -70,6 +71,8 @@ body {
     .article-body-content {
       background-color #fff
       padding 20px
+      word-wrap break-word
+      word-break break-all
       p {
         margin 1em 0
         word-wrap break-word
@@ -222,4 +225,46 @@ body {
 .vux-tab-item.vux-tab-disabled i {
   font-size inherit
   opacity 0.7
+}
+.formReply {
+  position fixed
+  left 0
+  right 0
+  bottom 0
+  height 44px
+  background #f0f0f0
+  border-top 1px solid #d4d4d4
+  label {
+    display block
+    position absolute
+    left 0
+    top 0
+    right 65px
+    bottom 0
+    padding 5px
+    input {
+      display block
+      width 100%
+      height 34px
+      padding 0 5px
+      border-radius 3px
+      box-sizing border-box
+      border solid 1px #d4d4d4
+      outline none
+      background #FFF
+    }
+  }
+  button {
+    display block
+    border none
+    background #f17474
+    color #FFF
+    box-sizing border-box
+    width 60px
+    height 34px
+    position absolute
+    border-radius 3px
+    right 5px
+    top 5px
+  }
 }

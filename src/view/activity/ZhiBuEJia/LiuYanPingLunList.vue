@@ -264,7 +264,6 @@ export default {
       if (self.form.submitting) {
         return false;
       }
-      self.form.submitting = true;
       // console.log('form.submited', this.form);
       if (self.form.content === '') {
         this.$vux.toast.show({
@@ -275,6 +274,7 @@ export default {
         });
         return false;
       }
+      self.form.submitting = true;
       let params = {
         model: {
           CommentContent: self.form.content, // 留言内容
@@ -392,48 +392,6 @@ export default {
   height 100%
   padding-top 1px
   box-sizing border-box
-}
-.formReply {
-  position fixed
-  left 0
-  right 0
-  bottom 0
-  height 44px
-  background #f0f0f0
-  border-top 1px solid #d4d4d4
-  label {
-    display block
-    position absolute
-    left 0
-    top 0
-    right 65px
-    bottom 0
-    padding 5px
-    input {
-      display block
-      width 100%
-      height 34px
-      padding 0 5px
-      border-radius 3px
-      box-sizing border-box
-      border solid 1px #d4d4d4
-      outline none
-      background #FFF
-    }
-  }
-  button {
-    display block
-    border none
-    background #f17474
-    color #FFF
-    box-sizing border-box
-    width 60px
-    height 34px
-    position absolute
-    border-radius 3px
-    right 5px
-    top 5px
-  }
 }
 .btnAdd {
   position fixed

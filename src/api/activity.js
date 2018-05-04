@@ -80,7 +80,18 @@ export const activity = {
                 author: val.Commentator || '',
                 content: val.CommentContent || '',
                 avatar: val.PhotoName || System.avatarDefault,
-                date: val.CommentDate || ''
+                date: val.CommentDate || '',
+                comment:
+                  val.comment.map(val => {
+                    return {
+                      id: val.ID || '',
+                      uid: val.UserID ? val.UserID : '',
+                      author: val.Commentator || '',
+                      content: val.CommentContent || '',
+                      avatar: val.PhotoName || System.avatarDefault,
+                      date: val.CommentDate || ''
+                    };
+                  }) || []
               };
             })
           };
@@ -157,14 +168,144 @@ export const activity = {
           res.data.Data.PageData = res.data.Data.PageData.map((val, i, arr) => {
             return {
               id: val.ID,
-              title: val.ID,
-              intro: val.ID,
-              status: val.ID,
-              date: val.ID
+              title: val.SuggestionsTitle || '[没有标题]',
+              intro: val.SuggestionsContent || '[没有内容]',
+              // status: val.ID,
+              date: val.CreateDate
             };
           });
           return res.data;
         });
+    },
+    getOne: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartySuggestions/GetSuggestionsByID',
+          params
+        )
+        .then(res => {
+          // console.log(res.data.Data);
+          let article = {
+            baseInfo: res.data.Data.suggestions.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.CreateUID ? val.CreateUID : '',
+                title: val.SuggestionsTitle || '未命名',
+                author: val.UserName || '',
+                view: val.ReadNumber || 0,
+                like: 0,
+                content:
+                  val.SuggestionsContent.replace(/\n/g, '<br />') ||
+                  '[暂无正文内容]',
+                date: val.CreateDate || ''
+              };
+            })[0],
+            replies: res.data.Data.msg.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.UserID ? val.UserID : '',
+                author: val.Commentator || '',
+                content: val.CommentContent || '',
+                avatar: val.PhotoName || System.avatarDefault,
+                date: val.CommentDate || '',
+                comment:
+                  val.comment.map(val => {
+                    return {
+                      id: val.ID || '',
+                      uid: val.UserID ? val.UserID : '',
+                      author: val.Commentator || '',
+                      content: val.CommentContent || '',
+                      avatar: val.PhotoName || System.avatarDefault,
+                      date: val.CommentDate || ''
+                    };
+                  }) || []
+              };
+            }) || []
+            // replies: [
+            //   {
+            //     id: 103,
+            //     uid: 113584,
+            //     date: '2018-05-04 14:32:17',
+            //     content: '3',
+            //     author: '李小娃',
+            //     avatar: null,
+            //     comment: []
+            //   },
+            //   {
+            //     id: 100,
+            //     uid: 113584,
+            //     date: '2018-05-04 11:43:00',
+            //     content: '最新的评论',
+            //     author: '李小娃',
+            //     avatar: null,
+            //     comment: []
+            //   },
+            //   {
+            //     id: 98,
+            //     uid: 113584,
+            //     date: '2018-05-04 11:38:16',
+            //     content:
+            //       '2017年5月3日，习近平到中国政法大学考察时，参加了1502班团支部“不忘初心跟党走”主题团日活动，对团员青年成长成才提出了殷切期望。',
+            //     author: '李小娃',
+            //     avatar: null,
+            //     comment: [
+            //       {
+            //         id: 99,
+            //         uid: 113584,
+            //         date: '2018-05-04 11:39:05',
+            //         content: '同学们进一步坚定了永远跟党走、为国作贡献的决心',
+            //         author: '李小娃',
+            //         Beauthor: '李小娃',
+            //         avatar: null,
+            //         Beavatar: null
+            //       },
+            //       {
+            //         id: 99,
+            //         uid: 113584,
+            //         date: '2018-05-04 11:39:05',
+            //         content: '同学们进一步坚定了永远跟党走、为国作贡献的决心',
+            //         author: '李小娃',
+            //         Beauthor: '李小娃',
+            //         avatar: null,
+            //         Beavatar: null
+            //       }
+            //     ]
+            //   },
+            //   {
+            //     id: 96,
+            //     uid: 113584,
+            //     date: '2018-05-04 11:37:50',
+            //     content:
+            //       '在“五四”青年节来临之际，中共中央总书记、国家主席、中央军委主席习近平委托工作人员，向中国政法大学民商经济法学院1502班团员青年致以节日的问候，对同学们立志“不忘初心，用一生来践行跟党走的理想追求”予以充分肯定，勉励他们坚定信仰、砥砺品德，珍惜时光、勤奋学习，努力成长为有理想、有本领、有担当的社会主义建设者和接班人，为法治中国建设、为实现中华民族伟大复兴中国梦贡献智慧和力量。',
+            //     author: '李小娃',
+            //     avatar: null,
+            //     comment: [
+            //       {
+            //         id: 97,
+            //         uid: 113584,
+            //         date: '2018-05-04 11:38:04',
+            //         content: '好长的评论……',
+            //         author: '李小娃',
+            //         Beauthor: '李小娃',
+            //         avatar: null,
+            //         Beavatar: null
+            //       }
+            //     ]
+            //   }
+            // ]
+          };
+          res.data.Data.Article = article;
+          // console.log('activity.api getOne res:', res.data);
+          return res.data;
+        });
+    },
+    reply: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartySuggestionsCommentMsg/InsertCommentMsg',
+          params
+        )
+        .then(res => res.data);
     }
   }
 };

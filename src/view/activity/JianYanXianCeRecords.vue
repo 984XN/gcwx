@@ -1,8 +1,8 @@
 <template>
-  <div class="page-activity-jianyanxiance-records">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0" class="page-activity-jianyanxiance-records">
     <ul class="articleList">
       <li v-for="(item,n) in list" :key="n">
-        <router-link :to="'detail/'+n">
+        <router-link :to="'detail/'+item.id">
           <div class="thumb" v-if="item.thumb">
             <img :src="item.thumb" :alt="item.title">
             <div class="sign" v-if="item.sign">{{item.sign}}</div>
@@ -18,14 +18,23 @@
         </router-link>
       </li>
     </ul>
-  </div>
+  </container>
 </template>
 
 <script>
+import * as api from 'src/api/activity';
+
 export default {
   data() {
     return {
-      list: [
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      list: [],
+      listTpl: [
         {
           id: new Date().getTime(),
           title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
@@ -33,75 +42,35 @@ export default {
             '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
           status: '已接收',
           date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '藁城区党建移动端招标书',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '藁城区党建移动端招标书',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '藁城区党建移动端招标书',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '藁城区党建移动端招标书',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
-        },
-        {
-          id: new Date().getTime(),
-          title: '藁城区党建移动端招标书',
-          intro:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          status: '待处理',
-          date: '2016-02-05'
         }
       ]
     };
   },
   methods: {
+    loadData() {
+      let self = this;
+      if (self.lazyload.loading) {
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        self.lazyload.loading = false;
+      } else {
+        api.activity.JianYanXianCe.getList({
+          queryModel: {},
+          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
+        }).then(res => {
+          if (res.Data.PageData && res.Data.PageData.length > 0) {
+            this.list = [...this.list, ...res.Data.PageData];
+            self.lazyload.page += 1;
+          } else {
+            self.lazyload.nodata = true;
+          }
+          self.lazyload.loading = false;
+          console.log('loadData:', res);
+        });
+      }
+    },
     getStyleTitle(item) {
       let style = {
         overflow: 'hidden',
@@ -139,7 +108,7 @@ export default {
 .articleList {
   padding 10px
   list-style none
-  position: relative;
+  position relative
   z-index 11
   li {
     background-color #fff
@@ -199,6 +168,7 @@ export default {
       -webkit-box-orient vertical
       -webkit-line-clamp 3
       color #666
+      word-wrap break-word
     }
     .attr {
       font-size 12px
