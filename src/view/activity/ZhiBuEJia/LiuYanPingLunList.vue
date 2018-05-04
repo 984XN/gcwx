@@ -133,7 +133,7 @@ export default {
       if (self.lazyload.nodata) {
         self.lazyload.loading = false;
       } else {
-        api.activity
+        api.activity.ZhiBuEJia
           .getList({
             Type: 2, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
             OrganizationCode: '',
@@ -179,7 +179,7 @@ export default {
       if (allAppended) {
         return false;
       }
-      api.activity
+      api.activity.ZhiBuEJia
         .getOne({ ID: message.id })
         .then(res => {
           // console.log('appendDetail res:', message.id);
@@ -243,7 +243,7 @@ export default {
       if (allViewed) {
         return false;
       }
-      api.activity
+      api.activity.ZhiBuEJia
         .setViewed({ ForeignID: message.id })
         .then(res => {
           self.list[index].viewed = true;
@@ -284,7 +284,7 @@ export default {
           UserID: self.form.message.uid || null // 登录人的UserID，不传
         }
       };
-      api.activity.reply(params).then(res => {
+      api.activity.ZhiBuEJia.reply(params).then(res => {
         if (res.StatusCode === 1200) {
           self.$vux.toast.show({
             text: '评论成功',

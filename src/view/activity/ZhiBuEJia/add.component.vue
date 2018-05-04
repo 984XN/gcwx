@@ -167,7 +167,7 @@ export default {
       formData.append('flowFilename', 'QQ截图20180427085500.png');
       formData.append('flowRelativePath', 'QQ截图20180427085500.png');
       formData.append('flowTotalChunks', 1);
-      api.activity
+      api.activity.ZhiBuEJia
         .upload(formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
           onUploadProgress: function(progressEvent) {
@@ -233,7 +233,7 @@ export default {
       self.$vux.loading.show({
         text: '正在提交'
       });
-      api.activity
+      api.activity.ZhiBuEJia
         .add({
           model: {
             ExperienceTitle: self.title,

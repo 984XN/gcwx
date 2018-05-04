@@ -36,7 +36,7 @@ export default {
       if (self.lazyload.nodata) {
         self.lazyload.loading = false;
       } else {
-        api.activity
+        api.activity.ZhiBuEJia
           .getList({
             Type: 3, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
             // queryModel: { Type: 1 }, // 经测试这样传 Type 也可以
