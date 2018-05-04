@@ -37,6 +37,7 @@ export const activity = {
                 ? val.ExperienceContent.replace(/<[^>]+>/g, '')
                 : '',
               view: 0,
+              like: 0,
               date: val.CreateDate ? val.CreateDate : ''
             }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
           });
@@ -60,7 +61,8 @@ export const activity = {
               uid: val.CreateUID ? val.CreateUID : '',
               title: val.ExperienceTitle || '未命名',
               author: val.UserName || '',
-              view: val.ReadNumber || 0,
+              view: val.ReadNum || 0,
+              like: 0,
               content:
                 val.ExperienceContent.replace(/\n/g, '<br />') ||
                 '[暂无正文内容]',

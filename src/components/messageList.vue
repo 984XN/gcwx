@@ -27,10 +27,11 @@
         <div class="view">浏览人数：{{message.view}}</div>
         <x-button mini class="reply" @click.native.stop="setReplyInfo(message)">
           <i class="iconfont icon-community"></i>
+          {{getReplyNumber(message)}}
         </x-button>
         <x-button mini class="like" :class="{ liked : message.liked }" @click.native.stop="like(messageIndex, message.id, message.liked)">
           <i class="iconfont icon-like"></i>
-          {{message.like}}
+          {{message.like ? message.like : ''}}
         </x-button>
       </div>
       <div class="replies" v-if="message.replies && message.replies.length">
@@ -42,6 +43,7 @@
               <li class="subReply" v-for="(comment, commentIndex) in reply.comment" :key="commentIndex">
                 <span class="name">{{comment.author}}</span>
                 <span class="content">{{comment.content}}</span>
+                <span class="date">{{comment.date|textTime}}</span>
               </li>
             </ol>
           </li>
@@ -68,6 +70,19 @@ export default {
     },
     like(messageIndex, messageId, messageLiked) {
       this.$emit('like', messageIndex, messageId, messageLiked);
+    },
+    getReplyNumber(message) {
+      let number = 0;
+      if (message.replies && message.replies.length) {
+        number += message.replies.length;
+        for (let i = 0; i < message.replies.length; i++) {
+          const reply = message.replies[i];
+          if (reply.comment && reply.comment.length) {
+            number += reply.comment.length;
+          }
+        }
+      }
+      return number || '';
     }
   }
 };
@@ -123,6 +138,9 @@ export default {
         button {
           float right
           margin 10px 0 0 0
+          sup {
+            font-size 0.8em
+          }
         }
       }
     }
@@ -194,6 +212,11 @@ export default {
           }
           .content {
             color #333
+          }
+          .date {
+            color #CCC
+            font-size 12px
+            padding-left 10px
           }
           .subList {
             list-style none

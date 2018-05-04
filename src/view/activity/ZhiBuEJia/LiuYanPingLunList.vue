@@ -1,3 +1,7 @@
+// ./LiuYanPingLunList.vue 与 ./DangWuZiXunList.vue 代码完全一样（除了接口调用时的 Type 参数值）
+// 如果其中一个页面有调整，请记得修改另一个文件
+// 为什么不是公用组件：各栏目功能不确定、时间不足
+
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
     <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
@@ -7,6 +11,7 @@
       <label>
         <input type="text" v-model="form.content" name="message" :placeholder="replyPlaceholder">
       </label>
+      <button @click="submit">回复</button>
     </form>
     <router-link to="add" class="btnAdd" :style="StyleAddMessageBtn">
       <i class="iconfont icon-add"></i>
@@ -28,6 +33,7 @@ export default {
     return {
       form: {
         visible: false,
+        submitting: false,
         message: {}, // 评论的参数，回复留言时用，从这里边提取留言人及留言ID
         reply: {}, // 评论的参数，回复留言下边的评论时用，从这里边提取评论人及评论ID
         content: '' // 回复的内容
@@ -139,6 +145,7 @@ export default {
                 return {
                   avatar: System.avatarDefault,
                   detailAppended: false,
+                  viewed: false,
                   ...val
                 };
               });
@@ -216,14 +223,20 @@ export default {
           self.appendDetail();
         });
     },
+    // 设为已读（翻页时把上一页设为已读，更优的办法：滚动到时再设为已读，实在没时间了，没有做成显示时设为已读已经不错了）
+    setViewed() {},
     // 显示缩略图的大图
     show(index) {
       this.$refs.previewer.show(index);
     },
     // 回复
     submit() {
-      console.log('form.submited', this.form);
       let self = this;
+      if (self.form.submitting) {
+        return false;
+      }
+      self.form.submitting = true;
+      // console.log('form.submited', this.form);
       if (self.form.content === '') {
         this.$vux.toast.show({
           text: '请填写评论内容',
@@ -248,6 +261,45 @@ export default {
             text: '评论成功',
             time: 1000
           });
+          // 将评论添加到评论列表中
+          const session = self.session('userSystem');
+          for (let j = 0; j < self.list.length; j++) {
+            const message = self.list[j];
+            if (message.id === self.form.message.id) {
+              const replies = message.replies;
+              let rid = self.form.reply.id || 0;
+              // 回复二级评论
+              if (rid) {
+                for (let i = 0; i < replies.length; i++) {
+                  const reply = replies[i];
+                  if (reply.id === rid) {
+                    self.list[j].replies[i].comment.unshift({
+                      author: session.UserName || '',
+                      avatar: session.PhotoName || System.avatarDefault,
+                      content: self.form.content,
+                      date: self.date('Y-m-d H:i:s'),
+                      id: res.Data || -1,
+                      uid: session.ID || 0
+                    });
+                    break;
+                  }
+                }
+                // 回复一级评论
+              } else {
+                self.list[j].replies.unshift({
+                  author: session.UserName || '',
+                  avatar: session.PhotoName || System.avatarDefault,
+                  comment: [],
+                  content: self.form.content,
+                  date: self.date('Y-m-d H:i:s'),
+                  id: res.Data || -1,
+                  uid: session.ID || 0
+                });
+              }
+              Vue.set(self.list, j, self.list[j]);
+              break;
+            }
+          }
           // 重置数据
           self.form.visible = false;
           self.form.content = '';
@@ -259,6 +311,7 @@ export default {
             content: res.Message
           });
         }
+        self.form.submitting = false;
       });
       return false;
     },
@@ -277,18 +330,29 @@ export default {
       // console.log('self.form:', self.form);
     },
     hideReplyForm() {
-      this.form.visible = false;
-      this.setReplyInfo({}, {});
+      let self = this;
+      self.form.visible = false;
+      self.form.message = {};
+      self.form.reply = {};
+      // console.log('hideReplyForm:', this.form);
     },
     like(listIndex, id, liked) {
-      if (!liked) {
-        this.list[listIndex].like++;
-        console.log(`给 ${id} 点赞`);
-      } else {
-        this.list[listIndex].like--;
-        console.log(`撤回对 ${id} 点赞`);
-      }
-      this.list[listIndex].liked = !liked;
+      let self = this;
+      self.$vux.toast.show({
+        text: '点赞功能暂未开通',
+        width: '10em',
+        type: 'warn'
+      });
+      return false;
+      // if (!liked) {
+      //   self.list[listIndex].like++;
+      //   console.log(`给 ${id} 点赞`);
+      // } else {
+      //   self.list[listIndex].like--;
+      //   console.log(`撤回对 ${id} 点赞`);
+      // }
+      // self.list[listIndex].liked = !liked;
+      // Vue.set(self.list, listIndex, self.list[listIndex]);
     }
   }
 };
@@ -313,9 +377,9 @@ export default {
     position absolute
     left 0
     top 0
-    right 0
+    right 65px
     bottom 0
-    padding 5px 10px
+    padding 5px
     input {
       display block
       width 100%
@@ -327,6 +391,19 @@ export default {
       outline none
       background #FFF
     }
+  }
+  button {
+    display block
+    border none
+    background #f17474
+    color #FFF
+    box-sizing border-box
+    width 60px
+    height 34px
+    position absolute
+    border-radius 3px
+    right 5px
+    top 5px
   }
 }
 .btnAdd {

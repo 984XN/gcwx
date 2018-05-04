@@ -1,12 +1,17 @@
+// ./LiuYanPingLunList.vue 与 ./DangWuZiXunList.vue 代码完全一样（除了接口调用时的 Type 参数值）
+// 如果其中一个页面有调整，请记得修改另一个文件
+// 为什么不是公用组件：各栏目功能不确定、时间不足
+
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
     <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
-      <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
+      <MessageList :list="list" @setReplyInfo="setReplyInfo" @like="like"></MessageList>
     </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
       <label>
-        <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
+        <input type="text" v-model="form.content" name="message" :placeholder="replyPlaceholder">
       </label>
+      <button @click="submit">回复</button>
     </form>
     <router-link to="add" class="btnAdd" :style="StyleAddMessageBtn">
       <i class="iconfont icon-add"></i>
@@ -28,7 +33,9 @@ export default {
     return {
       form: {
         visible: false,
-        replyId: 0, // 回复给谁
+        submitting: false,
+        message: {}, // 评论的参数，回复留言时用，从这里边提取留言人及留言ID
+        reply: {}, // 评论的参数，回复留言下边的评论时用，从这里边提取评论人及评论ID
         content: '' // 回复的内容
       },
       lazyload: {
@@ -37,10 +44,74 @@ export default {
         loading: false,
         page: 1
       },
-      list: []
+      list: [],
+      listTpl: [
+        {
+          id: 1,
+          name: '刘傅傅',
+          avatar:
+            'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+          date: '02-26 17:53:11',
+          liked: false,
+          like: Math.floor(Math.random() * 1000),
+          view: Math.floor(Math.random() * 1000),
+          content:
+            '跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球跟随组织去保护地球',
+          imgs: [
+            {
+              msrc:
+                'http://ww1.sinaimg.cn/thumbnail/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+              src:
+                'http://ww1.sinaimg.cn/large/663d3650gy1fplwu9ze86j20m80b40t2.jpg',
+              w: 800,
+              h: 400
+            }
+          ],
+          replies: [
+            {
+              name: '张小三',
+              content: '这是一条短的评论'
+            },
+            {
+              name: '李小四',
+              content:
+                '这是一条非常非常非常非常长的评论，一行有可能都显示不下，不过不知道有没有能显示成一行的大屏'
+            },
+            {
+              name: '张小三',
+              content: '这是一条短的评论'
+            }
+          ]
+        }
+      ]
     };
   },
   computed: {
+    replyPlaceholder: function() {
+      let placeholder = '请输入评论内容';
+      let maxLength = 10;
+      let self = this;
+      if (self.form.reply && self.form.reply.author) {
+        let tail = self.form.reply.content.length <= maxLength ? '' : '…';
+        placeholder =
+          '回复“' +
+          self.form.reply.author +
+          '”的“' +
+          self.form.reply.content.substr(0, 10) +
+          tail +
+          '”';
+      } else if (self.form.message && self.form.message.author) {
+        let tail = self.form.message.content.length <= maxLength ? '' : '…';
+        placeholder =
+          '回复“' +
+          self.form.message.author +
+          '”的“' +
+          self.form.message.content.substr(0, 10) +
+          tail +
+          '”';
+      }
+      return placeholder;
+    },
     containerBottom: function() {
       // replyForm 显示时 bottom 45px
       let bottom = this.form.visible ? 45 : 0;
@@ -112,7 +183,28 @@ export default {
           let body = res.Data.activitie[0];
           self.list[index].detailAppended = true;
           self.list[index].avatar = body.PhotoName || System.avatarDefault;
-          self.list[index].replies = res.Data.Data || [];
+          self.list[index].replies =
+            res.Data.Data.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.UserID ? val.UserID : '',
+                author: val.Commentator || '',
+                content: val.CommentContent || '',
+                avatar: val.PhotoName || System.avatarDefault,
+                date: val.CommentDate || '',
+                comment:
+                  val.comment.map(val => {
+                    return {
+                      id: val.ID || '',
+                      uid: val.UserID ? val.UserID : '',
+                      author: val.Commentator || '',
+                      content: val.CommentContent || '',
+                      avatar: val.PhotoName || System.avatarDefault,
+                      date: val.CommentDate || ''
+                    };
+                  }) || []
+              };
+            }) || [];
           self.list[index].imgs =
             res.Data.img.map(img => {
               return {
@@ -136,32 +228,88 @@ export default {
     },
     // 回复
     submit() {
+      let self = this;
+      if (self.form.submitting) {
+        return false;
+      }
+      self.form.submitting = true;
       console.log('form.submited', this.form);
+      if (self.form.content === '') {
+        this.$vux.toast.show({
+          text: '请填写评论内容',
+          width: '10em',
+          time: 1000,
+          type: 'warn'
+        });
+        return false;
+      }
+      let params = {
+        model: {
+          CommentContent: self.form.content, // 留言内容
+          ActivitiesID: self.form.message.id || null, // 回复给哪条留言
+          BeUserID: self.form.reply.uid || null, // 被评论人的UID
+          BeMsgID: self.form.reply.id || null, // 回复给留言下边的哪条评论
+          UserID: self.form.message.uid || null // 登录人的UserID，不传
+        }
+      };
+      api.activity.reply(params).then(res => {
+        if (res.StatusCode === 1200) {
+          self.$vux.toast.show({
+            text: '评论成功',
+            time: 1000
+          });
+          // 重置数据
+          self.form.visible = false;
+          self.form.content = '';
+          self.form.message = {};
+          self.form.reply = {};
+        } else {
+          self.$vux.alert.show({
+            title: '评论失败',
+            content: res.Message
+          });
+        }
+      });
       return false;
     },
     // 设置被回复消息的ID，用于replyForm
-    setId4ReplyTo(id) {
+    setReplyInfo(message = {}, reply = {}) {
+      // console.log('setReplyInfo:', message, reply);
+      let self = this;
+      let id = message.id || {};
       if (id) {
-        this.form.visible = true;
+        self.form.visible = true;
       } else {
-        // 0 值用于隐藏 replyForm
-        this.form.visible = false;
+        self.form.visible = false;
       }
-      this.form.replyId = id;
-      // console.log('this.form:', this.form);
+      self.form.message = message;
+      self.form.reply = reply;
+      // console.log('self.form:', self.form);
     },
     hideReplyForm() {
-      this.setId4ReplyTo(0);
+      let self = this;
+      self.form.visible = false;
+      self.form.message = {};
+      self.form.reply = {};
+      // console.log('hideReplyForm:', this.form);
     },
     like(listIndex, id, liked) {
-      if (!liked) {
-        this.list[listIndex].like++;
-        console.log(`给 ${id} 点赞`);
-      } else {
-        this.list[listIndex].like--;
-        console.log(`撤回对 ${id} 点赞`);
-      }
-      this.list[listIndex].liked = !liked;
+      let self = this;
+      self.$vux.toast.show({
+        text: '点赞功能暂未开通',
+        width: '10em',
+        type: 'warn'
+      });
+      return false;
+      // if (!liked) {
+      //   self.list[listIndex].like++;
+      //   console.log(`给 ${id} 点赞`);
+      // } else {
+      //   self.list[listIndex].like--;
+      //   console.log(`撤回对 ${id} 点赞`);
+      // }
+      // self.list[listIndex].liked = !liked;
+      // Vue.set(self.list, listIndex, self.list[listIndex]);
     }
   }
 };
@@ -186,9 +334,9 @@ export default {
     position absolute
     left 0
     top 0
-    right 0
+    right 65px
     bottom 0
-    padding 5px 10px
+    padding 5px
     input {
       display block
       width 100%
@@ -200,6 +348,19 @@ export default {
       outline none
       background #FFF
     }
+  }
+  button {
+    display block
+    border none
+    background #f17474
+    color #FFF
+    box-sizing border-box
+    width 60px
+    height 34px
+    position absolute
+    border-radius 3px
+    right 5px
+    top 5px
   }
 }
 .btnAdd {
