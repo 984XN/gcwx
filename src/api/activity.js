@@ -88,15 +88,18 @@ export const activity = {
           // console.log('activity.api getOne res:', res.data);
           return res.data;
         });
-    }, // 增加点击
+    },
+    // 增加点击
     setViewed: params => {
       return service
         .post('/api/PartyActivity/PaPartyReadData/InsertReadData', params)
         .then(res => res.data);
-    }, // 点赞
+    },
+    // 点赞
     setLiked: params => {
       return service.post('/api', params).then(res => res.data);
-    }, // 支部e家增加数据
+    },
+    // 支部e家增加数据
     add: params => {
       return service
         .post(
@@ -104,7 +107,8 @@ export const activity = {
           params
         )
         .then(res => res.data);
-    }, // 支部e家上传图片
+    },
+    // 支部e家上传图片
     upload: (data, config) => {
       return service
         .post(
@@ -119,6 +123,48 @@ export const activity = {
       return service
         .post('/api/PartyActivity/PaPartyCommentMsg/InsertCommentMsg', params)
         .then(res => res.data);
+    }
+  },
+  JianYanXianCe: {
+    // 建言对象
+    getTargets: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartySuggestions/GetOrgByLoginMmeber',
+          params
+        )
+        .then(res => {
+          res.data.Data = res.data.Data.map((val, i, arr) => {
+            return {
+              key: val.ID,
+              value: val.OrganizationName
+            };
+          });
+          return res.data;
+        });
+    },
+    add: params => {
+      return service
+        .post('/api/PartyActivity/PaPartySuggestions/InsertSuggestions', params)
+        .then(res => {
+          return res.data;
+        });
+    },
+    getList: params => {
+      return service
+        .post('/api/PartyActivity/PaPartySuggestions/GetSuggestions', params)
+        .then(res => {
+          res.data.Data.PageData = res.data.Data.PageData.map((val, i, arr) => {
+            return {
+              id: val.ID,
+              title: val.ID,
+              intro: val.ID,
+              status: val.ID,
+              date: val.ID
+            };
+          });
+          return res.data;
+        });
     }
   }
 };
