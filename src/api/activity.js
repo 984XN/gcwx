@@ -90,7 +90,9 @@ export const activity = {
   },
   // 增加点击
   setViewd: params => {
-    return service.post('/api', params).then(res => res.data);
+    return service
+      .post('/api/PartyActivity/PaPartyReadData/InsertReadData', params)
+      .then(res => res.data);
   },
   // 点赞
   setLiked: params => {

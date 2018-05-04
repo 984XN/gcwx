@@ -76,6 +76,11 @@ export const API_LIST = {
     params:
       'model{int UserID, int? BeUserID, int? ActivitiesID, string CommentContent, int? BeMsgID}',
     remark: ''
+  },
+  '/PartyActivity/PaPartyReadData/InsertReadData': {
+    name: '支部e家设为已读',
+    params: 'model{int ForeignID}',
+    remark: ''
   }
 };
 // 支部E家：新增、编辑、删除、回复、评论

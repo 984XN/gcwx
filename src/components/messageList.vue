@@ -39,6 +39,7 @@
           <li class="reply" v-for="(reply, replyIndex) in message.replies" :key="replyIndex" @click.stop="setReplyInfo(message, reply)">
             <span class="name">{{reply.author}}</span>
             <span class="content">{{reply.content}}</span>
+            <span class="date">{{reply.date|textTime}}</span>
             <ol class="subList" v-if="reply.comment && reply.comment.length">
               <li class="subReply" v-for="(comment, commentIndex) in reply.comment" :key="commentIndex">
                 <span class="name">{{comment.author}}</span>

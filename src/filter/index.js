@@ -50,8 +50,11 @@ const textTime = time => {
     str = (-minutes / (60 * 60 * 24 * 30)).toFixed(0) + '月';
   } else if (minutes < -60 * 60 * 24) {
     str = (-minutes / (60 * 60 * 24)).toFixed(0) + '天';
-  } else if (minutes < 60 * 60) str = (minutes / 60).toFixed(0) + '分钟前';
-  else if (minutes < 60 * 60 * 24) {
+  } else if (minutes < 60) {
+    str = '刚刚';
+  } else if (minutes < 60 * 60) {
+    str = (minutes / 60).toFixed(0) + '分钟前';
+  } else if (minutes < 60 * 60 * 24) {
     if (
       (minutes / (60 * 60)).toFixed(0) >= 24 &&
       (minutes / (60 * 60)).toFixed(0) <= 48

@@ -145,12 +145,14 @@ export default {
                 return {
                   avatar: System.avatarDefault,
                   detailAppended: false,
+                  viewed: false,
                   ...val
                 };
               });
               this.list = [...this.list, ...res.Data.PageData];
               self.lazyload.page += 1;
               self.appendDetail();
+              self.setViewed();
             } else {
               self.lazyload.nodata = true;
             }
@@ -159,6 +161,7 @@ export default {
           });
       }
     },
+    // 在留言列表中追加图片列表和评论列表及用户头像
     appendDetail() {
       let self = this;
       // console.log('in appendDetail:', self.list);
@@ -222,6 +225,35 @@ export default {
           self.appendDetail();
         });
     },
+    // 设为已读
+    setViewed() {
+      let self = this;
+      // console.log('in appendDetail:', self.list);
+      let allViewed = true;
+      let message = null;
+      let index = null;
+      for (index = 0; index < self.list.length; index++) {
+        let m = self.list[index];
+        if (!m.viewed) {
+          message = m;
+          allViewed = false;
+          break;
+        }
+      }
+      if (allViewed) {
+        return false;
+      }
+      api.activity
+        .setViewd({ ForeignID: message.id })
+        .then(res => {
+          self.list[index].viewed = true;
+          self.setViewed();
+        })
+        .catch(a => {
+          self.list[index].viewed = true;
+          self.setViewed();
+        });
+    },
     // 显示缩略图的大图
     show(index) {
       this.$refs.previewer.show(index);
@@ -233,7 +265,7 @@ export default {
         return false;
       }
       self.form.submitting = true;
-      console.log('form.submited', this.form);
+      // console.log('form.submited', this.form);
       if (self.form.content === '') {
         this.$vux.toast.show({
           text: '请填写评论内容',
@@ -258,6 +290,45 @@ export default {
             text: '评论成功',
             time: 1000
           });
+          // 将评论添加到评论列表中
+          const session = self.session('userSystem');
+          for (let j = 0; j < self.list.length; j++) {
+            const message = self.list[j];
+            if (message.id === self.form.message.id) {
+              const replies = message.replies;
+              let rid = self.form.reply.id || 0;
+              // 回复二级评论
+              if (rid) {
+                for (let i = 0; i < replies.length; i++) {
+                  const reply = replies[i];
+                  if (reply.id === rid) {
+                    self.list[j].replies[i].comment.unshift({
+                      author: session.UserName || '',
+                      avatar: session.PhotoName || System.avatarDefault,
+                      content: self.form.content,
+                      date: self.date('Y-m-d H:i:s'),
+                      id: res.Data || -1,
+                      uid: session.ID || 0
+                    });
+                    break;
+                  }
+                }
+                // 回复一级评论
+              } else {
+                self.list[j].replies.unshift({
+                  author: session.UserName || '',
+                  avatar: session.PhotoName || System.avatarDefault,
+                  comment: [],
+                  content: self.form.content,
+                  date: self.date('Y-m-d H:i:s'),
+                  id: res.Data || -1,
+                  uid: session.ID || 0
+                });
+              }
+              Vue.set(self.list, j, self.list[j]);
+              break;
+            }
+          }
           // 重置数据
           self.form.visible = false;
           self.form.content = '';
@@ -269,6 +340,7 @@ export default {
             content: res.Message
           });
         }
+        self.form.submitting = false;
       });
       return false;
     },

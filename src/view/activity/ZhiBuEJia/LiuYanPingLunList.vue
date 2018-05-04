@@ -152,6 +152,7 @@ export default {
               this.list = [...this.list, ...res.Data.PageData];
               self.lazyload.page += 1;
               self.appendDetail();
+              self.setViewed();
             } else {
               self.lazyload.nodata = true;
             }
@@ -160,6 +161,7 @@ export default {
           });
       }
     },
+    // 在留言列表中追加图片列表和评论列表及用户头像
     appendDetail() {
       let self = this;
       // console.log('in appendDetail:', self.list);
@@ -223,8 +225,35 @@ export default {
           self.appendDetail();
         });
     },
-    // 设为已读（翻页时把上一页设为已读，更优的办法：滚动到时再设为已读，实在没时间了，没有做成显示时设为已读已经不错了）
-    setViewed() {},
+    // 设为已读
+    setViewed() {
+      let self = this;
+      // console.log('in appendDetail:', self.list);
+      let allViewed = true;
+      let message = null;
+      let index = null;
+      for (index = 0; index < self.list.length; index++) {
+        let m = self.list[index];
+        if (!m.viewed) {
+          message = m;
+          allViewed = false;
+          break;
+        }
+      }
+      if (allViewed) {
+        return false;
+      }
+      api.activity
+        .setViewd({ ForeignID: message.id })
+        .then(res => {
+          self.list[index].viewed = true;
+          self.setViewed();
+        })
+        .catch(a => {
+          self.list[index].viewed = true;
+          self.setViewed();
+        });
+    },
     // 显示缩略图的大图
     show(index) {
       this.$refs.previewer.show(index);
