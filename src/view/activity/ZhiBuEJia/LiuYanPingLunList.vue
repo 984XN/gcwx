@@ -244,7 +244,7 @@ export default {
         return false;
       }
       api.activity
-        .setViewd({ ForeignID: message.id })
+        .setViewed({ ForeignID: message.id })
         .then(res => {
           self.list[index].viewed = true;
           self.setViewed();

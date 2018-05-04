@@ -89,7 +89,7 @@ export const activity = {
       });
   },
   // 增加点击
-  setViewd: params => {
+  setViewed: params => {
     return service
       .post('/api/PartyActivity/PaPartyReadData/InsertReadData', params)
       .then(res => res.data);

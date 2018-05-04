@@ -111,7 +111,7 @@ export const article = {
       });
   },
   // 增加点击
-  setViewd: params => {
+  setViewed: params => {
     return service
       .post('/api/PartyStudy/PsPartyStudyCoursewareV2/ReadNumber', params)
       .then(res => res.data);

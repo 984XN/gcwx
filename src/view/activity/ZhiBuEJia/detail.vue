@@ -22,10 +22,10 @@ export default {
     };
   },
   methods: {
-    setViewd() {
+    setViewed() {
       let self = this;
-      api.activity.setViewd({ ID: self.article.baseInfo.id }).then(res => {
-        // console.log('setViewd by online:', res);
+      api.activity.setViewed({ ID: self.article.baseInfo.id }).then(res => {
+        console.log('setViewed by online:', res);
       });
     },
     // 文档停留30秒才算阅读过
@@ -37,8 +37,8 @@ export default {
       // 30秒即可标记为已读
       if (!self.status.viewed && self.viewSecond > self.setViewedThreshold) {
         self.status.viewed = true; // api 200 ok 时再标记会导致请求过程中多次执行标记操作
-        api.activity.setViewd({ ID: self.article.baseInfo.id }).then(res => {
-          // console.log('setViewd by online:', res);
+        api.activity.setViewed({ ID: self.article.baseInfo.id }).then(res => {
+          // console.log('setViewed by online:', res);
         });
       }
     }
