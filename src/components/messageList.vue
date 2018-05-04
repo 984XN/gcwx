@@ -10,8 +10,10 @@
           <div class="date">{{message.date}}</div>
         </div>
         <div class="message-head-other">
-          <x-button mini class="like">
-            <i class="iconfont icon-share"></i>
+          <x-button mini class="share">
+            {{(message.page.page-1) * message.page.size + message.page.index + 1}}
+            <sup>#</sup>
+            <!-- <i class="iconfont icon-share"></i> -->
           </x-button>
         </div>
       </div>
@@ -23,7 +25,7 @@
       </div>
       <div class="message-sns">
         <div class="view">浏览人数：{{message.view}}</div>
-        <x-button mini class="reply" @click.native.stop="setId4ReplyTo(message.id)">
+        <x-button mini class="reply" @click.native.stop="setReplyInfo(message)">
           <i class="iconfont icon-community"></i>
         </x-button>
         <x-button mini class="like" :class="{ liked : message.liked }" @click.native.stop="like(messageIndex, message.id, message.liked)">
@@ -33,9 +35,15 @@
       </div>
       <div class="replies" v-if="message.replies && message.replies.length">
         <ol class="list">
-          <li class="reply" v-for="(reply, replyIndex) in message.replies" :key="replyIndex">
-            <span class="name">{{reply.name}}</span>
+          <li class="reply" v-for="(reply, replyIndex) in message.replies" :key="replyIndex" @click.stop="setReplyInfo(message, reply)">
+            <span class="name">{{reply.author}}</span>
             <span class="content">{{reply.content}}</span>
+            <ol class="subList" v-if="reply.comment && reply.comment.length">
+              <li class="subReply" v-for="(comment, commentIndex) in reply.comment" :key="commentIndex">
+                <span class="name">{{comment.author}}</span>
+                <span class="content">{{comment.content}}</span>
+              </li>
+            </ol>
           </li>
         </ol>
       </div>
@@ -54,8 +62,9 @@ export default {
     list: Array
   },
   methods: {
-    setId4ReplyTo(messageId) {
-      this.$emit('setId4ReplyTo', messageId);
+    setReplyInfo(message = {}, reply = {}) {
+      // console.log('msgList setReplyInfo:', message, reply);
+      this.$emit('setReplyInfo', message, reply);
     },
     like(messageIndex, messageId, messageLiked) {
       this.$emit('like', messageIndex, messageId, messageLiked);
@@ -170,14 +179,41 @@ export default {
       .list {
         list-style none
         font-size 14px
-        .name {
-          color #333
-          &:after {
-            content '：'
+        li.reply {
+          margin -5px
+          padding 5px
+          border-radius 3px
+          &:active {
+            background #f0f0f0
           }
-        }
-        .content {
-          color #999
+          .name {
+            color #666
+            &:after {
+              content '：'
+            }
+          }
+          .content {
+            color #333
+          }
+          .subList {
+            list-style none
+            padding-left 2.5em
+            li {
+              position relative
+              &:before {
+                content ' '
+                display inline-block
+                height 12px
+                width 6px
+                border-width 0 0 2px 2px
+                border-color #c8c8cd
+                border-style solid
+                position absolute
+                top 0
+                left -15px
+              }
+            }
+          }
         }
       }
     }

@@ -71,21 +71,22 @@ export const API_LIST = {
     params: '{ name file }',
     remark: ''
   },
-  '/PartyActivity/ PaPartyCommentMsg/ InsertCommentMsg': {
+  '/PartyActivity/PaPartyCommentMsg/InsertCommentMsg': {
     name: '支部e家留言增加评论',
     params:
       'model{int UserID, int? BeUserID, int? ActivitiesID, string CommentContent, int? BeMsgID}',
     remark: ''
   }
 };
-// 支部E家：新增、编辑、删除、回复
-// 亮点投票：列表（含背景banner图）、搜索、详情、投票
-// 答题促学：列表、试卷页、交卷、学习记录
-// 知识竞赛：列表、试卷页、试卷分页、交卷、学习记录、竞赛排名
-// 正能量：列表、新增、删除、回复、点赞
-// 建言献策：新增、列表
-// 抽奖专区：抽奖、中奖记录
-// 个人中心：积分总数、党费查询、我的正能量列表、通知公告列表、党务公开列表、党建动态列表
+// 支部E家：新增、编辑、删除、回复、评论
+// 亮点投票：列表（含背景banner图）、搜索、详情、投票1 --1
+// 答题促学：列表、试卷页、交卷1、学习记录 --1
+// 知识竞赛：列表、试卷页、试卷分页1、交卷、竞赛排名 --2
+// 正能量：列表、新增、删除、回复、点赞 --0.5
+// 建言献策：新增、列表1 --0.5
+// 抽奖专区：抽奖、中奖记录1 --1
+// 个人中心：积分总数、党费查询、我的正能量列表、通知公告列表、党务公开列表、党建动态列表 --1
+// 其它：权限（党员与微信用户显示不同内容）、已知BUG修正 --0
 
 export default {
   API_LIST

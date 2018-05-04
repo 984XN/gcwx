@@ -1,11 +1,11 @@
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
     <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
-      <MessageList :list="list" @setId4ReplyTo="setId4ReplyTo" @like="like"></MessageList>
+      <MessageList :list="list" @setReplyInfo="setReplyInfo" @like="like"></MessageList>
     </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
       <label>
-        <input type="text" v-model="form.content" name="message" placeholder="请输入评论内容">
+        <input type="text" v-model="form.content" name="message" :placeholder="replyPlaceholder">
       </label>
     </form>
     <router-link to="add" class="btnAdd" :style="StyleAddMessageBtn">
@@ -28,7 +28,8 @@ export default {
     return {
       form: {
         visible: false,
-        replyId: 0, // 回复给谁
+        message: {}, // 评论的参数，回复留言时用，从这里边提取留言人及留言ID
+        reply: {}, // 评论的参数，回复留言下边的评论时用，从这里边提取评论人及评论ID
         content: '' // 回复的内容
       },
       lazyload: {
@@ -80,6 +81,31 @@ export default {
     };
   },
   computed: {
+    replyPlaceholder: function() {
+      let placeholder = '请输入评论内容';
+      let maxLength = 10;
+      let self = this;
+      if (self.form.reply && self.form.reply.author) {
+        let tail = self.form.reply.content.length <= maxLength ? '' : '…';
+        placeholder =
+          '回复“' +
+          self.form.reply.author +
+          '”的“' +
+          self.form.reply.content.substr(0, 10) +
+          tail +
+          '”';
+      } else if (self.form.message && self.form.message.author) {
+        let tail = self.form.message.content.length <= maxLength ? '' : '…';
+        placeholder =
+          '回复“' +
+          self.form.message.author +
+          '”的“' +
+          self.form.message.content.substr(0, 10) +
+          tail +
+          '”';
+      }
+      return placeholder;
+    },
     containerBottom: function() {
       // replyForm 显示时 bottom 45px
       let bottom = this.form.visible ? 45 : 0;
@@ -151,7 +177,28 @@ export default {
           let body = res.Data.activitie[0];
           self.list[index].detailAppended = true;
           self.list[index].avatar = body.PhotoName || System.avatarDefault;
-          self.list[index].replies = res.Data.Data || [];
+          self.list[index].replies =
+            res.Data.Data.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.UserID ? val.UserID : '',
+                author: val.Commentator || '',
+                content: val.CommentContent || '',
+                avatar: val.PhotoName || System.avatarDefault,
+                date: val.CommentDate || '',
+                comment:
+                  val.comment.map(val => {
+                    return {
+                      id: val.ID || '',
+                      uid: val.UserID ? val.UserID : '',
+                      author: val.Commentator || '',
+                      content: val.CommentContent || '',
+                      avatar: val.PhotoName || System.avatarDefault,
+                      date: val.CommentDate || ''
+                    };
+                  }) || []
+              };
+            }) || [];
           self.list[index].imgs =
             res.Data.img.map(img => {
               return {
@@ -176,21 +223,62 @@ export default {
     // 回复
     submit() {
       console.log('form.submited', this.form);
+      let self = this;
+      if (self.form.content === '') {
+        this.$vux.toast.show({
+          text: '请填写评论内容',
+          width: '10em',
+          time: 1000,
+          type: 'warn'
+        });
+        return false;
+      }
+      let params = {
+        model: {
+          CommentContent: self.form.content, // 留言内容
+          ActivitiesID: self.form.message.id || null, // 回复给哪条留言
+          BeUserID: self.form.reply.uid || null, // 被评论人的UID
+          BeMsgID: self.form.reply.id || null, // 回复给留言下边的哪条评论
+          UserID: self.form.message.uid || null // 登录人的UserID，不传
+        }
+      };
+      api.activity.reply(params).then(res => {
+        if (res.StatusCode === 1200) {
+          self.$vux.toast.show({
+            text: '评论成功',
+            time: 1000
+          });
+          // 重置数据
+          self.form.visible = false;
+          self.form.content = '';
+          self.form.message = {};
+          self.form.reply = {};
+        } else {
+          self.$vux.alert.show({
+            title: '评论失败',
+            content: res.Message
+          });
+        }
+      });
       return false;
     },
     // 设置被回复消息的ID，用于replyForm
-    setId4ReplyTo(id) {
+    setReplyInfo(message = {}, reply = {}) {
+      // console.log('setReplyInfo:', message, reply);
+      let self = this;
+      let id = message.id || {};
       if (id) {
-        this.form.visible = true;
+        self.form.visible = true;
       } else {
-        // 0 值用于隐藏 replyForm
-        this.form.visible = false;
+        self.form.visible = false;
       }
-      this.form.replyId = id;
-      // console.log('this.form:', this.form);
+      self.form.message = message;
+      self.form.reply = reply;
+      // console.log('self.form:', self.form);
     },
     hideReplyForm() {
-      this.setId4ReplyTo(0);
+      this.form.visible = false;
+      this.setReplyInfo({}, {});
     },
     like(listIndex, id, liked) {
       if (!liked) {

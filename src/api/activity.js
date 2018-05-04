@@ -1,4 +1,5 @@
 import service from 'src/api';
+import { System } from 'src/config';
 
 export const activity = {
   // 获取列表
@@ -15,6 +16,12 @@ export const activity = {
           list = res.data.Data.PageData.map((val, index, arr) => {
             return {
               id: val.ID ? val.ID : '',
+              page: {
+                index: index,
+                page: res.data.Data.PageIndex,
+                size: res.data.Data.PageSize
+              },
+              uid: val.CreateUID ? val.CreateUID : '',
               title: val.ExperienceTitle ? val.ExperienceTitle : '',
               thumb: '',
               author: val.UserName ? val.UserName : '',
@@ -24,7 +31,7 @@ export const activity = {
                 : '',
               view: 0,
               date: val.CreateDate ? val.CreateDate : ''
-            };
+            }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
           });
         }
         res.data.Data.PageData = list;
@@ -43,6 +50,7 @@ export const activity = {
           baseInfo: res.data.Data.activitie.map(val => {
             return {
               id: val.ID || '',
+              uid: val.CreateUID ? val.CreateUID : '',
               title: val.ExperienceTitle || '未命名',
               author: val.UserName || '',
               view: val.ReadNumber || 0,
@@ -55,7 +63,16 @@ export const activity = {
           imgs: res.data.Data.img.map((val, index, arr) => {
             return { src: val.FilePath };
           }),
-          replies: res.data.Data.Data
+          replies: res.data.Data.Data.map(val => {
+            return {
+              id: val.ID || '',
+              uid: val.UserID ? val.UserID : '',
+              author: val.Commentator || '',
+              content: val.CommentContent || '',
+              avatar: val.PhotoName || System.avatarDefault,
+              date: val.CommentDate || ''
+            };
+          })
         };
         res.data.Data.Article = article;
         // console.log('activity.api getOne res:', res.data);
@@ -89,7 +106,12 @@ export const activity = {
       )
       .then(res => res.data);
   },
-  delete: id => {}
+  delete: id => {},
+  reply: params => {
+    return service
+      .post('/api/PartyActivity/PaPartyCommentMsg/InsertCommentMsg', params)
+      .then(res => res.data);
+  }
 };
 
 export default {
