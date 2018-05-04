@@ -19,14 +19,14 @@
       <div v-if="article.videos && article.videos.length" class="article-body-files article-body-files-video">
         <div class="weui-cells__title">视频列表</div>
         <div class="article-body-files-video-body">
-          <div class="file-item" v-for="(val, index) in article.files" :key="index">
+          <div class="file-item" v-for="(val, index) in article.videos" :key="index">
             <video :src="val.path" controls="controls" width="100%">
               您的浏览器不支持本系统的视频播放
             </video>
           </div>
         </div>
       </div>
-      <group :title="'文件清单 (共' + article.files.length + '个)'" v-if="article.files && article.files.length" class="article-body-files article-body-files-document">
+      <group v-if="article.files && article.files.length" :title="'文件清单 (共' + article.files.length + '个)'" class="article-body-files article-body-files-document">
         <cell :title="(index+1) + '、' + val.name" :link="getArticleLink(val.path)" v-for="(val, index) in article.files" :key="index" class="file-item"></cell>
       </group>
     </div>

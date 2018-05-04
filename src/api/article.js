@@ -53,10 +53,8 @@ export const article = {
         params
       )
       .then(res => {
-        let article = {
-          baseInfo: {},
-          files: []
-        };
+        // 数据格式化
+        let article = { baseInfo: {}, files: [] };
         if (res.data.Data.Courseware) {
           let val = res.data.Data.Courseware;
           article.baseInfo = {
@@ -69,10 +67,16 @@ export const article = {
             date: val.CreateDate || ''
           };
         }
+        // 提取封面，虽然是个数组，但只有一项
         if (res.data.Data.ListCover[0]) {
           article.baseInfo.cover = res.data.Data.ListCover[0].FilePath;
         }
-        if (res.data.Data.ListVideo) {
+        // 把视频放到 article.vidos[]，把文件入到 article.files[]，视频是 ListVideo[]，文件也是 ListVideo[]，需要通过 Courseware.type 判断
+        if (
+          res.data.Data.ListVideo &&
+          res.data.Data.Courseware.FileType &&
+          res.data.Data.Courseware.FileType === 20
+        ) {
           article.files = res.data.Data.ListVideo.map((val, index, arr) => {
             return {
               id: val.ID || 0,
@@ -81,7 +85,21 @@ export const article = {
             };
           });
         }
+        if (
+          res.data.Data.ListVideo &&
+          res.data.Data.Courseware.FileType &&
+          res.data.Data.Courseware.FileType === 10
+        ) {
+          article.videos = res.data.Data.ListVideo.map((val, index, arr) => {
+            return {
+              id: val.ID || 0,
+              name: val.FileName || '',
+              path: val.FilePath || ''
+            };
+          });
+        }
         res.data.Data.Article = article;
+        console.log('api.article.getOne:', res);
         return res.data;
       });
   },
