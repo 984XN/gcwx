@@ -29,6 +29,29 @@
       <group v-if="article.files && article.files.length" :title="'文件清单 (共' + article.files.length + '个)'" class="article-body-files article-body-files-document">
         <cell :title="(index+1) + '、' + val.name" :link="getArticleLink(val.path)" v-for="(val, index) in article.files" :key="index" class="file-item"></cell>
       </group>
+      <div v-if="article.replies && article.replies.length" class="article-body-files article-body-files-reply">
+        <div class="weui-cells__title">评论列表</div>
+        <div class="article-body-files-reply-body">
+          <ol class="list">
+            <li class="reply" v-for="(reply, replyIndex) in article.replies" :key="replyIndex">
+              <x-button mini class="btn" @click.native.stop="setReplyInfo(reply, replyIndex)">
+                <i class="iconfont icon-community"></i>
+                <span class="text">回复</span>
+              </x-button>
+              <span class="name">{{reply.author}}</span>
+              <span class="date">{{reply.date|textTime}}</span>
+              <span class="content">{{reply.content}}</span>
+              <ol class="subList" v-if="reply.comment && reply.comment.length">
+                <li class="subReply" v-for="(comment, commentIndex) in reply.comment" :key="commentIndex">
+                  <span class="name">{{comment.author}}</span>
+                  <span class="date">{{comment.date|textTime}}</span>
+                  <span class="content">{{comment.content}}</span>
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </div>
+      </div>
     </div>
     <load-more :show-loading="false" tip="底线"></load-more>
   </article>
@@ -54,6 +77,10 @@ export default {
       let url = this.serverUrl + path;
       // console.log('url:', url);
       return url;
+    },
+    setReplyInfo(reply = {}) {
+      // console.log('msgList setReplyInfo:', message, reply);
+      this.$emit('setReplyInfo', reply);
     }
   },
   mounted() {
@@ -126,6 +153,55 @@ export default {
     img {
       max-width 90%
       border solid 2px #f0f0f0
+    }
+  }
+}
+.article-body-files-reply {
+  .article-body-files-reply-body {
+    background-color #fff
+    ol {
+      list-style none
+    }
+    li.reply {
+      border-bottom 1px solid #EEE
+      padding 10px 15px
+      &:last-child {
+        border-bottom none
+      }
+      & > .btn {
+        float right
+        font-size 12px
+        padding 0 0.5em
+        line-height 20px
+        color #999
+        i {
+          font-size 12px
+        }
+      }
+      & > .content {
+        padding-top 5px
+        display block
+        clear both
+      }
+      .name {
+        font-size 14px
+        color #f17474
+      }
+      .date {
+        font-size 10px
+        color #999
+      }
+      .subList {
+        padding-left 10px
+        margin-left 10px
+        border-left 1px solid #eee
+        .subReply {
+          margin 10px 0
+        }
+        .content {
+          display block
+        }
+      }
     }
   }
 }
