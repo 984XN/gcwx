@@ -28,17 +28,17 @@ export const activity = {
                 page: res.data.Data.PageIndex,
                 size: res.data.Data.PageSize
               },
-              uid: val.CreateUID ? val.CreateUID : '',
-              title: val.ExperienceTitle ? val.ExperienceTitle : '',
+              uid: val.CreateUID || '',
+              title: val.ExperienceTitle || '',
               thumb: '',
-              author: val.UserName ? val.UserName : '',
-              organization: val.OrganizationName ? val.OrganizationName : '',
+              author: val.UserName || '',
+              organization: val.OrganizationName || '',
               content: val.ExperienceContent
                 ? val.ExperienceContent.replace(/<[^>]+>/g, '')
                 : '',
-              view: 0,
+              view: val.ReadNum || 0,
               like: 0,
-              date: val.CreateDate ? val.CreateDate : ''
+              date: val.CreateDate || ''
             }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
           });
         }
