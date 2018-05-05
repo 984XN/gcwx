@@ -91,7 +91,11 @@ export default {
         self.lazyload.loading = false;
       } else {
         api.activity.ZhengNengLiang.list({
-          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
+          queryModel: {
+            IsAdopt: 1 // 1所有人审核通过的，0所有人审核没通过的，默认0
+          },
+          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
+          api: 'all'
         }).then(res => {
           if (res.Data.PageData && res.Data.PageData.length > 0) {
             res.Data.PageData = res.Data.PageData.map(val => {

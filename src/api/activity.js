@@ -311,13 +311,12 @@ export const activity = {
   },
   ZhengNengLiang: {
     list: params => {
+      let url = {
+        all: '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy', // 配合 IsAdopt 显示所有人的列表
+        self: '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID' // 自己的列表，不需要 IsAdopt
+      }[params.api];
       return service
-        .post('/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy', {
-          queryModel: {
-            IsAdopt: 1 // 1所有人审核通过的，0所有人审核没通过的，默认0
-          },
-          ...params
-        })
+        .post(url, params)
         .then(res => {
           console.log('activity.list:', JSON.parse(JSON.stringify(res.data)));
           let list = [];

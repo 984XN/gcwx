@@ -3,7 +3,7 @@
     <container top="0">
       <div class="userInfo">
         <div class="avatar">
-          <img :src="userWechat.HeadImgUrl" alt="头像">
+          <img :src="userSystem.PhotoName || userWechat.HeadImgUrl" alt="头像">
         </div>
         <div class="name">{{name}}</div>
       </div>
@@ -69,6 +69,7 @@
           <i slot="icon" class="listIcon iconfont icon-article"></i>
         </cell>
       </group>
+      <load-more :show-loading="false"></load-more>
     </container>
     <Menu></Menu>
   </div>

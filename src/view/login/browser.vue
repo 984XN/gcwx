@@ -1,9 +1,9 @@
 <template>
   <div class="login-browser" @keyup.enter="loginFn">
     <group title="登录">
-      <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate></x-input>
-      <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password"></x-input>
-      <x-input title="验证码" v-model="user.vcode" :icon-type="passwordValid" novalidate class="vcode">
+      <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate placeholder="输入帐号"></x-input>
+      <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password" placeholder="输入密码"></x-input>
+      <x-input title="验证码" v-model="user.vcode" :icon-type="passwordValid" novalidate class="vcode" placeholder="输入验证码">
         <img slot="right-full-height" :src="'/api/Sys/SysUser/GetValidateCode?'+random" onclick="this.src=this.src+'?'+Math.random()">
       </x-input>
     </group>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { System } from 'src/config';
 import * as api from 'src/api/user';
 
 export default {
@@ -23,8 +24,8 @@ export default {
     return {
       user: {
         vcode: '',
-        username: localStorage.getItem('username') || 'admin',
-        password: '21192X'
+        username: localStorage.getItem('username') || '',
+        password: ''
       },
       usernameValid: '',
       passwordValid: '',
@@ -62,6 +63,7 @@ export default {
             sessionStorage.clear();
             if (res.success === true) {
               console.log('登录成功');
+              res.Data.UserInfo.PhotoName = res.Data.UserInfo.PhotoName || System.avatarDefault
               sessionStorage.logined = 1;
               sessionStorage.userSystem = JSON.stringify(
                 res.Data.UserInfo || { UserInfo: false }
