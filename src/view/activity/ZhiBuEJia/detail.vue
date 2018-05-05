@@ -61,13 +61,13 @@ export default {
         text: '正在获取数据'
       });
       api.activity.ZhiBuEJia
-        .getOne({
+        .detail({
           ID: id
         })
         .then(res => {
           this.$vux.loading.hide();
           this.article = res.Data.Article;
-          // console.log('getOne:', res);
+          // console.log('detail:', res);
         })
         .catch(e => {
           this.$vux.loading.hide();

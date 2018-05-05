@@ -37,13 +37,13 @@ export default {
         self.lazyload.loading = false;
       } else {
         api.activity.ZhiBuEJia
-          .getList({
+          .list({
             Type: 1, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
             // queryModel: { Type: 1 }, // 经测试这样传 Type 也可以
             OrganizationCode: '',
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
           })
-          // .getList({
+          // .list({
           //   queryModel: { Type: 1 },
           //   OrganizationCode: '', // 这个字段直接传个空就可以了
           //   pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }

@@ -11,14 +11,14 @@ import { System } from 'src/config';
 export const activity = {
   ZhiBuEJia: {
     // 获取列表
-    getList: params => {
+    list: params => {
       return service
         .post(
           '/api/PartyActivity/PaPartyIndividualActivities/GetIndividualActivities',
           params
         )
         .then(res => {
-          // console.log('activity.getList:', res);
+          // console.log('activity.list:', res);
           let list = [];
           if (res.data.Data.PageData) {
             list = res.data.Data.PageData.map((val, index, arr) => {
@@ -47,7 +47,7 @@ export const activity = {
           return res.data;
         });
     },
-    getOne: params => {
+    detail: params => {
       return service
         .post(
           '/api/PartyActivity/PaPartyIndividualActivities/GetGetIndividualActivitiesByID',
@@ -96,7 +96,7 @@ export const activity = {
             })
           };
           res.data.Data.Article = article;
-          // console.log('activity.api getOne res:', res.data);
+          // console.log('activity.api detail res:', res.data);
           return res.data;
         });
     },
@@ -161,7 +161,7 @@ export const activity = {
           return res.data;
         });
     },
-    getList: params => {
+    list: params => {
       return service
         .post('/api/PartyActivity/PaPartySuggestions/GetSuggestions', params)
         .then(res => {
@@ -177,7 +177,7 @@ export const activity = {
           return res.data;
         });
     },
-    getOne: params => {
+    detail: params => {
       return service
         .post(
           '/api/PartyActivity/PaPartySuggestions/GetSuggestionsByID',
@@ -296,7 +296,7 @@ export const activity = {
             // ]
           };
           res.data.Data.Article = article;
-          // console.log('activity.api getOne res:', res.data);
+          // console.log('activity.api detail res:', res.data);
           return res.data;
         });
     },

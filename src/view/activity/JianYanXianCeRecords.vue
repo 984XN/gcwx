@@ -56,7 +56,7 @@ export default {
       if (self.lazyload.nodata) {
         self.lazyload.loading = false;
       } else {
-        api.activity.JianYanXianCe.getList({
+        api.activity.JianYanXianCe.list({
           queryModel: {},
           pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
         }).then(res => {

@@ -105,13 +105,13 @@ export default {
         text: '正在获取数据'
       });
       api.article
-        .getOne({
+        .detail({
           ID: id
         })
         .then(res => {
           this.$vux.loading.hide();
           this.article = res.Data.Article;
-          // console.log('getOne:', res);
+          // console.log('detail:', res);
         })
         .catch(() => {
           this.$vux.loading.hide();

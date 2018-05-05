@@ -134,7 +134,7 @@ export default {
         self.lazyload.loading = false;
       } else {
         api.activity.ZhiBuEJia
-          .getList({
+          .list({
             Type: 4, // 1.心得体会2.留言评论3.思想汇报4.党务咨询
             OrganizationCode: '',
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
@@ -180,7 +180,7 @@ export default {
         return false;
       }
       api.activity.ZhiBuEJia
-        .getOne({ ID: message.id })
+        .detail({ ID: message.id })
         .then(res => {
           // console.log('appendDetail res:', message.id);
           let body = res.Data.activitie[0];

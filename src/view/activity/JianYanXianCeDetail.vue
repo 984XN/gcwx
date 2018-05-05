@@ -155,7 +155,7 @@ export default {
       this.$vux.loading.show({
         text: '正在获取数据'
       });
-      api.activity.JianYanXianCe.getOne({
+      api.activity.JianYanXianCe.detail({
         ID: id
       })
         .then(res => {
@@ -172,7 +172,7 @@ export default {
               '</div><span style="font-size:14px;color:#999;">建言内容：</span><br />' +
               this.article.baseInfo.content;
           }
-          console.log('getOne:', res);
+          console.log('detail:', res);
         })
         .catch(e => {
           this.$vux.loading.hide();

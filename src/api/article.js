@@ -32,7 +32,7 @@ export const getArticleList = params => {
 
 export const article = {
   // 获取列表
-  getList: params => {
+  list: params => {
     return service
       .post('/api/PartyStudy/PsPartyStudyCoursewareV2/Query', params)
       .then(res => {
@@ -53,7 +53,7 @@ export const article = {
         return res.data;
       });
   },
-  getOne: params => {
+  detail: params => {
     return service
       .post(
         '/api/PartyStudy/PsPartyStudyCoursewareV2/GetCoursewareByID',
@@ -106,7 +106,7 @@ export const article = {
           });
         }
         res.data.Data.Article = article;
-        console.log('api.article.getOne:', res);
+        console.log('api.article.detail:', res);
         return res.data;
       });
   },
