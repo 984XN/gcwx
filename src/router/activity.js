@@ -217,7 +217,6 @@ const RouterActivity = {
     },
     {
       path: 'zhengnengliang',
-      name: 'zhengnengliang',
       component: ActivityZhengNengLiang,
       meta: {
         title: '正能量',

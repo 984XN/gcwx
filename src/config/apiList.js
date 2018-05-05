@@ -206,6 +206,19 @@ export const API_LIST = {
       }
     }
   },
+  // 抽奖专区
+  '/PartyActivity/PaPartyLotteryGoods/GetLotteryGoodsByIsPutaway': {
+    name: '获取奖品清单',
+    params: {
+      Type: '' // number 1.积分商品, 2.答题促学商品
+    }
+  },
+  '/PartyActivity/PaPartyLotteryGoods/GetLotteryByMember': {
+    name: '抽奖',
+    params: {
+      Type: '' // number 1.积分抽奖, 2.答题促学抽奖
+    }
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

@@ -2,7 +2,7 @@
   <div class="turntable">
     <div class="jeton">
       <router-link class="expenditure" to="records">中奖详情</router-link>
-      <div class="value">剩余{{unit}}：{{jeton}}</div>
+      <div class="value">剩余{{unit}}数：{{jeton}}</div>
     </div>
     <div class="decoration">
       <div class="bg"></div>
@@ -13,7 +13,7 @@
     </div>
     <div class="gifts" :style="styleCube" ref="gifts">
       <ol :style="styleCube">
-        <li v-for="(gift,n) in gifts" :key="n" :style="style[n]" class="gift" :class="'gift-'+n">
+        <li v-for="(gift,n) in shuffleGifts" :key="n" :style="style[n]" class="gift" :class="'gift-'+n">
           <div class="box">
             <div class="img"><img :src="gift.img"></div>
             <div class="name">{{gift.name}}</div>
@@ -21,9 +21,9 @@
         </li>
       </ol>
       <div class="control" :style="styleControl">
-        <button class="run" @click="luckDraw">
+        <button class="run" @click="getGift">
           <div class="text">立即抽奖</div>
-          <div class="tip" v-if="jeton > price">{{price}}{{unit}}/次</div>
+          <div class="tip" v-if="jeton > price && unit !== '次'">{{price}}{{unit}}/次</div>
         </button>
       </div>
     </div>
@@ -37,118 +37,87 @@ export default {
   props: {
     gift: Number, // 指定中哪个奖（required）
     gifts: Array, // 转盘物品清单（奖品会重复）
-    score: Number, // 积分总数
+    jeton: Number, // 剩余额度
     unit: String, // 单位（积分、道题、份试卷）
-    price: Number // 每转一次扣这个数
+    price: Number, // 每转一次扣这个数
+    ready: Boolean // 中奖信息是否准备好
   },
-  methods: {
-    luckDraw: function() {
-      let self = this;
-      let total = self.gifts.length;
-      let turntableObj = self.$refs.gifts;
-      let turntableInitData = JSON.parse(JSON.stringify(self.turntable));
-      console.log('giftIndex:', self.gift);
-      if (self.turntable.runing) {
-        console.log('转盘运行中');
-        return;
+  data() {
+    return {
+      // 转盘控制属性
+      turntable: {
+        index: -1, // 转动时的当前项
+        speed: 0,
+        timer: 0, // setTimeout
+        timesIndex: 0, // 当前转的次数
+        times: 5, // 转够这个次数再开始往奖品那里转
+        runing: false
+      },
+      // 转盘外观设置
+      cube: {
+        itemWidth: 75, // mounted() 会根据设备宽度重新设置这个值
+        itemHeight: 75,
+        col: 4,
+        row: 4
       }
-      if (self.jeton < self.price) {
-        AlertModule.show({
-          title: this.unit + '不够',
-          content:
-            '每次需要扣除' + this.price + this.unit + '，剩余' + this.unit + '为' + this.jeton,
-          onShow() {
-            console.log("Module: I'm showing");
-          },
-          onHide() {
-            console.log("Module: I'm hiding now");
-          }
-        });
-        console.log(this.unit + '不够');
-        return;
-      }
-      self.turntable.runing = true;
-      function roll() {
-        let timesIndex = self.turntable.timesIndex;
-        let speedFrom = 30;
-        let speedTo = 500;
-        let speedStep = 0;
-        // 最后一圈时降速
-        if (timesIndex > self.turntable.times - 2) {
-          speedStep = Math.floor(
-            (speedTo - speedFrom) / (total + self.giftIndex)
-          );
-          self.turntable.speed += speedStep;
-        } else {
-          self.turntable.speed = speedFrom;
-        }
-
-        /**
-         * 设置转到的位置的激活样式
-         */
-        // 设置 turntable.index
-        if (self.turntable.index >= total - 1) {
-          self.turntable.index = -1;
-          self.turntable.timesIndex++;
-          timesIndex = self.turntable.timesIndex;
-          console.log('一圈了');
-        }
-        self.turntable.index++;
-        let i = self.turntable.index;
-
-        // if (timesIndex >= self.turntable.times + 1) {
-        //   debugger;
-        // }
-        // 去除 其它 .box 的 active
-        turntableObj.querySelectorAll('.gift .box').forEach(element => {
-          element.className = 'box';
-        });
-        // 设置 active
-        turntableObj.querySelector('.gift-' + i + ' .box').className =
-          'box active';
-
-        console.log(
-          'speed:',
-          self.turntable.speed + '/' + speedStep,
-          'times:',
-          timesIndex + '/' + self.turntable.times,
-          'self.turntable.index:',
-          self.turntable.index + '/' + self.giftIndex
-        );
-        /**
-         * 转到奖品处时停止
-         */
-        if (
-          timesIndex >= self.turntable.times &&
-          self.turntable.index >= self.giftIndex
-        ) {
-          // console.log(
-          //   `转够 ${self.turntable.timesIndex} 圈了，清除 ${
-          //     self.turntable.timer
-          //   }`
-          // );
-          clearTimeout(self.turntable.timer);
-          self.turntable = turntableInitData;
-          // console.log('self.turntable:', self.turntable);
-          // 扣除积分
-          self.jeton -= self.price;
-          console.log('抽奖完成，剩余积分：', self.jeton);
-          // 保存抽奖记录
-          // todo
-          // self.$emit('update:giftIndex', self.giftIndex + 1); // 设置下一抽奖项为奖品
-          self.$emit('update:giftIndex', Math.floor(Math.random() * 12)); // 随机更新奖品
-          return false;
-        }
-        self.turntable.timer = setTimeout(roll, self.turntable.speed);
-        // console.log(self.turntable.timer);
-        return false;
-      }
-      roll();
-    }
+      // 奖品清单
+      // gifts: [
+      //   {
+      //     id: 10,
+      //     name: '麝香毛巾',
+      //     img: '/static/img/gift/011.png'
+      //   }
+      // ]
+    };
   },
   computed: {
+    seats() {
+      return (this.cube.row - 1) * 2 + (this.cube.col - 1) * 2;
+    },
+    shuffleGifts() {
+      let gifts = this.gifts;
+      if (!gifts.length) return;
+      let seats = this.seats;
+      let giftRandom = [];
+      let multiple = Math.ceil(seats / gifts.length);
+      if (gifts.length < seats) {
+        for (let i = 0; i <= multiple; i++) {
+          giftRandom = giftRandom.concat(gifts);
+        }
+      } else {
+        giftRandom = gifts;
+      }
+      giftRandom = giftRandom.slice(0, seats);
+      // console.log(
+      //   'shuffleGifts:',
+      //   giftRandom,
+      //   'multiple:',
+      //   multiple,
+      //   'seats:',
+      //   seats,
+      //   'gifts.length:',
+      //   gifts.length
+      // );
+      return giftRandom;
+    },
     giftIndex: function() {
-      return this.gift < this.gifts.length ? this.gift : -1;
+      let self = this;
+      let giftId = self.gift;
+      let giftIndexArr = [];
+      for (let i = 0; i < self.shuffleGifts.length; i++) {
+        const gift = self.shuffleGifts[i];
+        if (gift.id === giftId) {
+          giftIndexArr.push(i);
+        }
+      }
+      let index = giftIndexArr[Math.floor(Math.random() * giftIndexArr.length)];
+      // console.log(
+      //   'giftIndex:' + index,
+      //   'giftId:' + giftId,
+      //   giftIndexArr,
+      //   self.shuffleGifts
+      // );
+      return index < self.gifts.length ? index : -1;
     },
     styleCube: function() {
       return {
@@ -219,90 +188,136 @@ export default {
       return style;
     }
   },
-  data() {
-    return {
-      jeton: this.score,
-      // 转盘控制属性
-      turntable: {
-        index: -1, // 转动时的当前项
-        speed: 0,
-        timer: 0, // setTimeout
-        stop: -1, // 中奖位置
-        timesIndex: 0, // 当前转的次数
-        times: 3, // 转够这个次数再开始往奖品那里转
-        runing: false
-      },
-      // 转盘外观设置
-      cube: {
-        itemWidth: 75, // mounted() 会根据设备宽度重新设置这个值
-        itemHeight: 75,
-        col: 4,
-        row: 4
+  methods: {
+    getGift() {
+      let self = this;
+      self.$vux.loading.show({
+        text: '准备中'
+      });
+      self.$emit('update:ready', false);
+      self.$emit('getGift');
+      self.watchReady();
+    },
+    watchReady() {
+      let self = this;
+      if (!self.ready) {
+        console.log('!ready.');
+        setTimeout(() => {
+          self.watchReady();
+        }, 100);
+      } else {
+        self.$vux.loading.hide();
+        self.luckDraw();
       }
-      // 奖品清单
-      // gifts: [
-      //   {
-      //     id: 10,
-      //     name: '麝香毛巾',
-      //     img: '/static/img/gift/011.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '洗洁精500ml',
-      //     img: '/static/img/gift/012.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '吸尘器',
-      //     img: '/static/img/gift/013.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '麝香毛巾',
-      //     img: '/static/img/gift/011.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '洗衣液500ml',
-      //     img: '/static/img/gift/014.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '100积分',
-      //     img: '/static/img/gift/020.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '100积分',
-      //     img: '/static/img/gift/020.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '牙膏250ml',
-      //     img: '/static/img/gift/017.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '自动洗衣机',
-      //     img: '/static/img/gift/018.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '50积分',
-      //     img: '/static/img/gift/019.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '电饭煲',
-      //     img: '/static/img/gift/015.png'
-      //   },
-      //   {
-      //     id: 10,
-      //     name: '麝香毛巾',
-      //     img: '/static/img/gift/011.png'
-      //   }
-      // ]
-    };
+    },
+    luckDraw: function() {
+      let self = this;
+      let total = self.shuffleGifts.length;
+      let turntableObj = self.$refs.gifts;
+      let turntableInitData = JSON.parse(JSON.stringify(self.turntable));
+      // console.log('giftIndex:', self.gift);
+      if (self.turntable.runing) {
+        // console.log('转盘运行中');
+        return;
+      }
+      if (self.jeton < self.price) {
+        AlertModule.show({
+          title: this.unit + '数不够',
+          content:
+            '每次需要扣除' +
+            this.price +
+            this.unit +
+            '，剩余' +
+            this.unit +
+            '数为' +
+            this.jeton
+        });
+        // console.log(this.unit + '不够');
+        return;
+      }
+      self.turntable.runing = true;
+      function roll() {
+        let timesIndex = self.turntable.timesIndex;
+        let speedFrom = 30;
+        let speedTo = 500;
+        let speedStep = 0;
+        // 最后一圈时降速
+        if (timesIndex > self.turntable.times - 2) {
+          speedStep = Math.floor(
+            (speedTo - speedFrom) / (total + self.giftIndex)
+          );
+          self.turntable.speed += speedStep;
+        } else {
+          self.turntable.speed = speedFrom;
+        }
+        /**
+         * 设置转到的位置的激活样式
+         */
+        // 设置 turntable.index
+        if (self.turntable.index >= total - 1) {
+          self.turntable.index = -1;
+          self.turntable.timesIndex++;
+          timesIndex = self.turntable.timesIndex;
+          // console.log('一圈了');
+        }
+        self.turntable.index++;
+        let i = self.turntable.index;
+        // if (timesIndex >= self.turntable.times + 1) {
+        //   debugger;
+        // }
+        // 去除 其它 .box 的 active
+        turntableObj.querySelectorAll('.gift .box').forEach(element => {
+          element.className = 'box';
+        });
+        // 设置 active
+        turntableObj.querySelector('.gift-' + i + ' .box').className =
+          'box active';
+
+        // console.log(
+        //   'speed:',
+        //   self.turntable.speed + '/' + speedStep,
+        //   'times:',
+        //   timesIndex + '/' + self.turntable.times,
+        //   'self.turntable.index:',
+        //   self.turntable.index + '/' + self.giftIndex
+        // );
+        /**
+         * 转到奖品处时停止
+         */
+        if (
+          timesIndex >= self.turntable.times &&
+          self.turntable.index >= self.giftIndex
+        ) {
+          // console.log(
+          //   `转够 ${self.turntable.timesIndex} 圈了，清除 ${
+          //     self.turntable.timer
+          //   }`
+          // );
+          clearTimeout(self.turntable.timer);
+          turntableInitData.index = self.gift; // 中奖位置（指针停留位置，下次抽奖从这里开始转动）
+          self.turntable = turntableInitData;
+          // console.log('self.turntable:', self.turntable);
+          // 扣除积分
+          self.$emit('update:jeton', self.jeton - self.price);
+          // console.log('抽奖完成，剩余：', self.jeton - self.price);
+          // 设置下一个奖品
+          // self.$emit('update:giftIndex', self.giftIndex + 1); // 设置下一抽奖项为奖品
+          // self.$emit('update:giftIndex', Math.floor(Math.random() * 12)); // 随机更新奖品
+          // 中奖提示
+          self.$vux.alert.show({
+            buttonText: '好的',
+            // title: '中奖啦',
+            // content: self.shuffleGifts[self.giftIndex].name
+            content: '抽中了' + self.shuffleGifts[self.giftIndex].name
+          });
+          return false;
+        }
+        self.turntable.timer = setTimeout(roll, self.turntable.speed);
+        // console.log(self.turntable.timer);
+        return false;
+      }
+      roll();
+    }
   },
   mounted() {
     this.$nextTick(function() {
@@ -313,7 +328,7 @@ export default {
       );
       let itemWidth = Math.floor(cubeWidth / this.cube.col);
       this.cube.itemWidth = itemWidth;
-      console.log('itemWidth:', itemWidth, ' by mounted');
+      // console.log('itemWidth:', itemWidth, ' by mounted');
     });
   }
 };
@@ -402,7 +417,7 @@ export default {
         }
         .name {
           color #802520
-          font-size 12px
+          font-size 10px
           line-height 20px
         }
       }

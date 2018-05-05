@@ -313,43 +313,44 @@ export const activity = {
     list: params => {
       let url = {
         all: '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy', // 配合 IsAdopt 显示所有人的列表
-        self: '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID' // 自己的列表，不需要 IsAdopt
+        self:
+          '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID' // 自己的列表，不需要 IsAdopt
       }[params.api];
-      return service
-        .post(url, params)
-        .then(res => {
-          console.log('activity.list:', JSON.parse(JSON.stringify(res.data)));
-          let list = [];
-          if (res.data.Data.PageData) {
-            list = res.data.Data.PageData.map((val, index, arr) => {
-              let title = val.PositiveEnergyTitle || '';
-              let content = val.PositiveEnergyContent
-                ? val.PositiveEnergyContent.replace(/<[^>]+>/g, '')
-                : '';
-              content = title ? '<span class="topic">#' + title + '#</span> ' + content : content;
-              return {
-                id: val.ID ? val.ID : '',
-                page: {
-                  index: index,
-                  page: res.data.Data.PageIndex,
-                  size: res.data.Data.PageSize
-                },
-                uid: val.CreateUID || '',
-                title: title,
-                thumb: '',
-                author: val.UserName || '[匿名]',
-                organization: val.OrganizationName || '',
-                content: content,
-                view: val.ReadNumber || 0,
-                like: val.FabulousNumber || 0,
-                liked: val.IsLike || false,
-                date: val.CreateDate || ''
-              }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
-            });
-          }
-          res.data.Data.PageData = list;
-          return res.data;
-        });
+      return service.post(url, params).then(res => {
+        console.log('activity.list:', JSON.parse(JSON.stringify(res.data)));
+        let list = [];
+        if (res.data.Data.PageData) {
+          list = res.data.Data.PageData.map((val, index, arr) => {
+            let title = val.PositiveEnergyTitle || '';
+            let content = val.PositiveEnergyContent
+              ? val.PositiveEnergyContent.replace(/<[^>]+>/g, '')
+              : '';
+            content = title
+              ? '<span class="topic">#' + title + '#</span> ' + content
+              : content;
+            return {
+              id: val.ID ? val.ID : '',
+              page: {
+                index: index,
+                page: res.data.Data.PageIndex,
+                size: res.data.Data.PageSize
+              },
+              uid: val.CreateUID || '',
+              title: title,
+              thumb: '',
+              author: val.UserName || '[匿名]',
+              organization: val.OrganizationName || '',
+              content: content,
+              view: val.ReadNumber || 0,
+              like: val.FabulousNumber || 0,
+              liked: val.IsLike || false,
+              date: val.CreateDate || ''
+            }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
+          });
+        }
+        res.data.Data.PageData = list;
+        return res.data;
+      });
     },
     detail: params => {
       return service
@@ -468,6 +469,24 @@ export const activity = {
         .then(res => {
           return res.data;
         });
+    }
+  },
+  ChouJiangZhuanQu: {
+    gifts: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyLotteryGoods/GetLotteryGoodsByIsPutaway',
+          params
+        )
+        .then(res => res.data);
+    },
+    gift: params => {
+      return service
+        .post(
+          '/api/PartyActivity/PaPartyLotteryGoods/GetLotteryByMember',
+          params
+        )
+        .then(res => res.data);
     }
   }
 };
