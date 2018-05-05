@@ -1,25 +1,30 @@
 import User from 'src/view/user';
+import UserIndex from 'src/view/user/catalog';
 import UserProfile from 'src/view/user/profile';
 import UserWechat from 'src/view/user/wechat/index';
 import UserWechatBinding from 'src/view/user/wechat/binding';
 import UserWechatUnbinding from 'src/view/user/wechat/unbinding';
 import UserPassword from 'src/view/user/password';
+import UserZhengNengLiang from 'src/view/user/ZhengNengLiang';
 
 const RouterUser = {
   path: '/user',
-  name: 'user',
   component: User,
   meta: { title: '个人中心', auth: true },
   children: [
     {
+      path: '/',
+      components: { default: UserIndex },
+      meta: { title: '个人中心', auth: true }
+    },
+    {
       path: 'profile',
-      name: 'user-profile',
-      component: UserProfile,
+      components: { default: UserProfile },
       meta: { title: '个人资料', auth: true }
     },
     {
       path: 'wechat',
-      component: UserWechat,
+      components: { default: UserWechat },
       meta: { title: '微信绑定', auth: true },
       children: [
         {
@@ -42,7 +47,12 @@ const RouterUser = {
     },
     {
       path: 'password',
-      component: UserPassword,
+      components: { default: UserPassword },
+      meta: { title: '修改密码', auth: true }
+    },
+    {
+      path: 'zhengnengliang',
+      components: {default: UserZhengNengLiang},
       meta: { title: '修改密码', auth: true }
     }
   ]
