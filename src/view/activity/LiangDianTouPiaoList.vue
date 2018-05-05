@@ -59,6 +59,7 @@
 <style lang="stylus" scoped>
 .voteList {
   margin 10px
+  list-style none
   .vote {
     margin-bottom 5px
     background-color #fff
