@@ -97,7 +97,7 @@ export default {
           '回复“' +
           self.form.reply.author +
           '”的“' +
-          self.form.reply.content.substr(0, 10) +
+          self.form.reply.content.replace(/<[^>]+>/g, '').substr(0, 10) +
           tail +
           '”';
       } else if (self.form.message && self.form.message.author) {
@@ -106,7 +106,7 @@ export default {
           '回复“' +
           self.form.message.author +
           '”的“' +
-          self.form.message.content.substr(0, 10) +
+          self.form.message.content.replace(/<[^>]+>/g, '').substr(0, 10) +
           tail +
           '”';
       }
