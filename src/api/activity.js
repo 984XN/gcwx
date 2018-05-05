@@ -107,7 +107,7 @@ export const activity = {
         .then(res => res.data);
     },
     // 点赞
-    setLiked: params => {
+    like: params => {
       return service.post('/api', params).then(res => res.data);
     },
     // 支部e家增加数据
@@ -313,22 +313,95 @@ export const activity = {
     list: params => {
       return service
         .post('/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergy', {
-          model: {
+          queryModel: {
             IsAdopt: 1 // 1所有人审核通过的，0所有人审核没通过的，默认0
           },
           ...params
         })
         .then(res => {
+          console.log('activity.list:', JSON.parse(JSON.stringify(res.data)));
+          let list = [];
+          if (res.data.Data.PageData) {
+            list = res.data.Data.PageData.map((val, index, arr) => {
+              let title = val.PositiveEnergyTitle || '';
+              let content = val.PositiveEnergyContent
+                ? val.PositiveEnergyContent.replace(/<[^>]+>/g, '')
+                : '';
+              content = title ? '<span class="topic">#' + title + '#</span> ' + content : content;
+              return {
+                id: val.ID ? val.ID : '',
+                page: {
+                  index: index,
+                  page: res.data.Data.PageIndex,
+                  size: res.data.Data.PageSize
+                },
+                uid: val.CreateUID || '',
+                title: title,
+                thumb: '',
+                author: val.UserName || '[匿名]',
+                organization: val.OrganizationName || '',
+                content: content,
+                view: val.ReadNumber || 0,
+                like: val.FabulousNumber || 0,
+                liked: val.IsLike || false,
+                date: val.CreateDate || ''
+              }; // index 用于显示留言的楼层号 // page 也用于显示留言的楼层号
+            });
+          }
+          res.data.Data.PageData = list;
           return res.data;
         });
     },
     detail: params => {
       return service
         .post(
-          '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID',
+          '/api/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByID',
           params
         )
         .then(res => {
+          // console.log(res.data.Data);
+          let article = {
+            baseInfo: res.data.Data.dynamic.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.CreateUID ? val.CreateUID : '',
+                title: val.PositiveEnergyTitle || '未命名',
+                author: val.UserName || '',
+                view: val.ReadNumber || 0,
+                like: val.FabulousNumber || 0,
+                content:
+                  val.PositiveEnergyContent.replace(/\n/g, '<br />') ||
+                  '[暂无正文内容]',
+                date: val.CreateDate || ''
+              };
+            })[0],
+            imgs: res.data.Data.file.map((val, index, arr) => {
+              return { src: val.FilePath };
+            }),
+            replies: res.data.Data.msg.map(val => {
+              return {
+                id: val.ID || '',
+                uid: val.UserID ? val.UserID : '',
+                author: val.Commentator || '',
+                content: val.CommentContent || '',
+                avatar: val.PhotoName || System.avatarDefault,
+                date: val.CommentDate || '',
+                comment:
+                  val.comment.map(val => {
+                    return {
+                      id: val.ID || '',
+                      uid: val.UserID ? val.UserID : '',
+                      author: val.Commentator || '',
+                      content: val.CommentContent || '',
+                      avatar: val.PhotoName || System.avatarDefault,
+                      date: val.CommentDate || ''
+                    };
+                  }) || []
+              };
+            })
+          };
+          res.data.Data.Article = article;
+          // console.log('activity.api detail res:', res.data);
           return res.data;
         });
     },

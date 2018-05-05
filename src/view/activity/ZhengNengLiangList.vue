@@ -1,6 +1,6 @@
 <template>
   <div class="page-hudongzhuanqu-zhengnengliang-list">
-    <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
+    <container top="0" :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
       <MessageList :list="list" @setReplyInfo="setReplyInfo" @like="like"></MessageList>
     </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
@@ -54,7 +54,7 @@ export default {
           '回复“' +
           self.form.reply.author +
           '”的“' +
-          self.form.reply.content.substr(0, 10) +
+          self.form.reply.content.replace(/<[^>]+>/g, '').substr(0, 10) +
           tail +
           '”';
       } else if (self.form.message && self.form.message.author) {
@@ -63,7 +63,7 @@ export default {
           '回复“' +
           self.form.message.author +
           '”的“' +
-          self.form.message.content.substr(0, 10) +
+          self.form.message.content.replace(/<[^>]+>/g, '').substr(0, 10) +
           tail +
           '”';
       }
@@ -110,7 +110,7 @@ export default {
             self.lazyload.nodata = true;
           }
           self.lazyload.loading = false;
-          // console.log('loadData:', res);
+          console.log('loadData:', res);
         });
       }
     },
@@ -135,11 +135,11 @@ export default {
       api.activity.ZhengNengLiang.detail({ ID: message.id })
         .then(res => {
           // console.log('appendDetail res:', message.id);
-          let body = res.Data.activitie[0];
+          let body = res.Data.dynamic[0];
           self.list[index].detailAppended = true;
           self.list[index].avatar = body.PhotoName || System.avatarDefault;
           self.list[index].replies =
-            res.Data.Data.map(val => {
+            res.Data.msg.map(val => {
               return {
                 id: val.ID || '',
                 uid: val.UserID ? val.UserID : '',
@@ -161,7 +161,7 @@ export default {
               };
             }) || [];
           self.list[index].imgs =
-            res.Data.img.map(img => {
+            res.Data.file.map(img => {
               return {
                 src: img.FilePath
               };
@@ -195,7 +195,7 @@ export default {
       if (allViewed) {
         return false;
       }
-      api.activity.ZhengNengLiang.setViewed({ ForeignID: message.id })
+      api.activity.ZhengNengLiang.setViewed({ ID: message.id })
         .then(res => {
           self.list[index].viewed = true;
           self.setViewed();
@@ -229,9 +229,9 @@ export default {
       let params = {
         model: {
           CommentContent: self.form.content, // 留言内容
-          ActivitiesID: self.form.message.id || null, // 回复给哪条留言
-          BeUserID: self.form.reply.uid || null, // 被评论人的UID
+          EnergyID: self.form.message.id || null, // 回复给哪条留言
           BeMsgID: self.form.reply.id || null, // 回复给留言下边的哪条评论
+          BeUserID: self.form.reply.uid || null, // 被评论人的UID
           UserID: self.form.message.uid || null // 登录人的UserID，不传
         }
       };
@@ -318,21 +318,44 @@ export default {
     },
     like(listIndex, id, liked) {
       let self = this;
-      self.$vux.toast.show({
-        text: '点赞功能暂未开通',
-        width: '10em',
-        type: 'warn'
-      });
-      return false;
-      // if (!liked) {
-      //   self.list[listIndex].like++;
-      //   console.log(`给 ${id} 点赞`);
-      // } else {
-      //   self.list[listIndex].like--;
-      //   console.log(`撤回对 ${id} 点赞`);
-      // }
-      // self.list[listIndex].liked = !liked;
-      // Vue.set(self.list, listIndex, self.list[listIndex]);
+      // self.$vux.toast.show({
+      //   text: '点赞功能暂未开通',
+      //   width: '10em',
+      //   type: 'warn'
+      // });
+      // return false;
+      if (!liked) {
+        self.list[listIndex].like++;
+        api.activity.ZhengNengLiang.like({
+          model: {
+            Type: '2', // 1.党建动态2.正能量
+            ActivityID: id
+          }
+        }).then(res => {
+          if (res.StatusCode === 1200) {
+            self.$vux.toast.show({
+              text: '已赞'
+            });
+            self.list[listIndex].liked = !liked;
+            Vue.set(self.list, listIndex, self.list[listIndex]);
+          } else {
+            self.$vux.alert.show({
+              title: '点赞失败',
+              content: res.Message
+            });
+          }
+        });
+        console.log(`给 ${id} 点赞`);
+      } else {
+        // self.$vux.toast.show({
+        //   text: '点赞不可撤消',
+        //   type: 'warn'
+        // });
+        return false;
+        // 不能撤消点赞
+        // self.list[listIndex].like--;
+        // console.log(`撤回对 ${id} 点赞`);
+      }
     }
   }
 };

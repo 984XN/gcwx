@@ -144,10 +144,14 @@ export const API_LIST = {
     }
   },
   '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByMemberID': {
-    name: '我的正能量',
+    name: '我的正能量列表',
     params: {
       pageModel: {}
     }
+  },
+  '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByID': {
+    name: '正能量详情信息',
+    params: { ID: '' }
   },
   '/PartyActivity/PaPartyPositiveEnergy/InsertPositiveEnergy': {
     name: '增加正能量',
@@ -158,10 +162,6 @@ export const API_LIST = {
       },
       imageID: [] // number
     }
-  },
-  '/PartyActivity/PaPartyPositiveEnergy/GetPositiveEnergyByID': {
-    name: '正能量详情信息',
-    params: { ID: '' }
   },
   '/PartyActivity/PaPartyPositiveEnergy/UpdatePositiveEnergy': {
     name: '编辑正能量',
@@ -185,11 +185,11 @@ export const API_LIST = {
     name: '评论正能量',
     params: {
       model: {
-        UserID: '', // int
-        EnergyID: '', // int
-        ActivitiesID: '', // int
-        CommentContent: '', // string
-        BeMsgID: '' // int?
+        CommentContent: '', // string 留言内容
+        EnergyID: '', // int 回复给哪条留言
+        BeMsgID: '', // int? 回复给留言下边的哪条评论
+        BeUserID: '', // int 被评论人的UID
+        UserID: '' // int 登录人的UserID，不传
       }
     }
   },

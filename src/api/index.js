@@ -188,9 +188,14 @@ service.interceptors.response.use(
       // Vue.$vux.alert.hide();
       Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
-      Vue.$vux.alert.show({
+      Vue.$vux.confirm.show({
         title: '请求超时',
-        content: '请重新操作 [504]'
+        content: '请重新操作 [504]',
+        cancelText: '刷新再试',
+        confirmText: '我知道了',
+        onCancel() {
+          window.location.reload();
+        }
       });
       // alert(error.message);
       console.log('未知错误:', error, error.code);
