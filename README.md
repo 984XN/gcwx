@@ -1,30 +1,50 @@
-# gaocheng_wechat_store
+# 藁城党建微信端
 
-> gaocheng weixin gongzhonghao
+> vue + vue-router + vuex + vux + webpack + ESLint
 
-## Build Setup
+##项目
+
+开始时间：20180409
+
+结束时间：
+
+## 开发
 
 ``` bash
-# install dependencies
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:8080
+# 本机运行 localhost:8080
 npm run dev
 
-# build for production with minification
+# 编译线上版本 /dist/
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 目录
+
+```
+.
+├─build  // webpack 的配置文件
+├─config // webpack 项目配置文件
+├─dist   // build 的线上用代码会出现在这里
+├─src    // 项目源码
+│  ├─api // 服务接口
+│  ├─assets
+│  │  ├─font
+│  │  └─img
+│  ├─components // 公用组件
+│  ├─config     // 项目配置文件
+│  ├─filter     // 模板和组件的过滤器
+│  ├─function   // 项目公共函数
+│  ├─router     // 项目路由
+│  ├─store      // vuex
+│  └─view
+│      ├─activity // 互动专区
+│      ├─article  // 学习平台
+│      ├─login    // 登录入口（PC端和微信端）
+│      └─user     // 个人中心
+└─static // 项目公用静态文件
+```
+
+-- 完 --
