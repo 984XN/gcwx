@@ -45,10 +45,10 @@
         </cell>
       </group>
       <group>
-        <cell title="个人积分" is-link :is-loading="score === null" :value="score">
+        <cell title="个人积分" is-link @click.native="unopened('个人积分')" :is-loading="score === null" value="开发中">
           <i slot="icon" class="listIcon iconfont icon-coin"></i>
         </cell>
-        <cell title="党费查询" is-link>
+        <cell title="党费查询" is-link @click.native="unopened('党费查询')" value="开发中">
           <i slot="icon" class="listIcon iconfont icon-money-square"></i>
         </cell>
         <cell title="中奖记录" :link="{path:'gifts',append:true}">
@@ -59,13 +59,13 @@
         </cell>
       </group>
       <group>
-        <cell title="通知公告" is-link>
+        <cell title="通知公告" is-link @click.native="unopened('通知公告')" value="开发中">
           <i slot="icon" class="listIcon iconfont icon-tongzhi"></i>
         </cell>
-        <cell title="党务公开" is-link>
+        <cell title="党务公开" is-link @click.native="unopened('党务公开')" value="开发中">
           <i slot="icon" class="listIcon iconfont icon-shangwu"></i>
         </cell>
-        <cell title="党建动态" is-link>
+        <cell title="党建动态" is-link @click.native="unopened('党建动态')" value="开发中">
           <i slot="icon" class="listIcon iconfont icon-article"></i>
         </cell>
       </group>
@@ -173,6 +173,13 @@ export default {
             content: res.Message
           });
         }
+      });
+    },
+    unopened(txt = '此功能') {
+      this.$vux.toast.show({
+        type: 'cancel',
+        width: '9em',
+        text: txt + '暂未开放'
       });
     }
   },
