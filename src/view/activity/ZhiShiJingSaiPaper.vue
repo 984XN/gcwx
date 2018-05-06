@@ -156,9 +156,9 @@ export default {
           let score = res.Data.score;
           // let Message = res.Message;
           // let StatusCode = res.StatusCode;
-          let message = '获得' + score + '个积分';
+          let message = '' + score + '分';
           if (lotteryNum > 0) {
-            message += '和' + lotteryNum + '次抽奖机会';
+            message += '，获得' + lotteryNum + '次抽奖机会';
             self.$vux.confirm.show({
               title: '恭喜',
               content: message,
@@ -250,6 +250,11 @@ export default {
           });
         });
     });
+  },
+  beforeDestroy() {
+    let self = this;
+    clearInterval(self.handle);
+    console.log('beforeDestroy 销毁定时器');
   }
 };
 </script>
