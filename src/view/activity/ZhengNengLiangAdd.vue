@@ -164,20 +164,19 @@ export default {
       formData.append('flowFilename', 'QQ截图20180427085500.png');
       formData.append('flowRelativePath', 'QQ截图20180427085500.png');
       formData.append('flowTotalChunks', 1);
-      api.activity.ZhengNengLiang
-        .upload(formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: function(progressEvent) {
-            if (progressEvent.lengthComputable) {
-              let pct = Math.ceil(
-                progressEvent.loaded / progressEvent.total * 100
-              );
-              self.files[index].pct = pct;
-              Vue.set(self.files, index, self.files[index]);
-              // console.log('上传进度：', index, self.files[index].pct);
-            }
+      api.activity.ZhengNengLiang.upload(formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: function(progressEvent) {
+          if (progressEvent.lengthComputable) {
+            let pct = Math.ceil(
+              progressEvent.loaded / progressEvent.total * 100
+            );
+            self.files[index].pct = pct;
+            Vue.set(self.files, index, self.files[index]);
+            // console.log('上传进度：', index, self.files[index].pct);
           }
-        })
+        }
+      })
         .then(function(res) {
           self.files[index].uploadError = false;
           self.files[index].uploaded = true;
@@ -227,24 +226,42 @@ export default {
         });
         return false;
       }
+      if (self.content.length < 30) {
+        self.$vux.toast.show({
+          type: 'warn',
+          width: '12em',
+          text: '内容至少需要30个字'
+        });
+        return false;
+      }
       self.$vux.loading.show({
         text: '正在提交'
       });
-      api.activity.ZhengNengLiang
-        .add({
-          model: {
-            PositiveEnergyTitle: self.title,
-            PositiveEnergyContent: self.content
-          },
-          imageID: self.fids
-        })
+      api.activity.ZhengNengLiang.add({
+        model: {
+          PositiveEnergyTitle: self.title,
+          PositiveEnergyContent: self.content
+        },
+        imageID: self.fids
+      })
         .then(function(res) {
           self.$vux.loading.hide();
           console.log('add res:', res);
           if (res.StatusCode === 1200) {
-            self.$vux.toast.show({
-              text: '添加成功',
-              time: 1000,
+            let alertContent = '';
+            if (
+              self.$route.query &&
+              self.$route.query.from &&
+              self.$route.query.from === 'user'
+            ) {
+              alertContent = '添加成功，审核通过后即可显示，审核通过前你可以重新编辑';
+            } else {
+              alertContent = '添加成功，审核通过后即可显示，审核状态可在“个人中心-我的正能量”查看';
+            }
+            self.$vux.alert.show({
+              title: '等待审核',
+              content: alertContent,
+              buttonText: '知道了',
               onHide() {
                 self.$router.go(-1);
               }

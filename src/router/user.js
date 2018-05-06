@@ -6,6 +6,9 @@ import UserWechatBinding from 'src/view/user/wechat/binding';
 import UserWechatUnbinding from 'src/view/user/wechat/unbinding';
 import UserPassword from 'src/view/user/password';
 import UserZhengNengLiang from 'src/view/user/ZhengNengLiang';
+import UserZhengNengLiangList from 'src/view/user/ZhengNengLiangList';
+import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
+import UserDetail from 'src/view/user/detail';
 
 const RouterUser = {
   path: '/user',
@@ -52,8 +55,30 @@ const RouterUser = {
     },
     {
       path: 'zhengnengliang',
-      components: {default: UserZhengNengLiang},
-      meta: { title: '修改密码', auth: true }
+      components: { default: UserZhengNengLiang },
+      meta: { title: '我的正能量', auth: true },
+      children: [
+        {
+          path: '/',
+          components: { default: UserZhengNengLiangList },
+          meta: { title: '我的正能量', auth: true }
+        },
+        {
+          path: 'edit/:id',
+          components: { default: UserZhengNengLiangEdit },
+          meta: { title: '我的正能量', auth: true }
+        }
+      ]
+    },
+    {
+      path: 'detail/:id',
+      components: { default: UserDetail },
+      meta: {
+        title: '正文',
+        auth: true,
+        fullpage: true,
+        keepAlive: false
+      }
     }
   ]
 };

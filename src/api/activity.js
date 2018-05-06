@@ -325,9 +325,12 @@ export const activity = {
             let content = val.PositiveEnergyContent
               ? val.PositiveEnergyContent.replace(/<[^>]+>/g, '')
               : '';
-            content = title
-              ? '<span class="topic">#' + title + '#</span> ' + content
-              : content;
+            // 全局正能量列表页没有标题，标题用#包裹后并入正文
+            if (params.api === 'all') {
+              content = title
+                ? '<span class="topic">#' + title + '#</span> ' + content
+                : content;
+            }
             return {
               id: val.ID ? val.ID : '',
               page: {
@@ -341,6 +344,7 @@ export const activity = {
               author: val.UserName || '[匿名]',
               organization: val.OrganizationName || '',
               content: content,
+              public: val.IsAdopt || 0,
               view: val.ReadNumber || 0,
               like: val.FabulousNumber || 0,
               liked: val.IsLike || false,
