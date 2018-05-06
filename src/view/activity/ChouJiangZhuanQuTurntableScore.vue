@@ -101,12 +101,13 @@ export default {
             img: val.GoodsImgPath
           };
         });
-        self.gifts.unshift({
-          // 放在开头可以防止奖品过多截取时缺少空奖
-          id: 1,
-          name: '谢谢参与',
-          img: '/static/img/gift/default.jpg'
-        });
+        // 这个 unshift 移入 api/activity.js 中了
+        // self.gifts.unshift({
+        //   // 放在开头可以防止奖品过多截取时缺少空奖
+        //   id: 1,
+        //   name: '谢谢参与',
+        //   img: '/static/img/gift/default.jpg'
+        // });
         self.gifts.sort((a, b) => {
           return Math.random() > 0.5 ? -1 : 1;
         });

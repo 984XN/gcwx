@@ -482,7 +482,23 @@ export const activity = {
           '/api/PartyActivity/PaPartyLotteryGoods/GetLotteryGoodsByIsPutaway',
           params
         )
-        .then(res => res.data);
+        .then(res => {
+          // 补上没返回的奖品：“谢谢参与”
+          res.data.Data.goods.unshift({
+            ID: 1,
+            GoodsName: '谢谢参与',
+            GoodsNum: 0,
+            GoodsUnit: '',
+            CreateUID: 0,
+            CreateDate: '',
+            UpdateUID: 0,
+            UpdateDate: '',
+            IsPutaway: 1,
+            GoodsImgPath: '/static/img/gift/default.png',
+            GoodsType: 0
+          });
+          return res.data;
+        });
     },
     gift: params => {
       return service
