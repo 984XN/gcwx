@@ -51,7 +51,7 @@
         <cell title="党费查询" is-link>
           <i slot="icon" class="listIcon iconfont icon-money-square"></i>
         </cell>
-        <cell title="中奖记录" is-link>
+        <cell title="中奖记录" :link="{path:'gifts',append:true}">
           <i slot="icon" class="listIcon iconfont icon-gift"></i>
         </cell>
         <cell title="我的正能量" :link="{path:'zhengnengliang',append:true}">

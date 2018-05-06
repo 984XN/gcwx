@@ -5,6 +5,7 @@ import UserWechat from 'src/view/user/wechat/index';
 import UserWechatBinding from 'src/view/user/wechat/binding';
 import UserWechatUnbinding from 'src/view/user/wechat/unbinding';
 import UserPassword from 'src/view/user/password';
+import UserGifts from 'src/view/user/gifts';
 import UserZhengNengLiang from 'src/view/user/ZhengNengLiang';
 import UserZhengNengLiangList from 'src/view/user/ZhengNengLiangList';
 import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
@@ -52,6 +53,11 @@ const RouterUser = {
       path: 'password',
       components: { default: UserPassword },
       meta: { title: '修改密码', auth: true }
+    },
+    {
+      path: 'gifts',
+      components: { default: UserGifts },
+      meta: { title: '中奖记录', auth: true }
     },
     {
       path: 'zhengnengliang',
