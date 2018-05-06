@@ -237,6 +237,67 @@ export const API_LIST = {
       pageModel: {}
     }
   },
+  // 试卷列表
+  '/PartyStudy/PsExamPapers/GetExamPapers': {
+    name: '试卷列表',
+    params: {
+      queryModel: {
+        PapersClassify: '' // int 10表示答题促学 20表示知识竞赛
+      },
+      pageModel: {}
+    }
+  },
+  // 已答试卷列表
+  '/PartyStudy/PsExamPapers/GetMyExamPapers': {
+    name: '已答试卷列表',
+    params: {
+      queryModel: {
+        PapersClassify: '' // int 10表示答题促学/20表示知识竞赛
+      },
+      pageModel: {}
+    }
+  },
+  // 答题促学 试卷的详情（题目清单，未做过的试卷）
+  '/PartyStudy/PsExamPapers/GetPapersByanswer': {
+    name: '答题促学试卷的详情',
+    params: {
+      ID: '',
+      pageModel: {}
+    }
+  },
+  // 知识竞赛 试卷的详情（题目清单，未做过的试卷）
+  '/PartyStudy/PsExamPapers/GetRandomTopicByKnowledgeContest': {
+    name: '知识竞赛试卷的详情',
+    params: {
+      ID: '',
+      pageModel: {}
+    }
+  },
+  // 答题促学 试卷的详情（题目清单，已经做过的试卷）
+  '/PartyStudy/PsExamPapers/GetQuestionBankAndScoreByExamPapersID': {
+    name: '做过的试卷的详情',
+    params: {
+      ID: '',
+      pageModel: {}
+    }
+  },
+  // 获取成绩
+  '/PartyStudy/PsAnswerRecord/InsertAnswerRecordByAnswerLearning': {
+    name: '获取成绩',
+    params: {
+      list: [
+        {
+          QuestionID: '', // int 题目id,
+          SelectedAnswers: '' // string 所选答案
+        },
+        {
+          QuestionID: '', // int 题目id,
+          SelectedAnswers: '' // string 所选答案
+        }
+      ],
+      PapersID: '' // int
+    }
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

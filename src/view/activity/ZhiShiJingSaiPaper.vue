@@ -8,7 +8,7 @@
       </div>
       <div class="tip">答题倒记时</div>
     </div>
-    <div class="questions">
+    <div class="questions" v-if="index > -1">
       <h1 class="paperTitle">加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！</h1>
       <ol class="questionsContainer">
         <li class="question">
@@ -24,9 +24,9 @@
               <ol class="answers">
                 <li class="answer" v-for="(answer, i) in list[index].options" :key="i">
                   <label>
-                    <input type="checkbox" name="t1">
+                    <input @click="write(list[index].id, answer.val)" :checked="answerCard[list[index].id] === answer.val" :type="list[index].inputType" :value="answer.val" :name="'t' + list[index].id + '[]'">
                     <i></i>
-                    {{answer}}
+                    {{answer.key}}
                   </label>
                 </li>
               </ol>
@@ -47,6 +47,7 @@
 <script>
 import { TransferDomDirective as TransferDom } from 'vux';
 import { setTimeout } from 'timers';
+import * as api from 'src/api/activity';
 
 export default {
   directives: {
@@ -58,39 +59,33 @@ export default {
       second: '-',
       handle: null,
       during: 666, // 倒计时总秒数
-      index: 0, // 答题进度
+      index: -1, // 答题进度
+      checked: false,
       buttonText: '下一题', // 最后一题会变成“交卷”
       loading: false,
-      list: [
+      list: [],
+      answerCard: {},
+      listTpl: [
         {
           question: '八荣八耻是由谁提案的？',
           options: ['胡锦涛', '邓小平', '江泽民', '习近平'],
           answer: 0,
           type: 'radio' // radio or multiselect
-        },
-        {
-          question: '九荣九耻是由谁提案的？',
-          options: ['邓小平', '江泽民', '胡锦涛', '习近平'],
-          answer: 0,
-          type: 'multiselect' // radio or multiselect
-        },
-        {
-          question: '八荣八耻是由谁提案的？',
-          options: ['江泽民', '邓小平', '胡锦涛', '习近平'],
-          answer: 0,
-          type: 'radio' // radio or multiselect
-        },
-        {
-          question: '九荣九耻是由谁提案的？',
-          options: ['邓小平', '江泽民', '胡锦涛', '习近平'],
-          answer: 0,
-          type: 'multiselect' // radio or multiselect
         }
       ]
     };
   },
   methods: {
-    getNextQuestion() {
+    // 填写答题卡
+    write(questionId, selected) {
+      this.answerCard[questionId] = selected;
+      // this.answerCard.push({
+      //   QuestionID: questionId,
+      //   SelectedAnswers: selected
+      // });
+      console.log('this.answerCard:', this.answerCard);
+    },
+    getNextQuestion(question) {
       let self = this;
       let index = self.index;
       let total = self.list.length;
@@ -100,16 +95,18 @@ export default {
           console.log('人工暂停');
           // 人工暂停(就是外边那个setTimeout)
           self.loading = false;
+          self.checked = false;
           self.index++;
           if (self.index === total - 1) {
             self.buttonText = '交卷';
           }
         }, 500);
       } else {
-        console.log('getNextQuestion：最后一题');
-        // return;
+        console.log('答完了：', self.answerCard);
+        self.handOver();
       }
     },
+    // 倒计时
     countdown() {
       let self = this;
       self.handle = setInterval(function() {
@@ -120,18 +117,138 @@ export default {
         second = second < 10 ? '0' + second : second;
         if (during < 0) {
           clearInterval(self.handle);
-          console.log('时间到了');
+          console.log('时间到了,自动交卷');
+          self.handOver();
         } else {
           self.during = during;
           self.minute = minute;
           self.second = second;
         }
       }, 1000);
+    },
+    // 交卷
+    handOver() {
+      let self = this;
+      let answerCard = [];
+      for (const key in self.answerCard) {
+        if (self.answerCard.hasOwnProperty(key)) {
+          const val = self.answerCard[key];
+          answerCard.push({
+            QuestionID: key, // int 题目id,
+            SelectedAnswers: val // string 所选答案
+          });
+        }
+      }
+      console.log('交卷，答题卡：', answerCard);
+      // 交卷获取成绩
+      self.$vux.loading.show({
+        text: '获取成绩'
+      });
+      api.activity.examination
+        .result({
+          list: answerCard,
+          PapersID: self.$route.params.id
+        })
+        .then(res => {
+          self.$vux.loading.hide();
+          console.log('成绩:', res);
+          let lotteryNum = res.Data.lotteryNum;
+          let score = res.Data.score;
+          // let Message = res.Message;
+          // let StatusCode = res.StatusCode;
+          let message = '获得' + score + '个积分';
+          if (lotteryNum > 0) {
+            message += '和' + lotteryNum + '次抽奖机会';
+            self.$vux.confirm.show({
+              title: '恭喜',
+              content: message,
+              confirmText: '去抽奖',
+              cancelText: '放弃',
+              onCancel() {
+                self.$router.go(-1);
+              },
+              onConfirm() {
+                self.$router.replace({
+                  path: '/activity/choujiangzhuanqu/turntable-question'
+                });
+              }
+            });
+          } else {
+            self.$vux.alert.show({
+              title: '成绩',
+              content: message,
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.confirm.show({
+            title: '获取不到成绩',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              self.$router.go(-1);
+            }
+          });
+        });
+      // return;
     }
   },
   mounted() {
-    this.$nextTick(function() {
-      this.countdown();
+    let self = this;
+    self.$vux.loading.show({
+      text: '获取试卷'
+    });
+    self.$nextTick(function() {
+      api.activity.examination
+        .detail({
+          ID: self.$route.params.id || 0,
+          api: 'unfinished_20' // 10表示答题促学/20表示知识竞赛
+        })
+        .then(res => {
+          self.$vux.loading.hide();
+          console.log('detail:', res);
+          let code = res.Data.code || 0;
+          if (code === 200) {
+            self.index = 0;
+            self.during = res.Data.papers.AnswerWhenLong * 60; // 分钟转为秒
+            self.list = res.Data.list;
+            if (res.Data.list.length === 0) {
+              self.$vux.alert.show({
+                title: '不能考试',
+                content: '试卷中没有题目'
+              });
+              return false;
+            }
+            self.countdown();
+          } else {
+            self.$vux.alert.show({
+              title: '出错了',
+              content: res.Data.Message || res.Message || '未知错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.confirm.show({
+            title: '获取不到试卷',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              self.$router.go(-1);
+            }
+          });
+        });
     });
   }
 };

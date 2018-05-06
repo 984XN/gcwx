@@ -1,18 +1,20 @@
 <template>
   <ul class="examinationPaperList">
     <li v-for="(item,n) in list" :key="n">
-      <router-link to="paper">
+      <router-link :to="{path:'paper/'+item.id}">
         <div class="thumb" v-if="item.thumb">
           <img :src="item.thumb" :alt="item.title">
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
-        <div class="intro" v-if="!item.thumb">{{item.content}}</div>
+        <div class="intro" v-if="!item.thumb && item.content">{{item.content}}</div>
         <div class="attr" :style="getStyleAttr(item)">
-          <span class="date">开始时间：{{item.date}}</span>
+          <span class="date" v-if="item.date">考试时间：{{item.date|substr(0,10,false)}}</span>
         </div>
-        <x-button v-if="!item.done" mini type="warn">开始测试</x-button>
-        <x-button v-if="item.done" mini disabled>已完成</x-button>
+        <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
+        <x-button v-if="!item.expire && item.done" mini disabled>已完成</x-button>
+        <x-button v-if="item.expire" mini disabled>已结束</x-button>
+        <x-button v-if="item.notYet" mini disabled>未开始</x-button>
       </router-link>
     </li>
   </ul>

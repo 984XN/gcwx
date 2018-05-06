@@ -8,6 +8,41 @@
 import service from 'src/api';
 import { System } from 'src/config';
 
+// 当前时间戳
+function time(dateString = '') {
+  dateString = dateString.replace(/-/g, '/');
+  return Date.parse(dateString || new Date()) / 1000;
+}
+// 时间戳转日期 只支持 'Y-m-d H:i:s','Y-m-d','H:i:s' 三种调用方式
+function getDate(format, time) {
+  var _temp = time != null ? new Date(time * 1000) : new Date();
+  var _return = '';
+  if (/Y-m-d/.test(format)) {
+    var _day = [
+      _temp.getFullYear(),
+      addzero(1 + _temp.getMonth()),
+      addzero(_temp.getDate())
+    ];
+    _return = _day.join('-');
+  }
+  if (/H:i:s/.test(format)) {
+    var _time = [
+      addzero(_temp.getHours()),
+      addzero(_temp.getMinutes()),
+      addzero(_temp.getSeconds())
+    ];
+    _return += ' ' + _time.join(':');
+  }
+  return _return;
+  function addzero(i) {
+    if (i <= 9) {
+      return '0' + i;
+    } else {
+      return i;
+    }
+  }
+}
+
 export const activity = {
   ZhiBuEJia: {
     // 获取列表
@@ -526,6 +561,137 @@ export const activity = {
         });
         return res.data;
       });
+    }
+  },
+  // 知识竞赛和答题促学
+  examination: {
+    list: params => {
+      let url = {
+        all: '/api/PartyStudy/PsExamPapers/GetExamPapers', // 试卷列表（全部：未做和已做）
+        my: '/api/PartyStudy/PsExamPapers/GetMyExamPapers' // 我做过的试卷
+      }[params.api];
+      return service.post(url, params).then(res => {
+        if (res.data.Data && res.data.Data.PageData) {
+          res.data.Data.list = res.data.Data.PageData.map(v => {
+            let date = '';
+            let expire = false; // 已过期
+            let notYet = false; // 未开始
+            // 10答题促学 20知识竞赛
+            if (params.queryModel.PapersClassify === 10) {
+              date = v.CreateDate;
+            }
+            if (params.queryModel.PapersClassify === 20) {
+              date = v.AnswerTime;
+              let today = {
+                begin: time(getDate('Y-m-d 00:00:00')),
+                end: time(getDate('Y-m-d 23:59:59'))
+              };
+              let ts = time(date);
+              if (ts < today.begin) {
+                expire = true;
+              }
+              if (ts > today.end) {
+                notYet = true;
+              }
+            }
+            return {
+              id: v.ID,
+              thumb: '',
+              title: v.PaperTitle,
+              content:
+                '共' +
+                v.PaperQuestionCount +
+                '道题，每题' +
+                v.EveryScore +
+                '分，共' +
+                v.TotalScore +
+                '分，考试时间' +
+                v.AnswerWhenLong +
+                '分钟',
+              done: v.isAnswer, // 已参与过考试
+              expire: expire, // 已过期
+              notYet: notYet, // 未开始
+              date: date
+            };
+          });
+        }
+        return res.data;
+      });
+    },
+    // 获取试卷中的题目
+    detail: params => {
+      let url = {
+        unfinished_10: '/api/PartyStudy/PsExamPapers/GetPapersByanswer', // 答题促学 未做的试卷(返回试题无答案)
+        unfinished_20:
+          '/api/PartyStudy/PsExamPapers/GetRandomTopicByKnowledgeContest', // 知识竞赛 未做的试卷(返回试题无答案)
+        finished:
+          '/api/PartyStudy/PsExamPapers/GetQuestionBankAndScoreByExamPapersID', // 做过的试卷(返回试题及答案)
+        all: '/api/PartyStudy/PsExamPapers/GetQuestionBankByExamPapersID' // 试卷里边的的试题及答案（管理员专用）
+      }[params.api];
+      return service.post(url, params).then(res => {
+        if (res.data.Data && res.data.Data.question) {
+          res.data.Data.list = res.data.Data.question.map(v => {
+            let type = v.QuestionType; // 10判断，20单选，30多选
+            let question = {
+              id: v.ID || '[无标题]',
+              question: v.QuestionDescribe || '[无标题]',
+              // options: [
+              //   { val: 'A', key: '胡锦涛' },
+              //   { val: 'A', key: '邓小平' },
+              //   { val: 'A', key: '江泽民' },
+              //   { val: 'A', key: '习近平' }
+              // ],
+              answer: v.QuestionRightAnswers,
+              inputType: type === 10 || type === 20 ? 'radio' : 'checkbox',
+              type: '' // // radio or multiselect
+            };
+            switch (type) {
+              case 10: // 判断也是单选：是或否
+              case 20: // 单选
+                question.type = 'radio';
+                break;
+              case 30:
+                question.type = 'multiselect';
+                break;
+              default:
+                break;
+            }
+            // 10判断题共2个答案项，20单选答案共4个答案项，30多选答案共X项（目前没有多选题20180506）
+            let options = [];
+            for (const i of 'ABCD'.split('')) {
+              let val = 'QuestionOption' + i;
+              let key = 'QuestionOption' + i + 'Content';
+              if (v[key]) {
+                options.push({
+                  key: v[key],
+                  val: v[val]
+                });
+              }
+            }
+            if (type === 10) {
+              question.options = options;
+            } else if (type === 20) {
+              question.options = options;
+            } else if (type === 30) {
+              // 目前没有多选题
+              console.error('检测到多选题，系统目前不支持多选题');
+            }
+            return question;
+          });
+        }
+        return res.data;
+      });
+    },
+    // 获取考试成绩
+    result: params => {
+      return service
+        .post(
+          '/api/PartyStudy/PsAnswerRecord/InsertAnswerRecordByAnswerLearning',
+          params
+        )
+        .then(res => {
+          return res.data;
+        });
     }
   }
 };

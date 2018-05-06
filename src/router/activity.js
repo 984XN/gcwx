@@ -131,17 +131,17 @@ const RouterActivity = {
             default: ActivityDaTiCuXueList
           },
           meta: {
-            title: '答题练习',
+            title: '答题促学',
             auth: true,
             fullpage: true,
             keepAlive: false
           }
         },
         {
-          path: 'paper',
+          path: 'paper/:id',
           component: ActivityDaTiCuXuePaper,
           meta: {
-            title: '试卷',
+            title: '答题促学试卷',
             auth: true,
             fullpage: true,
             keepAlive: false
@@ -184,17 +184,17 @@ const RouterActivity = {
             default: ActivityZhiShiJingSaiList
           },
           meta: {
-            title: '答题练习',
+            title: '知识竞赛',
             auth: true,
             fullpage: true,
             keepAlive: false
           }
         },
         {
-          path: 'paper',
+          path: 'paper/:id',
           component: ActivityZhiShiJingSaiPaper,
           meta: {
-            title: '试卷',
+            title: '知识竞赛试卷',
             auth: true,
             fullpage: true,
             keepAlive: false
