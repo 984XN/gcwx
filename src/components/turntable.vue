@@ -294,7 +294,7 @@ export default {
           //   }`
           // );
           clearTimeout(self.turntable.timer);
-          turntableInitData.index = self.gift; // 中奖位置（指针停留位置，下次抽奖从这里开始转动）
+          turntableInitData.index = self.giftIndex; // 中奖位置（指针停留位置，下次抽奖从这里开始转动）
           self.turntable = turntableInitData;
           // console.log('self.turntable:', self.turntable);
           // 扣除积分
