@@ -5,9 +5,9 @@
     </div>
     <div class="nameList">
       <marquee>
-        <marquee-item v-for="i in 5" :key="i">
-          <span class="date">15:15:34</span>
-          恭喜刘t阳抽中“吸尘器”一台
+        <marquee-item v-for="(v,i) in winningList" :key="i">
+          <span class="date">{{v.date}}</span>
+          {{v.title}}
         </marquee-item>
       </marquee>
     </div>
@@ -31,6 +31,7 @@
 <script>
 import { Marquee, MarqueeItem } from 'vux';
 import Turntable from 'src/components/turntable';
+import * as api from 'src/api/activity';
 
 export default {
   components: {
@@ -102,7 +103,8 @@ export default {
           name: '麝香毛巾',
           img: '/static/img/gift/011.png'
         }
-      ]
+      ],
+      winningList: []
     };
   },
   methods: {
@@ -110,6 +112,18 @@ export default {
       this.giftIndex = giftIndex;
       console.log('methods.update:giftIndex to:', giftIndex);
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      api.activity.ChouJianZhuanQu.list({
+        queryModel: {
+          WinningType: 2 // number 1.积分抽奖的, 2.答题抽奖的
+        },
+        api: 'all'
+      }).then(res => {
+        console.log(res);
+      });
+    });
   }
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="turntable">
     <div class="jeton">
-      <router-link class="expenditure" to="records">中奖详情</router-link>
+      <router-link class="expenditure" to="records">中奖名单</router-link>
       <div class="value">剩余{{unit}}数：{{jeton}}</div>
     </div>
     <div class="decoration">

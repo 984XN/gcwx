@@ -5,9 +5,9 @@
     </div>
     <div class="nameList">
       <marquee>
-        <marquee-item v-for="i in 5" :key="i">
-          <span class="date">15:15:34</span>
-          恭喜刘t阳抽中“吸尘器”一台
+        <marquee-item v-for="(v,i) in winningList" :key="i">
+          <span class="date">{{v.date|substr(0,10,false)}}</span>
+          {{v.name|substr(0,3)}}抽中了{{v.gift|substr(0,5)}}
         </marquee-item>
       </marquee>
     </div>
@@ -46,7 +46,8 @@ export default {
       unit: '次',
       giftId: -1,
       gifts: [],
-      ready: false
+      ready: false,
+      winningList: []
     };
   },
   methods: {
@@ -88,6 +89,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      // 获取奖品清单
       api.activity.ChouJiangZhuanQu.gifts({
         Type: 1 // 1.积分商品, 2.答题促学商品
       }).then(res => {
@@ -109,6 +111,17 @@ export default {
           return Math.random() > 0.5 ? -1 : 1;
         });
         // self.getGift();
+      });
+      // 获取中奖名单
+      api.activity.ChouJiangZhuanQu.list({
+        queryModel: {
+          WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
+        },
+        pageModel: { Page: 1, Start: 0, Limit: 50 },
+        api: 'all'
+      }).then(res => {
+        self.winningList = res.Data.list;
+        console.log('中奖名单:', res.Data.list);
       });
     });
   }

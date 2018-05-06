@@ -213,10 +213,28 @@ export const API_LIST = {
       Type: '' // number 1.积分商品, 2.答题促学商品
     }
   },
+  // 抽奖
   '/PartyActivity/PaPartyLotteryGoods/GetLotteryByMember': {
     name: '抽奖',
     params: {
       Type: '' // number 1.积分抽奖, 2.答题促学抽奖
+    }
+  },
+  // 获奖名单
+  '/PartyActivity/PaPartyWinningRecord/GetWinningRecord': {
+    name: '获取获奖名单',
+    params: {
+      queryModel: {
+        WinningType: '' // number 1.积分抽奖的, 2.答题抽奖的
+      }
+    }
+  },
+  // 个人中奖记录
+  '/PartyActivity/PaPartyWinningRecord/GetWinningRecordByMember': {
+    name: '个人中奖记录',
+    params: {
+      queryModel: {},
+      pageModel: {}
     }
   },
   ____________: {

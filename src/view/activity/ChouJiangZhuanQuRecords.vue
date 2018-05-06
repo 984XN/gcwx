@@ -1,18 +1,18 @@
 <template>
-  <container bottom="0" top="0" class="page-activity-zhishijingsai-order">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-zhishijingsai-order">
     <h1 class="pageTitle">中奖名单</h1>
     <dl class="examOrderList">
       <dt>
-        <div class="number">共60人参与</div>
+        <div class="number">共{{total}}人参与</div>
         <div class="text">中奖名单</div>
       </dt>
       <dd>
         <table class="data">
           <tbody>
-            <tr v-for="i in 60" :key="i">
-              <td>张佳磊</td>
-              <td>抽中{{100-i}}分</td>
-              <td>中共藁城区华科路党工委</td>
+            <tr v-for="(v,i) in list" :key="i">
+              <td>{{v.name}}</td>
+              <td>抽中{{v.gift|substr(0,10)}}</td>
+              <td>{{v.date|substr(0,16,false)}}</td>
             </tr>
           </tbody>
         </table>
@@ -22,11 +22,55 @@
 </template>
 
 <script>
+import * as api from 'src/api/activity';
+
 export default {
   data() {
     return {
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      total: '-',
       list: []
     };
+  },
+  methods: {
+    loadData() {
+      // console.log('XiLieJianHua.loadData...');
+      let self = this;
+      if (self.lazyload.loading) {
+        // console.log('已经在加载中，return');
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        // console.log('XiLieJianHua.loadData...没有数据了');
+        self.lazyload.loading = false;
+      } else {
+        // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
+        api.activity.ChouJiangZhuanQu.list({
+          queryModel: {
+            WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
+          },
+          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 20 },
+          api: 'all'
+        }).then(res => {
+          console.log('loadData res:', res);
+          if (res.Data.list && res.Data.list.length > 0) {
+            self.list = [...this.list, ...res.Data.list];
+            self.total = res.Data.RowCount;
+            self.lazyload.page += 1;
+          } else {
+            // console.log('木有数据了');
+            self.lazyload.nodata = true;
+          }
+          self.lazyload.loading = false;
+        });
+      }
+    }
   }
 };
 </script>
@@ -72,19 +116,25 @@ export default {
     table.data {
       width 100%
       tr {
-        &:nth-child(1) td:nth-child(1) {
-          color #CC0000
-        }
-        &:nth-child(2) td:nth-child(1) {
-          color #FF9800
-        }
-        &:nth-child(3) td:nth-child(1) {
-          color #2196F3
-        }
+        // &:nth-child(1) td:nth-child(1) {
+        // color #CC0000
+        // }
+        // &:nth-child(2) td:nth-child(1) {
+        // color #FF9800
+        // }
+        // &:nth-child(3) td:nth-child(1) {
+        // color #2196F3
+        // }
         td {
           padding 5px 0
           &:last-child {
             text-align right
+          }
+          &:nth-child(1) {
+            color #666
+          }
+          &:nth-child(3) {
+            color #CCC
           }
         }
       }

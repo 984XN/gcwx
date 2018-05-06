@@ -491,6 +491,25 @@ export const activity = {
           params
         )
         .then(res => res.data);
+    },
+    list: params => {
+      let url = {
+        all: '/api/PartyActivity/PaPartyWinningRecord/GetWinningRecord', // 所有人
+        self: '/api/PartyActivity/PaPartyWinningRecord/GetWinningRecordByMember' // 自己的
+      }[params.api];
+      return service.post(url, params).then(res => {
+        res.data.Data.list = res.data.Data.PageData.map(v => {
+          return {
+            id: v.ID,
+            uid: v.CreateUID,
+            img: v.GoodsImgPath,
+            gift: v.GoodsName,
+            name: v.Name,
+            date: v.WinningDate
+          };
+        });
+        return res.data;
+      });
     }
   }
 };
