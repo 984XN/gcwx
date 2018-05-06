@@ -6,15 +6,15 @@
     <div class="nameList">
       <marquee>
         <marquee-item v-for="(v,i) in winningList" :key="i">
-          <span class="date">{{v.date}}</span>
-          {{v.title}}
+          <span class="date">{{v.date|substr(0,10,false)}}</span>
+          {{v.name|substr(0,3)}}抽中了{{v.gift|substr(0,5)}}
         </marquee-item>
       </marquee>
     </div>
     <div class="pageTitle">
       <div class="text">幸运大转盘</div>
     </div>
-    <Turntable :score="1" :price="1" unit="次数" :gifts="gifts" :gift="giftIndex" @update:giftIndex="update"></Turntable>
+    <Turntable :jeton.sync="jeton" :price="price" :unit="unit" :gifts="gifts" :gift="giftId" :ready.sync="ready" @getGift="getGift"></Turntable>
     <dl class="rule">
       <dt>活动规则</dt>
       <dd>
@@ -41,87 +41,88 @@ export default {
   },
   data() {
     return {
-      giftIndex: 11,
-      gifts: [
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        },
-        {
-          id: 10,
-          name: '洗洁精500ml',
-          img: '/static/img/gift/012.png'
-        },
-        {
-          id: 10,
-          name: '吸尘器',
-          img: '/static/img/gift/013.png'
-        },
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        },
-        {
-          id: 10,
-          name: '洗衣液500ml',
-          img: '/static/img/gift/014.png'
-        },
-        {
-          id: 10,
-          name: '100积分',
-          img: '/static/img/gift/020.png'
-        },
-        {
-          id: 10,
-          name: '100积分',
-          img: '/static/img/gift/020.png'
-        },
-        {
-          id: 10,
-          name: '牙膏250ml',
-          img: '/static/img/gift/017.png'
-        },
-        {
-          id: 10,
-          name: '自动洗衣机',
-          img: '/static/img/gift/018.png'
-        },
-        {
-          id: 10,
-          name: '50积分',
-          img: '/static/img/gift/019.png'
-        },
-        {
-          id: 10,
-          name: '电饭煲',
-          img: '/static/img/gift/015.png'
-        },
-        {
-          id: 10,
-          name: '麝香毛巾',
-          img: '/static/img/gift/011.png'
-        }
-      ],
+      jeton: 0,
+      price: 1,
+      unit: '次',
+      giftId: -1,
+      gifts: [],
+      ready: false,
       winningList: []
     };
   },
   methods: {
-    update(giftIndex = 0) {
-      this.giftIndex = giftIndex;
-      console.log('methods.update:giftIndex to:', giftIndex);
+    // update(giftId = 0) {
+    //   this.giftId = giftId;
+    //   console.log('methods.update:giftId to:', giftId);
+    // }
+    getGift() {
+      let self = this;
+      api.activity.ChouJiangZhuanQu.gift({
+        Type: 2 // 1.积分抽奖, 2.答题促学抽奖
+      })
+        .then(res => {
+          // console.log('getGift:', res);
+          if (res.StatusCode === 1200) {
+            self.ready = true;
+            self.giftId = res.Data;
+            // console.log('new index:', i);
+          } else {
+            self.$vux.alert.show({
+              title: '数据错误',
+              content: res.Message
+            });
+          }
+        })
+        .catch(e => {
+          this.$vux.confirm.show({
+            title: '出错了',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              this.$router.go(-1);
+            }
+          });
+        });
     }
   },
   mounted() {
-    this.$nextTick(() => {
-      api.activity.ChouJianZhuanQu.list({
+    let self = this;
+    self.$nextTick(() => {
+      // 获取奖品清单
+      api.activity.ChouJiangZhuanQu.gifts({
+        Type: 2 // 1.积分商品, 2.答题促学商品
+      }).then(res => {
+        // self.jeton = res.Data.residueDegree || 0;
+        self.gifts = res.Data.goods.map(val => {
+          return {
+            id: val.ID,
+            name: val.GoodsName,
+            img: val.GoodsImgPath
+          };
+        });
+        // 这个 unshift 移入 api/activity.js 中了
+        // self.gifts.unshift({
+        //   // 放在开头可以防止奖品过多截取时缺少空奖
+        //   id: 1,
+        //   name: '谢谢参与',
+        //   img: '/static/img/gift/default.jpg'
+        // });
+        self.gifts.sort((a, b) => {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        // self.getGift();
+      });
+      // 获取中奖名单
+      api.activity.ChouJiangZhuanQu.list({
         queryModel: {
-          WinningType: 2 // number 1.积分抽奖的, 2.答题抽奖的
+          WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
         },
+        pageModel: { Page: 1, Start: 0, Limit: 50 },
         api: 'all'
       }).then(res => {
-        console.log(res);
+        self.winningList = res.Data.list;
+        console.log('中奖名单:', res.Data.list);
       });
     });
   }

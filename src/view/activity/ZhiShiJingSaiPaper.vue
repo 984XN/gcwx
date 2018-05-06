@@ -169,7 +169,8 @@ export default {
               },
               onConfirm() {
                 self.$router.replace({
-                  path: '/activity/choujiangzhuanqu/turntable-question'
+                  path: '/activity/choujiangzhuanqu/turntable-question',
+                  query: { token: self.time() }
                 });
               }
             });
@@ -225,6 +226,11 @@ export default {
               });
               return false;
             }
+            // 答题卡初始化（后台接口要求每道题都必需传值，未答的填写空的字符串，不能是null）
+            self.list.forEach(v => {
+              self.answerCard[v.id] = '';
+            });
+            console.log(self.answerCard);
             self.countdown();
           } else {
             self.$vux.alert.show({

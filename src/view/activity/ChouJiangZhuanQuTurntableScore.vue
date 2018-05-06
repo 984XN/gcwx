@@ -93,7 +93,7 @@ export default {
       api.activity.ChouJiangZhuanQu.gifts({
         Type: 1 // 1.积分商品, 2.答题促学商品
       }).then(res => {
-        self.jeton = res.Data.residueDegree;
+        self.jeton = res.Data.residueDegree || 0;
         self.gifts = res.Data.goods.map(val => {
           return {
             id: val.ID,
