@@ -1,14 +1,138 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <title>藁城党建</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <%=htmlWebpackPlugin.files.webpackManifest%>
-    <!-- built files will be auto injected -->
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>藁城党建</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+    }
+
+    #app {
+      height: 100%;
+    }
+
+    .appLoading {
+      width: 100%;
+      height: 100%;
+      background-color: #FFF;
+      color: FFF;
+      overflow: hidden;
+    }
+
+    .loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-left: -45px;
+      margin-top: -60px;
+      width: 90px;
+      height: 120px;
+      display: block;
+      text-align: center;
+    }
+
+    .loader .text {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 12px;
+      line-height: 30px;
+      color: #CCC;
+    }
+
+    @-webkit-keyframes star-small-pulse {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+      100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+      }
+    }
+
+    @keyframes star-small-pulse {
+      0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+      }
+      100% {
+        -webkit-transform: scale(2);
+        transform: scale(2);
+      }
+    }
+
+    @-webkit-keyframes star-big-pulse {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        -webkit-transform: scale(5);
+        transform: scale(5);
+        opacity: 0;
+      }
+    }
+
+    @keyframes star-big-pulse {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        -webkit-transform: scale(5);
+        transform: scale(5);
+        opacity: 0;
+      }
+    }
+
+    .loader .star-small {
+      -webkit-animation: star-small-pulse 1s ease-in-out alternate infinite;
+      animation: star-small-pulse 1s ease-in-out alternate infinite;
+    }
+
+    .loader .loader-star {
+      position: absolute;
+      top: calc(50% - 12px);
+      left: calc(50% - 12px);
+    }
+
+    .loader .star-big {
+      -webkit-animation: star-big-pulse 2s -0.2s ease-in-out infinite;
+      animation: star-big-pulse 2s -0.2s ease-in-out infinite;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="appLoading">
+      <div class="loader">
+        <svg class="loader-star star-small" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" width="23.172px" height="23.346px" viewBox="0 0 23.172 23.346" xml:space="preserve">
+          <polygon fill="#C00" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9  "></polygon>
+        </svg>
+        <svg class="loader-star star-big" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" width="23.172px" height="23.346px" viewBox="0 0 23.172 23.346" xml:space="preserve">
+          <polygon fill="#F00" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9  "></polygon>
+        </svg>
+
+        <div class="text">正在初始化</div>
+      </div>
+    </div>
+  </div>
+  <!-- <%=htmlWebpackPlugin.files.webpackManifest%> -->
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
