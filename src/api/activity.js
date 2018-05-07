@@ -726,6 +726,25 @@ export const activity = {
         .then(res => {
           return res.data;
         });
+    },
+    // 知识竞赛排名
+    order: params => {
+      return service
+        .post('/api/PartyStudy/PsExamPapers/GetTestScores', params)
+        .then(res => {
+          if (res.data.Data && res.data.Data.PageData) {
+            res.data.Data.list = res.data.Data.PageData.map(v => {
+              return {
+                id: v.ID,
+                name: v.Name,
+                score: v.TotalScore,
+                mid: v.PartyMemberID,
+                date: v.PapersScoreTime
+              };
+            });
+          }
+          return res.data;
+        });
     }
   }
 };

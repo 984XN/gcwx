@@ -1,6 +1,6 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" class="page-activity-zhishijingsai-list">
-    <ExaminationPaperList :list="list"></ExaminationPaperList>
+    <ExaminationPaperList :list="list" :type="type"></ExaminationPaperList>
   </container>
 </template>
 
@@ -20,6 +20,7 @@ export default {
         loading: false,
         page: 1
       },
+      type: 10, // int 10表示答题促学 20表示知识竞赛
       list: [],
       listTpl: [
         {
@@ -51,20 +52,21 @@ export default {
         api.activity.examination
           .list({
             queryModel: {
-              PapersClassify: 10 // int 10表示答题促学 20表示知识竞赛
+              PapersClassify: self.type // int 10表示答题促学 20表示知识竞赛
             },
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
             api: 'all'
           })
           .then(res => {
-            console.log('loadData res:', res);
             if (res.Data.list && res.Data.list.length > 0) {
-              this.list = [...this.list, ...res.Data.list];
+              self.list = [...self.list, ...res.Data.list];
               self.lazyload.page += 1;
             } else {
               // console.log('木有数据了');
               self.lazyload.nodata = true;
             }
+            console.log('loadData res:', res);
+            console.log('list:', self.list);
             self.lazyload.loading = false;
           });
       }

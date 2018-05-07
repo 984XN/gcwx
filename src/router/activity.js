@@ -10,7 +10,6 @@ import ActivityDaTiCuXuePaper from 'src/view/activity/DaTiCuXuePaper';
 import ActivityDaTiCuXuePaperPreview from 'src/view/activity/DaTiCuXuePaperPreview';
 import ActivityDaTiCuXueRecords from 'src/view/activity/DaTiCuXueRecords';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
-import ActivityZhiShiJingSaiTab from 'src/view/activity/ZhiShiJingSaiTab';
 import ActivityZhiShiJingSaiList from 'src/view/activity/ZhiShiJingSaiList';
 import ActivityZhiShiJingSaiPaper from 'src/view/activity/ZhiShiJingSaiPaper';
 import ActivityZhiShiJingSaiOrder from 'src/view/activity/ZhiShiJingSaiOrder';
@@ -191,7 +190,6 @@ const RouterActivity = {
         {
           path: 'list',
           components: {
-            tab: ActivityZhiShiJingSaiTab,
             default: ActivityZhiShiJingSaiList
           },
           meta: {
@@ -212,9 +210,8 @@ const RouterActivity = {
           }
         },
         {
-          path: 'order',
+          path: 'order/:id',
           components: {
-            tab: ActivityZhiShiJingSaiTab,
             default: ActivityZhiShiJingSaiOrder
           },
           meta: {

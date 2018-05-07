@@ -1,22 +1,22 @@
 <template>
-  <container bottom="0" class="page-activity-zhishijingsai-order">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-zhishijingsai-order">
     <h1 class="pageTitle">竞赛排名</h1>
     <dl class="examOrderList">
-      <dt>
-        <div class="text">共60人</div>
+      <!-- <dt>
+        <div class="text">共{{total}}人</div>
         <div class="myOrder">
           您的排名：
           <strong>第97名</strong>
         </div>
-      </dt>
+      </dt> -->
       <dd>
         <table class="data">
           <tbody>
-            <tr v-for="i in 60" :key="i">
-              <td>第{{i}}名</td>
-              <td>张佳磊</td>
-              <td>{{100-i}}分</td>
-              <td>中共藁城区华科路党工委</td>
+            <tr v-for="(v,i) in list" :key="i">
+              <td>第{{i+1}}名</td>
+              <td>{{v.name}}</td>
+              <td>{{v.score}}分</td>
+              <td>{{v.date}}</td>
             </tr>
           </tbody>
         </table>
@@ -26,11 +26,65 @@
 </template>
 
 <script>
+import * as api from 'src/api/activity';
+
 export default {
   data() {
     return {
+      lazyload: {
+        enable: true,
+        nodata: false,
+        loading: false,
+        page: 1
+      },
+      total: '-',
       list: []
     };
+  },
+  methods: {
+    loadData() {
+      // console.log('XiLieJianHua.loadData...');
+      let self = this;
+      if (self.lazyload.loading) {
+        // console.log('已经在加载中，return');
+        return false;
+      }
+      self.lazyload.loading = true;
+      if (self.lazyload.nodata) {
+        // console.log('XiLieJianHua.loadData...没有数据了');
+        self.lazyload.loading = false;
+      } else {
+        // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
+        api.activity.examination
+          .order({
+            ID: self.$route.params.id || 0
+          })
+          .then(res => {
+            console.log('loadData res:', res);
+            if (res.Data.list && res.Data.list.length > 0) {
+              self.list = [...this.list, ...res.Data.list];
+              self.total = res.Data.RowCount || '-';
+              self.lazyload.page += 1;
+            } else {
+              // console.log('木有数据了');
+              self.lazyload.nodata = true;
+            }
+            self.lazyload.loading = false;
+          })
+          .catch(e => {
+            self.$vux.loading.hide();
+            self.$vux.confirm.show({
+              title: '获取不到排名',
+              content: e.message || '接口数据错误',
+              confirmText: '返回上一页',
+              cancelText: '关闭提示',
+              onConfirm() {
+                self.$router.go(-1);
+              }
+            });
+          });
+      }
+    }
   }
 };
 </script>
@@ -48,25 +102,32 @@ export default {
   }
 }
 .examOrderList {
+  min-height 200px
   background-color #fff
   border-radius 5px
-  box-shadow 0 3px 5px rgba(0,0,0,0.3)
+  box-shadow 0 3px 5px rgba(0, 0, 0, 0.3)
   dt {
     font-size 12px
     padding 10px 15px
-    .myOrder {
-      strong {
-        font-weight normal
-        color rgb(252, 95, 90)
-      }
+    .number {
+      float right
+      color rgb(252, 95, 90)
     }
     .text {
-      float right
+      display block
+      background url('./img/choujiangzhuanqu/notice.png')
+      width 100px
+      height 66px
+      position relative
+      margin-top -31px
+      text-indent -999px
+      overflow hidden
+      float left
     }
   }
   dd {
     padding 0px 15px
-    font-size 12px
+    font-size 14px
     table.data {
       width 100%
       tr {
@@ -81,8 +142,12 @@ export default {
         }
         td {
           padding 5px 0
-          &:last-child {
+          &:nth-child(3) {
             text-align right
+          }
+          &:nth-child(4) {
+            text-align right
+            color #666
           }
         }
       }

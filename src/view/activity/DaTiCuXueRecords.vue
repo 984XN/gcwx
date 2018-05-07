@@ -1,6 +1,6 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" class="page-activity-zhishijingsai-list">
-    <ExaminationPaperList :list="list" path="preview"></ExaminationPaperList>
+    <ExaminationPaperList :list="list" :type="type"></ExaminationPaperList>
   </container>
 </template>
 
@@ -20,6 +20,7 @@ export default {
         loading: false,
         page: 1
       },
+      type: 10, // int 10表示答题促学 20表示知识竞赛
       list: []
     };
   },
@@ -40,7 +41,7 @@ export default {
         api.activity.examination
           .list({
             queryModel: {
-              PapersClassify: 10 // int 10表示答题促学 20表示知识竞赛
+              PapersClassify: self.type // int 10表示答题促学 20表示知识竞赛
             },
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
             api: 'my'

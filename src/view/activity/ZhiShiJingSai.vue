@@ -1,6 +1,5 @@
 <template>
   <div class="page-activity-zhishijingsai">
-    <router-view name="tab"></router-view>
     <router-view></router-view>
   </div>
 </template>

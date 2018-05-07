@@ -313,6 +313,14 @@ export const API_LIST = {
       PapersID: '' // int
     }
   },
+  '/PartyStudy/PsExamPapers/GetTestScores': {
+    name: '知识竞赛排名',
+    params: {
+      ID: '', // int
+      Name: '', // string
+      pageModel: {}
+    }
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

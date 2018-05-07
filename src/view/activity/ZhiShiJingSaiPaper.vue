@@ -58,7 +58,7 @@ export default {
       minute: '-',
       second: '-',
       handle: null,
-      during: 666, // 倒计时总秒数
+      duration: 0, // 倒计时总秒数
       index: -1, // 答题进度
       checked: false,
       buttonText: '下一题', // 最后一题会变成“交卷”
@@ -86,7 +86,7 @@ export default {
       // });
       console.log('this.answerCard:', this.answerCard);
     },
-    getNextQuestion(question) {
+    getNextQuestion() {
       let self = this;
       let index = self.index;
       let total = self.list.length;
@@ -111,17 +111,17 @@ export default {
     countdown() {
       let self = this;
       self.handle = setInterval(function() {
-        let during = self.during - 1;
-        let minute = parseInt(during / 60);
-        let second = parseInt(during % 60);
+        let duration = self.duration - 1;
+        let minute = parseInt(duration / 60);
+        let second = parseInt(duration % 60);
         minute = minute < 10 ? '0' + minute : minute;
         second = second < 10 ? '0' + second : second;
-        if (during < 0) {
+        if (duration < 0) {
           clearInterval(self.handle);
           console.log('时间到了,自动交卷');
           self.submit();
         } else {
-          self.during = during;
+          self.duration = duration;
           self.minute = minute;
           self.second = second;
         }
@@ -219,9 +219,9 @@ export default {
           let code = res.Data.code || 0;
           if (code === 200) {
             self.index = 0;
-            self.during = res.Data.papers.AnswerWhenLong * 60; // 分钟转为秒
             self.paper = res.Data.paper || {};
             self.list = res.Data.list;
+            self.duration = self.paper.duration * 60; // 分钟转为秒
             if (res.Data.list.length === 0) {
               self.$vux.alert.show({
                 title: '不能考试',
