@@ -603,6 +603,11 @@ export const activity = {
                 notYet = true;
               }
             }
+            let done = v.isAnswer || 0;
+            if (params.api === 'my') {
+              // my 时没有这返回 isAnswer ，这里补上
+              done = true;
+            }
             return {
               id: v.ID,
               thumb: '',
@@ -617,7 +622,7 @@ export const activity = {
                 '分，考试时间' +
                 v.AnswerWhenLong +
                 '分钟',
-              done: v.isAnswer, // 已参与过考试
+              done: done, // 已参与过考试
               expire: expire, // 已过期
               notYet: notYet, // 未开始
               date: date
@@ -638,16 +643,21 @@ export const activity = {
         all: '/api/PartyStudy/PsExamPapers/GetQuestionBankByExamPapersID' // 试卷里边的的试题及答案（管理员专用）
       }[params.api];
       return service.post(url, params).then(res => {
+        if (params.api.indexOf('unfinished_') === -1) {
+          res.data.Data.code = 200; // params.api===finished 没有 code 属性，在这里补上
+          res.data.Data.papers = {};
+          res.data.Data.question = res.data.Data.PageData;
+        }
         if (res.data.Data && res.data.Data.papers) {
           let v = res.data.Data.papers;
           res.data.Data.paper = {
-            id: v.ID,
-            title: v.PaperTitle,
-            count: v.PaperQuestionCount,
-            scorePre: v.EveryScore,
-            scoreTotal: v.TotalScore,
-            duration: v.AnswerWhenLong,
-            date: v.CreateDate
+            id: v.ID || '',
+            title: v.PaperTitle || '',
+            count: v.PaperQuestionCount || '',
+            scorePre: v.EveryScore || '',
+            scoreTotal: v.TotalScore || '',
+            duration: v.AnswerWhenLong || '',
+            date: v.CreateDate || ''
           };
           delete res.data.Data.papers;
         }
@@ -664,6 +674,7 @@ export const activity = {
               //   { val: 'A', key: '习近平' }
               // ],
               answer: v.QuestionRightAnswers,
+              selected: v.SelectedAnswers || '', // 用户选中的项（答题卡上的）回看试卷时有这个属性
               inputType: type === 10 || type === 20 ? 'radio' : 'checkbox',
               type: '' // // radio or multiselect
             };

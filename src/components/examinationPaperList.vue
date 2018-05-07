@@ -1,7 +1,7 @@
 <template>
   <ul class="examinationPaperList">
     <li v-for="(item,n) in list" :key="n">
-      <router-link :to="{path:'paper/'+item.id}">
+      <router-link :to="{path: path+'/'+item.id}">
         <div class="thumb" v-if="item.thumb">
           <img :src="item.thumb" :alt="item.title">
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
@@ -23,7 +23,12 @@
 <script>
 export default {
   props: {
-    list: Array
+    list: Array,
+    path: {
+      default: () => {
+        return 'paper';
+      }
+    }
   },
   data() {
     return {};
