@@ -16,6 +16,7 @@
 
     #app {
       height: 100%;
+      position: relative;
     }
 
     .appLoading {
@@ -29,22 +30,34 @@
     .loader {
       position: absolute;
       left: 50%;
-      top: 50%;
+      top: 30%;
       margin-left: -45px;
-      margin-top: -60px;
+      margin-top: -75px;
       width: 90px;
-      height: 120px;
+      height: 150px;
       display: block;
       text-align: center;
     }
 
+    .loader .name,
     .loader .text {
       position: absolute;
       left: 0;
       right: 0;
+    }
+
+    .loader .name {
+      font-size: 16px;
+      bottom: 20px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #333;
+    }
+
+    .loader .text {
       bottom: 0;
-      font-size: 12px;
-      line-height: 30px;
+      font-size: 10px;
+      line-height: 20px;
       color: #CCC;
     }
 
@@ -61,23 +74,23 @@
 
     @keyframes star-small-pulse {
       0% {
-        -webkit-transform: scale(1);
+        -webkit-transform: scale(2);
         transform: scale(1);
       }
       100% {
-        -webkit-transform: scale(2);
+        -webkit-transform: scale(4);
         transform: scale(2);
       }
     }
 
     @-webkit-keyframes star-big-pulse {
       0% {
-        -webkit-transform: scale(0);
+        -webkit-transform: scale(2);
         transform: scale(0);
         opacity: 1;
       }
       100% {
-        -webkit-transform: scale(5);
+        -webkit-transform: scale(10);
         transform: scale(5);
         opacity: 0;
       }
@@ -111,6 +124,17 @@
       -webkit-animation: star-big-pulse 2s -0.2s ease-in-out infinite;
       animation: star-big-pulse 2s -0.2s ease-in-out infinite;
     }
+
+    .footer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 20%;
+      text-align: center;
+      line-height: 1.4;
+      font-size: 10px;
+      color: #CCC
+    }
   </style>
 </head>
 
@@ -126,8 +150,13 @@
           x="0px" y="0px" width="23.172px" height="23.346px" viewBox="0 0 23.172 23.346" xml:space="preserve">
           <polygon fill="#fa2b2b" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9  "></polygon>
         </svg>
-
-        <div class="text">正在初始化</div>
+        <div class="name">藁城党建</div>
+        <div class="text">请稍等</div>
+      </div>
+      <div class="footer">
+        <div class="version">Ver 1.0.180507</div>
+        <div class="support">鸿卓电子提供技术支持</div>
+        <div class="copyright">&copy; 2018</div>
       </div>
     </div>
   </div>
