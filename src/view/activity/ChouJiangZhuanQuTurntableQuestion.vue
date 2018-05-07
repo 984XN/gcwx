@@ -25,6 +25,14 @@
         </ol>
       </dd>
     </dl>
+    <dl class="rule">
+      <dt>奖品清单</dt>
+      <dd>
+        <ol>
+          <li v-for="(v,i) in gifts" :key="i">{{i+1}}. {{v.name}}</li>
+        </ol>
+      </dd>
+    </dl>
   </container>
 </template>
 
@@ -105,7 +113,7 @@ export default {
           }
         }
       }
-      console.log(self.loadingList);
+      // console.log(self.loadingList);
       if (hidable) {
         self.$vux.loading.hide();
       }
@@ -118,6 +126,7 @@ export default {
     });
     self.$nextTick(() => {
       // 有 答题记录的ID 时转换为1次抽奖机会，没有的话提醒他让去答题
+      // console.log(self.$route);
       self.rid = self.$route.query.rid || 0;
       if (!self.rid) {
         self.$vux.loading.hide();
@@ -139,11 +148,12 @@ export default {
         // console.log('有id:', id);
         // 获取抽奖机会额度
         api.activity.ChouJiangZhuanQu.jeton({
-          RID: self.rid
+          ID: self.rid
         })
           .then(res => {
-            self.loadingList.jeton = true;
             console.log('getJeton:', res);
+            self.jeton = res.Data.LotteryNum || 0;
+            self.loadingList.jeton = true;
             self.hideLoading();
           })
           .catch(e => {
@@ -308,6 +318,8 @@ export default {
     ol {
       list-style none
       color #000
+      word-wrap break-word
+      word-break break-all
     }
   }
 }

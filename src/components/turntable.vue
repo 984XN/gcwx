@@ -16,7 +16,7 @@
         <li v-for="(gift,n) in shuffleGifts" :key="n" :style="style[n]" class="gift" :class="'gift-'+n">
           <div class="box">
             <div class="img"><img :src="gift.img"></div>
-            <div class="name">{{gift.name}}</div>
+            <div class="name">{{gift.name|substr(0,6)}}</div>
           </div>
         </li>
       </ol>
@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import { AlertModule } from 'vux';
-
 export default {
   props: {
     gift: Number, // 指定中哪个奖（required）
@@ -103,21 +101,21 @@ export default {
     giftIndex: function() {
       let self = this;
       let giftId = self.gift;
-      let giftIndexArr = [];
+      let giftIndexArr = []; // 所中奖品在转盘上的位置
       for (let i = 0; i < self.shuffleGifts.length; i++) {
         const gift = self.shuffleGifts[i];
         if (gift.id === giftId) {
           giftIndexArr.push(i);
         }
       }
-      let index = giftIndexArr[Math.floor(Math.random() * giftIndexArr.length)];
-      // console.log(
-      //   'giftIndex:' + index,
-      //   'giftId:' + giftId,
-      //   giftIndexArr,
-      //   self.shuffleGifts
-      // );
-      return index < self.gifts.length ? index : -1;
+      let index =
+        giftIndexArr[Math.floor(Math.random() * (giftIndexArr.length - 1))];
+      console.log('giftIndex:' + index);
+      console.log('giftId:' + giftId);
+      console.log('giftIndexArr:', giftIndexArr);
+      console.log('self.shuffleGifts:', self.shuffleGifts);
+      console.log('self.gifts:', self.gifts);
+      return index < self.shuffleGifts.length ? index : -1;
     },
     styleCube: function() {
       return {
@@ -215,13 +213,21 @@ export default {
       let total = self.shuffleGifts.length;
       let turntableObj = self.$refs.gifts;
       let turntableInitData = JSON.parse(JSON.stringify(self.turntable));
-      // console.log('giftIndex:', self.gift);
+      // console.log('luckDraw -- giftIndex:', self.giftIndex);
       if (self.turntable.runing) {
         // console.log('转盘运行中');
         return;
       }
+      if (self.giftIndex < 0) {
+        // giftIndex === -1 了，即没有在清单中定位到奖品
+        self.$vux.alert.show({
+          title: '数据错误',
+          content: '奖品清单中有已下架或库存为零的物品'
+        });
+        return;
+      }
       if (self.jeton < self.price) {
-        AlertModule.show({
+        self.$vux.alert.show({
           title: this.unit + '数不够',
           content:
             '每次需要扣除' +
@@ -304,6 +310,7 @@ export default {
           // self.$emit('update:giftIndex', self.giftIndex + 1); // 设置下一抽奖项为奖品
           // self.$emit('update:giftIndex', Math.floor(Math.random() * 12)); // 随机更新奖品
           // 中奖提示
+          console.log('中奖信息：', self.giftIndex, self.shuffleGifts);
           self.$vux.alert.show({
             buttonText: '好的',
             // title: '中奖啦',

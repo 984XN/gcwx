@@ -539,10 +539,7 @@ export const activity = {
     // 验证答题抽奖的资格
     jeton: params => {
       return service
-        .post(
-          '/api/PartyStudy/PsScoreRecord/GetScoreRecordByID',
-          params
-        )
+        .post('/api/PartyStudy/PsScoreRecord/GetScoreRecordByID', params)
         .then(res => res.data);
     },
     // 中的哪个奖
@@ -641,6 +638,19 @@ export const activity = {
         all: '/api/PartyStudy/PsExamPapers/GetQuestionBankByExamPapersID' // 试卷里边的的试题及答案（管理员专用）
       }[params.api];
       return service.post(url, params).then(res => {
+        if (res.data.Data && res.data.Data.papers) {
+          let v = res.data.Data.papers;
+          res.data.Data.paper = {
+            id: v.ID,
+            title: v.PaperTitle,
+            count: v.PaperQuestionCount,
+            scorePre: v.EveryScore,
+            scoreTotal: v.TotalScore,
+            duration: v.AnswerWhenLong,
+            date: v.CreateDate
+          };
+          delete res.data.Data.papers;
+        }
         if (res.data.Data && res.data.Data.question) {
           res.data.Data.list = res.data.Data.question.map(v => {
             let type = v.QuestionType; // 10判断，20单选，30多选
@@ -690,6 +700,7 @@ export const activity = {
             }
             return question;
           });
+          delete res.data.Data.question;
         }
         return res.data;
       });

@@ -25,6 +25,14 @@
         </ol>
       </dd>
     </dl>
+    <dl class="rule">
+      <dt>奖品清单</dt>
+      <dd>
+        <ol>
+          <li v-for="(v,i) in gifts" :key="i">{{i+1}}. {{v.name}}</li>
+        </ol>
+      </dd>
+    </dl>
   </container>
 </template>
 
@@ -214,6 +222,8 @@ export default {
     ol {
       list-style none
       color #000
+      word-wrap break-word
+      word-break break-all
     }
   }
 }

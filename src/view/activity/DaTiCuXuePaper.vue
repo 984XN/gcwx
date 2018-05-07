@@ -1,6 +1,6 @@
 <template>
   <container top="0" bottom="0" class="page-activity-datucuxue-paper">
-    <div class="banner">
+    <div v-if="paper.count" class="banner">
       <div class="sign">
         <div class="main">
           <div class="t1">党章党规</div>
@@ -9,180 +9,30 @@
       </div>
       <div class="attr">
         <div class="item">考试类型：常规考试</div>
-        <div class="item">题目数量：17</div>
-        <div class="item">总分：170分（每题10分）</div>
-        <div class="item">考生：特朗普</div>
+        <div class="item">题目数量：{{paper.count}}</div>
+        <div class="item">总分：{{paper.scoreTotal}}分（每题{{paper.scorePre}}分）</div>
+        <div class="item">考生：{{name}}</div>
       </div>
     </div>
-    <div class="questions">
-      <h1 class="paperTitle">加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！</h1>
+    <div v-if="list.length" class="questions">
+      <h1 class="paperTitle" v-html="paper.title"></h1>
       <ol class="questionsContainer">
-        <li class="question">
+        <li class="question" v-for="(v,i) in list" :key="i">
           <dl>
             <dt class="title">
               <div class="index">
-                <strong>第1题</strong>
-                <span>（共17题）</span>
+                <strong>第{{i+1}}题</strong>
+                <span>（共{{paper.count || list.length}}题）</span>
               </div>
-              <div class="text">八荣八耻是由谁提案的？</div>
+              <div class="text">{{v.question}}</div>
             </dt>
             <dd class="content">
               <ol class="answers">
-                <li class="answer">
+                <li class="answer" v-for="(answer, j) in v.options" :key="j">
                   <label>
-                    <input type="checkbox" name="t1">
+                    <input @click="write(v.id, answer.val)" :checked="answerCard[v.id] === answer.val" :type="v.inputType" :value="answer.val" :name="'t' + v.id + '[]'">
                     <i></i>
-                    胡锦涛
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    邓小平
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    江泽民
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    习近平
-                  </label>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </li>
-        <li class="question">
-          <dl>
-            <dt class="title">
-              <div class="index">
-                <strong>第2题</strong>
-                <span>（共17题）</span>
-              </div>
-              <div class="text">八荣八耻是由谁提案的？</div>
-            </dt>
-            <dd class="content">
-              <ol class="answers">
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    胡锦涛
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    邓小平
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    江泽民
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    习近平
-                  </label>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </li>
-        <li class="question">
-          <dl>
-            <dt class="title">
-              <div class="index">
-                <strong>第1题</strong>
-                <span>（共17题）</span>
-              </div>
-              <div class="text">八荣八耻是由谁提案的？</div>
-            </dt>
-            <dd class="content">
-              <ol class="answers">
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    胡锦涛
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    邓小平
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    江泽民
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="checkbox" name="t1">
-                    <i></i>
-                    习近平
-                  </label>
-                </li>
-              </ol>
-            </dd>
-          </dl>
-        </li>
-        <li class="question">
-          <dl>
-            <dt class="title">
-              <div class="index">
-                <strong>第2题</strong>
-                <span>（共17题）</span>
-              </div>
-              <div class="text">八荣八耻是由谁提案的？</div>
-            </dt>
-            <dd class="content">
-              <ol class="answers">
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    胡锦涛
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    邓小平
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    江泽民
-                  </label>
-                </li>
-                <li class="answer">
-                  <label>
-                    <input type="radio" name="t1">
-                    <i></i>
-                    习近平
+                    {{answer.key}}
                   </label>
                 </li>
               </ol>
@@ -191,11 +41,179 @@
         </li>
       </ol>
       <div class="control">
-        <x-button type="warn" action-type="button">交卷</x-button>
+        <x-button type="warn" action-type="button" @click.native="submit">交卷</x-button>
       </div>
     </div>
   </container>
 </template>
+
+<script>
+import { TransferDomDirective as TransferDom } from 'vux';
+import * as api from 'src/api/activity';
+
+export default {
+  directives: {
+    TransferDom
+  },
+  data() {
+    return {
+      name: '',
+      answerCard: {},
+      paper: {},
+      list: [],
+      listTpl: [
+        {
+          question: '八荣八耻是由谁提案的？',
+          options: ['胡锦涛', '邓小平', '江泽民', '习近平'],
+          answer: 0,
+          type: 'radio' // radio or multiselect
+        }
+      ]
+    };
+  },
+  methods: {
+    // 填写答题卡
+    write(questionId, selected) {
+      this.answerCard[questionId] = selected;
+      // this.answerCard.push({
+      //   QuestionID: questionId,
+      //   SelectedAnswers: selected
+      // });
+      console.log('this.answerCard:', this.answerCard);
+    },
+    // 交卷
+    submit() {
+      let self = this;
+      let answerCard = [];
+      for (const key in self.answerCard) {
+        if (self.answerCard.hasOwnProperty(key)) {
+          const val = self.answerCard[key];
+          answerCard.push({
+            QuestionID: key, // int 题目id,
+            SelectedAnswers: val // string 所选答案
+          });
+        }
+      }
+      console.log('交卷，答题卡：', answerCard);
+      // 交卷获取成绩
+      self.$vux.loading.show({
+        text: '获取成绩'
+      });
+      api.activity.examination
+        .result({
+          list: answerCard,
+          PapersID: self.$route.params.id
+        })
+        .then(res => {
+          self.$vux.loading.hide();
+          console.log('成绩:', res);
+          let lotteryNum = res.Data.lotteryNum;
+          let score = res.Data.score;
+          let rid = res.Data.rid || 0;
+          // let Message = res.Message;
+          // let StatusCode = res.StatusCode;
+          let message = '' + score + '分';
+          if (lotteryNum > 0) {
+            message += '，获得' + lotteryNum + '次抽奖机会';
+            self.$vux.confirm.show({
+              title: '恭喜',
+              content: message,
+              confirmText: '去抽奖',
+              cancelText: '放弃',
+              onCancel() {
+                self.$router.go(-1);
+              },
+              onConfirm() {
+                self.$router.replace({
+                  path: '/activity/choujiangzhuanqu/turntable-question',
+                  query: { rid }
+                });
+              }
+            });
+          } else {
+            self.$vux.alert.show({
+              title: '成绩',
+              content: message,
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.confirm.show({
+            title: '获取不到成绩',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              self.$router.go(-1);
+            }
+          });
+        });
+      // return;
+    }
+  },
+  mounted() {
+    let self = this;
+    self.$vux.loading.show({
+      text: '获取试卷'
+    });
+    self.$nextTick(function() {
+      api.activity.examination
+        .detail({
+          ID: self.$route.params.id || 0,
+          api: 'unfinished_10' // 10表示答题促学/20表示知识竞赛
+        })
+        .then(res => {
+          self.$vux.loading.hide();
+          console.log('detail:', res);
+          let code = res.Data.code || 0;
+          if (code === 200) {
+            self.paper = res.Data.paper || {};
+            self.list = res.Data.list || [];
+            self.name = self.session('userSystem').UserName || '-';
+            if (res.Data.list.length === 0) {
+              self.$vux.alert.show({
+                title: '不能考试',
+                content: '试卷中没有题目'
+              });
+              return false;
+            }
+            // 答题卡初始化（后台接口要求每道题都必需传值，未答的填写空的字符串，不能是null）
+            self.list.forEach(v => {
+              self.answerCard[v.id] = '';
+            });
+            console.log('答题卡初始化:', self.answerCard);
+          } else {
+            self.$vux.alert.show({
+              title: '出错了',
+              content: res.Data.Message || res.Message || '未知错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.confirm.show({
+            title: '获取不到试卷',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              self.$router.go(-1);
+            }
+          });
+        });
+    });
+  }
+};
+</script>
 
 <style lang="stylus" scoped>
 .label.checkbox label,
@@ -322,6 +340,8 @@ input[type='radio'] + i {
     .text {
       // text-align center
       padding 15px 0 10px
+      word-wrap break-word
+      word-break break-all
     }
   }
   .answers {
@@ -333,6 +353,8 @@ input[type='radio'] + i {
       label {
         display block
         padding 10px
+        word-wrap break-word
+        word-break break-all
       }
     }
   }

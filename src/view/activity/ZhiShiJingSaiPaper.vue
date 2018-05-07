@@ -9,14 +9,14 @@
       <div class="tip">答题倒记时</div>
     </div>
     <div class="questions" v-if="index > -1">
-      <h1 class="paperTitle">加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！</h1>
+      <h1 class="paperTitle" v-html="paper.title"></h1>
       <ol class="questionsContainer">
         <li class="question">
           <dl>
             <dt class="title">
               <div class="index">
                 <strong>第{{index+1}}题</strong>
-                <span>（共{{list.length}}题）</span>
+                <span>（共{{paper.count || list.length}}题）</span>
               </div>
               <div class="text">{{list[index].question}}</div>
             </dt>
@@ -63,8 +63,9 @@ export default {
       checked: false,
       buttonText: '下一题', // 最后一题会变成“交卷”
       loading: false,
-      list: [],
       answerCard: {},
+      paper: {},
+      list: [],
       listTpl: [
         {
           question: '八荣八耻是由谁提案的？',
@@ -103,7 +104,7 @@ export default {
         }, 500);
       } else {
         console.log('答完了：', self.answerCard);
-        self.handOver();
+        self.submit();
       }
     },
     // 倒计时
@@ -118,7 +119,7 @@ export default {
         if (during < 0) {
           clearInterval(self.handle);
           console.log('时间到了,自动交卷');
-          self.handOver();
+          self.submit();
         } else {
           self.during = during;
           self.minute = minute;
@@ -127,7 +128,7 @@ export default {
       }, 1000);
     },
     // 交卷
-    handOver() {
+    submit() {
       let self = this;
       let answerCard = [];
       for (const key in self.answerCard) {
@@ -219,6 +220,7 @@ export default {
           if (code === 200) {
             self.index = 0;
             self.during = res.Data.papers.AnswerWhenLong * 60; // 分钟转为秒
+            self.paper = res.Data.paper || {};
             self.list = res.Data.list;
             if (res.Data.list.length === 0) {
               self.$vux.alert.show({
@@ -406,6 +408,8 @@ label {
     .text {
       // text-align center
       padding 15px 0 10px
+      word-wrap break-word
+      word-break break-all
     }
   }
   .answers {
@@ -417,6 +421,8 @@ label {
       label {
         display block
         padding 10px
+        word-wrap break-word
+        word-break break-all
       }
     }
   }
