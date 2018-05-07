@@ -144,14 +144,6 @@ input[type='radio'] {
   &:checked + i {
     background #C00
   }
-  // &:disabled + i,
-  // &:disabled + i {
-  //   border-color #ccc
-  // }
-  // &:checked:disabled + i,
-  // &:checked:disabled + i {
-  //   background #ccc
-  // }
 }
 input[type='checkbox'] + i {
   border-radius 3px

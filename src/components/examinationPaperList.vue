@@ -20,7 +20,7 @@
         <template v-else-if="type === 20">
           <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
-          <x-button v-if="item.expire" mini>查看排名</x-button>
+          <x-button v-if="item.expire" mini type="primary">查看排名</x-button>
         </template>
         <template v-else>
         </template>
@@ -43,11 +43,17 @@ export default {
       let self = this;
       let path = 'paper/' + item.id;
       if (self.type === 10) {
+        // 10表示答题促学 20表示知识竞赛
         // 未到期已做过：回看试卷
-        if (!item.expire && item.done) {
+        if (item.done) {
           path = 'preview/' + item.id;
         }
       } else if (self.type === 20) {
+        // 知识竞赛没有详细页的接口，看不了过做的试卷
+        // // 10表示答题促学 20表示知识竞赛
+        // if (item.done) {
+        //   path = 'preview/' + item.id;
+        // }
         // 过期的就转到排名
         if (item.expire) {
           path = 'order/' + item.id;

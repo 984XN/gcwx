@@ -7,7 +7,7 @@ import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
 import ActivityDaTiCuXueList from 'src/view/activity/DaTiCuXueList';
 import ActivityDaTiCuXuePaper from 'src/view/activity/DaTiCuXuePaper';
-import ActivityDaTiCuXuePaperPreview from 'src/view/activity/DaTiCuXuePaperPreview';
+import ActivityPaperPreview from 'src/view/activity/paperPreview';
 import ActivityDaTiCuXueRecords from 'src/view/activity/DaTiCuXueRecords';
 import ActivityZhiShiJingSai from 'src/view/activity/ZhiShiJingSai';
 import ActivityZhiShiJingSaiList from 'src/view/activity/ZhiShiJingSaiList';
@@ -149,7 +149,7 @@ const RouterActivity = {
         },
         {
           path: 'preview/:id',
-          component: ActivityDaTiCuXuePaperPreview,
+          component: ActivityPaperPreview,
           meta: {
             title: '答题促学试卷',
             auth: true,
@@ -202,6 +202,16 @@ const RouterActivity = {
         {
           path: 'paper/:id',
           component: ActivityZhiShiJingSaiPaper,
+          meta: {
+            title: '知识竞赛试卷',
+            auth: true,
+            fullpage: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'preview/:id',
+          component: ActivityPaperPreview,
           meta: {
             title: '知识竞赛试卷',
             auth: true,

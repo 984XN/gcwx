@@ -201,15 +201,18 @@ export default {
   padding 45px 0 20px
   background-color #f17474
   .avatar {
+    width 100px
+    height 100px
+    border-radius 50%
+    background-color #C00
+    overflow hidden
+    margin 0 auto
     img {
-      width 100px
-      height 100px
+      width 100%
       line-height 100px
       text-align center
       display block
-      border-radius 50%
       margin 0 auto
-      background-color #C00
       color #FFF
     }
   }

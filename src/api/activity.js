@@ -737,7 +737,7 @@ export const activity = {
               return {
                 id: v.ID,
                 name: v.Name,
-                score: v.TotalScore,
+                score: v.PapersScore,
                 mid: v.PartyMemberID,
                 date: v.PapersScoreTime
               };
