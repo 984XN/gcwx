@@ -41,6 +41,7 @@ export default {
   },
   data() {
     return {
+      rid: 0,
       jeton: 0,
       price: 1,
       unit: '次',
@@ -58,7 +59,8 @@ export default {
     getGift() {
       let self = this;
       api.activity.ChouJiangZhuanQu.gift({
-        Type: 1 // 1.积分抽奖, 2.答题促学抽奖
+        Type: 1, // 1.积分抽奖, 2.答题促学抽奖
+        RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
       })
         .then(res => {
           // console.log('getGift:', res);
@@ -89,6 +91,7 @@ export default {
   mounted() {
     let self = this;
     self.$nextTick(() => {
+      self.rid = self.$route.query.rid || 0;
       // 获取奖品清单
       api.activity.ChouJiangZhuanQu.gifts({
         Type: 1 // 1.积分商品, 2.答题促学商品

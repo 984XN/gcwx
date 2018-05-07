@@ -154,6 +154,7 @@ export default {
           console.log('成绩:', res);
           let lotteryNum = res.Data.lotteryNum;
           let score = res.Data.score;
+          let rid = res.Data.RID || 0;
           // let Message = res.Message;
           // let StatusCode = res.StatusCode;
           let message = '' + score + '分';
@@ -170,7 +171,7 @@ export default {
               onConfirm() {
                 self.$router.replace({
                   path: '/activity/choujiangzhuanqu/turntable-question',
-                  query: { token: self.time() }
+                  query: { rid }
                 });
               }
             });

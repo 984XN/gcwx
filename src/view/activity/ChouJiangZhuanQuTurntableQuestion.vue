@@ -41,13 +41,20 @@ export default {
   },
   data() {
     return {
+      rid: 0,
       jeton: 0,
       price: 1,
       unit: '次',
       giftId: -1,
       gifts: [],
       ready: false,
-      winningList: []
+      winningList: [],
+      loadingList: {
+        // loading 关闭时，需要这些接口都是 true
+        jeton: false,
+        gifts: false,
+        list: false
+      }
     };
   },
   methods: {
@@ -58,7 +65,8 @@ export default {
     getGift() {
       let self = this;
       api.activity.ChouJiangZhuanQu.gift({
-        Type: 2 // 1.积分抽奖, 2.答题促学抽奖
+        Type: 2, // 1.积分抽奖, 2.答题促学抽奖
+        RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
       })
         .then(res => {
           // console.log('getGift:', res);
@@ -84,46 +92,135 @@ export default {
             }
           });
         });
+    },
+    hideLoading() {
+      let self = this;
+      let hidable = true; // 可隐藏
+      for (const key in self.loadingList) {
+        if (self.loadingList.hasOwnProperty(key)) {
+          const element = self.loadingList[key];
+          if (element === false) {
+            hidable = false;
+            break;
+          }
+        }
+      }
+      console.log(self.loadingList);
+      if (hidable) {
+        self.$vux.loading.hide();
+      }
     }
   },
   mounted() {
     let self = this;
+    self.$vux.loading.show({
+      text: '加载中'
+    });
     self.$nextTick(() => {
-      // 获取奖品清单
-      api.activity.ChouJiangZhuanQu.gifts({
-        Type: 2 // 1.积分商品, 2.答题促学商品
-      }).then(res => {
-        // self.jeton = res.Data.residueDegree || 0;
-        self.gifts = res.Data.goods.map(val => {
-          return {
-            id: val.ID,
-            name: val.GoodsName,
-            img: val.GoodsImgPath
-          };
+      // 有 答题记录的ID 时转换为1次抽奖机会，没有的话提醒他让去答题
+      self.rid = self.$route.query.rid || 0;
+      if (!self.rid) {
+        self.$vux.loading.hide();
+        self.$vux.confirm.show({
+          title: '答题后可以抽奖',
+          content: '暂时没有抽奖机会了，答题可以获得抽奖机会',
+          confirmText: '去答题',
+          cancelText: '返回上一页',
+          onConfirm() {
+            self.$router.replace({
+              path: '/activity/daticuxue/list'
+            });
+          },
+          onCancel() {
+            self.$router.go(-1);
+          }
         });
-        // 这个 unshift 移入 api/activity.js 中了
-        // self.gifts.unshift({
-        //   // 放在开头可以防止奖品过多截取时缺少空奖
-        //   id: 1,
-        //   name: '谢谢参与',
-        //   img: '/static/img/gift/default.jpg'
-        // });
-        self.gifts.sort((a, b) => {
-          return Math.random() > 0.5 ? -1 : 1;
-        });
-        // self.getGift();
-      });
-      // 获取中奖名单
-      api.activity.ChouJiangZhuanQu.list({
-        queryModel: {
-          WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
-        },
-        pageModel: { Page: 1, Start: 0, Limit: 50 },
-        api: 'all'
-      }).then(res => {
-        self.winningList = res.Data.list;
-        console.log('中奖名单:', res.Data.list);
-      });
+      } else {
+        // console.log('有id:', id);
+        // 获取抽奖机会额度
+        api.activity.ChouJiangZhuanQu.jeton({
+          RID: self.rid
+        })
+          .then(res => {
+            self.loadingList.jeton = true;
+            console.log('getJeton:', res);
+            self.hideLoading();
+          })
+          .catch(e => {
+            self.$vux.loading.hide();
+            self.$vux.alert.show({
+              title: '数据错误',
+              content: e.message || '接口数据错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          });
+        // 获取奖品清单
+        api.activity.ChouJiangZhuanQu.gifts({
+          Type: 2 // 1.积分商品, 2.答题促学商品
+        })
+          .then(res => {
+            self.loadingList.gifts = true;
+            self.hideLoading();
+            // self.jeton = res.Data.residueDegree || 0;
+            self.gifts = res.Data.goods.map(val => {
+              return {
+                id: val.ID,
+                name: val.GoodsName,
+                img: val.GoodsImgPath
+              };
+            });
+            // 这个 unshift 移入 api/activity.js 中了
+            // self.gifts.unshift({
+            //   // 放在开头可以防止奖品过多截取时缺少空奖
+            //   id: 1,
+            //   name: '谢谢参与',
+            //   img: '/static/img/gift/default.jpg'
+            // });
+            self.gifts.sort((a, b) => {
+              return Math.random() > 0.5 ? -1 : 1;
+            });
+            // self.getGift();
+          })
+          .catch(e => {
+            self.$vux.loading.hide();
+            self.$vux.alert.show({
+              title: '数据错误',
+              content: e.message || '接口数据错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          });
+        // 获取中奖名单
+        api.activity.ChouJiangZhuanQu.list({
+          queryModel: {
+            WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
+          },
+          pageModel: { Page: 1, Start: 0, Limit: 50 },
+          api: 'all'
+        })
+          .then(res => {
+            self.loadingList.list = true;
+            self.hideLoading();
+            self.winningList = res.Data.list;
+            // console.log('中奖名单:', res.Data.list);
+          })
+          .catch(e => {
+            self.$vux.loading.hide();
+            self.$vux.alert.show({
+              title: '数据错误',
+              content: e.message || '接口数据错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
+          });
+      }
     });
   }
 };

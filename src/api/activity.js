@@ -511,6 +511,7 @@ export const activity = {
     }
   },
   ChouJiangZhuanQu: {
+    // 转盘上的奖品清单和剩余可抽奖额度
     gifts: params => {
       return service
         .post(
@@ -535,6 +536,16 @@ export const activity = {
           return res.data;
         });
     },
+    // 验证答题抽奖的资格
+    jeton: params => {
+      return service
+        .post(
+          '/api/PartyStudy/PsScoreRecord/GetScoreRecordByID',
+          params
+        )
+        .then(res => res.data);
+    },
+    // 中的哪个奖
     gift: params => {
       return service
         .post(
@@ -543,6 +554,7 @@ export const activity = {
         )
         .then(res => res.data);
     },
+    // 中奖名单
     list: params => {
       let url = {
         all: '/api/PartyActivity/PaPartyWinningRecord/GetWinningRecord', // 所有人

@@ -207,12 +207,27 @@ export const API_LIST = {
     }
   },
   // 抽奖专区
+  // 转盘上的奖品清单和剩余可抽奖额度
   '/PartyActivity/PaPartyLotteryGoods/GetLotteryGoodsByIsPutaway': {
     name: '获取奖品清单',
     params: {
       Type: '' // number 1.积分商品, 2.答题促学商品
     }
   },
+  // 剩余可抽奖额度（答题抽奖时用）
+  '/PartyStudy/PsScoreRecord/GetScoreRecordByID': {
+    name: '剩余可抽奖额度',
+    params: {
+      ID: ''
+    }
+  },
+  // // 更新可抽奖额度（答题抽奖时用）
+  // '/PartyStudy/PsScoreRecord/UpdateScoreRecord': {
+  //   name: '剩余可抽奖额度',
+  //   params: {
+  //     ID: ''
+  //   }
+  // },
   // 抽奖
   '/PartyActivity/PaPartyLotteryGoods/GetLotteryByMember': {
     name: '抽奖',
