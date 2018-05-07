@@ -30,7 +30,7 @@
               <ol class="answers">
                 <li class="answer" v-for="(answer, j) in v.options" :key="j">
                   <label>
-                    <input :checked="v.selected === answer.val" disabled="disabled" :type="v.inputType" :value="answer.val" :name="'t' + v.id + '[]'">
+                    <input :checked="v.selected === answer.val" disabled="disabled" :type="v.inputType" :value="answer.val" :name="'t_' + v.id + '_' + i + '[]'">
                     <i></i>
                     {{answer.key}}
                   </label>
