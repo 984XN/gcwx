@@ -13,7 +13,7 @@
         <table class="data">
           <tbody>
             <tr v-for="(v,i) in list" :key="i">
-              <td>第{{v.order}}名</td>
+              <td :class="'i_'+v.order">第{{v.order}}名</td>
               <td>{{v.name}}</td>
               <td>{{v.score}}分</td>
               <td>{{v.date}}</td>
@@ -132,13 +132,13 @@ export default {
     table.data {
       width 100%
       tr {
-        &:nth-child(1) td:nth-child(1) {
+        td.i_1 {
           color #CC0000
         }
-        &:nth-child(2) td:nth-child(1) {
+        td.i_2 {
           color #FF9800
         }
-        &:nth-child(3) td:nth-child(1) {
+        td.i_3 {
           color #2196F3
         }
         td {
