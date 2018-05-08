@@ -78,9 +78,10 @@ export const user = {
         )
         .then(res => {
           let list = [];
+          let year = '';
+          let totalDues = 0;
           if (res.data.Data && res.data.Data[0]) {
             let data = res.data.Data[0];
-            let year = data.Year ? data.Year + '年' : '';
             let items = [
               'FirstQuarterPaid',
               'SecondQuarterPaid',
@@ -94,13 +95,15 @@ export const user = {
                 content: data[item] ? data[item] + '元' : '-'
               });
             }
-            delete res.data.Data;
-            res.data.Data = {
-              year,
-              totalDues: data.YearPaid,
-              list
-            };
+            year = data.Year ? data.Year + '年' : '';
+            totalDues = data.YearPaid;
           }
+          delete res.data.Data;
+          res.data.Data = {
+            year,
+            totalDues: totalDues,
+            list
+          };
           return res.data;
         });
     }
@@ -125,19 +128,71 @@ export const user = {
   article: {
     list: params => {
       let url = {
-        TongZhiGongGao: '/Sys/SysNote/GetSysNoteByHomePge',
-        DangWuGongKai: '/PartyActivity/PaPartyAffairs/GetAffairs',
-        DangJianDongTai: '/PartyActivity/PaPartyDynamic/GetDynamicByAdopt'
+        TongZhiGongGao: '/api/Sys/SysNote/GetSysNoteByHomePge',
+        DangWuGongKai: '/api/PartyActivity/PaPartyAffairs/GetAffairs',
+        DangJianDongTai: '/api/PartyActivity/PaPartyDynamic/GetDynamicByAdopt'
       }[params.api];
-      return service.post(url, params).then(res => res.data);
+      return service.post(url, params).then(res => {
+        res.data.Data.list = res.data.Data.PageData.map(v => {
+          return {
+            id: v.ID || 0,
+            title: v.PartyDynamicTitle || v.AffairsTitle || v.NoteTitle || '',
+            content:
+              v.PartyDynamicContent || v.AffairsContent || v.NoteContent || '',
+            date: v.CheckDate || v.FillInDate || v.CreateDate || '',
+            view: v.ReadNumber || 0
+          };
+        });
+        return res.data;
+      });
     },
     detail: params => {
       let url = {
-        TongZhiGongGao: '/Sys/SysNote/GetNoteMesByID',
-        DangWuGongKai: '/PartyActivity/PaPartyAffairs/GetAffairsByID',
-        DangJianDongTai: '/PartyActivity/PaPartyDynamic /GetDynamicByID'
+        TongZhiGongGao: '/api/Sys/SysNote/GetNoteMesByID',
+        DangWuGongKai: '/api/PartyActivity/PaPartyAffairs/GetAffairsByID',
+        DangJianDongTai: '/api/PartyActivity/PaPartyDynamic/GetDynamicByID'
       }[params.api];
-      return service.post(url, params).then(res => res.data);
+      return service.post(url, params).then(res => {
+        let article = { baseInfo: {}, files: [] };
+        // 文章正文信息
+        let document = {};
+        if (res.data.Data.affair && res.data.Data.affair[0]) {
+          document = res.data.Data.affair[0];
+        }
+        if (res.data.Data.Dynamic && res.data.Data.Dynamic[0]) {
+          document = res.data.Data.Dynamic[0];
+        }
+        if (res.data.Data.note && res.data.Data.note[0]) {
+          document = res.data.Data.note[0];
+        }
+        console.log('document:', document);
+
+        article.baseInfo = {
+          type: document.FileType || '',
+          id: document.ID || '',
+          title:
+            document.AffairsTitle || document.PartyDynamicTitle || '未命名',
+          content:
+            document.AffairsContent ||
+            document.PartyDynamicContent ||
+            '暂无备注',
+          author: document.UserName || document.CreateUser || '',
+          view: 0, // 不使用访问量功能
+          date: document.CreateDate || ''
+        };
+        // 附件
+        if (res.data.Data.file) {
+          article.files = res.data.Data.file.map((val, index, arr) => {
+            return {
+              id: val.ID || 0,
+              name: val.FileName || '',
+              path: val.FilePath || ''
+            };
+          });
+        }
+        res.data.Data.article = article;
+        return res.data;
+      });
     }
   }
 };

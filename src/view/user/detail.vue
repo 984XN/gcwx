@@ -4,8 +4,7 @@
 
 <script>
 import Article from 'src/components/article';
-import * as api from 'src/api/activity';
-// import { setTimeout, clearTimeout } from 'timers';
+import * as api from 'src/api/user';
 
 export default {
   components: {
@@ -13,37 +12,73 @@ export default {
   },
   data() {
     return {
-      article: { baseInfo: {}, files: [] }
+      article: { baseInfo: {}, files: [] },
+      categories: {
+        tongzhigonggao: {
+          key: 'TongZhiGongGao',
+          value: '通知公告'
+        },
+        dangwugongkai: {
+          key: 'DangWuGongKai',
+          value: '党务公开'
+        },
+        dangjiandongtai: {
+          key: 'DangJianDongTai',
+          value: '党建动态'
+        }
+      }
     };
   },
   methods: {
     online(second) {}
   },
   mounted() {
-    this.$nextTick(function() {
-      // console.log('this.$route', this.$route);
-      let id = this.$route.params.id || 0;
+    let self = this;
+    let id = self.$route.params.id || 0;
+    let type = self.$route.query.type || 'tongzhigonggao';
+    self.$nextTick(function() {
+      // console.log('self.$route', self.$route);
       if (!id) {
-        this.$router.replace({
+        self.$router.replace({
           path: '/',
-          query: { error: 'missing-id', from: this.$route.fullPath }
+          query: { error: 'missing-id', from: self.$route.fullPath }
         });
       }
-      this.$vux.loading.show({
-        text: '正在获取数据'
-      });
-      api.activity.ZhengNengLiang.detail({
-        ID: id
-      })
-        .then(res => {
-          this.$vux.loading.hide();
-          this.article = res.Data.Article;
-          // console.log('detail:', res);
-        })
-        .catch(() => {
-          this.$vux.loading.hide();
-          this.$router.go(-1);
+      let url =
+        self.categories && self.categories[type]
+          ? self.categories[type].key
+          : '';
+      if (!url) {
+        self.$vux.alert.show({
+          title: '接口错误',
+          content: ' 找不到接口：' + type,
+          buttonText: '返回上一页',
+          onHide() {
+            self.$router.go(-1);
+          }
         });
+      }
+      if (url) {
+        self.$vux.loading.show({
+          text: '正在获取数据'
+        });
+        api.user.article
+          .detail({
+            ID: id,
+            api: url
+          })
+          .then(res => {
+            self.$vux.loading.hide();
+            console.log('detail:', res);
+            if (res.Data.article && res.Data.article.baseInfo) {
+              self.article = res.Data.article;
+            }
+          })
+          .catch(() => {
+            self.$vux.loading.hide();
+            self.$router.go(-1);
+          });
+      }
     });
   }
 };

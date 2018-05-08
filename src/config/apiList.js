@@ -353,7 +353,7 @@ export const API_LIST = {
     name: '获取党建动态列表',
     params: {}
   },
-  '/PartyActivity/PaPartyDynamic /GetDynamicByID': {
+  '/PartyActivity/PaPartyDynamic/GetDynamicByID': {
     name: '获取党建动态详情',
     params: {}
   },

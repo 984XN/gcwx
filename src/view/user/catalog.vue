@@ -59,13 +59,13 @@
         </cell>
       </group>
       <group>
-        <cell title="通知公告" is-link @click.native="unopened('通知公告')" value="开发中">
+        <cell title="通知公告" :link="{path:'list/tongzhigonggao',append:true}">
           <i slot="icon" class="listIcon iconfont icon-tongzhi"></i>
         </cell>
-        <cell title="党务公开" is-link @click.native="unopened('党务公开')" value="开发中">
+        <cell title="党务公开" :link="{path:'list/dangwugongkai',append:true}">
           <i slot="icon" class="listIcon iconfont icon-shangwu"></i>
         </cell>
-        <cell title="党建动态" is-link @click.native="unopened('党建动态')" value="开发中">
+        <cell title="党建动态" :link="{path:'list/dangjiandongtai',append:true}">
           <i slot="icon" class="listIcon iconfont icon-article"></i>
         </cell>
       </group>

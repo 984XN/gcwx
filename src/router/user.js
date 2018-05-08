@@ -11,6 +11,7 @@ import UserZhengNengLiang from 'src/view/user/ZhengNengLiang';
 import UserZhengNengLiangList from 'src/view/user/ZhengNengLiangList';
 import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
 import UserDetail from 'src/view/user/detail';
+import UserList from 'src/view/user/list';
 
 const RouterUser = {
   path: '/user',
@@ -81,6 +82,16 @@ const RouterUser = {
           meta: { title: '我的正能量', auth: true }
         }
       ]
+    },
+    {
+      path: 'list/:type',
+      components: { default: UserList },
+      meta: {
+        title: '信息列表',
+        auth: true,
+        fullpage: true,
+        keepAlive: false
+      }
     },
     {
       path: 'detail/:id',
