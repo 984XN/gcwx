@@ -303,6 +303,7 @@ export default {
     .name {
       text-align center
       font-size 16px
+      min-height 20px
       line-height 20px
       padding-top 5px
     }
@@ -310,6 +311,7 @@ export default {
       padding-top 10px
       text-align center
       font-size 12px
+      min-height 12px
       color #999
     }
   }
