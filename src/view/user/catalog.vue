@@ -45,7 +45,7 @@
         </cell>
       </group>
       <group>
-        <cell title="个人积分" is-link @click.native="unopened('个人积分')" :is-loading="score === null" value="开发中">
+        <cell title="个人积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score">
           <i slot="icon" class="listIcon iconfont icon-coin"></i>
         </cell>
         <cell title="党费查询" is-link @click.native="unopened('党费查询')" value="开发中">
@@ -184,12 +184,19 @@ export default {
     }
   },
   mounted() {
-    this.binded = this.session('binded');
-    this.userSystem = this.session('userSystem');
-    this.userWechat = this.session('userWechat');
-    setTimeout(() => {
-      this.score = 650;
-    }, 2000);
+    let self = this;
+    self.$nextTick(() => {
+      self.binded = self.session('binded');
+      self.userSystem = self.session('userSystem');
+      self.userWechat = self.session('userWechat');
+      api.member.score().then(res => {
+        self.score =
+          res.Data.sumScore && res.Data.sumScore[0]
+            ? res.Data.sumScore[0].AddScore
+            : 0;
+        console.log('member.score:', res);
+      });
+    });
   }
 };
 </script>

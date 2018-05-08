@@ -35,9 +35,41 @@ export const wechatUnbindMember = params => {
     .then(res => res.data);
 };
 
+export const member = {
+  profile: params => {
+    return service
+      .post('/api/Sys/SysUser/GetUserByID', params)
+      .then(res => res.data);
+  },
+  score: params => {
+    return service
+      .post('/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore', params)
+      .then(res => {
+        res.data.Data.list = res.data.Data.score.map(v => {
+          return {
+            id: v.ID,
+            score: v.AddScore,
+            date: v.CreateDate,
+            content: v.AddScoreExplain
+          };
+        });
+        return res.data;
+      });
+  },
+  dues: params => {
+    return service
+      .post(
+        '/api/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember',
+        params
+      )
+      .then(res => res.data);
+  }
+};
+
 export default {
   login,
   password,
+  member,
   getWechatUserInfoByCode,
   wechatBindMember,
   wechatUnbindMember
