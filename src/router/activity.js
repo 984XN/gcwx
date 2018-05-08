@@ -1,7 +1,7 @@
 import Activity from 'src/view/activity/index';
 import ActivityLiangDianTouPiao from 'src/view/activity/LiangDianTouPiao';
 import ActivityLiangDianTouPiaoList from 'src/view/activity/LiangDianTouPiaoList';
-import ActivityLiangDianTouPiaoVote from 'src/view/activity/LiangDianTouPiaoVote';
+import ActivityLiangDianTouPiaoItemList from 'src/view/activity/LiangDianTouPiaoItemList';
 import ActivityLiangDianTouPiaoDetail from 'src/view/activity/LiangDianTouPiaoDetail';
 import ActivityDaTiCuXue from 'src/view/activity/DaTiCuXue';
 import ActivityDaTiCuXueTab from 'src/view/activity/DaTiCuXueTab';
@@ -80,9 +80,9 @@ const RouterActivity = {
           }
         },
         {
-          path: 'vote/:id',
+          path: 'items/:id',
           components: {
-            vote: ActivityLiangDianTouPiaoVote
+            items: ActivityLiangDianTouPiaoItemList
           },
           meta: {
             title: '亮点投票',
@@ -94,7 +94,7 @@ const RouterActivity = {
         {
           path: 'detail/:id',
           components: {
-            vote: ActivityLiangDianTouPiaoDetail
+            items: ActivityLiangDianTouPiaoDetail
           },
           meta: {
             title: '亮点投票',

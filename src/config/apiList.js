@@ -357,6 +357,30 @@ export const API_LIST = {
     name: '获取党建动态详情',
     params: {}
   },
+  '/Ballot/BltBallotTask/GetBltBallotTask': {
+    name: '投票活动列表',
+    params: {}
+  },
+  '/Ballot/BltBallotItem/Query': {
+    name: '投票活动里的投票项列表',
+    params: {}
+  },
+  '/Ballot/BltBallotItem/GetRank': {
+    name: '投票项的排名',
+    params: {}
+  },
+  '/Ballot/BltBallotTask/GetByID': {
+    name: '投票项基本信息',
+    params: {}
+  },
+  '/Ballot/BltBallotItem/GetTaskRecordMember': {
+    name: '投票项的得票记录',
+    params: {}
+  },
+  '/Ballot/BltBallotRecord/InsertBallotRecord': {
+    name: '投票动作',
+    params: {}
+  },
   ____________: {
     name: '默认的空接口',
     params: {}
