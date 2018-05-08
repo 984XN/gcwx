@@ -1,16 +1,16 @@
 <template>
   <div class="page-user-profile">
     <group title="基本信息">
-      <cell title="姓名" value="张小三"></cell>
-      <cell title="性别" value="男"></cell>
-      <cell title="民族" value="汉族"></cell>
-      <cell title="出生日期" value="1988-02-17"></cell>
-      <cell title="学历" value="研究生"></cell>
-      <cell title="联系电话" value="176-3034-6541"></cell>
-      <cell title="人员类别" value="正式党员"></cell>
-      <!-- <cell title="缴费标准" value="200元"></cell> -->
-      <cell title="工作岗位" value="非公有企业工勤岗位"></cell>
-      <cell title="所在党组织" value="中共洛阳鸿卓电子信息技术有限公司支部委员会"></cell>
+      <cell title="姓名" :value="userInfo.Name"></cell>
+      <cell title="性别" :value="userInfo.Sex"></cell>
+      <cell title="民族" :value="userInfo.Nation"></cell>
+      <cell title="出生日期" :value="userInfo.Birthday|substr(0,10,false)"></cell>
+      <cell title="学历" :value="userInfo.EducationBackgroundCode"></cell>
+      <cell title="联系电话" :value="userInfo.Tel"></cell>
+      <cell title="人员类别" :value="userInfo.MemberState"></cell>
+      <!-- <cell title="缴费标准" :value=""></cell> -->
+      <cell title="工作岗位" :value="userInfo.WorkJobs"></cell>
+      <cell title="所在党组织" :value="userInfo.OrganizationName"></cell>
     </group>
     <load-more :show-loading="false" background-color="#fbf9fe"></load-more>
   </div>
@@ -18,6 +18,7 @@
 
 <script>
 import { Group, Cell } from 'vux';
+import * as api from 'src/api/user';
 
 export default {
   components: {
@@ -25,7 +26,20 @@ export default {
     Cell
   },
   data() {
-    return {};
+    return {
+      userInfo: {
+        Birthday: '',
+        EducationBackgroundCode: '',
+        MemberState: '',
+        Name: '',
+        Nation: '',
+        OrganizationName: '',
+        PhotoName: '',
+        Sex: '',
+        Tel: '',
+        WorkJobs: ''
+      }
+    };
   },
   computed: {
     name() {
@@ -40,6 +54,33 @@ export default {
       // console.log(userSystem, userWechat, username, nickname);
       return username || nickname;
     }
+  },
+  mounted() {
+    let self = this;
+    self.$vux.loading.show({
+      text: '获取数据'
+    });
+    self.$nextTick(() => {
+      api.user.member
+        .profile()
+        .then(res => {
+          self.$vux.loading.hide();
+          self.userInfo = res.Data.userInfo || {};
+          console.log('api.user.member.profile:', res);
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.confirm.show({
+            title: '出错了',
+            content: e.message || '接口数据错误',
+            confirmText: '返回上一页',
+            cancelText: '关闭提示',
+            onConfirm() {
+              this.$router.go(-1);
+            }
+          });
+        });
+    });
   }
 };
 </script>

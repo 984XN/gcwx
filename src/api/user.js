@@ -21,8 +21,39 @@ export const user = {
   member: {
     profile: params => {
       return service
-        .post('/api/Sys/SysUser/GetUserByID', params)
-        .then(res => res.data);
+        .post('/api/Sys/SysUser/GetUserInfoByID', params)
+        .then(res => {
+          let userInfo = {
+            Birthday: '',
+            EducationBackgroundCode: '',
+            MemberState: '',
+            Name: '',
+            Nation: '',
+            OrganizationName: '',
+            PhotoName: '',
+            Sex: '',
+            Tel: '',
+            WorkJobs: ''
+          };
+          if (res.data.Data && res.data.Data[0]) {
+            let data = res.data.Data[0];
+            userInfo = {
+              Birthday: data.Birthday || '',
+              EducationBackgroundCode: data.EducationBackgroundCode || '',
+              MemberState: data.MemberState || '',
+              Name: data.Name || '',
+              Nation: data.Nation || '',
+              OrganizationName: data.OrganizationName || '',
+              PhotoName: data.PhotoName || '',
+              Sex: data.Sex || '',
+              Tel: data.Tel || '',
+              WorkJobs: data.WorkJobs || ''
+            };
+          }
+          delete res.data.Data;
+          res.data.Data = { userInfo };
+          return res.data;
+        });
     },
     score: params => {
       return service
@@ -91,7 +122,24 @@ export const user = {
         .then(res => res.data);
     }
   },
-  article: {}
+  article: {
+    list: params => {
+      let url = {
+        TongZhiGongGao: '/Sys/SysNote/GetSysNoteByHomePge',
+        DangWuGongKai: '/PartyActivity/PaPartyAffairs/GetAffairs',
+        DangJianDongTai: '/PartyActivity/PaPartyDynamic/GetDynamicByAdopt'
+      }[params.api];
+      return service.post(url, params).then(res => res.data);
+    },
+    detail: params => {
+      let url = {
+        TongZhiGongGao: '/Sys/SysNote/GetNoteMesByID',
+        DangWuGongKai: '/PartyActivity/PaPartyAffairs/GetAffairsByID',
+        DangJianDongTai: '/PartyActivity/PaPartyDynamic /GetDynamicByID'
+      }[params.api];
+      return service.post(url, params).then(res => res.data);
+    }
+  }
 };
 
 export default {

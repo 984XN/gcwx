@@ -321,7 +321,7 @@ export const API_LIST = {
       pageModel: {}
     }
   },
-  '/Sys/SysUser/GetUserByID': {
+  '/Sys/SysUser/GetUserInfoByID': {
     name: '获取个人资料',
     params: {}
   },
@@ -331,6 +331,30 @@ export const API_LIST = {
   },
   '/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember': {
     name: '获取党费缴纳信息',
+    params: {}
+  },
+  '/Sys/SysNote/GetSysNoteByHomePge': {
+    name: '获取通知公告列表',
+    params: {}
+  },
+  '/Sys/SysNote/GetNoteMesByID': {
+    name: '获取通知公告详情',
+    params: {}
+  },
+  '/PartyActivity/PaPartyAffairs/GetAffairs': {
+    name: '获取党务公开列表',
+    params: {}
+  },
+  '/PartyActivity/PaPartyAffairs/GetAffairsByID': {
+    name: '获取党务公开详情',
+    params: {}
+  },
+  '/PartyActivity/PaPartyDynamic/GetDynamicByAdopt': {
+    name: '获取党建动态列表',
+    params: {}
+  },
+  '/PartyActivity/PaPartyDynamic /GetDynamicByID': {
+    name: '获取党建动态详情',
     params: {}
   },
   ____________: {
