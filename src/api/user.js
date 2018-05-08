@@ -62,7 +62,33 @@ export const member = {
         '/api/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember',
         params
       )
-      .then(res => res.data);
+      .then(res => {
+        let list = [];
+        if (res.data.Data && res.data.Data[0]) {
+          let data = res.data.Data[0];
+          let year = data.Year ? data.Year + '年' : '';
+          let items = [
+            'FirstQuarterPaid',
+            'SecondQuarterPaid',
+            'ThirdQuarterPaid',
+            'FourthQuarterPaid'
+          ];
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            list.push({
+              title: '第' + (i + 1) + '季度',
+              content: data[item] ? data[item] + '元' : '-'
+            });
+          }
+          delete res.data.Data;
+          res.data.Data = {
+            year,
+            totalDues: data.YearPaid,
+            list
+          };
+        }
+        return res.data;
+      });
   }
 };
 

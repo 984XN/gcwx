@@ -321,6 +321,18 @@ export const API_LIST = {
       pageModel: {}
     }
   },
+  '/Sys/SysUser/GetUserByID': {
+    name: '获取个人资料',
+    params: {}
+  },
+  '/PartyActivity/PaPartyMemberAddScore/GetMemberScore': {
+    name: '获取积分记录',
+    params: {}
+  },
+  '/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember': {
+    name: '获取党费缴纳信息',
+    params: {}
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

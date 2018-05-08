@@ -48,7 +48,7 @@
         <cell title="个人积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score">
           <i slot="icon" class="listIcon iconfont icon-coin"></i>
         </cell>
-        <cell title="党费查询" is-link @click.native="unopened('党费查询')" value="开发中">
+        <cell title="党费查询" is-link @click.native="show.dues = !show.dues" :is-loading="dues.total === null" :value="dues.total">
           <i slot="icon" class="listIcon iconfont icon-money-square"></i>
         </cell>
         <cell title="中奖记录" :link="{path:'gifts',append:true}">
@@ -72,11 +72,38 @@
       <load-more :show-loading="false"></load-more>
     </container>
     <Menu></Menu>
+    <div v-transfer-dom>
+      <popup v-model="show.dues">
+        <x-table :cell-bordered="false" style="background-color:#fff;">
+          <thead style="background-color:#F7F7F7;">
+            <tr>
+              <th>{{dues.year}}</th>
+              <th>党费</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(v,i) in dues.list" :key="i">
+              <td>{{v.title}}</td>
+              <td>{{v.content}}</td>
+            </tr>
+            <tr v-if="dues.list.length === 0">
+              <td colspan="3">暂无数据</td>
+            </tr>
+          </tbody>
+        </x-table>
+      </popup>
+    </div>
   </div>
 </template>
 
 <script>
-import { Card, Blur, Confirm, TransferDomDirective as TransferDom } from 'vux';
+import {
+  XTable,
+  Card,
+  Blur,
+  Popup,
+  TransferDomDirective as TransferDom
+} from 'vux';
 import Menu from 'src/components/menu';
 import * as api from 'src/api/user';
 
@@ -85,17 +112,26 @@ export default {
     TransferDom
   },
   components: {
+    XTable,
     Card,
     Blur,
     Menu,
-    Confirm
+    Popup
   },
   data() {
     return {
       score: null,
       binded: false,
       userSystem: {},
-      userWechat: {}
+      userWechat: {},
+      show: {
+        dues: false
+      },
+      dues: {
+        year: '',
+        total: null,
+        list: []
+      }
     };
   },
   computed: {
@@ -189,12 +225,21 @@ export default {
       self.binded = self.session('binded');
       self.userSystem = self.session('userSystem');
       self.userWechat = self.session('userWechat');
+      // 用户总积分数
       api.member.score().then(res => {
         self.score =
           res.Data.sumScore && res.Data.sumScore[0]
             ? res.Data.sumScore[0].AddScore
             : 0;
         console.log('member.score:', res);
+      });
+      // 用户党费记录
+      api.member.dues().then(res => {
+        self.dues.year = res.Data.year || '';
+        self.dues.list = res.Data.list || [];
+        self.dues.total = res.Data.totalDues || 0;
+        self.dues.total = '本年度已缴纳' + res.Data.totalDues + '元';
+        console.log('member.dues:', res);
       });
     });
   }
