@@ -3,7 +3,7 @@
     <container top="0">
       <div class="userInfo">
         <div class="avatar">
-          <img :src="userSystem.PhotoName || userWechat.HeadImgUrl" alt="头像">
+          <img :src="avatar" alt="头像">
         </div>
         <div class="name">{{name}}</div>
       </div>
@@ -135,6 +135,9 @@ export default {
     };
   },
   computed: {
+    avatar() {
+      return this.userSystem.PhotoName || this.userWechat.HeadImgUrl;
+    },
     name() {
       let username = this.userSystem.UserName || '';
       let nickname = this.userWechat.NickName || '';
@@ -225,7 +228,17 @@ export default {
       self.binded = self.session('binded');
       self.userSystem = self.session('userSystem');
       self.userWechat = self.session('userWechat');
-      // 用户总积分数
+      // 获取用户头像
+      api.user.member.profile().then(res => {
+        self.$vux.loading.hide();
+        self.userInfo = res.Data.userInfo || {};
+        if (self.userInfo.PhotoName) {
+          self.userSystem.PhotoName = self.userInfo.PhotoName;
+        }
+        console.log('api.user.member.profile:', self.userSystem);
+        console.log('api.user.member.profile:', res);
+      });
+      // 获取用户总积分数
       api.user.member.score().then(res => {
         self.score =
           res.Data.sumScore && res.Data.sumScore[0]
@@ -233,7 +246,7 @@ export default {
             : 0;
         console.log('member.score:', res);
       });
-      // 用户党费记录
+      // 获取用户党费记录
       api.user.member.dues().then(res => {
         self.dues.year = res.Data.year || '';
         self.dues.list = res.Data.list || [];
