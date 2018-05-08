@@ -13,7 +13,7 @@
         <table class="data">
           <tbody>
             <tr v-for="(v,i) in list" :key="i">
-              <td>第{{i+1}}名</td>
+              <td>第{{v.order}}名</td>
               <td>{{v.name}}</td>
               <td>{{v.score}}分</td>
               <td>{{v.date}}</td>

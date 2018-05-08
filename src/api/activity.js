@@ -733,15 +733,23 @@ export const activity = {
         .post('/api/PartyStudy/PsExamPapers/GetTestScores', params)
         .then(res => {
           if (res.data.Data && res.data.Data.PageData) {
+            let maxScore = -1;
+            let i = 0;
             res.data.Data.list = res.data.Data.PageData.map(v => {
+              if (v.PapersScore !== maxScore) {
+                i++;
+                maxScore = v.PapersScore;
+              }
               return {
                 id: v.ID,
+                order: i, // 排名的名次，可并列
                 name: v.Name,
                 score: v.PapersScore,
                 mid: v.PartyMemberID,
                 date: v.PapersScoreTime
               };
             });
+            res.data.Data.maxScore = maxScore;
           }
           return res.data;
         });
