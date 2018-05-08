@@ -25,10 +25,10 @@ export default {
     if (!code) {
       self.$router.replace({ path: '/login/wechat' });
     } else {
-      api
-        .getWechatUserInfoByCode({ code: code })
+      api.user.wechat
+        .getUserInfoByCode({ code: code })
         .then(res => {
-          console.log('getWechatUserInfoByCode:', res);
+          console.log('getUserInfoByCode:', res);
           sessionStorage.clear();
           if (res.StatusCode === 1200) {
             let binded = res.Data.IsBinding;

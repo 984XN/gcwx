@@ -39,7 +39,7 @@ export default {
         self.lazyload.loading = false;
       } else {
         // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
-        api.member
+        api.user.member
           .score({
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 20 }
           })

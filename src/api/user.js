@@ -7,96 +7,93 @@
 
 import service from 'src/api';
 
-export const login = params => {
-  return service.post('/api/Sys/SysUser/LoginV2', params).then(res => res.data);
-};
-
-export const password = params => {
-  return service
-    .post('/api/Sys/SysUser/UpdatePwd', params)
-    .then(res => res.data);
-};
-
-export const getWechatUserInfoByCode = params => {
-  return service
-    .post('/api/Sys/SysUser/GetWechatUserInfo', params)
-    .then(res => res.data);
-};
-
-export const wechatBindMember = params => {
-  return service
-    .post('/api/Sys/SysUser/BindPartyMember', params)
-    .then(res => res.data);
-};
-
-export const wechatUnbindMember = params => {
-  return service
-    .post('/api/Sys/SysUser/UnBindPartyMember', params)
-    .then(res => res.data);
-};
-
-export const member = {
-  profile: params => {
+export const user = {
+  login: params => {
     return service
-      .post('/api/Sys/SysUser/GetUserByID', params)
+      .post('/api/Sys/SysUser/LoginV2', params)
       .then(res => res.data);
   },
-  score: params => {
+  password: params => {
     return service
-      .post('/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore', params)
-      .then(res => {
-        res.data.Data.list = res.data.Data.score.map(v => {
-          return {
-            id: v.ID,
-            score: v.AddScore,
-            date: v.CreateDate,
-            content: v.AddScoreExplain
-          };
-        });
-        return res.data;
-      });
+      .post('/api/Sys/SysUser/UpdatePwd', params)
+      .then(res => res.data);
   },
-  dues: params => {
-    return service
-      .post(
-        '/api/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember',
-        params
-      )
-      .then(res => {
-        let list = [];
-        if (res.data.Data && res.data.Data[0]) {
-          let data = res.data.Data[0];
-          let year = data.Year ? data.Year + '年' : '';
-          let items = [
-            'FirstQuarterPaid',
-            'SecondQuarterPaid',
-            'ThirdQuarterPaid',
-            'FourthQuarterPaid'
-          ];
-          for (let i = 0; i < items.length; i++) {
-            const item = items[i];
-            list.push({
-              title: '第' + (i + 1) + '季度',
-              content: data[item] ? data[item] + '元' : '-'
-            });
+  member: {
+    profile: params => {
+      return service
+        .post('/api/Sys/SysUser/GetUserByID', params)
+        .then(res => res.data);
+    },
+    score: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore', params)
+        .then(res => {
+          res.data.Data.list = res.data.Data.score.map(v => {
+            return {
+              id: v.ID,
+              score: v.AddScore,
+              date: v.CreateDate,
+              content: v.AddScoreExplain
+            };
+          });
+          return res.data;
+        });
+    },
+    dues: params => {
+      return service
+        .post(
+          '/api/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember',
+          params
+        )
+        .then(res => {
+          let list = [];
+          if (res.data.Data && res.data.Data[0]) {
+            let data = res.data.Data[0];
+            let year = data.Year ? data.Year + '年' : '';
+            let items = [
+              'FirstQuarterPaid',
+              'SecondQuarterPaid',
+              'ThirdQuarterPaid',
+              'FourthQuarterPaid'
+            ];
+            for (let i = 0; i < items.length; i++) {
+              const item = items[i];
+              list.push({
+                title: '第' + (i + 1) + '季度',
+                content: data[item] ? data[item] + '元' : '-'
+              });
+            }
+            delete res.data.Data;
+            res.data.Data = {
+              year,
+              totalDues: data.YearPaid,
+              list
+            };
           }
-          delete res.data.Data;
-          res.data.Data = {
-            year,
-            totalDues: data.YearPaid,
-            list
-          };
-        }
-        return res.data;
-      });
-  }
+          return res.data;
+        });
+    }
+  },
+  wechat: {
+    getUserInfoByCode: params => {
+      return service
+        .post('/api/Sys/SysUser/GetWechatUserInfo', params)
+        .then(res => res.data);
+    },
+    bindMember: params => {
+      return service
+        .post('/api/Sys/SysUser/BindPartyMember', params)
+        .then(res => res.data);
+    },
+    unbindMember: params => {
+      return service
+        .post('/api/Sys/SysUser/UnBindPartyMember', params)
+        .then(res => res.data);
+    }
+  },
+  article: {}
 };
 
 export default {
-  login,
-  password,
-  member,
-  getWechatUserInfoByCode,
-  wechatBindMember,
-  wechatUnbindMember
+  user
 };

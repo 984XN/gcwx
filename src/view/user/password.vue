@@ -60,7 +60,7 @@ export default {
         });
         return false;
       }
-      api
+      api.user
         .password({
           OldLoginPWD: self.user.password0,
           NewLoginPWD: self.user.password1

@@ -52,7 +52,7 @@ export default {
         self.$vux.loading.show({
           text: '正在登录'
         });
-        api
+        api.user
           .login({
             ValidateCode: self.user.vcode,
             LoginName: self.user.username,
@@ -63,7 +63,8 @@ export default {
             sessionStorage.clear();
             if (res.success === true) {
               console.log('登录成功');
-              res.Data.UserInfo.PhotoName = res.Data.UserInfo.PhotoName || System.avatarDefault
+              res.Data.UserInfo.PhotoName =
+                res.Data.UserInfo.PhotoName || System.avatarDefault;
               sessionStorage.logined = 1;
               sessionStorage.userSystem = JSON.stringify(
                 res.Data.UserInfo || { UserInfo: false }

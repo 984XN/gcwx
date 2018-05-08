@@ -185,9 +185,9 @@ export default {
       self.$vux.loading.show({
         text: '正在从微信上解除党员关系'
       });
-      api.wechatUnbindMember().then(res => {
+      api.user.wechat.unbindMember().then(res => {
         self.$vux.loading.hide();
-        console.log('wechatUnbindMember', res);
+        console.log('unbindMember', res);
         // toto: 解除绑定的操作
         // sessionStorage.binded = false
         // sessionStorage.userSystem = JSON.stringify({});;
@@ -226,7 +226,7 @@ export default {
       self.userSystem = self.session('userSystem');
       self.userWechat = self.session('userWechat');
       // 用户总积分数
-      api.member.score().then(res => {
+      api.user.member.score().then(res => {
         self.score =
           res.Data.sumScore && res.Data.sumScore[0]
             ? res.Data.sumScore[0].AddScore
@@ -234,7 +234,7 @@ export default {
         console.log('member.score:', res);
       });
       // 用户党费记录
-      api.member.dues().then(res => {
+      api.user.member.dues().then(res => {
         self.dues.year = res.Data.year || '';
         self.dues.list = res.Data.list || [];
         self.dues.total = res.Data.totalDues || 0;

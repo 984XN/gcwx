@@ -41,8 +41,8 @@ export default {
         text: '正在绑定'
       });
       // console.log('wechat binding...', this.wechat, this.user);
-      api
-        .wechatBindMember({
+      api.user.wechat
+        .bindMember({
           LoginName: self.user.username,
           LoginPWD: self.user.password
         })
