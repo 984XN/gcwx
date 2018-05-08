@@ -14,7 +14,6 @@
           </div>
         </div>
       </div>
-      <load-more :show-loading="false"></load-more>
     </div>
     <router-link :to="{path:'/activity/zhengnengliang/add',query:{from:'user'}}" class="btnAdd">
       <i class="iconfont icon-add"></i>
