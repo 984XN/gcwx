@@ -120,6 +120,7 @@ export default {
     .intro {
       font-size 11px
       height 48px // 3行的高度
+      line-height 16px
       overflow hidden
       text-overflow ellipsis
       display -webkit-box

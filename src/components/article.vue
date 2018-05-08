@@ -195,6 +195,7 @@ export default {
         padding-left 10px
         margin-left 10px
         border-left 1px solid #eee
+        list-style none
         .subReply {
           margin 10px 0
         }

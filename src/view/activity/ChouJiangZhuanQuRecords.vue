@@ -91,6 +91,7 @@ export default {
   background-color #fff
   border-radius 5px
   box-shadow 0 3px 5px rgba(0, 0, 0, 0.3)
+  list-style none
   dt {
     font-size 12px
     padding 10px 15px
