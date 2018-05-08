@@ -2,10 +2,13 @@
   <div class="page page-user-index">
     <container top="0">
       <div class="userInfo">
-        <div class="avatar">
-          <img :src="avatar" alt="头像">
+        <div class="content">
+          <div class="avatar">
+            <img :src="avatar" alt="头像">
+          </div>
+          <div class="name">{{name}}</div>
+          <div class="company">{{userInfo.OrganizationName}}</div>
         </div>
-        <div class="name">{{name}}</div>
       </div>
       <!-- <divider></divider> -->
       <!-- <card>
@@ -131,7 +134,8 @@ export default {
         year: '',
         total: null,
         list: []
-      }
+      },
+      userInfo: {}
     };
   },
   computed: {
@@ -265,28 +269,49 @@ export default {
   margin-bottom 1.17647059em
   padding 45px 0 20px
   background-color #f17474
-  .avatar {
-    width 100px
-    height 100px
+  overflow hidden
+  &:before {
+    top 110px
+    background-color #FFF
+    width 130%
+    margin-left -65%
+    content ''
+    display block
+    position absolute
+    height 150%
+    left 50%
     border-radius 50%
-    background-color #C00
-    overflow hidden
-    margin 0 auto
-    img {
-      width 100%
-      line-height 100px
-      text-align center
-      display block
-      margin 0 auto
-      color #FFF
-    }
   }
-  .name {
-    text-align center
-    color #FFF
-    text-shadow 0 0 2px #000
-    font-size 14px
-    padding-top 5px
+  .content {
+    position relative
+    .avatar {
+      width 100px
+      height 100px
+      border-radius 50%
+      overflow hidden
+      margin 0 auto
+      border solid 3px rgba(0, 0, 0, 0.3)
+      img {
+        width 100%
+        line-height 100px
+        text-align center
+        display block
+        margin 0 auto
+        color #FFF
+      }
+    }
+    .name {
+      text-align center
+      font-size 16px
+      line-height 20px
+      padding-top 5px
+    }
+    .company {
+      padding-top 10px
+      text-align center
+      font-size 12px
+      color #999
+    }
   }
 }
 .card-flex {
