@@ -5,8 +5,8 @@
         <div class="title">{{article.title}}</div>
         <div class="subTitle">{{article.cover}}</div>
         <form class="search">
-          <input type="text" placeholder="请输入编号或关键字">
-          <button>
+          <input type="text" placeholder="请输入编号或关键字" v-model="keyword">
+          <button @click.native="query">
             <i class="iconfont icon-search"></i>
           </button>
         </form>
@@ -20,7 +20,7 @@
           </div>
           <div class="attr">
             <div class="votes">票数：{{v.votes}}</div>
-            <div class="index">编号：{{v.id|strPad(maxIdLen)}}</div>
+            <div class="index">编号：V{{v.id|strPad(maxIdLen,'0')}}</div>
           </div>
           <div class="control">
             <x-button @click.native="select(v)" v-if="!v.voted" mini :type="v.selected ? 'primary' : 'default'">{{v.selected ? '已选' : '选择'}}</x-button>
@@ -39,7 +39,7 @@
           </thead>
           <tbody>
             <tr v-for="(v,i) in selected" :key="i">
-              <td>编号：{{v.id|strPad(maxIdLen)}}</td>
+              <td>编号：V{{v.id|strPad(maxIdLen,'0')}}</td>
               <td>{{v.title|substr(0,10)}}</td>
             </tr>
             <tr v-if="selected.length === 0">
@@ -49,7 +49,7 @@
         </x-table>
       </popup>
     </div>
-    <div class="voteControl">
+    <div v-if="!article.voted" class="voteControl">
       <x-button @click.native="submit" :disabled="!selected.length" type="warn" mini action-type="button">投票</x-button>
       <div class="text" v-html="selectedText" @click="showSelected"></div>
     </div>
@@ -173,19 +173,40 @@ export default {
         self.selectedVisible = !self.selectedVisible;
       }
     },
+    query() {
+      let self = this;
+      self.list = [];
+      self.selected = [];
+      if (!self.keyword) {
+        self.$vux.toast.show({
+          time: 500,
+          text: '请填写搜索词'
+        });
+      } else {
+        self.submit();
+      }
+    },
     submit() {
       let self = this;
-      let ItemID = self.selected.map(v => v.id);
+      let ItemID = self.selected.map(v => {
+        return {
+          ItemID: v.id
+        };
+      });
       self.$vux.loading.show({
         text: '正在投票'
       });
       api.activity.LiangDianTouPiao.vote({
-        ItemID
+        // model: {
+        //   ItemID: [6, 7]
+        // },
+        model: ItemID
       })
         .then(res => {
           console.log('vote res:', res);
           self.$vux.loading.hide();
-          if (res.StatusCode === 1200) { // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
+          if (res.StatusCode === 1200) {
+            // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
             let voteCount = self.selected.length;
             self.$vux.alert.show({
               title: '投票成功',
@@ -201,6 +222,8 @@ export default {
             }
             // 清空已选
             self.selected = [];
+            // 标记整个投票活动为已投
+            self.article.voted = true;
           } else {
             self.$vux.alert.show({
               title: '投票出错',
@@ -390,7 +413,7 @@ export default {
     .attr {
       font-size 12px
       color #999
-      padding 5px 0
+      padding 5px
       .votes {
         float right
       }

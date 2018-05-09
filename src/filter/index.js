@@ -73,13 +73,14 @@ const textTime = time => {
   return str;
 };
 
-const strPad = (str, len, dir = 'before') => {
+const strPad = (str, len, sign = '-', dir = 'before') => {
   str = str + ''; // 转换为字符串
   let newStr = '';
-  if (dir === 'before') { // before, after
-    newStr = new Array(len - str.length + 1).join('-', '') + str;
+  if (dir === 'before') {
+    // before, after
+    newStr = new Array(len - str.length + 1).join(sign) + str;
   } else {
-    newStr = str + new Array(len - str.length + 1).join('-', '');
+    newStr = str + new Array(len - str.length + 1).join(sign);
   }
   return newStr;
 };

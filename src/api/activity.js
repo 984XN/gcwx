@@ -795,8 +795,8 @@ export const activity = {
                   id: v.ID || 0,
                   title: v.ItemName || '-',
                   thumb: v.PictureImg || '/static/img/default.png',
-                  voted: v.voted || false,
-                  votes: v.itemCount || 0
+                  voted: v.IsVote || false,
+                  votes: v.VoteCount || 0
                 };
               });
             }
@@ -805,7 +805,8 @@ export const activity = {
               let v = res.data.Data.task[0];
               article = {
                 title: v.TaskName,
-                cover: v.TaskImg || ''
+                cover: v.TaskImg || '',
+                voted: v.IsVote || false
               };
             }
             delete res.data.Data;
@@ -828,8 +829,8 @@ export const activity = {
                   id: v.ID || 0,
                   title: v.ItemName || '-',
                   thumb: v.PictureImg || '/static/img/default.png',
-                  voted: v.voted || false,
-                  votes: v.itemCount || 0,
+                  voted: v.IsVote || false,
+                  votes: v.VoteCount || 0,
                   order: v.order || '-'
                 };
               });
@@ -856,8 +857,19 @@ export const activity = {
       // 投票项基本信息
       detail: params => {
         return service
-          .post('/api/Ballot/BltBallotTask/GetByID', params)
+          .post('/api/Ballot/BltBallotItem/GetBallotItemByID', params)
           .then(res => {
+            let v = res.data.Data.Data || {};
+            let article = {
+              baseInfo: {
+                title: v.ItemName || '',
+                author: v.OrganizationName || '',
+                content: v.Content || '',
+                date: v.CreateDate || ''
+              }
+            };
+            delete res.data.Data;
+            res.data.Data = { article };
             return res.data;
           });
       },
@@ -866,6 +878,13 @@ export const activity = {
         return service
           .post('/api/Ballot/BltBallotItem/GetTaskRecordMember', params)
           .then(res => {
+            let list = res.data.Data.PageData.map(v => {
+              return {
+                date: v.BallotDate || '-',
+                title: v.UserName || '-'
+              };
+            });
+            res.data.Data.list = list;
             return res.data;
           });
       }

@@ -376,7 +376,7 @@ export const API_LIST = {
       TaskID: '' //  int
     }
   },
-  '/Ballot/BltBallotTask/GetByID': {
+  '/Ballot/BltBallotItem/GetBallotItemByID': {
     name: '投票项基本信息',
     params: {
       ID: '' // int
