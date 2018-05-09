@@ -786,8 +786,33 @@ export const activity = {
       // 项列表
       list: params => {
         return service
-          .post('/api/Ballot/BltBallotItem/Query', params)
+          .post('/api/Ballot/BltBallotItem/GetBallotItemByWeChat', params)
           .then(res => {
+            let list = [];
+            if (res.data.Data.item) {
+              list = res.data.Data.item.map(v => {
+                return {
+                  id: v.ID || 0,
+                  title: v.ItemName || '-',
+                  thumb: v.PictureImg || '/static/img/default.png',
+                  voted: v.voted || false,
+                  votes: v.itemCount || 0
+                };
+              });
+            }
+            let article = {};
+            if (res.data.Data.task && res.data.Data.task[0]) {
+              let v = res.data.Data.task[0];
+              article = {
+                title: v.TaskName,
+                cover: v.TaskImg || ''
+              };
+            }
+            delete res.data.Data;
+            res.data.Data = {
+              article,
+              list
+            };
             return res.data;
           });
       },
@@ -796,6 +821,32 @@ export const activity = {
         return service
           .post('/api/Ballot/BltBallotItem/GetRank', params)
           .then(res => {
+            let list = [];
+            if (res.data.Data.RankList) {
+              list = res.data.Data.RankList.map(v => {
+                return {
+                  id: v.ID || 0,
+                  title: v.ItemName || '-',
+                  thumb: v.PictureImg || '/static/img/default.png',
+                  voted: v.voted || false,
+                  votes: v.itemCount || 0,
+                  order: v.order || '-'
+                };
+              });
+            }
+            let article = {};
+            if (res.data.Data.Task) {
+              let v = res.data.Data.Task;
+              article = {
+                title: v.TaskName,
+                cover: v.TaskImg || ''
+              };
+            }
+            delete res.data.Data;
+            res.data.Data = {
+              article,
+              list
+            };
             return res.data;
           });
       }

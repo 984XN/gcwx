@@ -363,23 +363,41 @@ export const API_LIST = {
   },
   '/Ballot/BltBallotItem/Query': {
     name: '投票活动里的投票项列表',
-    params: {}
+    params: {
+      queryModel: {
+        TaskID: '', // int
+        Name: '' // string 搜索用
+      }
+    }
   },
   '/Ballot/BltBallotItem/GetRank': {
     name: '投票项的排名',
-    params: {}
+    params: {
+      TaskID: '' //  int
+    }
   },
   '/Ballot/BltBallotTask/GetByID': {
     name: '投票项基本信息',
-    params: {}
+    params: {
+      ID: '' // int
+    }
   },
   '/Ballot/BltBallotItem/GetTaskRecordMember': {
     name: '投票项的得票记录',
-    params: {}
+    params: {
+      queryModel: {
+        ItemID: '' // int
+      },
+      pageModel: {}
+    }
   },
   '/Ballot/BltBallotRecord/InsertBallotRecord': {
     name: '投票动作',
-    params: {}
+    params: {
+      model: {
+        ItemID: [] // List<BltBallotRecord>
+      }
+    }
   },
   ____________: {
     name: '默认的空接口',

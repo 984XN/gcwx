@@ -14,7 +14,7 @@
         </tab-item>
       </tab>
       <ol class="voteList">
-        <router-link :to="'items/'+21" tag="li" class="vote" v-for="(v,i) in list" :key="i">
+        <router-link :to="'items/'+v.id" tag="li" class="vote" v-for="(v,i) in list" :key="i">
           <div class="author">发布单位：{{v.author}}</div>
           <div class="title">{{v.title}}</div>
           <div class="attr">
@@ -64,10 +64,6 @@ export default {
         }
       ],
       banners: [
-        {
-          url: 'javascript:',
-          img: '/static/img/banner/01.png'
-        },
         {
           url: 'javascript:',
           img: '/static/img/banner/01.png'

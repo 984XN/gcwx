@@ -27,10 +27,6 @@ export default {
         {
           url: 'javascript:',
           img: '/static/img/banner/02.png'
-        },
-        {
-          url: 'javascript:',
-          img: '/static/img/banner/02.png'
         }
       ],
       list: [],

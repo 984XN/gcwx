@@ -73,11 +73,23 @@ const textTime = time => {
   return str;
 };
 
+const strPad = (str, len, dir = 'before') => {
+  str = str + ''; // 转换为字符串
+  let newStr = '';
+  if (dir === 'before') { // before, after
+    newStr = new Array(len - str.length + 1).join('-', '') + str;
+  } else {
+    newStr = str + new Array(len - str.length + 1).join('-', '');
+  }
+  return newStr;
+};
+
 export default {
   install(Vue) {
     Vue.filter('trim', trim);
     Vue.filter('int', int);
     Vue.filter('substr', substr);
     Vue.filter('textTime', textTime);
+    Vue.filter('strPad', strPad);
   }
 };
