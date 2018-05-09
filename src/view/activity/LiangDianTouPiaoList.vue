@@ -14,56 +14,17 @@
         </tab-item>
       </tab>
       <ol class="voteList">
-        <router-link to="items/21" tag="li" class="vote">
-          <div class="author">发布单位：中共石家庄市藁城区委员会</div>
-          <div class="title">3.12植树节</div>
+        <router-link :to="'items/'+21" tag="li" class="vote" v-for="(v,i) in list" :key="i">
+          <div class="author">发布单位：{{v.author}}</div>
+          <div class="title">{{v.title}}</div>
           <div class="attr">
             <span class="link">前往投票</span>
-            <div class="date">2017-09-18 至 2017-10-18</div>
-            <div class="view">
+            <div class="date">{{v.dateStart|substr(0,10,false)}} 至 {{v.dateEnd|substr(0,10,false)}}</div>
+            <!-- <div class="view">
               <i class="iconfont icon-eye"></i>
               2541
-            </div>
+            </div> -->
           </div>
-        </router-link>
-        <router-link to="items/22" tag="li" class="vote">
-          <div class="author">发布单位：中共石家庄市藁城区委员会</div>
-          <div class="title">晒赛主题党日“优秀案例评选”活动</div>
-          <div class="attr">
-            <span class="link">前往投票</span>
-            <div class="date">2017-09-18 至 2017-10-18</div>
-            <div class="view">
-              <i class="iconfont icon-eye"></i>
-              2541
-            </div>
-          </div>
-          <div class="status">已结束</div>
-        </router-link>
-        <router-link to="items/23" tag="li" class="vote">
-          <div class="author">发布单位：中共石家庄市藁城区委员会</div>
-          <div class="title">晒赛主题党日“优秀案例评选”活动</div>
-          <div class="attr">
-            <span class="link">前往投票</span>
-            <div class="date">2017-09-18 至 2017-10-18</div>
-            <div class="view">
-              <i class="iconfont icon-eye"></i>
-              2541
-            </div>
-          </div>
-          <div class="status">已结束</div>
-        </router-link>
-        <router-link to="items/24" tag="li" class="vote">
-          <div class="author">发布单位：中共石家庄市藁城区委员会</div>
-          <div class="title">晒赛主题党日“优秀案例评选”活动</div>
-          <div class="attr">
-            <span class="link">前往投票</span>
-            <div class="date">2017-09-18 至 2017-10-18</div>
-            <div class="view">
-              <i class="iconfont icon-eye"></i>
-              2541
-            </div>
-          </div>
-          <div class="status">已结束</div>
         </router-link>
       </ol>
     </container>
@@ -186,26 +147,24 @@ export default {
         self.lazyload.loading = false;
       } else {
         // console.log('XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据');
-        api.activity.LiangDianTouPiao
-          .list({
-            queryModel: {
-              PapersClassify: self.type // int 10表示答题促学 20表示知识竞赛
-            },
-            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
-            api: 'all'
-          })
-          .then(res => {
-            if (res.Data.list && res.Data.list.length > 0) {
-              self.list = [...self.list, ...res.Data.list];
-              self.lazyload.page += 1;
-            } else {
-              // console.log('木有数据了');
-              self.lazyload.nodata = true;
-            }
-            console.log('loadData res:', res);
-            console.log('list:', self.list);
-            self.lazyload.loading = false;
-          });
+        api.activity.LiangDianTouPiao.list({
+          queryModel: {
+            PapersClassify: self.type // int 10表示答题促学 20表示知识竞赛
+          },
+          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
+          api: 'all'
+        }).then(res => {
+          if (res.Data.list && res.Data.list.length > 0) {
+            self.list = [...self.list, ...res.Data.list];
+            self.lazyload.page += 1;
+          } else {
+            // console.log('木有数据了');
+            self.lazyload.nodata = true;
+          }
+          console.log('loadData res:', res);
+          console.log('list:', self.list);
+          self.lazyload.loading = false;
+        });
       }
     },
     tabItemClicked(index) {

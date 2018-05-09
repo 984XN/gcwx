@@ -765,6 +765,19 @@ export const activity = {
       return service
         .post('/api/Ballot/BltBallotTask/GetBltBallotTask', params)
         .then(res => {
+          let list = res.data.Data.map(v => {
+            return {
+              id: v.ID || 0,
+              author: v.OrganizationName || '-',
+              title: v.TaskName || '',
+              dateStart: v.BeginBallotDate || '',
+              dateEnd: v.EndBallotDate || ''
+            };
+          });
+          delete res.data.Data;
+          res.data.Data = {
+            list
+          };
           return res.data;
         });
     },
