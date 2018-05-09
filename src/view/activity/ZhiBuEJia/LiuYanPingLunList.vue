@@ -211,7 +211,7 @@ export default {
           self.list[index].imgs =
             res.Data.img.map(img => {
               return {
-                src: img.FilePath
+                src: img.FilePath ? img.FilePath.replace(/^~/g, '') : ''
               };
             }) || [];
           Vue.set(self.list, index, self.list[index]);

@@ -17,7 +17,7 @@ export const getArticleList = params => {
         list = res.data.Data.PageData.map((val, index, arr) => {
           return {
             id: val.ID,
-            thumb: val.FilePath,
+            thumb: val.FilePath ? val.FilePath.replace(/^~/g, '') : '',
             title: val.Title,
             content: val.Remark,
             view: val.ReadNumber,
@@ -41,7 +41,7 @@ export const article = {
           list = res.data.Data.PageData.map((val, index, arr) => {
             return {
               id: val.ID,
-              thumb: val.FilePath,
+              thumb: val.FilePath ? val.FilePath.replace(/^~/g, '') : '',
               title: val.Title,
               content: val.Remark,
               view: val.ReadNumber,
@@ -88,7 +88,7 @@ export const article = {
             return {
               id: val.ID || 0,
               name: val.FileName || '',
-              path: val.FilePath || ''
+              path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
             };
           });
         }
@@ -101,7 +101,7 @@ export const article = {
             return {
               id: val.ID || 0,
               name: val.FileName || '',
-              path: val.FilePath || ''
+              path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
             };
           });
         }

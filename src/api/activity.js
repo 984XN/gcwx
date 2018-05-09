@@ -106,7 +106,9 @@ export const activity = {
               };
             })[0],
             imgs: res.data.Data.img.map((val, index, arr) => {
-              return { src: val.FilePath };
+              return {
+                src: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
+              };
             }),
             replies: res.data.Data.Data.map(val => {
               return {
@@ -415,7 +417,9 @@ export const activity = {
               };
             })[0],
             imgs: res.data.Data.file.map((val, index, arr) => {
-              return { src: val.FilePath };
+              return {
+                src: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
+              };
             }),
             replies: res.data.Data.msg.map(val => {
               return {
@@ -758,45 +762,57 @@ export const activity = {
   LiangDianTouPiao: {
     // 投票活动列表
     list: params => {
-      return service.post('/api/Ballot/BltBallotTask/GetBltBallotTask', params).then(res => {
-        return res.data;
-      });
+      return service
+        .post('/api/Ballot/BltBallotTask/GetBltBallotTask', params)
+        .then(res => {
+          return res.data;
+        });
     },
     // 投票活动里的投票项列表
     items: {
       // 项列表
       list: params => {
-        return service.post('/api/Ballot/BltBallotItem/Query', params).then(res => {
-          return res.data;
-        });
+        return service
+          .post('/api/Ballot/BltBallotItem/Query', params)
+          .then(res => {
+            return res.data;
+          });
       },
       // 项的排名
       order: params => {
-        return service.post('/api/Ballot/BltBallotItem/GetRank', params).then(res => {
-          return res.data;
-        });
+        return service
+          .post('/api/Ballot/BltBallotItem/GetRank', params)
+          .then(res => {
+            return res.data;
+          });
       }
     },
     // 投票项
     item: {
       // 投票项基本信息
       detail: params => {
-        return service.post('/api/Ballot/BltBallotTask/GetByID', params).then(res => {
-          return res.data;
-        });
+        return service
+          .post('/api/Ballot/BltBallotTask/GetByID', params)
+          .then(res => {
+            return res.data;
+          });
       },
       // 投票项的得票记录
       records: params => {
-        return service.post('/api/Ballot/BltBallotItem/GetTaskRecordMember', params).then(res => {
-          return res.data;
-        });
+        return service
+          .post('/api/Ballot/BltBallotItem/GetTaskRecordMember', params)
+          .then(res => {
+            return res.data;
+          });
       }
     },
     // 投票动作
     vote: params => {
-      return service.post('/api/Ballot/BltBallotRecord/InsertBallotRecord', params).then(res => {
-        return res.data;
-      });
+      return service
+        .post('/api/Ballot/BltBallotRecord/InsertBallotRecord', params)
+        .then(res => {
+          return res.data;
+        });
     }
   }
 };

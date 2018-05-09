@@ -162,8 +162,8 @@ export const user = {
         if (res.data.Data.Dynamic && res.data.Data.Dynamic[0]) {
           document = res.data.Data.Dynamic[0];
         }
-        if (res.data.Data.note && res.data.Data.note[0]) {
-          document = res.data.Data.note[0];
+        if (res.data.Data.sysnote) {
+          document = res.data.Data.sysnote;
         }
         console.log('document:', document);
 
@@ -171,10 +171,14 @@ export const user = {
           type: document.FileType || '',
           id: document.ID || '',
           title:
-            document.AffairsTitle || document.PartyDynamicTitle || '未命名',
+            document.AffairsTitle ||
+            document.PartyDynamicTitle ||
+            document.NoteTitle ||
+            '未命名',
           content:
             document.AffairsContent ||
             document.PartyDynamicContent ||
+            document.NoteContent ||
             '暂无备注',
           author: document.UserName || document.CreateUser || '',
           view: 0, // 不使用访问量功能
@@ -186,7 +190,16 @@ export const user = {
             return {
               id: val.ID || 0,
               name: val.FileName || '',
-              path: val.FilePath || ''
+              path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
+            };
+          });
+        } else if (res.data.Data.listfile) {
+          // 通知公告里是这个名字
+          article.files = res.data.Data.listfile.map((val, index, arr) => {
+            return {
+              id: val.ID || 0,
+              name: val.FileName || '',
+              path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
             };
           });
         }
