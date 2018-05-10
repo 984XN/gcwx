@@ -55,20 +55,35 @@ export const user = {
           return res.data;
         });
     },
-    score: params => {
-      return service
-        .post('/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore', params)
-        .then(res => {
-          res.data.Data.list = res.data.Data.score.map(v => {
-            return {
-              id: v.ID,
-              score: v.AddScore,
-              date: v.CreateDate,
-              content: v.AddScoreExplain
-            };
+    score: {
+      total: params => {
+        return service
+          .post(
+            '/api/PartyActivity/PaPartyMemberAddScore/GetMemberBySum',
+            params
+          )
+          .then(res => {
+            return res.data;
           });
-          return res.data;
-        });
+      },
+      list: params => {
+        return service
+          .post(
+            '/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore',
+            params
+          )
+          .then(res => {
+            res.data.Data.list = res.data.Data.PageData.map(v => {
+              return {
+                id: v.ID || 0,
+                score: v.AddScore || 0,
+                date: v.CreateDate || '',
+                content: v.AddScoreExplain || ''
+              };
+            });
+            return res.data;
+          });
+      }
     },
     dues: params => {
       return service

@@ -243,12 +243,14 @@ export default {
         // console.log('api.user.member.profile:', res);
       });
       // 获取用户总积分数
-      api.user.member.score().then(res => {
+      api.user.member.score.total().then(res => {
+        // console.log('member.score:', res);
         self.score =
-          res.Data.sumScore && res.Data.sumScore[0]
+          res.Data.sumScore &&
+          res.Data.sumScore[0] &&
+          res.Data.sumScore[0].AddScore
             ? res.Data.sumScore[0].AddScore
             : 0;
-        // console.log('member.score:', res);
       });
       // 获取用户党费记录
       api.user.member.dues().then(res => {

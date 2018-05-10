@@ -1,7 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-user-score">
     <no-data v-if="!list.length && !lazyload.loading"></no-data>
-    <panel v-if="list.length" :header="'积分列表 (共'+score+'积分)'" :list="list" type="4"></panel>
+    <panel v-if="list.length" header="积分列表" :list="list" type="4"></panel>
   </container>
 </template>
 
@@ -21,8 +21,6 @@ export default {
         loading: false,
         page: 1
       },
-      score: '-',
-      total: '-',
       list: []
     };
   },
@@ -41,15 +39,11 @@ export default {
       } else {
         // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
         api.user.member
-          .score({
+          .score.list({
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 20 }
           })
           .then(res => {
             console.log('loadData res:', res);
-            self.score =
-              res.Data.sumScore && res.Data.sumScore[0]
-                ? res.Data.sumScore[0].AddScore
-                : 0;
             if (res.Data.list && res.Data.list.length > 0) {
               let list = res.Data.list.map(v => {
                 return {
@@ -61,7 +55,6 @@ export default {
                 };
               });
               self.list = [...self.list, ...list];
-              self.total = res.Data.RowCount;
               self.lazyload.page += 1;
             } else {
               // console.log('木有数据了');
