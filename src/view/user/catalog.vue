@@ -135,7 +135,9 @@ export default {
         total: null,
         list: []
       },
-      userInfo: {}
+      userInfo: {
+        OrganizationName: '-'
+      }
     };
   },
   computed: {
