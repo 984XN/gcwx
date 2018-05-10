@@ -59,7 +59,7 @@ const RouterActivity = {
       meta: {
         title: '亮点投票',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       },
       children: [
         {
@@ -76,7 +76,7 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
@@ -88,7 +88,7 @@ const RouterActivity = {
             title: '亮点投票',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
@@ -107,15 +107,11 @@ const RouterActivity = {
     },
     {
       path: 'daticuxue',
-      components: {
-        tab: ActivityDaTiCuXueTab,
-        default: ActivityDaTiCuXue
-      },
+      component: ActivityDaTiCuXue,
       meta: {
         title: '答题促学',
         auth: true,
-        fullpage: true,
-        keepAlive: false
+        fullpage: true
       },
       children: [
         {
@@ -128,18 +124,20 @@ const RouterActivity = {
           path: 'list',
           components: {
             tab: ActivityDaTiCuXueTab,
-            default: ActivityDaTiCuXueList
+            list: ActivityDaTiCuXueList
           },
           meta: {
             title: '答题促学',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
           path: 'paper/:id',
-          component: ActivityDaTiCuXuePaper,
+          components: {
+            detail: ActivityDaTiCuXuePaper
+          },
           meta: {
             title: '答题促学试卷',
             auth: true,
@@ -149,7 +147,9 @@ const RouterActivity = {
         },
         {
           path: 'preview/:id',
-          component: ActivityPaperPreview,
+          components: {
+            detail: ActivityPaperPreview
+          },
           meta: {
             title: '答题促学试卷',
             auth: true,
@@ -161,13 +161,13 @@ const RouterActivity = {
           path: 'records',
           components: {
             tab: ActivityDaTiCuXueTab,
-            default: ActivityDaTiCuXueRecords
+            list: ActivityDaTiCuXueRecords
           },
           meta: {
             title: '学习记录',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         }
       ]
@@ -178,7 +178,7 @@ const RouterActivity = {
       meta: {
         title: '知识竞赛',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       },
       children: [
         {
@@ -196,7 +196,7 @@ const RouterActivity = {
             title: '知识竞赛',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
@@ -228,7 +228,7 @@ const RouterActivity = {
             title: '竞赛排名',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         }
       ]
@@ -240,7 +240,7 @@ const RouterActivity = {
         title: '正能量',
         auth: true,
         fullpage: true,
-        keepAlive: false
+        keepAlive: true
       },
       children: [
         {
@@ -258,7 +258,7 @@ const RouterActivity = {
             title: '正能量',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
@@ -280,7 +280,7 @@ const RouterActivity = {
         title: '建言献策',
         auth: true,
         fullpage: true,
-        keepAlive: false
+        keepAlive: true
       },
       children: [
         {
@@ -312,7 +312,7 @@ const RouterActivity = {
             title: '建言献策',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
@@ -335,8 +335,7 @@ const RouterActivity = {
       meta: {
         title: '支部e家',
         auth: true,
-        fullpage: true,
-        keepAlive: false
+        fullpage: true
       },
       children: [
         {
@@ -354,7 +353,7 @@ const RouterActivity = {
             title: '留言评论',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           },
           children: [
             {
@@ -373,7 +372,7 @@ const RouterActivity = {
                 title: '留言评论',
                 auth: true,
                 fullpage: true,
-                keepAlive: false
+                keepAlive: true
               }
             },
             {
@@ -398,8 +397,7 @@ const RouterActivity = {
           meta: {
             title: '党务咨询',
             auth: true,
-            fullpage: true,
-            keepAlive: false
+            fullpage: true
           },
           children: [
             {
@@ -418,7 +416,7 @@ const RouterActivity = {
                 title: '党务咨询',
                 auth: true,
                 fullpage: true,
-                keepAlive: false
+                keepAlive: true
               }
             },
             {
@@ -443,8 +441,7 @@ const RouterActivity = {
           meta: {
             title: '心得体会',
             auth: true,
-            fullpage: true,
-            keepAlive: false
+            fullpage: true
           },
           children: [
             {
@@ -463,7 +460,7 @@ const RouterActivity = {
                 title: '心得体会',
                 auth: true,
                 fullpage: true,
-                keepAlive: false
+                keepAlive: true
               }
             },
             {
@@ -500,8 +497,7 @@ const RouterActivity = {
           meta: {
             title: '思想汇报',
             auth: true,
-            fullpage: true,
-            keepAlive: false
+            fullpage: true
           },
           children: [
             {
@@ -520,7 +516,7 @@ const RouterActivity = {
                 title: '思想汇报',
                 auth: true,
                 fullpage: true,
-                keepAlive: false
+                keepAlive: true
               }
             },
             {
@@ -569,8 +565,7 @@ const RouterActivity = {
       meta: {
         title: '抽奖专区',
         auth: true,
-        fullpage: true,
-        keepAlive: false
+        fullpage: true
       },
       children: [
         {
@@ -586,7 +581,7 @@ const RouterActivity = {
             turntable: ActivityChouJiangZhuanQuTurntableScore
           },
           meta: {
-            title: '抽奖专区',
+            title: '抽奖专区', // 积分抽奖
             auth: true,
             fullpage: true,
             keepAlive: false
@@ -614,7 +609,7 @@ const RouterActivity = {
             title: '抽奖专区',
             auth: true,
             fullpage: true,
-            keepAlive: false
+            keepAlive: true
           }
         }
       ]

@@ -30,7 +30,7 @@ const RouterArticle = {
       meta: {
         title: '应知应会',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       },
       children: [
         {
@@ -71,7 +71,7 @@ const RouterArticle = {
       meta: {
         title: '党章党规',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -85,7 +85,7 @@ const RouterArticle = {
       meta: {
         title: '系列讲话',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -99,7 +99,7 @@ const RouterArticle = {
       meta: {
         title: '党史博览',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -113,7 +113,7 @@ const RouterArticle = {
       meta: {
         title: '典型风采',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -127,7 +127,7 @@ const RouterArticle = {
       meta: {
         title: '不忘初心',
         auth: true,
-        keepAlive: false
+        keepAlive: true
       }
     },
     {

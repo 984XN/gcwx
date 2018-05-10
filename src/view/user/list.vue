@@ -93,7 +93,7 @@ export default {
                 let list = res.Data.list.map(v => {
                   return {
                     title: v.title,
-                    desc: v.content,
+                    desc: v.content.replace(/<[^>]+>/g, ''),
                     url: {
                       path: '../detail/' + v.id + '?type=' + self.type
                     },

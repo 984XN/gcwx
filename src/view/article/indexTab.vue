@@ -1,5 +1,5 @@
 <template>
-  <tab v-model="tabIndex" :scroll-threshold="4" class="menu-sub">
+  <tab v-model="tabIndex" :scroll-threshold="4" :animate="false" class="menu-sub">
     <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
       {{tab.name}}
       <i class="iconfont icon-lock" v-if="!hasPower(tab.allow)"></i>
@@ -47,7 +47,7 @@ export default {
   methods: {
     tabItemClicked(index) {
       let path = this.tabs[index].route;
-      this.$router.push({ path: path });
+      this.$router.push({ path: path, replace: true });
     },
     setTabItemActive(target) {
       // 定位顶部 tab

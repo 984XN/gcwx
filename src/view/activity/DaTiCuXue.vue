@@ -1,7 +1,12 @@
 <template>
   <div class="page-activity-daticuxue">
     <router-view name="tab"></router-view>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" name="list"></router-view>
+      <router-view v-if="$route.meta.keepAlive" name="detail"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" name="list"></router-view>
+    <router-view v-if="!$route.meta.keepAlive" name="detail"></router-view>
   </div>
 </template>
 

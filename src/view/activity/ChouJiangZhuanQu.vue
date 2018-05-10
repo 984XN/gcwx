@@ -1,8 +1,13 @@
 <template>
   <div class="page-activity-choujiangzhuanqu">
-    <router-view name="tab"></router-view>
-    <router-view name="turntable"></router-view>
-    <router-view name="records"></router-view>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" name="tab"></router-view>
+      <router-view v-if="$route.meta.keepAlive" name="turntable"></router-view>
+      <router-view v-if="$route.meta.keepAlive" name="records"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" name="tab"></router-view>
+    <router-view v-if="!$route.meta.keepAlive" name="turntable"></router-view>
+    <router-view v-if="!$route.meta.keepAlive" name="records"></router-view>
   </div>
 </template>
 
@@ -11,10 +16,4 @@
   height 100%
   position relative
 }
-// .vux-tab-wrap {
-//   position fixed
-//   left 0
-//   right 0
-//   bottom 0
-// }
 </style>

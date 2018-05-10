@@ -59,12 +59,20 @@ const RouterUser = {
     {
       path: 'score',
       components: { default: UserScore },
-      meta: { title: '个人积分', auth: true }
+      meta: {
+        title: '个人积分',
+        auth: true,
+        keepAlive: true
+      }
     },
     {
       path: 'gifts',
       components: { default: UserGifts },
-      meta: { title: '中奖记录', auth: true }
+      meta: {
+        title: '中奖记录',
+        auth: true,
+        keepAlive: true
+      }
     },
     {
       path: 'zhengnengliang',
@@ -74,7 +82,11 @@ const RouterUser = {
         {
           path: '/',
           components: { default: UserZhengNengLiangList },
-          meta: { title: '我的正能量', auth: true }
+          meta: {
+            title: '我的正能量',
+            auth: true,
+            keepAlive: true
+          }
         },
         {
           path: 'edit/:id',

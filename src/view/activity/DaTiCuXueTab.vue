@@ -15,7 +15,7 @@ export default {
   methods: {
     switchTab(to) {
       let path = '/activity/daticuxue/' + to;
-      console.log(path);
+      // console.log(path);
       this.$router.replace({ path: path });
     },
     setTabItemActive(target) {
