@@ -43,7 +43,6 @@ const RouterArticle = {
           meta: {
             title: '应知应会',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -55,7 +54,6 @@ const RouterArticle = {
           meta: {
             title: '应知应会',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         }
@@ -140,7 +138,6 @@ const RouterArticle = {
       meta: {
         title: '正文',
         auth: true,
-        fullpage: true,
         keepAlive: false
       }
     }

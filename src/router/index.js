@@ -5,10 +5,8 @@ import LoginFromBrowser from 'src/view/login/browser';
 import LoginWechat from 'src/view/login/wechat';
 import LoginWechatGetCode from 'src/view/login/wechatGetCode';
 import LoginWechatGetUser from 'src/view/login/wechatGetUser';
-import Welcome from 'src/view/welcome';
 import NotFound from 'src/view/404';
 import Feedback from 'src/view/feedback';
-import Tpl from 'src/view/tpl';
 
 import RouterArticle from 'src/router/article';
 import RouterActivity from 'src/router/activity';
@@ -26,42 +24,6 @@ const router = new Router({
       redirect: {
         path: '/article'
       }
-    },
-    {
-      path: '/welcome',
-      name: 'welcome',
-      meta: {
-        auth: true,
-        title: '系统首页'
-      },
-      component: Welcome
-    },
-    {
-      path: '/404',
-      name: 'not-found',
-      meta: {
-        auth: false,
-        title: '404 Not Found'
-      },
-      component: NotFound
-    },
-    {
-      path: '/feedback',
-      name: 'feedback',
-      meta: {
-        auth: false,
-        title: '系统问题反馈'
-      },
-      component: Feedback
-    },
-    {
-      path: '/tpl',
-      name: 'tpl',
-      meta: {
-        auth: false,
-        title: '页面模板'
-      },
-      component: Tpl
     },
     {
       path: '/login',
@@ -82,7 +44,6 @@ const router = new Router({
           meta: {
             title: '系统登录',
             auth: false,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -92,7 +53,6 @@ const router = new Router({
           meta: {
             title: '微信登录',
             auth: false,
-            fullpage: true,
             keepAlive: false
           },
           children: [
@@ -108,7 +68,6 @@ const router = new Router({
               meta: {
                 title: '微信登录',
                 auth: false,
-                fullpage: true,
                 keepAlive: false
               }
             },
@@ -118,13 +77,30 @@ const router = new Router({
               meta: {
                 title: '微信登录',
                 auth: false,
-                fullpage: true,
                 keepAlive: false
               }
             }
           ]
         }
       ]
+    },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      meta: {
+        auth: false,
+        title: '系统问题反馈'
+      },
+      component: Feedback
+    },
+    {
+      path: '/404',
+      name: 'not-found',
+      meta: {
+        auth: false,
+        title: '404 Not Found'
+      },
+      component: NotFound
     },
     {
       path: '*',

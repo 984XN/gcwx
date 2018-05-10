@@ -87,7 +87,6 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         },
@@ -99,7 +98,6 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         }
@@ -110,8 +108,7 @@ const RouterActivity = {
       component: ActivityDaTiCuXue,
       meta: {
         title: '答题促学',
-        auth: true,
-        fullpage: true
+        auth: true
       },
       children: [
         {
@@ -129,7 +126,6 @@ const RouterActivity = {
           meta: {
             title: '答题促学',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         },
@@ -141,7 +137,6 @@ const RouterActivity = {
           meta: {
             title: '答题促学试卷',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -153,7 +148,6 @@ const RouterActivity = {
           meta: {
             title: '答题促学试卷',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -166,7 +160,6 @@ const RouterActivity = {
           meta: {
             title: '学习记录',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         }
@@ -195,7 +188,6 @@ const RouterActivity = {
           meta: {
             title: '知识竞赛',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         },
@@ -205,7 +197,6 @@ const RouterActivity = {
           meta: {
             title: '知识竞赛试卷',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -215,7 +206,6 @@ const RouterActivity = {
           meta: {
             title: '知识竞赛试卷',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -227,7 +217,6 @@ const RouterActivity = {
           meta: {
             title: '竞赛排名',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         }
@@ -239,7 +228,6 @@ const RouterActivity = {
       meta: {
         title: '正能量',
         auth: true,
-        fullpage: true,
         keepAlive: true
       },
       children: [
@@ -257,7 +245,6 @@ const RouterActivity = {
           meta: {
             title: '正能量',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         },
@@ -267,7 +254,6 @@ const RouterActivity = {
           meta: {
             title: '正能量',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         }
@@ -279,7 +265,6 @@ const RouterActivity = {
       meta: {
         title: '建言献策',
         auth: true,
-        fullpage: true,
         keepAlive: true
       },
       children: [
@@ -298,7 +283,6 @@ const RouterActivity = {
           meta: {
             title: '建言献策',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -311,7 +295,6 @@ const RouterActivity = {
           meta: {
             title: '建言献策',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         },
@@ -323,7 +306,6 @@ const RouterActivity = {
           meta: {
             title: '建言献策',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         }
@@ -334,8 +316,7 @@ const RouterActivity = {
       component: ActivityZhiBuEJia,
       meta: {
         title: '支部e家',
-        auth: true,
-        fullpage: true
+        auth: true
       },
       children: [
         {
@@ -345,6 +326,58 @@ const RouterActivity = {
           }
         },
         {
+          path: 'xindetihui',
+          components: {
+            page: ActivityZhiBuEJiaXinDeTiHui
+          },
+          meta: {
+            title: '心得体会',
+            auth: true
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaXinDeTiHuiList
+              },
+              meta: {
+                title: '心得体会',
+                auth: true,
+                keepAlive: true
+              }
+            },
+            {
+              path: 'detail/:id',
+              components: {
+                page: ActivityZhiBuEJiaDetail
+              },
+              meta: {
+                title: '正文',
+                auth: true,
+                keepAlive: false
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaXinDeTiHuiAdd
+              },
+              meta: {
+                title: '增加心得体会',
+                auth: true,
+                keepAlive: false
+              }
+            }
+          ]
+        },
+        {
           path: 'liuyanpinglun',
           components: {
             page: ActivityZhiBuEJiaLiuYanPingLun
@@ -352,7 +385,6 @@ const RouterActivity = {
           meta: {
             title: '留言评论',
             auth: true,
-            fullpage: true,
             keepAlive: true
           },
           children: [
@@ -371,7 +403,6 @@ const RouterActivity = {
               meta: {
                 title: '留言评论',
                 auth: true,
-                fullpage: true,
                 keepAlive: true
               }
             },
@@ -383,107 +414,6 @@ const RouterActivity = {
               meta: {
                 title: '增加留言',
                 auth: true,
-                fullpage: true,
-                keepAlive: false
-              }
-            }
-          ]
-        },
-        {
-          path: 'dangwuzixun',
-          components: {
-            page: ActivityZhiBuEJiaDangWuZiXun
-          },
-          meta: {
-            title: '党务咨询',
-            auth: true,
-            fullpage: true
-          },
-          children: [
-            {
-              path: '/',
-              redirect: {
-                path: 'list'
-              }
-            },
-            {
-              path: 'list',
-              components: {
-                tab: ActivityZhiBuEJiaTab,
-                page: ActivityZhiBuEJiaDangWuZiXunList
-              },
-              meta: {
-                title: '党务咨询',
-                auth: true,
-                fullpage: true,
-                keepAlive: true
-              }
-            },
-            {
-              path: 'add',
-              components: {
-                page: ActivityZhiBuEJiaDangWuZiXunAdd
-              },
-              meta: {
-                title: '增加党务咨询',
-                auth: true,
-                fullpage: true,
-                keepAlive: false
-              }
-            }
-          ]
-        },
-        {
-          path: 'xindetihui',
-          components: {
-            page: ActivityZhiBuEJiaXinDeTiHui
-          },
-          meta: {
-            title: '心得体会',
-            auth: true,
-            fullpage: true
-          },
-          children: [
-            {
-              path: '/',
-              redirect: {
-                path: 'list'
-              }
-            },
-            {
-              path: 'list',
-              components: {
-                tab: ActivityZhiBuEJiaTab,
-                page: ActivityZhiBuEJiaXinDeTiHuiList
-              },
-              meta: {
-                title: '心得体会',
-                auth: true,
-                fullpage: true,
-                keepAlive: true
-              }
-            },
-            {
-              path: 'detail/:id',
-              components: {
-                page: ActivityZhiBuEJiaDetail
-              },
-              meta: {
-                title: '正文',
-                auth: true,
-                fullpage: true,
-                keepAlive: false
-              }
-            },
-            {
-              path: 'add',
-              components: {
-                page: ActivityZhiBuEJiaXinDeTiHuiAdd
-              },
-              meta: {
-                title: '增加心得体会',
-                auth: true,
-                fullpage: true,
                 keepAlive: false
               }
             }
@@ -496,8 +426,7 @@ const RouterActivity = {
           },
           meta: {
             title: '思想汇报',
-            auth: true,
-            fullpage: true
+            auth: true
           },
           children: [
             {
@@ -515,7 +444,6 @@ const RouterActivity = {
               meta: {
                 title: '思想汇报',
                 auth: true,
-                fullpage: true,
                 keepAlive: true
               }
             },
@@ -527,7 +455,6 @@ const RouterActivity = {
               meta: {
                 title: '正文',
                 auth: true,
-                fullpage: true,
                 keepAlive: false
               }
             },
@@ -539,7 +466,47 @@ const RouterActivity = {
               meta: {
                 title: '增加思想汇报',
                 auth: true,
-                fullpage: true,
+                keepAlive: false
+              }
+            }
+          ]
+        },
+        {
+          path: 'dangwuzixun',
+          components: {
+            page: ActivityZhiBuEJiaDangWuZiXun
+          },
+          meta: {
+            title: '党务咨询',
+            auth: true
+          },
+          children: [
+            {
+              path: '/',
+              redirect: {
+                path: 'list'
+              }
+            },
+            {
+              path: 'list',
+              components: {
+                tab: ActivityZhiBuEJiaTab,
+                page: ActivityZhiBuEJiaDangWuZiXunList
+              },
+              meta: {
+                title: '党务咨询',
+                auth: true,
+                keepAlive: true
+              }
+            },
+            {
+              path: 'add',
+              components: {
+                page: ActivityZhiBuEJiaDangWuZiXunAdd
+              },
+              meta: {
+                title: '增加党务咨询',
+                auth: true,
                 keepAlive: false
               }
             }
@@ -553,7 +520,6 @@ const RouterActivity = {
           meta: {
             title: 'detail',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         }
@@ -564,8 +530,7 @@ const RouterActivity = {
       component: ActivityChouJiangZhuanQu,
       meta: {
         title: '抽奖专区',
-        auth: true,
-        fullpage: true
+        auth: true
       },
       children: [
         {
@@ -583,7 +548,6 @@ const RouterActivity = {
           meta: {
             title: '抽奖专区', // 积分抽奖
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -596,7 +560,6 @@ const RouterActivity = {
           meta: {
             title: '答题抽奖',
             auth: true,
-            fullpage: true,
             keepAlive: false
           }
         },
@@ -608,7 +571,6 @@ const RouterActivity = {
           meta: {
             title: '抽奖专区',
             auth: true,
-            fullpage: true,
             keepAlive: true
           }
         }

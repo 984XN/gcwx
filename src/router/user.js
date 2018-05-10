@@ -101,7 +101,6 @@ const RouterUser = {
       meta: {
         title: '信息列表',
         auth: true,
-        fullpage: true,
         keepAlive: false
       }
     },
@@ -111,7 +110,6 @@ const RouterUser = {
       meta: {
         title: '正文',
         auth: true,
-        fullpage: true,
         keepAlive: false
       }
     }
