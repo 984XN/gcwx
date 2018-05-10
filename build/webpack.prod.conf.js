@@ -126,7 +126,13 @@ const webpackConfig = merge(baseWebpackConfig, {
       }
     ]),
     new webpack.BannerPlugin({
-      banner: 'Version:' + packageInfo.version + ', Date:' + new Date().toLocaleString()
+      banner:
+        'Version:' +
+        packageInfo.version +
+        ', Date:' +
+        new Date().toLocaleString() +
+        ', Author:' +
+        packageInfo.author
     })
   ]
 });

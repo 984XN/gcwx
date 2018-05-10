@@ -91,18 +91,19 @@ export default {
   beforeDestroy() {
     // let self = this;
     // let elm = self.$el.querySelector('.container') || self.$el;
-    // // let scrollTop = elm.scrollTop;
+    // let scrollTop = elm.scrollTop;
     // console.log('beforeDestroy - self.$el:', self.$el);
     // console.log(
     //   'beforeDestroy - container:',
     //   self.$el.querySelector('.container')
     // );
     // console.log('beforeDestroy - elm:', elm);
-    // console.log('beforeDestroy - scrollTop:', self.$el.scrollTop);
+    // console.log('beforeDestroy - scrollTop:', elm.getScrollTop());
+    // console.log('document scrollTop:', document.querySelector('.container'));
   },
   deactivated() {
     let self = this;
-    console.log('scrollTop:', self.$el);
+    // console.log('scrollTop:', self.$el);
     self.$emit('setScrollTop', { route: self.$route, value: 99 });
   }
 };
