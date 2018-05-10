@@ -3,7 +3,7 @@
     <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0">
       <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
-        <tab-item @on-item-click="tabItemClicked" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
+        <tab-item @on-item-click="jumpTo" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
           <div class="icon">
             <i class="iconfont" :class="tab.icon"></i>
           </div>
@@ -52,6 +52,7 @@ export default {
         loading: false,
         page: 1
       },
+      tabIndex: 0,
       list: [],
       listTpl: [
         {
@@ -117,18 +118,18 @@ export default {
     };
   },
   computed: {
-    tabIndex: {
-      get() {
-        let index = this.$store.state.tabActive.activity;
-        return index;
-      },
-      set(val) {
-        this.$store.commit('setTabActive', {
-          tab: 'activity',
-          index: val
-        });
-      }
-    }
+    // tabIndex: {
+    //   get() {
+    //     let index = this.$store.state.tabActive.activity;
+    //     return index;
+    //   },
+    //   set(val) {
+    //     this.$store.commit('setTabActive', {
+    //       tab: 'activity',
+    //       index: val
+    //     });
+    //   }
+    // }
   },
   methods: {
     loadData() {
@@ -158,48 +159,58 @@ export default {
             // console.log('木有数据了');
             self.lazyload.nodata = true;
           }
-          console.log('loadData res:', res);
-          console.log('list:', self.list);
+          // console.log('loadData res:', res);
+          // console.log('list:', self.list);
           self.lazyload.loading = false;
         });
       }
     },
-    tabItemClicked(index) {
+    jumpTo(index) {
       let path = this.tabs[index].route;
       this.$router.push({ path: path });
+      return false;
     },
     setTabItemActive(target) {
       // 定位顶部 tab
       // 1.激活路由对应的 tabItem 项
+      let self = this;
       let index = 0;
-      for (let i = 0; i < this.tabs.length; i++) {
-        if (target.path === this.tabs[i].route) {
+      for (let i = 0; i < self.tabs.length; i++) {
+        if (target.path === self.tabs[i].route) {
           index = i;
           break;
         }
       }
       // console.log('tabPos:', index);
-      this.tabIndex = index;
-      this.$store.commit('setTabActive', { tab: 'article', index: index });
+      self.tabIndex = index;
+      self.$store.commit('setTabActive', { tab: 'article', index: index });
       // 2.把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
       if (index > 3) {
-        let tab = this.$el.querySelector('.menu-sub .vux-tab.scrollable');
+        let tab = self.$el.querySelector('.menu-sub .vux-tab.scrollable');
         let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
         tab.scrollLeft = tabItemWidth * (index - 1);
       }
     }
   },
-  mounted() {
-    this.$nextTick(function() {
-      this.setTabItemActive(this.$route);
-    });
-  },
-  watch: {
-    $route(to) {
-      // console.log('\narticle/index.vue watch $route.to', to);
-      this.setTabItemActive(to);
-    }
+  // mounted() {
+  //   let self = this;
+  //   console.log('mounted:', this.$route);
+  //   self.$nextTick(function() {
+  //     // 开启 keep-alive 后，再次回到这个页面不执行 mounted
+  //     self.setTabItemActive(self.$route);
+  //   });
+  // },
+  activated() {
+    let self = this;
+    // console.log('LiangDianTouPiaoList activated:', self.$route);
+    self.setTabItemActive(self.$route);
   }
+  // watch: {
+  //   $route(to) {
+  //     // console.log('\narticle/index.vue watch $route.to', to);
+  //     this.setTabItemActive(to);
+  //   }
+  // }
 };
 </script>
 

@@ -41,20 +41,33 @@ export default {
     Tabbar,
     TabbarItem
   },
-  mounted() {
-    this.$nextTick(function() {
+  methods: {
+    setMenuIndex() {
+      let self = this;
       // 激活路由对应的 tabItem 项
-      let tabRoute = this.$route.matched[0].path;
+      let tabRoute = self.$route.matched[0].path;
       let index = 0;
-      for (let i = 0; i < this.tabs.length; i++) {
-        if (tabRoute === this.tabs[i].route) {
+      for (let i = 0; i < self.tabs.length; i++) {
+        if (tabRoute === self.tabs[i].route) {
           index = i;
           break;
         }
       }
-      this.tabbarIndex = index;
-      this.$store.commit('setTabbarActive', index);
+      self.tabbarIndex = index;
+      self.$store.commit('setTabbarActive', index);
+    }
+  },
+  mounted() {
+    // console.log('Menu mounted.');
+    let self = this;
+    this.$nextTick(() => {
+      self.setMenuIndex();
     });
+  },
+  activated() {
+    // console.log('Menu activated.');
+    let self = this;
+    self.setMenuIndex();
   }
 };
 </script>

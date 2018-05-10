@@ -194,7 +194,7 @@ export default {
       });
       api.user.wechat.unbindMember().then(res => {
         self.$vux.loading.hide();
-        console.log('unbindMember', res);
+        // console.log('unbindMember', res);
         // toto: 解除绑定的操作
         // sessionStorage.binded = false
         // sessionStorage.userSystem = JSON.stringify({});;
@@ -239,8 +239,8 @@ export default {
         if (self.userInfo.PhotoName) {
           self.userSystem.PhotoName = self.userInfo.PhotoName;
         }
-        console.log('api.user.member.profile:', self.userSystem);
-        console.log('api.user.member.profile:', res);
+        // console.log('api.user.member.profile:', self.userSystem);
+        // console.log('api.user.member.profile:', res);
       });
       // 获取用户总积分数
       api.user.member.score().then(res => {
@@ -248,7 +248,7 @@ export default {
           res.Data.sumScore && res.Data.sumScore[0]
             ? res.Data.sumScore[0].AddScore
             : 0;
-        console.log('member.score:', res);
+        // console.log('member.score:', res);
       });
       // 获取用户党费记录
       api.user.member.dues().then(res => {
@@ -256,7 +256,7 @@ export default {
         self.dues.list = res.Data.list || [];
         self.dues.total = res.Data.totalDues || 0;
         self.dues.total = '本年度已缴纳' + res.Data.totalDues + '元';
-        console.log('member.dues:', res);
+        // console.log('member.dues:', res);
       });
     });
   }

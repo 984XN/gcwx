@@ -11,7 +11,8 @@ const store = new Vuex.Store({
       article: 0,
       activity: 0,
       user: 0
-    }
+    },
+    scrollTop: {}
   },
   mutations: {
     // 设置当前激活的tab，json: 哪个 tabbar 的哪个 tab
@@ -21,6 +22,12 @@ const store = new Vuex.Store({
     // 设置当前激活的tab
     setTabbarActive(state, index) {
       state.tabbarActive = index;
+    },
+    // 存储当前页面的 scrollTop
+    setScrollTop(state, obj) {
+      // obj: {route:$route, value:scrollTop}
+      let path = obj.route.fullPath || '';
+      state.scrollTop[path] = obj.value;
     }
   }
 });
