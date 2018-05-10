@@ -1,6 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0">
-    <ArticleList :list="list"></ArticleList>
+    <no-data v-if="!list.length && !lazyload.loading"></no-data>
+    <ArticleList v-if="list.length" :list="list"></ArticleList>
     <router-link to="add" class="btnAdd">
       <i class="iconfont icon-add"></i>
     </router-link>

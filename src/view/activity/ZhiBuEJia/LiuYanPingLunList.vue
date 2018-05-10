@@ -5,7 +5,8 @@
 <template>
   <div class="page-hudongzhuanqu-zhibuejia-liuyanpinglun">
     <container :bottom="containerBottom" @click.native.stop="hideReplyForm" :lazyload="lazyload" @loadData="loadData">
-      <MessageList :list="list" @setReplyInfo="setReplyInfo" @like="like"></MessageList>
+      <no-data v-if="!list.length && !lazyload.loading"></no-data>
+      <MessageList v-if="list.length" :list="list" @setReplyInfo="setReplyInfo" @like="like"></MessageList>
     </container>
     <form class="formReply" method="post" @submit.prevent="submit" v-show="form.visible">
       <label>

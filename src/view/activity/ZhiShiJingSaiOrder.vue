@@ -10,7 +10,8 @@
         </div>
       </dt> -->
       <dd>
-        <table class="data">
+        <no-data v-if="!list.length && !lazyload.loading">还没有排名记录</no-data>
+        <table v-if="list.length" class="data">
           <tbody>
             <tr v-for="(v,i) in list" :key="i">
               <td :class="'i_'+v.order">第{{v.order}}名</td>

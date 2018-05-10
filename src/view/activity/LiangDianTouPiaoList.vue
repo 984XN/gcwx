@@ -13,7 +13,8 @@
           </div>
         </tab-item>
       </tab>
-      <ol class="voteList">
+      <no-data v-if="!list.length && !lazyload.loading"></no-data>
+      <ol v-if="list.length" class="voteList">
         <router-link :to="'items/'+v.id" tag="li" class="vote" v-for="(v,i) in list" :key="i">
           <div class="author">发布单位：{{v.author}}</div>
           <div class="title">{{v.title}}</div>

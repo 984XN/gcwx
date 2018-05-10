@@ -7,7 +7,8 @@
         <div class="text">中奖名单</div>
       </dt>
       <dd>
-        <table class="data">
+        <no-data v-if="!list.length && !lazyload.loading">还没有中奖记录</no-data>
+        <table v-if="list.length" class="data">
           <tbody>
             <tr v-for="(v,i) in list" :key="i">
               <td>{{v.name}}</td>

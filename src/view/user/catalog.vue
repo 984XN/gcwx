@@ -308,7 +308,7 @@ export default {
       padding-top 5px
     }
     .company {
-      padding-top 10px
+      padding 10px 30px 0
       text-align center
       font-size 12px
       min-height 12px

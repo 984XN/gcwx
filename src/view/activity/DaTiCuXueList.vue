@@ -1,6 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" class="page-activity-zhishijingsai-list">
-    <ExaminationPaperList :list="list" :type="type"></ExaminationPaperList>
+    <no-data v-if="!list.length && !lazyload.loading"></no-data>
+    <ExaminationPaperList v-if="list.length" :list="list" :type="type"></ExaminationPaperList>
   </container>
 </template>
 

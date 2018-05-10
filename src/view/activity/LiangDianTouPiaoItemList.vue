@@ -12,7 +12,8 @@
         </form>
         <div class="tip">友情提示：每位用户只有一次投票机会</div>
       </div>
-      <ol class="voteList">
+      <no-data v-if="!list.length && !lazyload.loading">没有可投的投票项</no-data>
+      <ol class="voteList" v-if="list.length">
         <li v-for="(v,i) in list" :key="i" class="vote">
           <div @click="jumpTo(v)" class="baseInfo">
             <img :src="v.thumb" :alt="v.title" class="thumb">
@@ -263,8 +264,11 @@ export default {
             // pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
           })
           .then(res => {
-            if (res.Data.list && res.Data.list.length > 0) {
+            if (res.Data.article) {
               self.article = res.Data.article || {};
+              console.log('self.article:', self.article);
+            }
+            if (res.Data.list && res.Data.list.length > 0) {
               self.list = [...self.list, ...res.Data.list];
               self.lazyload.page += 1;
               self.lazyload.nodata = true; // 没有分页功能
@@ -273,14 +277,14 @@ export default {
               self.lazyload.nodata = true;
             }
             console.log('loadData list res:', res);
-            console.log('list:', self.list);
+            // console.log('list:', self.list);
             self.lazyload.loading = false;
           });
       }
     }
   },
   mounted() {
-    console.log('$route:', this.$route);
+    // console.log('$route:', this.$route);
     this.id = this.$route.params.id || 0;
     this.keyword = this.$route.params.keyword || '';
   }
@@ -452,5 +456,8 @@ export default {
   button {
     float right
   }
+}
+.noData {
+  margin-top -100px
 }
 </style>

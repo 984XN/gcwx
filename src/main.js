@@ -26,6 +26,7 @@ import {
   XTextarea
 } from 'vux';
 import Container from 'src/components/container';
+import NoData from 'src/components/noData';
 
 import 'src/assets/common.styl';
 import 'src/assets/font/iconfont.css';
@@ -47,6 +48,7 @@ Vue.component('badge', Badge);
 Vue.component('cell', Cell);
 Vue.component('check-icon', CheckIcon);
 Vue.component('container', Container);
+Vue.component('no-data', NoData);
 Vue.component('group', Group);
 Vue.component('loading', Loading);
 Vue.component('load-more', LoadMore);

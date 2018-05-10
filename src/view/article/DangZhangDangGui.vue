@@ -1,7 +1,8 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData">
     <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center" class="swiper"></swiper>
-    <ArticleList :list="list"></ArticleList>
+    <no-data v-if="!list.length && !lazyload.loading"></no-data>
+    <ArticleList v-if="list.length" :list="list"></ArticleList>
   </container>
 </template>
 

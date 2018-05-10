@@ -1,6 +1,7 @@
 <template>
   <container class="page-article-yingzhiyinghui-list">
-    <ul class="manualList">
+    <no-data v-if="!list.length && !lazyload.loading"></no-data>
+    <ul v-if="list.length" class="manualList">
       <li v-for="(item,n) in list" :key="n">
         <template v-if="n === 0">
           <a href="javascript:;">

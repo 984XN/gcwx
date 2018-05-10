@@ -1,7 +1,8 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-zhishijingsai-order">
     <!-- <h1 class="pageTitle">我的奖品</h1> -->
-    <dl class="examOrderList">
+    <no-data v-if="!list.length && !lazyload.loading">还没有中奖记录</no-data>
+    <dl v-if="list.length" class="examOrderList">
       <!-- <dt>
         <div class="number">共{{total}}</div>
         <div class="text">中奖名单</div>

@@ -1,6 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-user-score">
-    <panel :header="title" :list="list" type="4"></panel>
+    <no-data v-if="!list.length && !lazyload.loading"></no-data>
+    <panel v-if="list.length" :header="title" :list="list" type="4"></panel>
   </container>
 </template>
 

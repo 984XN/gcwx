@@ -1,6 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" top="0" bottom="0">
-    <div class="list">
+    <no-data v-if="!list.length && !lazyload.loading">还没有上传过正能量</no-data>
+    <div v-if="list.length" class="list">
       <div class="weui-panel">
         <!-- <div class="weui-panel__hd">文字列表附来源</div> -->
         <div class="weui-panel__bd">

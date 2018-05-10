@@ -1,6 +1,7 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" class="page-activity-jianyanxiance-records">
-    <ul class="articleList">
+    <no-data v-if="!list.length && !lazyload.loading">你还没有提交过建言献策</no-data>
+    <ul v-if="list.length" class="articleList">
       <li v-for="(item,n) in list" :key="n">
         <router-link :to="'detail/'+item.id">
           <div class="thumb" v-if="item.thumb">
