@@ -40,6 +40,7 @@ export default {
         loading: false,
         page: 1
       },
+      id: null, // 个人中心 - 我的正能量 - 查看时会通过 id 参数跳转到这个页面
       list: []
     };
   },
@@ -92,6 +93,7 @@ export default {
       } else {
         api.activity.ZhengNengLiang.list({
           queryModel: {
+            ID: self.id || null,
             IsAdopt: 1 // 1所有人审核通过的，0所有人审核没通过的，默认0
           },
           pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
@@ -360,6 +362,14 @@ export default {
         // self.list[listIndex].like--;
         // console.log(`撤回对 ${id} 点赞`);
       }
+    }
+  },
+  mounted() {
+    // console.log(self.$route);
+    let self = this;
+    let r = self.$route;
+    if (r.query && r.query.id) {
+      self.id = r.query.id;
     }
   }
 };

@@ -418,6 +418,7 @@ export const activity = {
             })[0],
             imgs: res.data.Data.file.map((val, index, arr) => {
               return {
+                id: val.ID || 0,
                 src: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
               };
             }),
@@ -458,7 +459,7 @@ export const activity = {
           return res.data;
         });
     },
-    edit: params => {
+    update: params => {
       return service
         .post(
           '/api/PartyActivity/PaPartyPositiveEnergy/UpdatePositiveEnergy',

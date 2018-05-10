@@ -23,6 +23,13 @@ module.exports = {
         pathRewrite: {
           '^/~/Upload': 'Upload'
         }
+      },
+      '/Upload': {
+        target: 'http://192.168.0.121',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/Upload': 'Upload'
+        }
       }
     },
 

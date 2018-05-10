@@ -92,7 +92,7 @@ export default {
       let to = '';
       // 通过只能看，其它只能改：0待审，1通过，2拒绝
       if (item.public === 1) {
-        to = { path: 'detail/' + item.id };
+        to = { path: '/activity/zhengnengliang/list?id=' + item.id };
       } else {
         to = { path: 'edit/' + item.id, append: true };
       }
