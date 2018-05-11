@@ -204,6 +204,7 @@ export default {
     let self = this;
     // console.log('LiangDianTouPiaoList activated:', self.$route);
     self.setTabItemActive(self.$route);
+    this.scrollTo(this);
   }
   // watch: {
   //   $route(to) {

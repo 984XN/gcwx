@@ -60,6 +60,9 @@ export default {
           });
       }
     }
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

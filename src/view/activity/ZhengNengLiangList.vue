@@ -372,6 +372,9 @@ export default {
     if (r.query && r.query.id) {
       self.id = r.query.id;
     }
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

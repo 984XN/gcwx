@@ -263,6 +263,9 @@ export default {
         // console.log('member.dues:', res);
       });
     });
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

@@ -264,6 +264,9 @@ export default {
     let self = this;
     clearInterval(self.handle);
     console.log('beforeDestroy 销毁定时器');
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

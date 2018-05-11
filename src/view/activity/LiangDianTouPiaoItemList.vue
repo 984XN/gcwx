@@ -287,6 +287,9 @@ export default {
     // console.log('$route:', this.$route);
     this.id = this.$route.params.id || 0;
     this.keyword = this.$route.params.keyword || '';
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

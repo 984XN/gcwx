@@ -101,6 +101,9 @@ export default {
       }
       return style;
     }
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

@@ -132,6 +132,9 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() {},
+  activated() {
+    this.scrollTo(this);
+  }
 };
 </script>

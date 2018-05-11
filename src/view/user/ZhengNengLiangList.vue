@@ -101,7 +101,10 @@ export default {
       this.$router.push(to);
     }
   },
-  mounted() {}
+  mounted() {},
+  activated() {
+    this.scrollTo(this);
+  }
 };
 </script>
 

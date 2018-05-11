@@ -83,6 +83,9 @@ export default {
           // console.log('res:', res);
         });
     });
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

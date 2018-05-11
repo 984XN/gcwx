@@ -130,6 +130,9 @@ export default {
     let self = this;
     self.type = self.$route.params.type || 'tongzhigonggao';
     console.log('mounted:', self.type);
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

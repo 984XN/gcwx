@@ -136,6 +136,9 @@ export default {
         console.log('中奖名单:', res.Data.list);
       });
     });
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>

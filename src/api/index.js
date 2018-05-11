@@ -89,9 +89,8 @@ service.interceptors.response.use(
         cancelText: '关闭提示',
         confirmText: '重新登录',
         onConfirm: function() {
-          router.push({
+          router.replace({
             path: router.getLoginUrl(),
-            replace: true,
             query: { redirect: router.currentRoute.fullPath }
           });
         },
@@ -137,9 +136,8 @@ service.interceptors.response.use(
           cancelText: '关闭提示',
           confirmText: '重新登录',
           onConfirm: function() {
-            router.push({
+            router.replace({
               path: router.getLoginUrl(),
-              replace: true,
               query: {
                 redirect: router.currentRoute.fullPath
               }

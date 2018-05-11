@@ -384,6 +384,9 @@ export default {
       // self.list[listIndex].liked = !liked;
       // Vue.set(self.list, listIndex, self.list[listIndex]);
     }
+  },
+  activated() {
+    this.scrollTo(this);
   }
 };
 </script>
