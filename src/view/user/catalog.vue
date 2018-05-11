@@ -297,7 +297,8 @@ export default {
       border-radius 50%
       overflow hidden
       margin 0 auto
-      border solid 3px rgba(0, 0, 0, 0.3)
+      background-color #FFF
+      box-shadow 0 0 0 3px rgba(0, 0, 0, 0.3)
       img {
         width 100%
         line-height 100px
