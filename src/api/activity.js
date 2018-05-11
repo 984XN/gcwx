@@ -758,6 +758,18 @@ export const activity = {
           }
           return res.data;
         });
+    },
+    // 用户在当前知识竞赛中排名
+    myOrder: params => {
+      return service
+        .post('/api/PartyStudy/PsExamPapers/GetMmeberScoreByRanking', params)
+        .then(res => {
+          if (res.data.Data && res.data.Data[0]) {
+            let order = res.data.Data[0].Rownum || '-';
+            res.data.Data.order = order;
+          }
+          return res.data;
+        });
     }
   },
   LiangDianTouPiao: {

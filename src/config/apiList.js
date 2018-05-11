@@ -322,7 +322,7 @@ export const API_LIST = {
     }
   },
   '/PartyStudy/PsExamPapers/GetMmeberScoreByRanking': {
-    name: '参与的知识竞赛的排名',
+    name: '我在这个知识竞赛里的排名',
     params: {
       ID: '' // int
     }

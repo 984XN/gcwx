@@ -2,18 +2,18 @@
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-zhishijingsai-order">
     <h1 class="pageTitle">竞赛排名</h1>
     <dl class="examOrderList">
-      <!-- <dt>
-        <div class="text">共{{total}}人</div>
+      <dt>
+        <div class="total">共{{total}}人</div>
         <div class="myOrder">
-          您的排名：
-          <strong>第97名</strong>
+          我的排名：
+          <strong>第{{order}}名</strong>
         </div>
-      </dt> -->
+      </dt>
       <dd>
         <no-data v-if="!list.length && !lazyload.loading">还没有排名记录</no-data>
         <table v-if="list.length" class="data">
           <tbody>
-            <tr v-for="(v,i) in list" :key="i">
+            <tr v-for="(v,i) in list" :key="i" :class="{active: v.mid === mid}">
               <td :class="'i_'+v.order">第{{v.order}}名</td>
               <td>{{v.name}}</td>
               <td>{{v.score}}分</td>
@@ -38,7 +38,9 @@ export default {
         loading: false,
         page: 1
       },
+      mid: '-',
       total: '-',
+      order: '-',
       list: []
     };
   },
@@ -84,8 +86,21 @@ export default {
               }
             });
           });
+        api.activity.examination
+          .myOrder({
+            ID: self.$route.params.id || 0
+          })
+          .then(res => {
+            self.order = res.Data.order;
+          });
       }
     }
+  },
+  mounted() {
+    let self = this;
+    self.$nextTick(() => {
+      self.mid = self.session('userSystem').ID || '';
+    });
   },
   activated() {
     this.scrollTo(this);
@@ -114,6 +129,15 @@ export default {
   dt {
     font-size 12px
     padding 10px 15px
+    .myOrder {
+      strong {
+        font-weight normal
+        color rgb(252, 95, 90)
+      }
+    }
+    .total {
+      float right
+    }
     .number {
       float right
       color rgb(252, 95, 90)
