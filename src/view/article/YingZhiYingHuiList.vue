@@ -1,5 +1,5 @@
 <template>
-  <container class="page-article-yingzhiyinghui-list">
+  <container class="page-article-yingzhiyinghui-list" v-scroll>
     <no-data v-if="!list.length && !lazyload.loading"></no-data>
     <ul v-if="list.length" class="manualList">
       <li v-for="(item,n) in list" :key="n">
@@ -88,23 +88,41 @@ export default {
       ]
     };
   },
+  methods: {
+    scrollSave(e) {
+      // // 滚动时保存 scrollTop
+      // let self = this;
+      // let scrollTop = e.target.scrollTop || -1;
+      // // console.log('scrollSave - scrollTop', scrollTop);
+      // // console.log('scrollSave - route', self.$route);
+    }
+  },
+  activated() {
+    console.log('activated');
+    let self = this;
+    let keepAlive = self.$route.meta.keepAlive || false;
+    let path = '';
+    let scrollTop = '';
+    if (keepAlive) {
+      path = self.$route.fullPath || '';
+      scrollTop = self.session('scrollTop')[path] || 0;
+      // console.log('scrollTo:', path, scrollTop, self.$el);
+      let elm = self.$el.querySelector('.container') || self.$el;
+      elm.scrollTop = scrollTop;
+    }
+  },
   beforeDestroy() {
+    // 销毁前保存 scrollTop 失败：通过 $el 和 $refs 获取 .container 的 scrollTop 都是 0
     // let self = this;
     // let elm = self.$el.querySelector('.container') || self.$el;
     // let scrollTop = elm.scrollTop;
-    // console.log('beforeDestroy - self.$el:', self.$el);
-    // console.log(
-    //   'beforeDestroy - container:',
-    //   self.$el.querySelector('.container')
-    // );
+    // console.log('beforeDestroy - scrollTop:', scrollTop);
     // console.log('beforeDestroy - elm:', elm);
-    // console.log('beforeDestroy - scrollTop:', elm.getScrollTop());
-    // console.log('document scrollTop:', document.querySelector('.container'));
   },
   deactivated() {
-    let self = this;
-    // console.log('scrollTop:', self.$el);
-    self.$emit('setScrollTop', { route: self.$route, value: 99 });
+    // 切出页面时保存 scrollTop 失败：切出时没有激活这个 deactivated (用了 keep-alive)
+    // let self = this;
+    // // console.log('scrollTop:', self.$el);
   }
 };
 </script>

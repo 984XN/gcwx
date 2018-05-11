@@ -43,7 +43,7 @@ const RouterArticle = {
           meta: {
             title: '应知应会',
             auth: true,
-            keepAlive: false
+            keepAlive: true
           }
         },
         {
