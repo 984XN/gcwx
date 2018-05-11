@@ -5,6 +5,7 @@ import App from './App';
 import router from './router';
 import store from './store';
 import filter from './filter';
+import { focus } from './directive';
 import func from './function';
 import {
   AlertPlugin,
@@ -59,6 +60,8 @@ Vue.component('toast', Toast);
 Vue.component('x-button', XButton);
 Vue.component('x-input', XInput);
 Vue.component('x-textarea', XTextarea);
+
+Vue.directive('focus', focus);
 
 Vue.config.productionTip = false;
 
