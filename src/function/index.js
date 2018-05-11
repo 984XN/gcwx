@@ -130,4 +130,18 @@ exports.install = function(Vue, options) {
     }
     return url;
   };
+  // 再次进入页面时滚动出上次退出时的位置
+  Vue.prototype.scrollTo = vm => {
+    let self = vm;
+    let keepAlive = self.$route.meta.keepAlive || false;
+    let path = '';
+    let scrollTop = '';
+    if (keepAlive) {
+      path = self.$route.fullPath || '';
+      scrollTop = self.session('scrollTop')[path] || 0;
+      // console.log('scrollTo:', path, scrollTop, self.$el);
+      let elm = self.$el.querySelector('.container') || self.$el;
+      elm.scrollTop = scrollTop;
+    }
+  };
 };

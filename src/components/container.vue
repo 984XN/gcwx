@@ -84,7 +84,6 @@ export default {
     scroll(e) {
       let self = this;
       let container = self.$refs.container;
-      if (self.lazyload.enable !== true) return false;
       self.status.container.scrollTop = container.scrollTop;
       // self.status.list.height = container.querySelector(
       //   '.container-body'
@@ -94,11 +93,21 @@ export default {
       //   self.status.list.height() - 100,
       //   !self.nodata
       // );
+      // console.log('container scroll.', container.scrollTop);
+      // 保存滚动位置
+      let path = self.$route.fullPath;
+      let scrollTopObj = {};
+      if (sessionStorage.scrollTop) {
+        scrollTopObj = JSON.parse(sessionStorage.scrollTop);
+      }
+      scrollTopObj[path] = container.scrollTop;
+      sessionStorage.scrollTop = JSON.stringify(scrollTopObj);
       // 距离 100 像素触底时加载数据
       if (
+        self.lazyload.enable === true &&
+        self.lazyload.nodata !== true &&
         self.status.container.scrollTop + self.status.container.height() >
-          self.status.list.height() - 100 &&
-        self.lazyload.nodata !== true
+          self.status.list.height() - 100
       ) {
         // console.log('loadData by scroll');
         self.$emit('loadData');

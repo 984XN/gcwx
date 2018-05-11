@@ -78,6 +78,9 @@ export default {
       }
     }
   },
+  activated() {
+    this.scrollTo(this);
+  },
   mounted() {
     this.$nextTick(function() {
       // console.log(this.lazyload);

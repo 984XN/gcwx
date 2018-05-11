@@ -1,5 +1,5 @@
 <template>
-  <container class="page-article-yingzhiyinghui-list" v-scroll>
+  <container class="page-article-yingzhiyinghui-list">
     <no-data v-if="!list.length && !lazyload.loading"></no-data>
     <ul v-if="list.length" class="manualList">
       <li v-for="(item,n) in list" :key="n">
@@ -99,17 +99,18 @@ export default {
   },
   activated() {
     console.log('activated');
-    let self = this;
-    let keepAlive = self.$route.meta.keepAlive || false;
-    let path = '';
-    let scrollTop = '';
-    if (keepAlive) {
-      path = self.$route.fullPath || '';
-      scrollTop = self.session('scrollTop')[path] || 0;
-      // console.log('scrollTo:', path, scrollTop, self.$el);
-      let elm = self.$el.querySelector('.container') || self.$el;
-      elm.scrollTop = scrollTop;
-    }
+    this.scrollTo(this);
+    // let self = this;
+    // let keepAlive = self.$route.meta.keepAlive || false;
+    // let path = '';
+    // let scrollTop = '';
+    // if (keepAlive) {
+    //   path = self.$route.fullPath || '';
+    //   scrollTop = self.session('scrollTop')[path] || 0;
+    //   // console.log('scrollTo:', path, scrollTop, self.$el);
+    //   let elm = self.$el.querySelector('.container') || self.$el;
+    //   elm.scrollTop = scrollTop;
+    // }
   },
   beforeDestroy() {
     // 销毁前保存 scrollTop 失败：通过 $el 和 $refs 获取 .container 的 scrollTop 都是 0
