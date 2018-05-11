@@ -59,6 +59,8 @@ export default {
                 self.$router.replace({ path: '/' });
               }
             });
+            // 绑定送积分（后台不能自动加分）
+            api.user.wechat.emitBinded();
           } else {
             self.$vux.alert.show({
               title: '绑定出错',

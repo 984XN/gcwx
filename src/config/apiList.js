@@ -16,6 +16,10 @@ export const API_LIST = {
     name: '微信绑定',
     params: { model: { LoginName: '', LoginPWD: '' } }
   },
+  '/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto': {
+    name: '微信绑定送积分',
+    params: {}
+  },
   '/Sys/SysUser/UnBindPartyMember': {
     name: '微信解绑',
     params: {}

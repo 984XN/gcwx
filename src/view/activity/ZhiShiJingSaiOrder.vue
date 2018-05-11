@@ -6,7 +6,7 @@
         <div class="total" v-if="total > 0">共{{total}}人</div>
         <div class="myOrder">
           我的排名：
-          <strong v-if="order">第{{order}}名</strong>
+          <strong v-if="order > 0">第{{order}}名</strong>
           <strong v-else>暂无排名</strong>
         </div>
       </dt>
@@ -41,7 +41,7 @@ export default {
       },
       mid: '-',
       total: '0',
-      order: '-',
+      order: '0',
       list: []
     };
   },

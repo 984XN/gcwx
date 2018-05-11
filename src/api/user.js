@@ -138,6 +138,11 @@ export const user = {
       return service
         .post('/api/Sys/SysUser/UnBindPartyMember', params)
         .then(res => res.data);
+    },
+    emitBinded: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto', params)
+        .then(res => res.data);
     }
   },
   article: {
