@@ -167,27 +167,33 @@ export default {
     },
     getWechatLink() {
       let self = this;
-      let mid = self.userSystem.ID || 0;
-      let username = self.userSystem.UserName || '';
-      let openid = self.userWechat.OpenId || 0;
-      let nickname = self.userWechat.NickName || '';
-      let binded = self.binded || false;
-      if (binded || (openid && mid)) {
-        self.$vux.confirm.show({
-          title: '解除绑定',
-          content:
-            '解除微信“' + nickname + '”与党员“' + username + '”的绑定关系吗？',
-          onConfirm() {
-            self.wechatUnbindMember();
-          }
-        });
-      } else {
-        self.$vux.alert.show({
-          title: '不能解除绑定',
-          content: '如需解绑，请使用其它微信绑定这个党员帐号'
-        });
-        // this.$router.push({ path: '/login/wechat' });
-      }
+      self.$vux.alert.show({
+        title: '不能解除绑定',
+        content: '如需解绑，请使用其它微信绑定这个党员帐号'
+      });
+      // 解绑功能因为后台有加分逻辑未处理好，先不开通
+      // let self = this;
+      // let mid = self.userSystem.ID || 0;
+      // let username = self.userSystem.UserName || '';
+      // let openid = self.userWechat.OpenId || 0;
+      // let nickname = self.userWechat.NickName || '';
+      // let binded = self.binded || false;
+      // if (binded || (openid && mid)) {
+      //   self.$vux.confirm.show({
+      //     title: '解除绑定',
+      //     content:
+      //       '解除微信“' + nickname + '”与党员“' + username + '”的绑定关系吗？',
+      //     onConfirm() {
+      //       self.wechatUnbindMember();
+      //     }
+      //   });
+      // } else {
+      //   self.$vux.alert.show({
+      //     title: '不能解除绑定',
+      //     content: '如需解绑，请使用其它微信绑定这个党员帐号'
+      //   });
+      //   // this.$router.push({ path: '/login/wechat' });
+      // }
     },
     wechatUnbindMember() {
       let self = this;
@@ -209,7 +215,7 @@ export default {
             text: '成功解绑',
             time: 1000,
             onHide() {
-              // self.$router.go(-1);
+              self.$router.replace({ path: '/login' });
             }
           });
         } else {

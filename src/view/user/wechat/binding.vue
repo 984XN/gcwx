@@ -19,8 +19,8 @@ export default {
   data() {
     return {
       user: {
-        username: '13018219890221192X',
-        password: '21192X'
+        username: '',
+        password: ''
       },
       wechat: {
         OpenId: '',
