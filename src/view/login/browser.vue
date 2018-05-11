@@ -10,7 +10,7 @@
     <div style="padding:15px;">
       <x-button @click.native="loginFn" type="warn">登录</x-button>
       <div class="error" center show-icon v-if="errMessage" @click="clearMessage" :closable="false">{{errMessage}}</div>
-      <div class="version">GCDJ1.0 (180419)</div>
+      <div class="faq">如果忘记请联系你的上级部门</div>
     </div>
   </div>
 </template>
@@ -105,7 +105,7 @@ export default {
   color #f56c6c
   text-align center
 }
-.version {
+.faq {
   font-size 12px
   text-align center
   padding 10px
