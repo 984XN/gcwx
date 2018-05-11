@@ -3,10 +3,11 @@
     <h1 class="pageTitle">竞赛排名</h1>
     <dl class="examOrderList">
       <dt>
-        <div class="total">共{{total}}人</div>
+        <div class="total" v-if="total > 0">共{{total}}人</div>
         <div class="myOrder">
           我的排名：
-          <strong>第{{order}}名</strong>
+          <strong v-if="order">第{{order}}名</strong>
+          <strong v-else>暂无排名</strong>
         </div>
       </dt>
       <dd>
@@ -39,7 +40,7 @@ export default {
         page: 1
       },
       mid: '-',
-      total: '-',
+      total: '0',
       order: '-',
       list: []
     };
@@ -66,7 +67,7 @@ export default {
             console.log('loadData res:', res);
             if (res.Data.list && res.Data.list.length > 0) {
               self.list = [...this.list, ...res.Data.list];
-              self.total = res.Data.RowCount || '-';
+              self.total = res.Data.RowCount || 0;
               self.lazyload.page += 1;
             } else {
               // console.log('木有数据了');
@@ -91,7 +92,7 @@ export default {
             ID: self.$route.params.id || 0
           })
           .then(res => {
-            self.order = res.Data.order;
+            self.order = res.Data.order || 0;
           });
       }
     }

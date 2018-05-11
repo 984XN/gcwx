@@ -170,8 +170,7 @@ const RouterActivity = {
       component: ActivityZhiShiJingSai,
       meta: {
         title: '知识竞赛',
-        auth: true,
-        keepAlive: true
+        auth: true
       },
       children: [
         {
@@ -217,7 +216,7 @@ const RouterActivity = {
           meta: {
             title: '竞赛排名',
             auth: true,
-            keepAlive: true
+            keepAlive: false
           }
         }
       ]
@@ -227,8 +226,7 @@ const RouterActivity = {
       component: ActivityZhengNengLiang,
       meta: {
         title: '正能量',
-        auth: true,
-        keepAlive: true
+        auth: true
       },
       children: [
         {
@@ -264,8 +262,7 @@ const RouterActivity = {
       component: ActivityJianYanXianCe,
       meta: {
         title: '建言献策',
-        auth: true,
-        keepAlive: true
+        auth: true
       },
       children: [
         {
