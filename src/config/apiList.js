@@ -321,6 +321,12 @@ export const API_LIST = {
       pageModel: {}
     }
   },
+  '/PartyStudy/PsExamPapers/GetMmeberScoreByRanking': {
+    name: '参与的知识竞赛的排名',
+    params: {
+      ID: '' // int
+    }
+  },
   '/Sys/SysUser/GetUserInfoByID': {
     name: '获取个人资料',
     params: {}

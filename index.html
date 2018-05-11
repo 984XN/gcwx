@@ -5,139 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>藁城党建</title>
-  <style>
-    html,
-    body {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-    }
-
-    #app {
-      height: 100%;
-      position: relative;
-    }
-
-    .appLoading {
-      width: 100%;
-      height: 100%;
-      border-bottom: 5px solid #f17474;
-      box-sizing: border-box;
-      background-color: #FFF;
-      color: FFF;
-      overflow: hidden;
-    }
-
-    .loader {
-      position: absolute;
-      left: 50%;
-      top: 30%;
-      margin-left: -100px;
-      margin-top: -75px;
-      width: 200px;
-      height: 150px;
-      display: block;
-      text-align: center;
-    }
-
-    .loader .name,
-    .loader .text {
-      position: absolute;
-      left: 0;
-      right: 0;
-    }
-
-    .loader .name {
-      font-size: 16px;
-      bottom: 20px;
-      font-size: 14px;
-      line-height: 20px;
-      color: #333;
-    }
-
-    .loader .text {
-      bottom: 0;
-      font-size: 10px;
-      line-height: 20px;
-      color: #CCC;
-    }
-
-    @-webkit-keyframes star-small-pulse {
-      0% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-      }
-      100% {
-        -webkit-transform: scale(2);
-        transform: scale(2);
-      }
-    }
-
-    @keyframes star-small-pulse {
-      0% {
-        -webkit-transform: scale(2);
-        transform: scale(1);
-      }
-      100% {
-        -webkit-transform: scale(4);
-        transform: scale(2);
-      }
-    }
-
-    @-webkit-keyframes star-big-pulse {
-      0% {
-        -webkit-transform: scale(2);
-        transform: scale(0);
-        opacity: 1;
-      }
-      100% {
-        -webkit-transform: scale(10);
-        transform: scale(5);
-        opacity: 0;
-      }
-    }
-
-    @keyframes star-big-pulse {
-      0% {
-        -webkit-transform: scale(0);
-        transform: scale(0);
-        opacity: 1;
-      }
-      100% {
-        -webkit-transform: scale(5);
-        transform: scale(5);
-        opacity: 0;
-      }
-    }
-
-    .loader .star-small {
-      -webkit-animation: star-small-pulse 1s ease-in-out alternate infinite;
-      animation: star-small-pulse 1s ease-in-out alternate infinite;
-    }
-
-    .loader .loader-star {
-      position: absolute;
-      top: calc(50% - 12px);
-      left: calc(50% - 12px);
-    }
-
-    .loader .star-big {
-      -webkit-animation: star-big-pulse 2s -0.2s ease-in-out infinite;
-      animation: star-big-pulse 2s -0.2s ease-in-out infinite;
-    }
-
-    .footer {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 20%;
-      text-align: center;
-      line-height: 1.4;
-      font-size: 10px;
-      color: #CCC
-    }
-  </style>
+  <title>
+    <%=htmlWebpackPlugin.options.title%>
+  </title>
+  <link rel="stylesheet" href="/static/appLoading.css">
 </head>
 
 <body>
@@ -152,18 +23,21 @@
           x="0px" y="0px" width="23.172px" height="23.346px" viewBox="0 0 23.172 23.346" xml:space="preserve">
           <polygon fill="#fa2b2b" points="11.586,0 8.864,8.9 0,8.9 7.193,14.447 4.471,23.346 11.586,17.84 18.739,23.346 16.77,14.985 23.172,8.9 14.306,8.9  "></polygon>
         </svg>
-        <div class="name">藁城区智慧党建</div>
+        <div class="name">
+          <%=htmlWebpackPlugin.options.appName%>
+        </div>
         <div class="text">正在初始化</div>
       </div>
       <div class="footer">
-        <div class="version">Ver 1.0.180507</div>
-        <div class="support">鸿卓电子提供技术支持</div>
+        <div class="version">Ver
+          <%=htmlWebpackPlugin.options.appVersion%>
+        </div>
+        <div class="support">
+          <%=htmlWebpackPlugin.options.appAuthor%>提供技术支持</div>
         <div class="copyright">&copy; 2018</div>
       </div>
     </div>
   </div>
-  <!-- <%=htmlWebpackPlugin.files.webpackManifest%> -->
-  <!-- built files will be auto injected -->
 </body>
 
 </html>

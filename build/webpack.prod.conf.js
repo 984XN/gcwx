@@ -66,7 +66,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      title: '藁城党建',
+      title: '藁城区智慧党建',
       filename:
         process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
       template: 'index.html',
@@ -82,7 +82,10 @@ const webpackConfig = merge(baseWebpackConfig, {
       },
       // chunks: ['manifest', 'vendor', 'app'],
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      appName: packageInfo.description,
+      appVersion: packageInfo.version,
+      appAuthor: packageInfo.author.replace(/\s+<.*?>/, '')
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),

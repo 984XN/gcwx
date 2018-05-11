@@ -13,6 +13,8 @@ const portfinder = require('portfinder');
 const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
 
+const packageInfo = require('../package.json');
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -62,7 +64,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       filename: 'index.html',
       template: 'index.html',
       favicon: 'static/favicon.ico',
-      inject: true
+      inject: true,
+      appName: packageInfo.description,
+      appVersion: packageInfo.version,
+      appAuthor: packageInfo.author.replace(/\s+<.*?>/, '')
     }),
     // copy custom static assets
     new CopyWebpackPlugin([
