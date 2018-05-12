@@ -43,32 +43,32 @@
         <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
           <i slot="icon" class="listIcon iconfont icon-custom-wechat"></i>
         </cell>
-        <cell title="修改密码" :link="{path:'password',append:true}" value="">
+        <cell title="修改密码" :link="{path:'password',append:true}" value="" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-password"></i>
         </cell>
       </group>
       <group>
-        <cell title="个人积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score">
+        <cell title="个人积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-coin"></i>
         </cell>
-        <cell title="党费查询" is-link @click.native="show.dues = !show.dues" :is-loading="dues.total === null" :value="dues.total">
+        <cell title="党费查询" is-link @click.native="hasPower('member') ? show.dues = !show.dues : ''" :is-loading="dues.total === null" :value="dues.total" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-money-square"></i>
         </cell>
-        <cell title="中奖记录" :link="{path:'gifts',append:true}">
+        <cell title="中奖记录" :link="{path:'gifts',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-gift"></i>
         </cell>
-        <cell title="我的正能量" :link="{path:'zhengnengliang',append:true}">
+        <cell title="我的正能量" :link="{path:'zhengnengliang',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-Business_-Honor"></i>
         </cell>
       </group>
       <group>
-        <cell title="通知公告" :link="{path:'list/tongzhigonggao',append:true}">
+        <cell title="通知公告" :link="{path:'list/tongzhigonggao',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-tongzhi"></i>
         </cell>
-        <cell title="党务公开" :link="{path:'list/dangwugongkai',append:true}">
+        <cell title="党务公开" :link="{path:'list/dangwugongkai',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-shangwu"></i>
         </cell>
-        <cell title="党建动态" :link="{path:'list/dangjiandongtai',append:true}">
+        <cell title="党建动态" :link="{path:'list/dangjiandongtai',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-article"></i>
         </cell>
       </group>
@@ -240,34 +240,39 @@ export default {
       self.binded = self.session('binded');
       self.userSystem = self.session('userSystem');
       self.userWechat = self.session('userWechat');
-      // 获取用户头像
-      api.user.member.profile().then(res => {
-        self.$vux.loading.hide();
-        self.userInfo = res.Data.userInfo || {};
-        if (self.userInfo.PhotoName) {
-          self.userSystem.PhotoName = self.userInfo.PhotoName;
-        }
-        // console.log('api.user.member.profile:', self.userSystem);
-        // console.log('api.user.member.profile:', res);
-      });
-      // 获取用户总积分数
-      api.user.member.score.total().then(res => {
-        // console.log('member.score:', res);
-        self.score =
-          res.Data.sumScore &&
-          res.Data.sumScore[0] &&
-          res.Data.sumScore[0].AddScore
-            ? res.Data.sumScore[0].AddScore
-            : 0;
-      });
-      // 获取用户党费记录
-      api.user.member.dues().then(res => {
-        self.dues.year = res.Data.year || '';
-        self.dues.list = res.Data.list || [];
-        self.dues.total = res.Data.totalDues || 0;
-        self.dues.total = '本年度已缴纳' + res.Data.totalDues + '元';
-        // console.log('member.dues:', res);
-      });
+      if (!self.hasPower('member')) {
+        self.score = 0;
+        self.dues.total = 0;
+      } else {
+        // 获取用户头像
+        api.user.member.profile().then(res => {
+          self.$vux.loading.hide();
+          self.userInfo = res.Data.userInfo || {};
+          if (self.userInfo.PhotoName) {
+            self.userSystem.PhotoName = self.userInfo.PhotoName;
+          }
+          // console.log('api.user.member.profile:', self.userSystem);
+          // console.log('api.user.member.profile:', res);
+        });
+        // 获取用户总积分数
+        api.user.member.score.total().then(res => {
+          // console.log('member.score:', res);
+          self.score =
+            res.Data.sumScore &&
+            res.Data.sumScore[0] &&
+            res.Data.sumScore[0].AddScore
+              ? res.Data.sumScore[0].AddScore
+              : 0;
+        });
+        // 获取用户党费记录
+        api.user.member.dues().then(res => {
+          self.dues.year = res.Data.year || '';
+          self.dues.list = res.Data.list || [];
+          self.dues.total = res.Data.totalDues || 0;
+          self.dues.total = '本年度已缴纳' + res.Data.totalDues + '元';
+          // console.log('member.dues:', res);
+        });
+      }
     });
   },
   activated() {

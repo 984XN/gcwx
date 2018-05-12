@@ -10,7 +10,7 @@
     <div style="padding:15px;">
       <x-button @click.native="loginFn" type="warn">登录</x-button>
       <div class="error" center show-icon v-if="errMessage" @click="clearMessage" :closable="false">{{errMessage}}</div>
-      <div class="faq">如果忘记请联系你的上级部门</div>
+      <div class="faq">如果忘记密码请联系你的上级部门</div>
     </div>
   </div>
 </template>

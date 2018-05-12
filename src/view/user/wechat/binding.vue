@@ -8,6 +8,7 @@
     <div style="padding:15px;">
       <x-button @click.native="binding" type="warn">绑定</x-button>
       <x-button @click.native="skip" type="default">暂不绑定</x-button>
+      <div class="faq">如果忘记密码请联系你的上级部门</div>
     </div>
   </div>
 </template>
@@ -110,3 +111,12 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus" scoped>
+.faq {
+  font-size 12px
+  text-align center
+  padding 10px
+  color #999
+}
+</style>

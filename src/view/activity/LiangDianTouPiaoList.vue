@@ -3,13 +3,13 @@
     <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0">
       <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
-        <tab-item @on-item-click="jumpTo" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allow)">
+        <tab-item @on-item-click="jumpTo" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allowRole)">
           <div class="icon">
             <i class="iconfont" :class="tab.icon"></i>
           </div>
           <div class="label">
             {{tab.name}}
-            <i class="iconfont icon-lock" v-if="!hasPower(tab.allow)"></i>
+            <i class="iconfont icon-lock" v-if="!hasPower(tab.allowRole)"></i>
           </div>
         </tab-item>
       </tab>
@@ -76,43 +76,43 @@ export default {
           name: '亮点投票',
           route: '/activity/liangdiantoupiao',
           icon: 'icon-favor',
-          allow: 'all'
+          allowRole: 'member'
         },
         {
           name: '答题促学',
           route: '/activity/daticuxue',
           icon: 'icon-read',
-          allow: 'member'
+          allowRole: 'member'
         },
         {
           name: '知识竞赛',
           route: '/activity/zhishijingsai',
           icon: 'icon-upstage',
-          allow: 'member'
+          allowRole: 'member'
         },
         {
           name: '正能量',
           route: '/activity/zhengnengliang',
           icon: 'icon-appreciate',
-          allow: 'member'
+          allowRole: 'member'
         },
         {
           name: '建言献策',
           route: '/activity/jianyanxiance',
           icon: 'icon-new',
-          allow: 'all'
+          allowRole: 'member'
         },
         {
           name: '支部e家',
           route: '/activity/zhibuejia',
           icon: 'icon-home',
-          allow: 'member'
+          allowRole: 'member'
         },
         {
           name: '抽奖专区',
           route: '/activity/choujiangzhuanqu',
           icon: 'icon-goods_favor_light',
-          allow: 'member'
+          allowRole: 'member'
         }
       ]
     };

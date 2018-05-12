@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .page-activity-zhishijingsai {
   height 100%
   overflow auto

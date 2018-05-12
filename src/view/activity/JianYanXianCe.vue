@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .page-activity-jianyanxiance {
   height 100%
   overflow auto

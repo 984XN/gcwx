@@ -84,9 +84,3 @@ export default {
   }
 };
 </script>
-
-<style lang="stylus">
-.vux-label {
-  white-space nowrap
-}
-</style>

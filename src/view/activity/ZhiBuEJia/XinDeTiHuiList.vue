@@ -71,7 +71,7 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .btnAdd {
   position fixed
   right 20px

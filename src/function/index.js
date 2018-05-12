@@ -4,7 +4,7 @@
  */
 exports.install = function(Vue, options) {
   // 简易权限判断（党员可读、微信可读、所有人可读）
-  Vue.prototype.hasPower = allow => {
+  Vue.prototype.hasPower = allowRole => {
     let hasPower = false;
     let userSystem = sessionStorage.userSystem
       ? JSON.parse(sessionStorage.userSystem)
@@ -13,7 +13,7 @@ exports.install = function(Vue, options) {
       ? JSON.parse(sessionStorage.userWechat)
       : { OpenId: '' };
     // console.log(userSystem, userWechat);
-    switch (allow) {
+    switch (allowRole) {
       case 'member':
         if (userSystem.ID) {
           hasPower = true;
@@ -28,7 +28,7 @@ exports.install = function(Vue, options) {
         hasPower = true;
         break;
     }
-    // console.log('hasPower:', allow, hasPower, userSystem, userWechat);
+    // console.log('hasPower:', allowRole, hasPower, userSystem, userWechat);
     return hasPower;
   };
 

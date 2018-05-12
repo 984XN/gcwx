@@ -50,7 +50,7 @@ npm run build
 1. 请确认没有忘记修改 package.json 中的版本号
 1. 生成前需要修改的内容
   1. 文档预览服务器地址。此项目不能提供文档预览功能，需要重定向到文档服务器的地址，到 /config/dev.env.js、/config.prod.evn.js 中找 FILE_SERVER。
-  1. 微信回调地址及其它微信相关参数。见：/src/config/index.js
+  1. 微信回调地址及其它微信相关参数的设置见：/src/config/index.js
 1. 部署时需要代理以下3个地址到 API 服务器上的 / 上，Upload 可以使用链接：
   1. /Upload
   1. ~/Upload
