@@ -1,5 +1,5 @@
 // ./LiuYanPingLunList.vue 与 ./DangWuZiXunList.vue 代码完全一样（除了接口调用时的 Type 参数值）
-// 如果其中一个页面有调整，请记得修改另一个文件
+// 如果其中一个页面有调整，请记得修改另一个文件，如果有谁出错了，请比对正确的那个
 // 为什么不是公用组件：各栏目功能不确定、时间不足
 
 <template>
@@ -269,7 +269,6 @@ export default {
       if (self.form.submitting) {
         return false;
       }
-      self.form.submitting = true;
       // console.log('form.submited', this.form);
       if (self.form.content === '') {
         this.$vux.toast.show({
@@ -280,6 +279,7 @@ export default {
         });
         return false;
       }
+      self.form.submitting = true;
       let params = {
         model: {
           CommentContent: self.form.content, // 留言内容
@@ -289,7 +289,7 @@ export default {
           UserID: self.form.message.uid || null // 登录人的UserID，不传
         }
       };
-      api.activity.reply(params).then(res => {
+      api.activity.ZhiBuEJia.reply(params).then(res => {
         if (res.StatusCode === 1200) {
           self.$vux.toast.show({
             text: '评论成功',
@@ -400,48 +400,6 @@ export default {
   height 100%
   padding-top 1px
   box-sizing border-box
-}
-.formReply {
-  position fixed
-  left 0
-  right 0
-  bottom 0
-  height 44px
-  background #f0f0f0
-  border-top 1px solid #d4d4d4
-  label {
-    display block
-    position absolute
-    left 0
-    top 0
-    right 65px
-    bottom 0
-    padding 5px
-    input {
-      display block
-      width 100%
-      height 34px
-      padding 0 5px
-      border-radius 3px
-      box-sizing border-box
-      border solid 1px #d4d4d4
-      outline none
-      background #FFF
-    }
-  }
-  button {
-    display block
-    border none
-    background #f17474
-    color #FFF
-    box-sizing border-box
-    width 60px
-    height 34px
-    position absolute
-    border-radius 3px
-    right 5px
-    top 5px
-  }
 }
 .btnAdd {
   position fixed

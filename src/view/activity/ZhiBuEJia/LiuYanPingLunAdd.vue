@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AddFrom from './Add.component';
+import AddFrom from './add.component';
 
 export default {
   components: {

@@ -182,15 +182,18 @@ export default {
           self.files[index].uploadError = false;
           self.files[index].uploaded = true;
           if (res.StatusCode === 1200) {
-            self.files[index].fid = res.Data.Item1 || 0;
-            self.files[index].path = res.Data.Item2 || '';
-            // console.log('upload res:', self.files[index], res);
+            try {
+              self.files[index].fid = res.Data.Item1 || 0;
+              self.files[index].path = res.Data.Item2 || '';
+              // console.log('upload res:', self.files[index], res);
+            } catch (e) {}
           }
           Vue.set(self.files, index, self.files[index]);
           // 上传下一张
           self.upload();
         })
-        .catch(() => {
+        .catch(e => {
+          console.log('上传出错：', e.message, file.name);
           self.files[index].uploadError = true;
           self.files[index].uploaded = true;
           Vue.set(self.files, index, self.files[index]);
@@ -273,7 +276,8 @@ export default {
           } else {
             self.$vux.alert.show({
               title: '更新失败',
-              content: res.Message || '收到了更新被确认以外的状态码：' + res.StatusCode
+              content:
+                res.Message || '收到了更新被确认以外的状态码：' + res.StatusCode
             });
           }
         })

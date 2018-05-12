@@ -167,33 +167,38 @@ export default {
       formData.append('flowFilename', 'QQ截图20180427085500.png');
       formData.append('flowRelativePath', 'QQ截图20180427085500.png');
       formData.append('flowTotalChunks', 1);
-      api.activity.ZhiBuEJia
-        .upload(formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          onUploadProgress: function(progressEvent) {
-            if (progressEvent.lengthComputable) {
-              let pct = Math.ceil(
-                progressEvent.loaded / progressEvent.total * 100
-              );
-              self.files[index].pct = pct;
-              Vue.set(self.files, index, self.files[index]);
-              // console.log('上传进度：', index, self.files[index].pct);
-            }
+      api.activity.ZhiBuEJia.upload(formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: function(progressEvent) {
+          if (progressEvent.lengthComputable) {
+            let pct = Math.ceil(
+              progressEvent.loaded / progressEvent.total * 100
+            );
+            self.files[index].pct = pct;
+            Vue.set(self.files, index, self.files[index]);
+            // console.log('上传进度：', index, self.files[index].pct);
           }
-        })
+        }
+      })
         .then(function(res) {
+          // console.log('file:', file);
           self.files[index].uploadError = false;
           self.files[index].uploaded = true;
           if (res.StatusCode === 1200) {
-            self.files[index].fid = res.Data.Item1 || 0;
-            self.files[index].path = res.Data.Item2 || '';
-            // console.log('upload res:', self.files[index], res);
+            try {
+              // 这些是只读属性，如果报错就会进入 .catch 导致上传的文件上有红点
+              // 这里需要优化：删除已选时需要 fid、预览已选时
+              self.files[index].fid = res.Data.Item1 || 0;
+              self.files[index].path = res.Data.Item2 || '';
+              // console.log('upload res:', self.files[index], res);
+            } catch (e) {}
           }
           Vue.set(self.files, index, self.files[index]);
           // 上传下一张
           self.upload();
         })
-        .catch(() => {
+        .catch(e => {
+          console.log('上传出错：', e.message, file.name);
           self.files[index].uploadError = true;
           self.files[index].uploaded = true;
           Vue.set(self.files, index, self.files[index]);
@@ -233,15 +238,14 @@ export default {
       self.$vux.loading.show({
         text: '正在提交'
       });
-      api.activity.ZhiBuEJia
-        .add({
-          model: {
-            ExperienceTitle: self.title,
-            ExperienceContent: self.content,
-            Type: self.typeId // 1.心得体会2.留言评论3.思想汇报4.党务咨询
-          },
-          imageID: self.fids
-        })
+      api.activity.ZhiBuEJia.add({
+        model: {
+          ExperienceTitle: self.title,
+          ExperienceContent: self.content,
+          Type: self.typeId // 1.心得体会2.留言评论3.思想汇报4.党务咨询
+        },
+        imageID: self.fids
+      })
         .then(function(res) {
           self.$vux.loading.hide();
           console.log('add res:', res);

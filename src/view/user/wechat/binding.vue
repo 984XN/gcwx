@@ -8,6 +8,7 @@
     <div style="padding:15px;">
       <x-button @click.native="binding" type="warn">绑定</x-button>
       <x-button @click.native="skip" type="default">暂不绑定</x-button>
+      <div class="error" center show-icon v-if="errMessage" @click="clearMessage" :closable="false">{{errMessage}}</div>
       <div class="faq">如果忘记密码请联系你的上级部门</div>
     </div>
   </div>
@@ -27,6 +28,9 @@ export default {
         OpenId: '',
         NickName: ''
       },
+      usernameValid: '',
+      passwordValid: '',
+      errMessage: '',
       idCardNoCheck: string => {
         return {
           valid: this.isIdCardNo(string),
@@ -36,39 +40,48 @@ export default {
     };
   },
   methods: {
+    clearMessage() {
+      this.errMessage = '';
+    },
     binding() {
       let self = this;
-      self.$vux.loading.show({
-        text: '正在绑定'
-      });
-      // console.log('wechat binding...', this.wechat, this.user);
-      api.user.wechat
-        .bindMember({
-          LoginName: self.user.username,
-          LoginPWD: self.user.password
-        })
-        .then(res => {
-          self.$vux.loading.hide();
-          // console.log('wechatUnbindMember', res);
-          if (res.StatusCode === 1200) {
-            sessionStorage.binded = true;
-            sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
-            self.$vux.toast.show({
-              text: '绑定成功',
-              time: 1000,
-              onHide() {
-                self.$router.replace({ path: '/' });
-              }
-            });
-            // 绑定送积分（后台不能自动加分）
-            api.user.wechat.emitBinded();
-          } else {
-            self.$vux.alert.show({
-              title: '绑定出错',
-              content: res.Message || '未知错误'
-            });
-          }
+      if (!self.user.username || !self.user.password) {
+        self.errMessage = ' 帐号和密码不能为空 ';
+      } else if (!self.isIdCardNo(self.user.username)) {
+        self.errMessage = ' 身份证号不正确 ';
+      } else {
+        self.$vux.loading.show({
+          text: '正在绑定'
         });
+        // console.log('wechat binding...', this.wechat, this.user);
+        api.user.wechat
+          .bindMember({
+            LoginName: self.user.username,
+            LoginPWD: self.user.password
+          })
+          .then(res => {
+            self.$vux.loading.hide();
+            // console.log('wechatUnbindMember', res);
+            if (res.StatusCode === 1200) {
+              sessionStorage.binded = true;
+              sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
+              self.$vux.toast.show({
+                text: '绑定成功',
+                time: 1000,
+                onHide() {
+                  self.$router.replace({ path: '/' });
+                }
+              });
+              // 绑定送积分（后台不能自动加分）
+              api.user.wechat.emitBinded();
+            } else {
+              self.$vux.alert.show({
+                title: '绑定出错',
+                content: res.Message || '未知错误'
+              });
+            }
+          });
+      }
     },
     skip() {
       this.$router.push({ path: '/' });
@@ -113,6 +126,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.error {
+  width 100%
+  padding 8px 16px
+  margin 10px 0
+  box-sizing border-box
+  border-radius 4px
+  position relative
+  overflow hidden
+  opacity 1
+  transition opacity 0.2s
+  background-color #fef0f0
+  color #f56c6c
+  text-align center
+}
 .faq {
   font-size 12px
   text-align center
