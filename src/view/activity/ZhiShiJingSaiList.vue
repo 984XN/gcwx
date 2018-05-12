@@ -63,6 +63,10 @@ export default {
             if (res.Data.list && res.Data.list.length > 0) {
               this.list = [...this.list, ...res.Data.list];
               self.lazyload.page += 1;
+              if (!res.Data.PageIndex) {
+                // 没有分页功能
+                self.lazyload.nodata = true;
+              }
             } else {
               // console.log('木有数据了');
               self.lazyload.nodata = true;

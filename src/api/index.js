@@ -63,7 +63,7 @@ service.interceptors.response.use(
     // console.log('response.headers:', response.headers); // 服务器响应的头
     // console.log('response.config:', response.config); // 为请求提供的配置信息
     let api = response.config.url.replace('/api/', '/');
-    let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块';
+    let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块[' + api + ']';
     if (response.data.StatusCode === 200) {
       response.data.StatusCodeOrigin = response.data.StatusCode;
       response.data.StatusCode = 1200;
@@ -124,7 +124,9 @@ service.interceptors.response.use(
       let statusText = getStatusText(error.response.status, 'HTTP');
       let statusCode = error.response.status;
       let api = error.config.url.replace('/api/', '/');
-      let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块';
+      let moduleName = API_LIST[api]
+        ? API_LIST[api].name
+        : '未知模块[' + api + ']';
       // 服务器会把登录超时的链接强行302到 '/Home/Login'
       if (
         statusCode === 404 &&

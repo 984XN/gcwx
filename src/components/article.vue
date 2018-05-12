@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import { ApiServer } from 'src/config';
 import { setInterval, clearInterval } from 'timers';
 
 export default {
@@ -67,14 +66,14 @@ export default {
   },
   data() {
     return {
-      serverUrl: ApiServer.origin,
+      fileServer: process.env.FILE_SERVER,
       readingHandel: null,
       readyTime: null
     };
   },
   methods: {
     getArticleLink(path) {
-      let url = this.serverUrl + path;
+      let url = this.fileServer + path;
       // console.log('url:', url);
       return url;
     },

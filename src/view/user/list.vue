@@ -93,7 +93,7 @@ export default {
                 let list = res.Data.list.map(v => {
                   return {
                     title: v.title,
-                    desc: v.content.replace(/<[^>]+>/g, ''),
+                    desc: v.content.replace(/<[^>]+>/g, '').substr(0, 60),
                     url: {
                       path: '../detail/' + v.id + '?type=' + self.type
                     },
@@ -105,6 +105,10 @@ export default {
                 self.list = [...self.list, ...list];
                 self.total = res.Data.RowCount;
                 self.lazyload.page += 1;
+                if (!res.Data.PageIndex) {
+                  // 没有分页功能
+                  self.lazyload.nodata = true;
+                }
               } else {
                 // console.log('木有数据了');
                 self.lazyload.nodata = true;

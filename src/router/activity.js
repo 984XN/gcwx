@@ -76,7 +76,7 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -87,7 +87,7 @@ const RouterActivity = {
           meta: {
             title: '亮点投票',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -126,7 +126,7 @@ const RouterActivity = {
           meta: {
             title: '答题促学',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -160,7 +160,7 @@ const RouterActivity = {
           meta: {
             title: '学习记录',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         }
       ]
@@ -187,7 +187,7 @@ const RouterActivity = {
           meta: {
             title: '知识竞赛',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -243,7 +243,7 @@ const RouterActivity = {
           meta: {
             title: '正能量',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -292,7 +292,7 @@ const RouterActivity = {
           meta: {
             title: '建言献策',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         },
         {
@@ -347,7 +347,7 @@ const RouterActivity = {
               meta: {
                 title: '心得体会',
                 auth: true,
-                keepAlive: true
+                keepAlive: false // 返回列表页时需要更新数据不能为true
               }
             },
             {
@@ -400,7 +400,7 @@ const RouterActivity = {
               meta: {
                 title: '留言评论',
                 auth: true,
-                keepAlive: true
+                keepAlive: false // 返回列表页时需要更新数据不能为true
               }
             },
             {
@@ -441,7 +441,7 @@ const RouterActivity = {
               meta: {
                 title: '思想汇报',
                 auth: true,
-                keepAlive: true
+                keepAlive: false // 返回列表页时需要更新数据不能为true
               }
             },
             {
@@ -493,7 +493,7 @@ const RouterActivity = {
               meta: {
                 title: '党务咨询',
                 auth: true,
-                keepAlive: true
+                keepAlive: false // 返回列表页时需要更新数据不能为true
               }
             },
             {
@@ -568,7 +568,7 @@ const RouterActivity = {
           meta: {
             title: '抽奖专区',
             auth: true,
-            keepAlive: true
+            keepAlive: false // 返回列表页时需要更新数据不能为true
           }
         }
       ]

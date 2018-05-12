@@ -44,6 +44,10 @@ export default {
             if (res.Data.PageData && res.Data.PageData.length > 0) {
               this.list = [...this.list, ...res.Data.PageData];
               self.lazyload.page += 1;
+              if (!res.Data.PageIndex) {
+                // 没有分页功能
+                self.lazyload.nodata = true;
+              }
             } else {
               self.lazyload.nodata = true;
             }

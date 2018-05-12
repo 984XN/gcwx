@@ -335,6 +335,10 @@ export const API_LIST = {
     name: '获取个人资料',
     params: {}
   },
+  '/PartyActivity/PaPartyMemberAddScore/GetMemberBySum': {
+    name: '获取积分总数',
+    params: {}
+  },
   '/PartyActivity/PaPartyMemberAddScore/GetMemberScore': {
     name: '获取积分记录',
     params: {}
