@@ -4,7 +4,7 @@
       <Article :article="article"></Article>
       <group title="投票列表">
         <cell v-for="(v,i) in list" :key="i" :title="v.date" :value="v.title"></cell>
-        <cell v-if="!list.length" title="暂无数据"></cell>
+        <cell v-if="!list.length" title="暂时没有人为该项投票"></cell>
       </group>
     </container>
     <div class="voteControl">
