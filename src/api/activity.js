@@ -894,7 +894,8 @@ export const activity = {
                 author: v.OrganizationName || '',
                 content: v.Content || '',
                 date: v.CreateDate || ''
-              }
+              },
+              voted: v.voted || false
             };
             delete res.data.Data;
             res.data.Data = { article };

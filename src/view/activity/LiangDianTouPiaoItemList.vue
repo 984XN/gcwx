@@ -194,9 +194,10 @@ export default {
         text: '正在投票'
       });
       api.activity.LiangDianTouPiao.vote({
-        // model: {
-        //   ItemID: [6, 7]
-        // },
+        // model: [
+        //   {ItemID: 6},
+        //   {ItemID: 7},
+        // ],
         model: ItemID
       })
         .then(res => {

@@ -1,11 +1,17 @@
 <template>
-  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-liangdiantoupiao-item-detail">
-    <Article :article="article"></Article>
-    <group title="投票列表">
-      <cell v-for="(v,i) in list" :key="i" :title="v.date" :value="v.title"></cell>
-      <cell v-if="!list.length" title="暂无数据"></cell>
-    </group>
-  </container>
+  <div class="page-activity-liangdiantoupiao-item-detail">
+    <container :lazyload="lazyload" @loadData="loadData" bottom="53" top="0">
+      <Article :article="article"></Article>
+      <group title="投票列表">
+        <cell v-for="(v,i) in list" :key="i" :title="v.date" :value="v.title"></cell>
+        <cell v-if="!list.length" title="暂无数据"></cell>
+      </group>
+    </container>
+    <div class="voteControl">
+      <x-button v-if="!article.voted" @click.native="submit" type="warn" action-type="button">投票</x-button>
+      <x-button v-if="article.voted" type="default" action-type="button">已投</x-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -32,6 +38,51 @@ export default {
     };
   },
   methods: {
+    submit() {
+      let self = this;
+      let ItemID = [self.id];
+      self.$vux.loading.show({
+        text: '正在投票'
+      });
+      api.activity.LiangDianTouPiao.vote({
+        // model: [
+        //   {ItemID: 6},
+        //   {ItemID: 7},
+        // ],
+        model: [
+          {
+            ItemID
+          }
+        ]
+      })
+        .then(res => {
+          console.log('vote res:', res);
+          self.$vux.loading.hide();
+          if (res.StatusCode === 1200) {
+            // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
+            self.$vux.alert.show({
+              title: '投票成功',
+              content: '为“' + self.article.baseInfo.title + '”投票成功'
+            });
+            // 将“已选”改为“已投”
+            self.article.voted = true;
+          } else {
+            self.$vux.alert.show({
+              title: '投票出错',
+              content: res.Message || '返回的数据有误',
+              cancelText: '过会再试'
+            });
+          }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.alert.show({
+            title: '投票出错',
+            content: e.message || '接口数据错误',
+            cancelText: '知道了'
+          });
+        });
+    },
     loadData() {
       // console.log('XiLieJianHua.loadData...');
       let self = this;
@@ -93,3 +144,21 @@ export default {
   }
 };
 </script>
+
+<style lang="stylus" scoped>
+.voteControl {
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  background-color #fff
+  padding 5px 10px
+  line-height 30px
+  overflow hidden
+  border-top 1px solid #e2e2e2
+  align-items center
+  justify-content center
+  button {
+  }
+}
+</style>
