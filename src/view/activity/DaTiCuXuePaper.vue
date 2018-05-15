@@ -133,7 +133,7 @@ export default {
           } else {
             self.$vux.alert.show({
               title: '成绩',
-              content: message,
+              content: message + '，没有获得抽奖机会',
               buttonText: '返回上一页',
               onHide() {
                 self.$router.go(-1);
@@ -187,6 +187,16 @@ export default {
               self.answerCard[v.id] = '';
             });
             console.log('答题卡初始化:', self.answerCard);
+          } else if (code === 202) {
+            // 202 答过了
+            self.$vux.alert.show({
+              title: '明天再来',
+              content: res.Data.Message || res.Message || '未知错误',
+              buttonText: '返回上一页',
+              onHide() {
+                self.$router.go(-1);
+              }
+            });
           } else {
             self.$vux.alert.show({
               title: '出错了',

@@ -1,6 +1,6 @@
 <template>
   <container top="0" bottom="0" class="page-activity-datucuxue-paper">
-    <div v-if="paper.count" class="banner">
+    <div class="banner">
       <div class="sign">
         <div class="main">
           <div class="t1">党章党规</div>
@@ -68,6 +68,17 @@ export default {
       text: '获取试卷'
     });
     self.$nextTick(function() {
+      // 获取试卷基本信息
+      api.activity.examination
+        .detail({
+          ID: self.$route.params.id || 0,
+          api: 'paperBaseInfo'
+        })
+        .then(res => {
+          console.log('detail-paperBaseInfo:', res);
+          self.paper = res.Data.paper || {};
+        });
+      // 获取试题及答案
       api.activity.examination
         .detail({
           ID: self.$route.params.id || 0,
@@ -75,10 +86,9 @@ export default {
         })
         .then(res => {
           self.$vux.loading.hide();
-          console.log('detail:', res);
+          console.log('detail-finished:', res);
           let code = res.Data.code || 0;
           if (code === 200) {
-            self.paper = res.Data.paper || {};
             self.list = res.Data.list || [];
             self.name = self.session('userSystem').UserName || '-';
             if (res.Data.list.length === 0) {

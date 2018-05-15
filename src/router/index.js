@@ -113,8 +113,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   window.document.title = to.meta.title;
-  console.log('router to:', to);
-  console.log('router from:', from);
+  // console.log('router to:', to);
+  // console.log('router from:', from);
 
   // 判断是否需要校验
   if (to.matched.some(m => m.meta.auth)) {

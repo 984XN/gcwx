@@ -640,6 +640,7 @@ export const activity = {
     // 获取试卷中的题目
     detail: params => {
       let url = {
+        paperBaseInfo: '/api/PartyStudy/PsExamPapers/GetExamPapersByID', // 试卷基本信息，finished 里只有试题且在交卷后当天调用 unfinished_* 接口没有试题数据，只有“你今天答过题了”
         unfinished_10: '/api/PartyStudy/PsExamPapers/GetPapersByanswer', // 答题促学 未做的试卷(返回试题无答案)
         unfinished_20:
           '/api/PartyStudy/PsExamPapers/GetRandomTopicByKnowledgeContest', // 知识竞赛 未做的试卷(返回试题无答案)
@@ -657,14 +658,28 @@ export const activity = {
           let v = res.data.Data.papers;
           res.data.Data.paper = {
             id: v.ID || '',
-            title: v.PaperTitle || '',
-            count: v.PaperQuestionCount || '',
-            scorePre: v.EveryScore || '',
-            scoreTotal: v.TotalScore || '',
-            duration: v.AnswerWhenLong || '',
-            date: v.CreateDate || ''
+            title: v.PaperTitle || '-',
+            count: v.PaperQuestionCount || '-',
+            scorePre: v.EveryScore || '-',
+            scoreTotal: v.TotalScore || '-',
+            duration: v.AnswerWhenLong || '-',
+            date: v.CreateDate || '-'
           };
           delete res.data.Data.papers;
+        }
+        if (res.data.Data && params.api.indexOf('paperBaseInfo') !== -1) {
+          let v = res.data.Data;
+          let paper = {
+            id: v.ID || '',
+            title: v.PaperTitle || '-',
+            count: v.PaperQuestionCount || '-',
+            scorePre: v.EveryScore || '-',
+            scoreTotal: v.TotalScore || '-',
+            duration: v.AnswerWhenLong || '-',
+            date: v.CreateDate || '-'
+          };
+          delete res.data.Data;
+          res.data.Data = { paper };
         }
         if (res.data.Data && res.data.Data.question) {
           res.data.Data.list = res.data.Data.question.map(v => {
@@ -721,7 +736,7 @@ export const activity = {
         return res.data;
       });
     },
-    // 获取考试成绩
+    // 交卷，获取考试成绩
     result: params => {
       return service
         .post(

@@ -276,6 +276,13 @@ export const API_LIST = {
       pageModel: {}
     }
   },
+  // 已答试卷列表
+  '/PartyStudy/PsExamPapers/GetExamPapersByID': {
+    name: '试卷基本信息',
+    params: {
+      ID: ''
+    }
+  },
   // 答题促学 试卷的详情（题目清单，未做过的试卷）
   '/PartyStudy/PsExamPapers/GetPapersByanswer': {
     name: '答题促学试卷的详情',
