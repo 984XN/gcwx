@@ -38,35 +38,6 @@ export default {
     };
   },
   methods: {
-    addScore() {
-      let self = this;
-      let minute = Math.round(self.viewSecond / self.videoAddScoreUnit);
-      // console.log('methods.addScore:', self.viewSecond);
-      api.article
-        .addScore({
-          // ID: self.article.files[0].id,
-          ID: self.article.baseInfo.id,
-          Title: self.article.baseInfo.title,
-          Minute: minute,
-          _debug: {
-            ReadStart: self.date('Y-m-d H:i:s', self.readyTime),
-            ReadEnd: self.date('Y-m-d H:i:s')
-          }
-        })
-        .then(res => {
-          // console.log('addScore by online:', res);
-          if (res.StatusCode === 1200) {
-            self.$vux.toast.show({
-              text: '阅读了 ' + minute + ' 分钟，增加 1 积分',
-              type: 'text',
-              width: '18em',
-              position: 'top'
-            });
-          } else {
-            // console.log('addScore error:', res.Message || '加积分时出错');
-          }
-        });
-    },
     setViewed() {
       let self = this;
       api.article.setViewed({ ID: self.article.baseInfo.id }).then(res => {

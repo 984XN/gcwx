@@ -10,6 +10,7 @@ import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
 import ArticleDianXingFengCai from 'src/view/article/DianXingFengCai';
 import ArticleBuWangChuXin from 'src/view/article/BuWangChuXin';
 import ArticleDetail from 'src/view/article/detail';
+import ArticleDocReader from 'src/view/article/docReader';
 
 const RouterArticle = {
   path: '/article',
@@ -131,12 +132,23 @@ const RouterArticle = {
     {
       path: 'detail/:id',
       // name: 'article-detail',
-      component: ArticleDetail,
       components: {
         detail: ArticleDetail
       },
       meta: {
         title: '正文',
+        auth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: 'doc-reader',
+      // name: 'article-detail',
+      components: {
+        detail: ArticleDocReader
+      },
+      meta: {
+        title: '文档',
         auth: true,
         keepAlive: false
       }

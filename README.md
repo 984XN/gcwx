@@ -2,7 +2,9 @@
 
 > vue + vue-router + vuex + vux + webpack + ESLint
 
-时间：20180409 ~ 20180512
+开发：20180409 ~ 20180512
+
+测试：20180514 ~ 
 
 作者：root@upall.cn
 

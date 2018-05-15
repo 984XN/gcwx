@@ -31,7 +31,7 @@
       </group>
       <div v-if="article.replies && article.replies.length" class="article-body-files article-body-files-reply">
         <div class="weui-cells__title">评论列表</div>
-        <div class="article-body-files-reply-body">
+        <div class="article-body-files-reply-bo{path: dy" }>
           <ol class="list">
             <li class="reply" v-for="(reply, replyIndex) in article.replies" :key="replyIndex">
               <x-button mini class="btn" @click.native.stop="setReplyInfo(reply, replyIndex)">
@@ -73,13 +73,18 @@ export default {
   },
   methods: {
     getArticleLink(path) {
-      let url = this.fileServer + path;
-      // console.log('url:', url);
-      return url;
+      let self = this;
+      let src = encodeURI(self.fileServer + path);
+      let id = self.article.baseInfo.id;
+      let url =
+        `../doc-reader?src=${src}&id=${id}&title=` +
+        encodeURI(self.article.baseInfo.title);
+      console.log('url:', url);
+      return { path: url };
     },
     setReplyInfo(reply = {}) {
       // console.log('msgList setReplyInfo:', message, reply);
-      this.$emit('setReplyInfo', reply);
+      self.$emit('setReplyInfo', reply);
     }
   },
   mounted() {
