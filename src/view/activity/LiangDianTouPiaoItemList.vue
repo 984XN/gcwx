@@ -1,6 +1,6 @@
 <template>
   <div class="page-activity-liangdiantoupiao-vote">
-    <container :lazyload="lazyload" @loadData="loadData" bottom="41" top="0">
+    <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0">
       <div class="banner" :style="bannerStyle" :class="{hasBg: article.cover}">
         <div class="title">{{article.title}}</div>
         <div class="subTitle">{{article.cover}}</div>
@@ -24,7 +24,7 @@
             <div class="index">编号：V{{v.id|strPad(maxIdLen,'0')}}</div>
           </div>
           <div class="control">
-            <x-button @click.native="select(v)" v-if="!v.voted" mini :type="v.selected ? 'primary' : 'default'">{{v.selected ? '已选' : '选择'}}</x-button>
+            <x-button v-if="!v.voted" @click.native="v.selected=true;selected=[v];submit()" mini type="warn">投票</x-button>
             <x-button v-if="v.voted" mini disabled>已投</x-button>
           </div>
         </li>
@@ -49,10 +49,6 @@
           </tbody>
         </x-table>
       </popup>
-    </div>
-    <div class="voteControl">
-      <x-button @click.native="submit" :disabled="!selected.length" type="warn" mini action-type="button">投票</x-button>
-      <div class="text" v-html="selectedText" @click="showSelected"></div>
     </div>
   </div>
 </template>
@@ -209,9 +205,15 @@ export default {
           if (res.StatusCode === 1200) {
             // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
             let voteCount = self.selected.length;
+            let content = '操作成功';
+            if (voteCount === 1) {
+              content = '为“' + self.selected[0].title + '”投票成功';
+            } else {
+              content = '已成功为' + voteCount + '项投了票'
+            }
             self.$vux.alert.show({
               title: '投票成功',
-              content: '已成功为' + voteCount + '项投了票'
+              content
             });
             // 将“已选”改为“已投”
             for (let i = 0; i < self.list.length; i++) {
