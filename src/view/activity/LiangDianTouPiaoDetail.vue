@@ -51,7 +51,7 @@ export default {
         // ],
         model: [
           {
-            ItemID
+            ItemID: parseInt(ItemID) // 字符串后台提成成功，实际没成功，需要转 Number
           }
         ]
       })

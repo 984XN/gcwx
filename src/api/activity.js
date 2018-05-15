@@ -895,7 +895,7 @@ export const activity = {
                 content: v.Content || '',
                 date: v.CreateDate || ''
               },
-              voted: v.voted || false
+              voted: v.IsVote || false
             };
             delete res.data.Data;
             res.data.Data = { article };
