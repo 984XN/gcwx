@@ -50,7 +50,7 @@
         </x-table>
       </popup>
     </div>
-    <div v-if="!article.voted" class="voteControl">
+    <div class="voteControl">
       <x-button @click.native="submit" :disabled="!selected.length" type="warn" mini action-type="button">投票</x-button>
       <div class="text" v-html="selectedText" @click="showSelected"></div>
     </div>
@@ -223,8 +223,6 @@ export default {
             }
             // 清空已选
             self.selected = [];
-            // 标记整个投票活动为已投
-            self.article.voted = true;
           } else {
             self.$vux.alert.show({
               title: '投票出错',
