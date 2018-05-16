@@ -13,7 +13,7 @@
         <div class="tip">友情提示：每位用户只有一次投票机会</div>
       </div>
       <no-data v-if="!list4search.length && !lazyload.loading">没有可投的投票项</no-data>
-      <ol class="voteList" v-if="list.length">
+      <ol class="voteList" v-if="list4search.length">
         <li v-for="(v,i) in list4search" :key="i" class="vote">
           <div @click="jumpTo(v)" class="baseInfo">
             <img :src="v.thumb" :alt="v.title" class="thumb">
