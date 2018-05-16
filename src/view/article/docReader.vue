@@ -1,6 +1,12 @@
 <template>
   <div class="article-detail-doc-reader">
-    <iframe :src="src" frameborder="0"></iframe>
+    <iframe v-if="type==='file'" :src="src" frameborder="0"></iframe>
+    <div v-else-if="type==='video'">
+      <video id="player" width="100%" class="video" autoplay="autoplay" poster="">
+        <source :src="src" type="video/mp4" />
+      </video>
+    </div>
+    <div v-else data-remark="正常情况下不可能执行到这里，请检查文末JS代码">未知文件类型：{{type}}</div>
   </div>
 </template>
 
@@ -11,8 +17,9 @@ export default {
   data() {
     return {
       readingHandel: null,
-      src:
-        'data:text/html;base64,Jmx0OyFET0NUWVBFIGh0bWwmZ3Q7Jmx0O2h0bWwgbGFuZz0iZW4iJmd0OyZsdDtoZWFkJmd0OyZsdDttZXRhIGNoYXJzZXQ9IlVURi04IiZndDsmbHQ7bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEuMCImZ3Q7Jmx0O3RpdGxlJmd0O+WKoOi9veS4rSZsdDsvdGl0bGUmZ3Q7Jmx0O3N0eWxlJmd0O2h0bWwsYm9keSB7d2lkdGg6IDEwMCU7aGVpZ2h0OiAxMDAlO3Bvc2l0aW9uOiByZWxhdGl2ZTttYXJnaW46IDA7cGFkZGluZzogMDtvdmVyZmxvdzogaGlkZGVuO31kaXYge3dpZHRoOiAxMDBweDtoZWlnaHQ6IDUwcHg7bGluZS1oZWlnaHQ6IDUwcHg7dGV4dC1hbGlnbjogY2VudGVyO3Bvc2l0aW9uOiBhYnNvbHV0ZTtsZWZ0OiA1MCU7dG9wOiA1MCU7bWFyZ2luLWxlZnQ6IC01MHB4O21hcmdpbi10b3A6IC0yNXB4O30mbHQ7L3N0eWxlJmd0OyZsdDsvaGVhZCZndDsmbHQ7Ym9keSZndDsmbHQ7ZGl2Jmd0O+ato+WcqOaJk+W8gCZsdDsvZGl2Jmd0OyZsdDsvYm9keSZndDsmbHQ7L2h0bWwmZ3Q7'
+      watchTime: 0, // 视频页面停留时间
+      type: 'file', // file | video
+      src: '/static/html/docReaderLoading.html'
     };
   },
   methods: {
@@ -50,22 +57,6 @@ export default {
     self.readyTime = self.time();
     self.id = self.$route.query.id || '';
     self.title = self.$route.query.title || '';
-
-    // 在页面上停留的秒数
-    self.readingHandel = setInterval(() => {
-      let online = self.time() - self.readyTime;
-      if (online >= 30) {
-        let data = {
-          id: self.id,
-          title: self.title,
-          minute: (online / 60).toFixed(1)
-        };
-        // console.log('data:', data);
-        self.addScore(data);
-        clearInterval(self.readingHandel);
-      }
-      console.log('正在阅读……', online);
-    }, 1000);
     self.$nextTick(() => {
       // console.log(self.$route);
       if (!src) {
@@ -79,12 +70,77 @@ export default {
       } else {
         // console.log('找到了SRC:', src);
         self.src = src;
+        let ext = src
+          .toLowerCase()
+          .split('')
+          .reverse()
+          .join('')
+          .split('.')[0]
+          .split('')
+          .reverse()
+          .join('');
+        switch (ext) {
+          case 'mp4':
+            self.type = 'video';
+            break;
+          default:
+            self.type = 'file';
+            break;
+        }
+        // console.log('ext:', ext);
       }
+      // 在页面上停留的秒数
+      self.readingHandel = setInterval(() => {
+        let online = self.time() - self.readyTime;
+        // 文档
+        if (self.type === 'file' && online >= 30) {
+          let data = {
+            id: self.id,
+            title: self.title,
+            minute: (online / 60).toFixed(1)
+          };
+          // console.log('data:', data);
+          self.addScore(data);
+          clearInterval(self.readingHandel);
+        }
+        // 视频
+        if (self.type === 'video') {
+          var isFullscreen =
+            document.fullscreen ||
+            document.webkitIsFullScreen ||
+            document.mozFullScreen ||
+            false;
+          if (!isFullscreen) {
+            console.log('未全屏', isFullscreen);
+          } else {
+            console.log('已全屏', isFullscreen);
+          }
+          let player = document.getElementById('player');
+          let duration = player.duration;
+          let currentTime = player.currentTime;
+          self.watchTime = currentTime;
+          if (currentTime >= duration && duration !== 0) {
+            clearInterval(self.readingHandel);
+          }
+          console.log('duration:', duration, currentTime);
+        }
+        // 提示活动中
+        console.log('正在阅读……', online);
+      }, 1000);
     });
   },
   beforeDestroy() {
+    let self = this;
     try {
-      clearInterval(this.readingHandel);
+      clearInterval(self.readingHandel);
+      if (self.type === 'video') {
+        let data = {
+          id: self.id,
+          title: self.title,
+          minute: (self.watchTime / 60).toFixed(1)
+        };
+        self.addScore(data);
+      }
     } catch (error) {}
   }
 };
