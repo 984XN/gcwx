@@ -676,20 +676,21 @@ export const activity = {
               // my 时没有这返回 isAnswer ，这里补上
               done = true;
             }
+            let content = '共' + v.PaperQuestionCount + '道题';
+            content += '，每题' + v.EveryScore + '分';
+            content += '，共' + v.TotalScore + '分';
+            if (v.AnswerWhenLong) {
+              content +=
+                '，考试时间' + v.AnswerWhenLong + '分钟';
+            } else {
+              content +=
+                '，未限制考试时间';
+            }
             return {
               id: v.ID,
               thumb: '',
               title: v.PaperTitle,
-              content:
-                '共' +
-                v.PaperQuestionCount +
-                '道题，每题' +
-                v.EveryScore +
-                '分，共' +
-                v.TotalScore +
-                '分，考试时间' +
-                v.AnswerWhenLong +
-                '分钟',
+              content,
               done: done, // 已参与过考试
               expire: expire, // 已过期
               notYet: notYet, // 未开始
