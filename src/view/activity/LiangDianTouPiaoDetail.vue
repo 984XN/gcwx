@@ -9,7 +9,7 @@
     </container>
     <div class="voteControl">
       <x-button v-if="!article.voted" @click.native="submit" type="warn" action-type="button">投票</x-button>
-      <x-button v-if="article.voted" type="default" action-type="button">已投</x-button>
+      <x-button v-if="article.voted" type="default" action-type="button">投过票了</x-button>
     </div>
   </div>
 </template>
@@ -135,7 +135,7 @@ export default {
         .then(res => {
           self.$vux.loading.hide();
           self.article = res.Data.article;
-          // console.log('res:', res);
+          console.log('res:', res);
         });
     });
   },

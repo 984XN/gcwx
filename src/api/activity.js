@@ -887,7 +887,7 @@ export const activity = {
         return service
           .post('/api/Ballot/BltBallotItem/GetBallotItemByID', params)
           .then(res => {
-            let v = res.data.Data.Data || {};
+            let v = res.data.Data && res.data.Data[0] ? res.data.Data[0] : {};
             let article = {
               baseInfo: {
                 title: v.ItemName || '',
