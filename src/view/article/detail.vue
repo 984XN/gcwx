@@ -87,10 +87,10 @@ export default {
             if (!res.Data.Article.files) {
               res.Data.Article.files = [];
             }
-            res.Data.Article.files.push.apply(
-              res.Data.Article.files,
-              res.Data.Article.videos
-            );
+            for (const video of res.Data.Article.videos) {
+              video.type = 'video'
+              res.Data.Article.files.push(video);
+            }
             delete res.Data.Article.videos;
           }
           self.article = res.Data.Article;

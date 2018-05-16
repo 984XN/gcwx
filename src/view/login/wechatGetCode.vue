@@ -3,7 +3,7 @@
     <div class="tipBox">
       <i class="iconfont icon-wechat"></i>
       <div class="text">登录中</div>
-      <div class="process">正在获取code</div>
+      <div class="process">正在向微信申请登录码</div>
     </div>
   </div>
 </template>
