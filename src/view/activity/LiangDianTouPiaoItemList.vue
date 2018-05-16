@@ -21,7 +21,7 @@
           </div>
           <div class="attr">
             <div class="votes">票数：{{v.votes}}</div>
-            <div class="index">编号：V{{v.id|strPad(maxIdLen,'0')}}</div>
+            <div class="index">编号：{{v.id}}</div>
           </div>
           <div class="control">
             <x-button v-if="!v.voted" @click.native="v.selected=true;selected=[v];submit()" mini type="warn">投票</x-button>
@@ -40,7 +40,7 @@
           </thead>
           <tbody>
             <tr v-for="(v,i) in selected" :key="i">
-              <td>编号：V{{v.id|strPad(maxIdLen,'0')}}</td>
+              <td>编号：{{v.id}}</td>
               <td>{{v.title|substr(0,10)}}</td>
             </tr>
             <tr v-if="selected.length === 0">
@@ -85,12 +85,6 @@ export default {
     };
   },
   computed: {
-    maxIdLen() {
-      let self = this;
-      let listLength = self.list.length + '';
-      let maxIdLen = listLength.length;
-      return maxIdLen;
-    },
     selectedText() {
       let self = this;
       let len = self.selected.length;
@@ -120,6 +114,9 @@ export default {
         self.list4search = self.list;
       } else {
         let arr = [];
+        if (/^v$/i.test(val) || /^v\d+$/i.test(val)) {
+          val = val.toUpperCase();
+        }
         for (const v of self.list) {
           if ((v.id + '').indexOf(val) !== -1 || v.title.indexOf(val) !== -1) {
             // console.log('vT:', v);
@@ -179,7 +176,7 @@ export default {
       // Vue.set(self.list, listIndex, self.list[listIndex]);
     },
     jumpTo(item) {
-      let path = '../detail/' + item.id;
+      let path = '../detail/' + parseInt(item.id.replace(/^v/i, '')); // 'V36 -> 36'
       let self = this;
       self.$router.push({
         path
@@ -200,7 +197,7 @@ export default {
       let self = this;
       let ItemID = self.selected.map(v => {
         return {
-          ItemID: v.id
+          ItemID: parseInt(v.id.replace(/^v/i, '')) // 'V36 -> 36'
         };
       });
       self.$vux.loading.show({
@@ -283,6 +280,13 @@ export default {
               console.log('self.article:', self.article);
             }
             if (res.Data.list && res.Data.list.length > 0) {
+              let listLength = res.Data.list.length + '';
+              let maxIdLen = listLength.length;
+              res.Data.list = res.Data.list.map(v => {
+                let id = self.$options.filters['strPad'](v.id, maxIdLen, '0');
+                v.id = 'V' + id;
+                return v;
+              });
               self.list = self.list4search = [...self.list, ...res.Data.list];
               self.lazyload.page += 1;
               if (!res.Data.PageIndex) {
