@@ -107,14 +107,18 @@ export default {
         .then(res => {
           self.$vux.loading.hide();
           console.log('成绩:', res);
-          let lotteryNum = res.Data.lotteryNum;
-          let score = res.Data.score;
+          let accuracy = res.Data.accuracy; // 正确率
+          let lotteryNum = res.Data.lotteryNum; // 获得N次抽奖机会
+          let integral = res.Data.integral; // 获得N个积分
+          let score = res.Data.score; // 成绩是这个分数
           let rid = res.Data.rid || 0;
           // let Message = res.Message;
           // let StatusCode = res.StatusCode;
-          let message = '' + score + '分';
+          let message = '成绩' + score + '分';
+          message += `，正确率${accuracy}`;
+          message += `，获得${integral}积分`;
           if (lotteryNum > 0) {
-            message += '，获得' + lotteryNum + '次抽奖机会';
+            message += '和' + lotteryNum + '次抽奖机会';
             self.$vux.confirm.show({
               title: '恭喜',
               content: message,
