@@ -6,15 +6,15 @@
         <div class="subTitle">{{article.cover}}</div>
         <form class="search">
           <input type="text" placeholder="请输入编号或关键字" v-model="keyword">
-          <button @click.native="query">
+          <button @click="query">
             <i class="iconfont icon-search"></i>
           </button>
         </form>
         <div class="tip">友情提示：每位用户只有一次投票机会</div>
       </div>
-      <no-data v-if="!list.length && !lazyload.loading">没有可投的投票项</no-data>
+      <no-data v-if="!list4search.length && !lazyload.loading">没有可投的投票项</no-data>
       <ol class="voteList" v-if="list.length">
-        <li v-for="(v,i) in list" :key="i" class="vote">
+        <li v-for="(v,i) in list4search" :key="i" class="vote">
           <div @click="jumpTo(v)" class="baseInfo">
             <img :src="v.thumb" :alt="v.title" class="thumb">
             <div class="title" v-html="v.title"></div>
@@ -76,8 +76,10 @@ export default {
       },
       id: 0,
       keyword: '',
+      inSearch: false, // 列表是否是搜索选项过滤过的
       article: {},
       list: [],
+      list4search: [],
       selected: [],
       selectedVisible: false
     };
@@ -108,6 +110,27 @@ export default {
         style.backgroundSize = 'cover';
       }
       return style;
+    }
+  },
+  watch: {
+    keyword: function(val, oldVal) {
+      let self = this;
+      // console.log('watch.keyword:', val);
+      if (val === '') {
+        self.list4search = self.list;
+      } else {
+        let arr = [];
+        for (const v of self.list) {
+          if ((v.id + '').indexOf(val) !== -1 || v.title.indexOf(val) !== -1) {
+            // console.log('vT:', v);
+            arr.push(v);
+          } else {
+            // console.log('vF:', val, v.id, v.title);
+          }
+        }
+        self.list4search = arr;
+        // console.log('list4search 4 query:', val, self.list4search);
+      }
     }
   },
   methods: {
@@ -171,17 +194,7 @@ export default {
       }
     },
     query() {
-      let self = this;
-      self.list = [];
-      self.selected = [];
-      if (!self.keyword) {
-        self.$vux.toast.show({
-          time: 500,
-          text: '请填写搜索词'
-        });
-      } else {
-        self.submit();
-      }
+      // 输入到input时已经自己过滤了，这个功能废弃
     },
     submit() {
       let self = this;
@@ -210,7 +223,7 @@ export default {
             if (voteCount === 1) {
               content = '为“' + self.selected[0].title + '”投票成功';
             } else {
-              content = '已成功为' + voteCount + '项投了票'
+              content = '已成功为' + voteCount + '项投了票';
             }
             self.$vux.alert.show({
               title: '投票成功',
@@ -270,7 +283,7 @@ export default {
               console.log('self.article:', self.article);
             }
             if (res.Data.list && res.Data.list.length > 0) {
-              self.list = [...self.list, ...res.Data.list];
+              self.list = self.list4search = [...self.list, ...res.Data.list];
               self.lazyload.page += 1;
               if (!res.Data.PageIndex) {
                 // 没有分页功能
