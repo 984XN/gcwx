@@ -79,7 +79,7 @@ export default {
       let url =
         `../doc-reader?src=${src}&id=${id}&title=` +
         encodeURI(self.article.baseInfo.title);
-      console.log('url:', url);
+      // console.log('url:', url);
       return { path: url };
     },
     setReplyInfo(reply = {}) {

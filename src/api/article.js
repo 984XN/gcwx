@@ -106,7 +106,7 @@ export const article = {
           });
         }
         res.data.Data.Article = article;
-        console.log('api.article.detail:', res);
+        // console.log('api.article.detail:', res);
         return res.data;
       });
   },

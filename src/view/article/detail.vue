@@ -62,17 +62,18 @@ export default {
   },
   mounted() {
     // 页面加载完成时的时间戳
-    this.readyTime = this.time();
-    this.$nextTick(function() {
-      // console.log('this.$route', this.$route);
-      let id = this.$route.params.id || 0;
+    let self = this;
+    self.readyTime = self.time();
+    self.$nextTick(function() {
+      // console.log('self.$route', self.$route);
+      let id = self.$route.params.id || 0;
       if (!id) {
-        this.$router.replace({
+        self.$router.replace({
           path: '/',
-          query: { error: 'missing-id', from: this.$route.fullPath }
+          query: { error: 'missing-id', from: self.$route.fullPath }
         });
       }
-      this.$vux.loading.show({
+      self.$vux.loading.show({
         text: '正在获取数据'
       });
       api.article
@@ -80,21 +81,25 @@ export default {
           ID: id
         })
         .then(res => {
-          this.$vux.loading.hide();
-          this.article = res.Data.Article;
-          // console.log('detail:', res);
+          self.$vux.loading.hide();
+          console.log('detail:', res);
+          if (res.Data.Article.videos && res.Data.Article.videos.length > 0) {
+            if (!res.Data.Article.files) {
+              res.Data.Article.files = [];
+            }
+            res.Data.Article.files.push.apply(
+              res.Data.Article.files,
+              res.Data.Article.videos
+            );
+            delete res.Data.Article.videos;
+          }
+          self.article = res.Data.Article;
         })
         .catch(() => {
-          this.$vux.loading.hide();
-          this.$router.go(-1);
+          self.$vux.loading.hide();
+          self.$router.go(-1);
         });
     });
-  },
-  beforeDestroy() {
-    let self = this;
-    if (self.article.baseInfo.type === 10) {
-      self.addScore();
-    }
   }
 };
 </script>

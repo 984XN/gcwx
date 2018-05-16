@@ -39,7 +39,7 @@ export default {
           } else {
             // console.log('addScore error:', res.Message || '加积分时出错');
           }
-          console.log(res.Message);
+          console.log('server say:', res.Message);
         });
     }
   },
