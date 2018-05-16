@@ -160,7 +160,7 @@ export default {
       })
         .then(res => {
           this.$vux.loading.hide();
-          this.article = res.Data.Article;
+          this.article = res.Data.article;
           if (
             res.Data.suggestions &&
             res.Data.suggestions[0] &&

@@ -293,13 +293,13 @@ export default {
       api.activity.ZhengNengLiang.detail({ ID: self.id }).then(res => {
         console.log('ZhengNengLiang detail res:', res);
         let info = {};
-        if (res.Data.Article && res.Data.Article.baseInfo) {
-          info = res.Data.Article.baseInfo;
+        if (res.Data.article && res.Data.article.baseInfo) {
+          info = res.Data.article.baseInfo;
         }
         self.title = info.title || '';
         self.content = info.content || '';
-        if (res.Data.Article && res.Data.Article.imgs) {
-          self.files = res.Data.Article.imgs.map((v, i, a) => {
+        if (res.Data.article && res.Data.article.imgs) {
+          self.files = res.Data.article.imgs.map((v, i, a) => {
             return {
               id: v.id,
               src: v.src,

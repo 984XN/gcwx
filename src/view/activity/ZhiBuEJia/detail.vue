@@ -66,7 +66,7 @@ export default {
         })
         .then(res => {
           this.$vux.loading.hide();
-          this.article = res.Data.Article;
+          this.article = res.Data.article;
           // console.log('detail:', res);
         })
         .catch(e => {

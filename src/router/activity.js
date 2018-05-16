@@ -41,6 +41,9 @@ import ActivityChouJiangZhuanQuTab from 'src/view/activity/ChouJiangZhuanQuTab';
 import ActivityChouJiangZhuanQuTurntableScore from 'src/view/activity/ChouJiangZhuanQuTurntableScore';
 import ActivityChouJiangZhuanQuTurntableQuestion from 'src/view/activity/ChouJiangZhuanQuTurntableQuestion';
 import ActivityChouJiangZhuanQuRecords from 'src/view/activity/ChouJiangZhuanQuRecords';
+import ActivityDangJianDongTai from 'src/view/activity/DangJianDongTai';
+import ActivityDangJianDongTaiList from 'src/view/activity/DangJianDongTaiList';
+import ActivityDangJianDongTaiDetail from 'src/view/activity/DangJianDongTaiDetail';
 
 const RouterActivity = {
   path: '/activity',
@@ -50,8 +53,40 @@ const RouterActivity = {
     {
       path: '/',
       redirect: {
-        path: 'liangdiantoupiao'
+        path: 'dangjiandongtai'
       }
+    },
+    {
+      path: 'dangjiandongtai',
+      component: ActivityDangJianDongTai,
+      meta: {
+        title: '党建动态',
+        auth: true
+      },
+      children: [
+        {
+          path: '/',
+          redirect: {
+            path: 'list'
+          }
+        },
+        {
+          path: 'list',
+          components: { list: ActivityDangJianDongTaiList },
+          meta: {
+            title: '党建动态',
+            auth: true
+          }
+        },
+        {
+          path: 'detail/:id',
+          components: { detail: ActivityDangJianDongTaiDetail },
+          meta: {
+            title: '党建动态',
+            auth: true
+          }
+        }
+      ]
     },
     {
       path: 'liangdiantoupiao',

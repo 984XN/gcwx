@@ -68,9 +68,9 @@
         <cell title="党务公开" :link="{path:'list/dangwugongkai',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-shangwu"></i>
         </cell>
-        <!-- <cell title="党建动态" :link="{path:'list/dangjiandongtai',append:true}" :disabled="!hasPower('member')">
+        <cell title="党建动态" :link="{path:'list/dangjiandongtai',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-article"></i>
-        </cell> -->
+        </cell>
       </group>
       <load-more :show-loading="false"></load-more>
     </container>

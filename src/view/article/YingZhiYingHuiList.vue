@@ -98,7 +98,7 @@ export default {
     }
   },
   activated() {
-    console.log('activated');
+    // console.log('activated');
     this.scrollTo(this);
     // let self = this;
     // let keepAlive = self.$route.meta.keepAlive || false;

@@ -82,18 +82,18 @@ export default {
         })
         .then(res => {
           self.$vux.loading.hide();
-          console.log('detail:', res);
-          if (res.Data.Article.videos && res.Data.Article.videos.length > 0) {
-            if (!res.Data.Article.files) {
-              res.Data.Article.files = [];
+          // console.log('detail:', res);
+          if (res.Data.article.videos && res.Data.article.videos.length > 0) {
+            if (!res.Data.article.files) {
+              res.Data.article.files = [];
             }
-            for (const video of res.Data.Article.videos) {
+            for (const video of res.Data.article.videos) {
               video.type = 'video'
-              res.Data.Article.files.push(video);
+              res.Data.article.files.push(video);
             }
-            delete res.Data.Article.videos;
+            delete res.Data.article.videos;
           }
-          self.article = res.Data.Article;
+          self.article = res.Data.article;
         })
         .catch(() => {
           self.$vux.loading.hide();

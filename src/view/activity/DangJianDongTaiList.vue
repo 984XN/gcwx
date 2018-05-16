@@ -1,35 +1,37 @@
 <template>
   <div class="page-activity-liangdiantoupiao-list">
-    <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0">
-      <no-data v-if="!list.length && !lazyload.loading"></no-data>
-      <ol v-if="list.length" class="voteList">
-        <router-link :to="'items/'+v.id" tag="li" class="vote" v-for="(v,i) in list" :key="i">
-          <div class="author">发布单位：{{v.author}}</div>
-          <div class="title">{{v.title}}</div>
-          <div class="attr">
-            <span class="link">前往投票</span>
-            <div class="date">{{v.dateStart|substr(0,10,false)}} 至 {{v.dateEnd|substr(0,10,false)}}</div>
-            <!-- <div class="view">
-              <i class="iconfont icon-eye"></i>
-              2541
-            </div> -->
+    <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0">
+      <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
+      <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
+        <tab-item @on-item-click="jumpTo" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allowRole)">
+          <div class="icon">
+            <i class="iconfont" :class="tab.icon"></i>
           </div>
-        </router-link>
-      </ol>
+          <div class="label">
+            {{tab.name}}
+            <i class="iconfont icon-lock" v-if="!hasPower(tab.allowRole)"></i>
+          </div>
+        </tab-item>
+      </tab>
+      <no-data v-if="!list.length && !lazyload.loading"></no-data>
+      <ArticleList v-if="list.length" :list="list"></ArticleList>
     </container>
+    <Menu></Menu>
   </div>
 </template>
 
 <script>
 import { Swiper } from 'vux';
 import Menu from 'src/components/menu';
+import ArticleList from 'src/components/articleList';
 
 import * as api from 'src/api/activity';
 
 export default {
   components: {
     Swiper,
-    Menu
+    Menu,
+    ArticleList
   },
   data() {
     return {
@@ -39,16 +41,62 @@ export default {
         loading: false,
         page: 1
       },
+      tabIndex: 0,
       list: [],
-      listTpl: [
+      banners: [
         {
-          id: new Date().getTime(),
-          thumb: require('src/assets/img/default.png'),
-          title: '加满油 把稳舷 鼓足劲！ 习主席的这些话特别提气！',
-          content:
-            '色电影是指红色题材的电影。“红色电影”中的“红色”是指流贯在作品血脉中的革命精神和英雄主义的思想风貌，中国产党成立90周年之际，红色电影”专',
-          done: true,
-          date: '2016-02-05'
+          url: 'javascript:',
+          img: '/static/img/banner/01.png'
+        }
+      ],
+      tabs: [
+        {
+          name: '党建动态',
+          route: '/activity/dangjiandongtai',
+          icon: 'icon-news',
+          allowRole: 'all'
+        },
+        {
+          name: '亮点投票',
+          route: '/activity/liangdiantoupiao',
+          icon: 'icon-favor',
+          allowRole: 'member'
+        },
+        {
+          name: '答题促学',
+          route: '/activity/daticuxue',
+          icon: 'icon-read',
+          allowRole: 'member'
+        },
+        {
+          name: '知识竞赛',
+          route: '/activity/zhishijingsai',
+          icon: 'icon-upstage',
+          allowRole: 'member'
+        },
+        {
+          name: '正能量',
+          route: '/activity/zhengnengliang',
+          icon: 'icon-appreciate',
+          allowRole: 'member'
+        },
+        {
+          name: '建言献策',
+          route: '/activity/jianyanxiance',
+          icon: 'icon-new',
+          allowRole: 'member'
+        },
+        {
+          name: '支部e家',
+          route: '/activity/zhibuejia',
+          icon: 'icon-home',
+          allowRole: 'member'
+        },
+        {
+          name: '抽奖专区',
+          route: '/activity/choujiangzhuanqu',
+          icon: 'icon-goods_favor_light',
+          allowRole: 'member'
         }
       ]
     };
@@ -81,12 +129,8 @@ export default {
         self.lazyload.loading = false;
       } else {
         // console.log('XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据');
-        api.activity.LiangDianTouPiao.list({
-          queryModel: {
-            PapersClassify: self.type // int 10表示答题促学 20表示知识竞赛
-          },
-          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
-          api: 'all'
+        api.activity.DangJianDongTai.list({
+          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 }
         }).then(res => {
           if (res.Data.list && res.Data.list.length > 0) {
             self.list = [...self.list, ...res.Data.list];
@@ -103,6 +147,32 @@ export default {
           // console.log('list:', self.list);
           self.lazyload.loading = false;
         });
+      }
+    },
+    jumpTo(index) {
+      let path = this.tabs[index].route;
+      this.$router.push({ path: path });
+      return false;
+    },
+    setTabItemActive(target) {
+      // 定位顶部 tab
+      // 1.激活路由对应的 tabItem 项
+      let self = this;
+      let index = 0;
+      for (let i = 0; i < self.tabs.length; i++) {
+        if (target.path === self.tabs[i].route) {
+          index = i;
+          break;
+        }
+      }
+      // console.log('tabPos:', index);
+      self.tabIndex = index;
+      self.$store.commit('setTabActive', { tab: 'article', index: index });
+      // 2.把 tabItem 滚出来（激活最后的一个时，刷新页面后激活的这个在最后边，组件没有自己把它滚动显示出来
+      if (index > 3) {
+        let tab = self.$el.querySelector('.menu-sub .vux-tab.scrollable');
+        let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
+        tab.scrollLeft = tabItemWidth * (index - 1);
       }
     }
   },

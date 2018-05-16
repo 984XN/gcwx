@@ -44,6 +44,69 @@ function getDate(format, time) {
 }
 
 export const activity = {
+  DangJianDongTai: {
+    list: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyDynamic/GetDynamicByAdopt', params)
+        .then(res => {
+          res.data.Data.list = res.data.Data.PageData.map(v => {
+            return {
+              id: v.ID || 0,
+              title: v.PartyDynamicTitle || v.AffairsTitle || v.NoteTitle || '',
+              content: v.PartyDynamicContent
+                ? v.PartyDynamicContent.replace(/<[^>]+>/g, '')
+                : '',
+              date: v.CheckDate || v.FillInDate || v.CreateDate || '',
+              view: v.ReadNumber || 0
+            };
+          });
+          return res.data;
+        });
+    },
+    detail: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyDynamic/GetDynamicByID', params)
+        .then(res => {
+          let article = { baseInfo: {}, files: [] };
+          // 文章正文信息
+          let document = {};
+          if (res.data.Data.Dynamic && res.data.Data.Dynamic[0]) {
+            document = res.data.Data.Dynamic[0];
+          }
+          // console.log('document:', document);
+          article.baseInfo = {
+            type: document.FileType || '',
+            id: document.ID || '',
+            title: document.PartyDynamicTitle || '未命名',
+            content: document.PartyDynamicContent || '暂无备注',
+            author: document.UserName || document.CreateUser || '',
+            view: 0, // 不使用访问量功能
+            date: document.CreateDate || ''
+          };
+          // 附件
+          if (res.data.Data.file) {
+            article.files = res.data.Data.file.map((val, index, arr) => {
+              return {
+                id: val.ID || 0,
+                name: val.FileName || '',
+                path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
+              };
+            });
+          } else if (res.data.Data.listfile) {
+            // 通知公告里是这个名字
+            article.files = res.data.Data.listfile.map((val, index, arr) => {
+              return {
+                id: val.ID || 0,
+                name: val.FileName || '',
+                path: val.FilePath ? val.FilePath.replace(/^~/g, '') : ''
+              };
+            });
+          }
+          res.data.Data.article = article;
+          return res.data;
+        });
+    }
+  },
   ZhiBuEJia: {
     // 获取列表
     list: params => {
@@ -132,7 +195,7 @@ export const activity = {
               };
             })
           };
-          res.data.Data.Article = article;
+          res.data.Data.article = article;
           // console.log('activity.api detail res:', res.data);
           return res.data;
         });
@@ -332,7 +395,7 @@ export const activity = {
             //   }
             // ]
           };
-          res.data.Data.Article = article;
+          res.data.Data.article = article;
           // console.log('activity.api detail res:', res.data);
           return res.data;
         });
@@ -444,7 +507,7 @@ export const activity = {
               };
             })
           };
-          res.data.Data.Article = article;
+          res.data.Data.article = article;
           // console.log('activity.api detail res:', res.data);
           return res.data;
         });
