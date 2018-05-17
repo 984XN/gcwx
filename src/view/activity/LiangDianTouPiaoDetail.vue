@@ -8,8 +8,8 @@
       </group>
     </container>
     <div class="voteControl">
-      <x-button v-if="!article.voted" @click.native="submit" type="warn" action-type="button">投票</x-button>
-      <x-button v-if="article.voted" type="default" action-type="button">投过票了</x-button>
+      <x-button v-if="article.voted === false" @click.native="submit" type="warn" action-type="button">投票</x-button>
+      <x-button v-if="article.voted > 0" type="default" action-type="button">投过票了</x-button>
     </div>
   </div>
 </template>
