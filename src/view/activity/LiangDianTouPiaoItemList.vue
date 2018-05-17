@@ -23,7 +23,7 @@
             <div class="votes">票数：{{v.votes}}</div>
             <div class="index">编号：{{v.id}}</div>
           </div>
-          <div class="control">
+          <div class="control" v-if="!expire">
             <x-button v-if="!v.voted" @click.native="v.selected=true;selected=[v];submit()" mini type="warn">投票</x-button>
             <x-button v-if="v.voted" mini disabled>已投</x-button>
           </div>
@@ -75,6 +75,7 @@ export default {
         page: 1
       },
       id: 0,
+      expire: true,
       keyword: '',
       inSearch: false, // 列表是否是搜索选项过滤过的
       article: {},
@@ -176,8 +177,8 @@ export default {
       // Vue.set(self.list, listIndex, self.list[listIndex]);
     },
     jumpTo(item) {
-      let path = '../detail/' + parseInt(item.id.replace(/^v/i, '')); // 'V36 -> 36'
       let self = this;
+      let path = '../detail/' + parseInt(item.id.replace(/^v/i, '')) + '?tid=' + self.id; // 'V36 -> 36'
       self.$router.push({
         path
       });
@@ -277,7 +278,12 @@ export default {
           .then(res => {
             if (res.Data.article) {
               self.article = res.Data.article || {};
-              console.log('self.article:', self.article);
+              console.log('self.article:', self.article, res.Data);
+              if (self.article.end) {
+                let dateEndTime = self.time(self.article.end);
+                let nowTime = self.time();
+                self.expire = dateEndTime < nowTime;
+              }
             }
             if (res.Data.list && res.Data.list.length > 0) {
               let listLength = res.Data.list.length + '';

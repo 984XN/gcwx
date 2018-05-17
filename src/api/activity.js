@@ -680,11 +680,9 @@ export const activity = {
             content += '，每题' + v.EveryScore + '分';
             content += '，共' + v.TotalScore + '分';
             if (v.AnswerWhenLong) {
-              content +=
-                '，考试时间' + v.AnswerWhenLong + '分钟';
+              content += '，考试时间' + v.AnswerWhenLong + '分钟';
             } else {
-              content +=
-                '，未限制考试时间';
+              content += '，未限制考试时间';
             }
             return {
               id: v.ID,
@@ -898,7 +896,9 @@ export const activity = {
               article = {
                 title: v.TaskName,
                 cover: v.TaskImg || '',
-                voted: v.IsVote || false
+                voted: v.IsVote || false,
+                start: v.BeginBallotDate || '',
+                end: v.EndBallotDate || ''
               };
             }
             delete res.data.Data;

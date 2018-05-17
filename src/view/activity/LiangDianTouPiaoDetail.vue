@@ -7,7 +7,7 @@
         <cell v-if="!list.length" title="暂时没有人为该项投票"></cell>
       </group>
     </container>
-    <div class="voteControl">
+    <div class="voteControl" v-if="!expire">
       <x-button v-if="article.voted === false" @click.native="submit" type="warn" action-type="button">投票</x-button>
       <x-button v-if="article.voted > 0" type="default" action-type="button">投过票了</x-button>
     </div>
@@ -25,6 +25,8 @@ export default {
   data() {
     return {
       id: 0,
+      tid: 0,
+      expire: true,
       article: {
         baseInfo: {}
       },
@@ -126,8 +128,9 @@ export default {
     let self = this;
     self.$vux.loading.show({ text: '加载中' });
     self.id = self.$route.params.id || 0;
+    self.tid = self.$route.query.tid || 0;
     self.$nextTick(() => {
-      // 正文
+      // 投票项正文
       api.activity.LiangDianTouPiao.item
         .detail({
           ID: self.id
@@ -135,7 +138,26 @@ export default {
         .then(res => {
           self.$vux.loading.hide();
           self.article = res.Data.article;
-          console.log('res:', res);
+          console.log('投票项:', res);
+        });
+      // 投票正文（用于判断投票是否结束）
+      api.activity.LiangDianTouPiao.items
+        .list({
+          queryModel: {
+            TaskID: self.tid // int
+            // Name: self.keyword || null // string 搜索用
+          }
+        })
+        .then(res => {
+          if (res.Data.article) {
+            let article = res.Data.article || {};
+            console.log('投票:', res);
+            if (article.end) {
+              let dateEndTime = self.time(article.end);
+              let nowTime = self.time();
+              self.expire = dateEndTime < nowTime;
+            }
+          }
         });
     });
   },
