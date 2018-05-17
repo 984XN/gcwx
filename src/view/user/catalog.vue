@@ -241,9 +241,11 @@ export default {
     showAbout() {
       let self = this;
       console.log('process.env:', process.env);
+      let version = `Ver${process.env.APP_VERSION}`;
+      version += ' Build ' + self.date('Y-m-d H:i:s', self.time(process.env.APP_UPDATE)).replace(/[\u2E80-\uFE4F-/:\s]/g, '').substr(4, 6);
       self.$vux.alert.show({
         title: '关于',
-        content: `${process.env.APP_NAME}<br /> Ver${process.env.APP_VERSION}<br /> 发布于 ${process.env.APP_UPDATE} <br />中国共产党石家庄市藁城区委员会组织部版权所有<br /> 鸿卓电子提供技术支持`
+        content: `${process.env.APP_NAME}<br /> ${version} <br />中国共产党石家庄市藁城区委员会组织部版权所有<br /> 鸿卓电子提供技术支持`
       });
     }
   },
