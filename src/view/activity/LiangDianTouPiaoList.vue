@@ -3,7 +3,7 @@
     <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0">
       <no-data v-if="!list.length && !lazyload.loading"></no-data>
       <ol v-if="list.length" class="voteList">
-        <router-link :to="'items/'+v.id" tag="li" class="vote" v-for="(v,i) in list" :key="i">
+        <router-link :to="'items/'+v.id" tag="li" class="vote" :class="{expire: isExpire(v.dateEnd)}" v-for="(v,i) in list" :key="i">
           <div class="author">发布单位：{{v.author}}</div>
           <div class="title">{{v.title}}</div>
           <div class="attr">
@@ -68,6 +68,16 @@ export default {
     // }
   },
   methods: {
+    isExpire(dateEnd) {
+      let self = this;
+      let expire = false;
+      if (dateEnd) {
+        let dateEndTime = self.time(dateEnd);
+        let nowTime = self.time();
+        expire = dateEndTime < nowTime;
+      }
+      return expire;
+    },
     loadData() {
       // console.log('XiLieJianHua.loadData...');
       let self = this;
@@ -139,6 +149,25 @@ export default {
     padding 10px 15px
     border-radius 5px
     position relative
+    &.expire:after {
+      content '已结束'
+      font-size 18px
+      line-height 1
+      padding 4px 10px
+      border solid 2px #ff0000
+      color #ff0000
+      display block
+      position absolute
+      left 50%
+      top 50%
+      margin-left -40px
+      margin-top -20px
+      transform rotate(-15deg)
+      border-radius 3px
+      text-shadow 1px 1px 0px #ffffff
+      box-shadow 0 0 0px 2px #ffffff inset
+      outline solid 2px #FFF
+    }
     a {
       display block
       color #000
