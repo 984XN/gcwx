@@ -688,7 +688,7 @@ export const activity = {
             }
             return {
               id: v.ID,
-              thumb: '',
+              thumb: v.ImgPath || '',
               title: v.PaperTitle,
               content,
               done: done, // 已参与过考试
