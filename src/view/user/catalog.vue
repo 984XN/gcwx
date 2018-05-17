@@ -243,7 +243,7 @@ export default {
       console.log('process.env:', process.env);
       self.$vux.alert.show({
         title: '关于',
-        content: `${process.env.APP_NAME}<br /> Ver${process.env.APP_VERSION}<br /> 发布于 ${process.env.APP_UPDATE}`
+        content: `${process.env.APP_NAME}<br /> Ver${process.env.APP_VERSION}<br /> 发布于 ${process.env.APP_UPDATE} <br />中国共产党石家庄市藁城区委员会组织部版权所有<br /> 鸿卓电子提供技术支持`
       });
     }
   },
