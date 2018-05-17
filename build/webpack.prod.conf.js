@@ -66,7 +66,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      title: '藁城区智慧党建',
+      title: '藁城区智慧党建', // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
       filename:
         process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
       template: 'index.html',

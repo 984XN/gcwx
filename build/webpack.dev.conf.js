@@ -61,6 +61,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
+      title: '藁城区智慧党建', // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
       filename: 'index.html',
       template: 'index.html',
       favicon: 'static/favicon.ico',
