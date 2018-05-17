@@ -382,6 +382,15 @@ export const API_LIST = {
     name: '投票活动列表',
     params: {}
   },
+  '/Ballot/BltBallotItem/GetBallotItemByWeChat': {
+    name: '投票活动里的投票项列表',
+    params: {
+      queryModel: {
+        TaskID: '', // int
+        Name: '' // string 搜索用
+      }
+    }
+  },
   '/Ballot/BltBallotItem/Query': {
     name: '投票活动里的投票项列表',
     params: {
