@@ -72,6 +72,11 @@
           <i slot="icon" class="listIcon iconfont icon-article"></i>
         </cell> -->
       </group>
+      <group>
+        <cell title="关于" :is-link="true" @click.native="showAbout">
+          <i slot="icon" class="listIcon iconfont icon-article"></i>
+        </cell>
+      </group>
       <load-more :show-loading="false"></load-more>
     </container>
     <Menu></Menu>
@@ -231,6 +236,14 @@ export default {
         type: 'cancel',
         width: '9em',
         text: txt + '暂未开放'
+      });
+    },
+    showAbout() {
+      let self = this;
+      console.log('process.env:', process.env);
+      self.$vux.alert.show({
+        title: '关于',
+        content: `${process.env.APP_NAME}<br /> Ver${process.env.APP_VERSION}<br /> 发布于 ${process.env.APP_UPDATE}`
       });
     }
   },

@@ -13,7 +13,7 @@ const portfinder = require('portfinder');
 const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
 
-const packageInfo = require('../package.json');
+const env = require('../config/dev.env');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -54,21 +54,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': env
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      title: '藁城区智慧党建', // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
+      title: JSON.parse(env.APP_NAME), // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
       filename: 'index.html',
       template: 'index.html',
       favicon: 'static/favicon.ico',
       inject: true,
-      appName: packageInfo.description,
-      appVersion: packageInfo.version,
-      appAuthor: packageInfo.author.replace(/\s+<.*?>/, '')
+      appName: JSON.parse(env.APP_NAME),
+      appVersion: JSON.parse(env.APP_VERSION),
+      appAuthor: JSON.parse(env.APP_AUTHOR)
     }),
     // copy custom static assets
     new CopyWebpackPlugin([

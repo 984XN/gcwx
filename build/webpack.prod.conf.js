@@ -11,8 +11,6 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-const packageInfo = require('../package.json');
-
 const env =
   process.env.NODE_ENV === 'testing'
     ? require('../config/test.env')
@@ -66,7 +64,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      title: '藁城区智慧党建', // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
+      title: JSON.parse(env.APP_NAME), // 默认值是“Webpack App”，见：/node_modules/html-webpack-plugin/index.js
       filename:
         process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
       template: 'index.html',
@@ -83,9 +81,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       // chunks: ['manifest', 'vendor', 'app'],
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency',
-      appName: packageInfo.description,
-      appVersion: packageInfo.version,
-      appAuthor: packageInfo.author.replace(/\s+<.*?>/, '')
+      appName: JSON.parse(env.APP_NAME),
+      appVersion: JSON.parse(env.APP_VERSION),
+      appAuthor: JSON.parse(env.APP_AUTHOR)
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
@@ -131,11 +129,11 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.BannerPlugin({
       banner:
         'Version:' +
-        packageInfo.version +
+        JSON.parse(env.APP_VERSION) +
         ', Date:' +
-        new Date().toLocaleString() +
+        JSON.parse(env.APP_UPDATE) +
         ', Author:' +
-        packageInfo.author
+        JSON.parse(env.APP_AUTHOR)
     })
   ]
 });
