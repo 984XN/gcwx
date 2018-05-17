@@ -12,6 +12,7 @@ import UserZhengNengLiangList from 'src/view/user/ZhengNengLiangList';
 import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
 import UserDetail from 'src/view/user/detail';
 import UserList from 'src/view/user/list';
+import UserDocReader from 'src/view/user/docReader';
 
 const RouterUser = {
   path: '/user',
@@ -109,6 +110,18 @@ const RouterUser = {
       components: { default: UserDetail },
       meta: {
         title: '正文',
+        auth: true,
+        keepAlive: false
+      }
+    },
+    {
+      path: 'doc-reader',
+      // name: 'article-detail',
+      components: {
+        default: UserDocReader
+      },
+      meta: {
+        title: '文档',
         auth: true,
         keepAlive: false
       }
