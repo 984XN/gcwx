@@ -44,6 +44,7 @@ import ActivityChouJiangZhuanQuRecords from 'src/view/activity/ChouJiangZhuanQuR
 import ActivityDangJianDongTai from 'src/view/activity/DangJianDongTai';
 import ActivityDangJianDongTaiList from 'src/view/activity/DangJianDongTaiList';
 import ActivityDangJianDongTaiDetail from 'src/view/activity/DangJianDongTaiDetail';
+import ActivityDocReader from 'src/view/activity/docReader';
 
 const RouterActivity = {
   path: '/activity',
@@ -84,6 +85,18 @@ const RouterActivity = {
           meta: {
             title: '党建动态',
             auth: true
+          }
+        },
+        {
+          path: 'doc-reader',
+          // name: 'article-detail',
+          components: {
+            detail: ActivityDocReader
+          },
+          meta: {
+            title: '文档',
+            auth: true,
+            keepAlive: false
           }
         }
       ]
