@@ -190,7 +190,7 @@ export default {
             //   img: '/static/img/gift/default.jpg'
             // });
             self.gifts.sort((a, b) => {
-              return Math.random() > 0.5 ? -1 : 1;
+              return b.id - a.id;
             });
             // self.getGift();
           })

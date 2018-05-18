@@ -74,8 +74,14 @@ export default {
           // console.log('getGift:', res);
           if (res.StatusCode === 1200) {
             self.ready = true;
-            self.giftId = res.Data;
-            // console.log('new index:', i);
+            self.giftId = res.Data || -1;
+            console.log('getGift:', res);
+            if (self.giftId === -1) {
+              self.$vux.alert.show({
+                title: '数据错误',
+                content: res.Message
+              });
+            }
           } else {
             self.$vux.alert.show({
               title: '数据错误',
@@ -120,7 +126,7 @@ export default {
         //   img: '/static/img/gift/default.jpg'
         // });
         self.gifts.sort((a, b) => {
-          return Math.random() > 0.5 ? -1 : 1;
+          return b.id - a.id;
         });
         // self.getGift();
       });
@@ -133,7 +139,7 @@ export default {
         api: 'all'
       }).then(res => {
         self.winningList = res.Data.list;
-        console.log('中奖名单:', res.Data.list);
+        // console.log('中奖名单:', res.Data.list);
       });
     });
   },

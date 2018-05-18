@@ -110,11 +110,12 @@ export default {
       }
       let index =
         giftIndexArr[Math.floor(Math.random() * (giftIndexArr.length - 1))];
+      console.log('self.gift:', self.gift);
+      console.log('self.gifts:', self.gifts);
       console.log('giftIndex:' + index);
       console.log('giftId:' + giftId);
       console.log('giftIndexArr:', giftIndexArr);
       console.log('self.shuffleGifts:', self.shuffleGifts);
-      console.log('self.gifts:', self.gifts);
       return index < self.shuffleGifts.length ? index : -1;
     },
     styleCube: function() {
@@ -189,6 +190,21 @@ export default {
   methods: {
     getGift() {
       let self = this;
+      if (self.jeton < self.price) {
+        self.$vux.alert.show({
+          title: this.unit + '数不够',
+          content:
+            '每次需要扣除' +
+            this.price +
+            this.unit +
+            '，剩余' +
+            this.unit +
+            '数为' +
+            this.jeton
+        });
+        // console.log(this.unit + '不够');
+        return false;
+      }
       self.$vux.loading.show({
         text: '准备中'
       });
@@ -216,30 +232,15 @@ export default {
       // console.log('luckDraw -- giftIndex:', self.giftIndex);
       if (self.turntable.runing) {
         // console.log('转盘运行中');
-        return;
+        return false;
       }
       if (self.giftIndex < 0) {
         // giftIndex === -1 了，即没有在清单中定位到奖品
         self.$vux.alert.show({
           title: '数据错误',
-          content: '奖品清单中有已下架或库存为零的物品'
+          content: '奖品清单中有已下架或库存为零的物品：' + self.shuffleGifts[self.giftIndex]
         });
-        return;
-      }
-      if (self.jeton < self.price) {
-        self.$vux.alert.show({
-          title: this.unit + '数不够',
-          content:
-            '每次需要扣除' +
-            this.price +
-            this.unit +
-            '，剩余' +
-            this.unit +
-            '数为' +
-            this.jeton
-        });
-        // console.log(this.unit + '不够');
-        return;
+        return false;
       }
       self.turntable.runing = true;
       function roll() {
