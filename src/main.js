@@ -28,6 +28,7 @@ import {
 } from 'vux';
 import Container from 'src/components/container';
 import NoData from 'src/components/noData';
+import FaceAlertPlugin from 'src/plugin/faceAlert';
 
 import 'src/assets/common.styl';
 import 'src/assets/font/iconfont.css';
@@ -44,6 +45,7 @@ Vue.use(AlertPlugin);
 Vue.use(ConfirmPlugin);
 Vue.use(LoadingPlugin);
 Vue.use(ToastPlugin);
+Vue.use(FaceAlertPlugin);
 
 Vue.component('badge', Badge);
 Vue.component('cell', Cell);
