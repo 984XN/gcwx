@@ -131,6 +131,7 @@ export default {
     submit() {
       let self = this;
       let answerCard = [];
+      clearInterval(self.handle);
       for (const key in self.answerCard) {
         if (self.answerCard.hasOwnProperty(key)) {
           const val = self.answerCard[key];
