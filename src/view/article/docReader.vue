@@ -27,27 +27,31 @@ export default {
       let self = this;
       // console.log('addScore data:', data);
       // console.log('methods.addScore:', self.viewSecond);
-      api.article
-        .addScore({
-          // ID: self.article.files[0].id,
-          ID: data.id || '',
-          Title: data.title || '',
-          Minute: data.minute || ''
-        })
-        .then(res => {
-          // console.log('addScore by online:', res);
-          if (res.StatusCode === 1200) {
-            self.$vux.toast.show({
-              text: '阅读了 ' + data.minute + ' 分钟，积分已增加',
-              type: 'text',
-              width: '18em',
-              position: 'top'
-            });
-          } else {
-            // console.log('addScore error:', res.Message || '加积分时出错');
-          }
-          console.log('server say:', res.Message);
-        });
+      if (!self.hasPower('member')) {
+        console.log('非党员，学习时不加积分');
+      } else {
+        api.article
+          .addScore({
+            // ID: self.article.files[0].id,
+            ID: data.id || '',
+            Title: data.title || '',
+            Minute: data.minute || ''
+          })
+          .then(res => {
+            // console.log('addScore by online:', res);
+            if (res.StatusCode === 1200) {
+              self.$vux.toast.show({
+                text: '学习了 ' + data.minute + ' 分钟，积分已增加',
+                type: 'text',
+                width: '18em',
+                position: 'top'
+              });
+            } else {
+              // console.log('addScore error:', res.Message || '加积分时出错');
+            }
+            console.log('server say:', res.Message);
+          });
+      }
     }
   },
   mounted() {
