@@ -1,7 +1,5 @@
 # 藁城智慧党建微信端
 
-> vue + vue-router + vuex + vux + webpack + ESLint
-
 开发：20180409 ~ 20180512
 
 测试：20180514 ~ 
@@ -10,6 +8,7 @@
 
 ## 开发
 
+### 1.调试
 ``` bash
 # 安装依赖
 npm install
@@ -19,6 +18,81 @@ npm run dev
 
 # 编译线上版本 /dist/
 npm run build
+```
+
+### 2.工具
+> 环境：vue + vue-router + vuex + vux + webpack + ESLint
+> 工具：VS Code
+
+> VS Code 插件：
+> * ESLint - 语法检查
+> * Vetur - Vue 支持
+> * language-stylus - stylus 语法支持
+> * Manta's Stylus Supremacy
+> * Prettier - 代码格式化工具
+
+```json
+// VS Code 配置
+{
+  // 窗口标题栏
+  "window.title": "${dirty}${activeEditorShort}${separator}${activeEditorMedium}${separator}${rootName}",
+  // 欢迎页
+  "workbench.startupEditor": "none",
+  // 使用 sublime 的快捷键设置
+  "sublimeTextKeymap.promptV3Features": true,
+  // 此键可多光标
+  "editor.multiCursorModifier": "ctrlCmd",
+  // 缩进栏线
+  "editor.rulers": [
+    80,
+    120
+  ],
+  // 行号栏一块高亮
+  "editor.renderLineHighlight": "all",
+  // 自动缩进
+  "editor.detectIndentation": false,
+  // TAB宽度
+  "editor.tabSize": 2,
+  // 用空格代替TAB
+  "editor.insertSpaces": true,
+  // 粘贴后自动格式化
+  "editor.formatOnPaste": false,
+  // 保存后自动格式化
+  "editor.formatOnSave": false,
+  // 显示空格
+  "editor.renderWhitespace": "all",
+  // 代码提示中优先显示 snippet
+  "editor.snippetSuggestions": "top",
+  // 插入代码段
+  "editor.tabCompletion": true,
+  // 控制键入时是否应自动显示建议(貌似代码片段功能需要这个)
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  // 字符串使用单引号
+  "prettier.singleQuote": true,
+  "element-helper.version": "2.3",
+  // 按下TAB展开emmet缩写
+  "emmet.triggerExpansionOnTab": true,
+  // vue 文件的格式化工具
+  "vetur.format.defaultFormatter.html": "js-beautify-html",
+  "vetur.format.defaultFormatter.stylus": "stylus-supremacy",
+  // 写 stylus 时插入冒号
+  "stylusSupremacy.insertColons": false,
+  // 写 stylus 时插入分号
+  "stylusSupremacy.insertSemicolons": false,
+  // 写 stylus 时插入大括号
+  "stylusSupremacy.insertBraces": true,
+  // 并列的选择器新加一行
+  "stylusSupremacy.insertNewLineBetweenSelectors": true,
+  // 样式块中间空行
+  "stylusSupremacy.insertNewLineAroundBlocks": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "vetur.validation.template": false,
+  "fileheader.Author": "Mr.User",
+  "fileheader.LastModifiedBy": "Mr.User"
+}
 ```
 
 ## 目录
