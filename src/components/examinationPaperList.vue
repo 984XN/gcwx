@@ -15,12 +15,13 @@
           <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini default>已结束</x-button>
-          <x-button v-if="item.notYet" mini default>未开始</x-button>
+          <x-button v-if="item.notYet" mini default>尚未开始</x-button>
         </template>
         <template v-else-if="type === 20">
           <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini type="primary">查看排名</x-button>
+          <x-button v-if="item.notYet" mini default>尚未开始</x-button>
         </template>
         <template v-else>
         </template>
@@ -42,6 +43,9 @@ export default {
     go(item) {
       let self = this;
       let path = 'paper/' + item.id;
+      if (item.notYet) {
+        return false;
+      }
       if (self.type === 10) {
         // 10表示答题促学 20表示知识竞赛
         // 未到期已做过：回看试卷
