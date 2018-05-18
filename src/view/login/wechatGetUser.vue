@@ -32,7 +32,7 @@ export default {
           sessionStorage.clear();
           if (res.StatusCode === 1200) {
             let binded = res.Data.IsBinding;
-            sessionStorage.logined = 1;
+            sessionStorage.logined = self.time();
             sessionStorage.binded = binded;
             sessionStorage.userSystem = JSON.stringify(
               res.Data.UserInfo || { UserInfo: false }

@@ -65,7 +65,7 @@ export default {
               console.log('登录成功');
               res.Data.UserInfo.PhotoName =
                 res.Data.UserInfo.PhotoName || System.avatarDefault;
-              sessionStorage.logined = 1;
+              sessionStorage.logined = self.time();
               sessionStorage.userSystem = JSON.stringify(
                 res.Data.UserInfo || { UserInfo: false }
               );
