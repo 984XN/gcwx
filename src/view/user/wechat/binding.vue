@@ -45,6 +45,7 @@ export default {
     },
     binding() {
       let self = this;
+      let jumpTo = self.$route.query.redirect || '/article';
       if (!self.user.username || !self.user.password) {
         self.errMessage = ' 帐号和密码不能为空 ';
       } else if (!self.isIdCardNo(self.user.username)) {
@@ -69,7 +70,7 @@ export default {
                 text: '绑定成功',
                 time: 1000,
                 onHide() {
-                  self.$router.replace({ path: '/' });
+                  self.$router.replace({ path: jumpTo });
                 }
               });
               // 绑定送积分（后台不能自动加分）
@@ -84,19 +85,41 @@ export default {
       }
     },
     skip() {
-      this.$router.push({ path: '/' });
+      let self = this;
+      let jumpTo = self.$route.query.redirect || '/article';
+      if (/^\/activity/.test(jumpTo)) {
+        // 互动专区需要绑定党员帐号后才能进入，其它两个（学习平台和个人中心）可以不绑定党员
+        self.$vux.confirm.show({
+          title: '仅党员可用',
+          content: '你没有使用互动专区的权限，请先绑定党员帐号',
+          confirmText: '绑定党员',
+          cancelText: '转到首页',
+          onCancel() {
+            self.$router.replace({
+              path: '/'
+            });
+          },
+          onConfirm() {
+            self.$router.replace({
+              path: '/user/wechat/binding?redirect=' + jumpTo
+            });
+          }
+        });
+      } else {
+        self.$router.push({ path: jumpTo });
+      }
     }
   },
   mounted() {
-    let userWechat = this.session('userWechat');
-    let userSystem = this.session('userSystem');
+    let self = this;
+    let userWechat = self.session('userWechat');
+    let userSystem = self.session('userSystem');
     let openid = userWechat.OpenId || '';
     let nickname = userWechat.NickName || '[无名氏]';
-    let jumpTo = this.$route.query.redirect || '/article';
-    let self = this;
+    let jumpTo = self.$route.query.redirect || '/article';
     if (openid === '') {
-      this.wechat.NickName = '未登录';
-      this.$vux.confirm.show({
+      self.wechat.NickName = '未登录';
+      self.$vux.confirm.show({
         title: '需要微信重新授权',
         content: '微信 openid 丢失，需要微信重新授权后才能绑定',
         cancelText: '放弃',
@@ -112,13 +135,13 @@ export default {
         }
       });
     } else if (userSystem.ID) {
-      this.$vux.alert.show({
+      self.$vux.alert.show({
         title: '已绑定',
         content: '禁止重复绑定，如需要绑定，请先在“个人中心”中解绑这个帐号'
       });
     } else {
-      this.wechat.NickName = nickname;
-      this.wechat.OpenId = openid;
+      self.wechat.NickName = nickname;
+      self.wechat.OpenId = openid;
       // console.log('openid:', openid);
     }
   }

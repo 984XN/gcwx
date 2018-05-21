@@ -21,9 +21,12 @@ export default {
   mounted() {
     let self = this;
     let code = self.$route.query.code || '';
+    let jumpTo = this.$route.query.redirect || '/article';
     console.log('微信登录中…');
     if (!code) {
-      self.$router.replace({ path: '/login/wechat' });
+      self.$router.replace({
+        path: '/login/wechat/get-code?redirect=' + jumpTo
+      });
     } else {
       api.user.wechat
         .getUserInfoByCode({ code: code })
@@ -42,14 +45,13 @@ export default {
             );
             // self.$store.commit('setUserInfo', res.Data);
             if (binded) {
-              // todo: 登录后追加 sessionStorage.userSystem，目前没有返回 res.Data.UserInfo
-              self.$router.replace({ path: '/' });
+              self.$router.replace({ path: jumpTo });
             } else {
               self.$vux.toast.show({
                 text: '登录成功',
                 time: 1000,
                 onHide() {
-                  self.$router.replace({ path: '/user/wechat/binding' });
+                  self.$router.replace({ path: '/user/wechat/binding?redirect=' + jumpTo });
                 }
               });
             }
@@ -63,7 +65,7 @@ export default {
                 self.$router.replace({ path: '/' });
               },
               onConfirm() {
-                self.$router.replace({ path: '/login/wechat' });
+                self.$router.replace({ path: '/login/wechat/get-code?redirect=' + jumpTo });
               }
             });
           }

@@ -173,7 +173,7 @@ export default {
     getWechatLink() {
       let self = this;
       self.$vux.alert.show({
-        title: '不能解除绑定',
+        title: '不能解除微信',
         content: '如需解绑，请使用其它微信绑定这个党员帐号'
       });
       // 解绑功能因为后台有加分逻辑未处理好，先不开通
