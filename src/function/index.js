@@ -144,4 +144,11 @@ exports.install = function(Vue, options) {
       elm.scrollTop = scrollTop;
     }
   };
+
+  Vue.prototype.mutiUploadable = () => {
+    // 部分Android手机在微信里的WEB上传功能有问题，华为好像被特殊对待得比较严重
+    // [华为的UA] => Mozilla/5.0 (Linux; Android 8.0.0; VKY-AL00 Build/HUAWEIVKY-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/63.0.3239.111 Mobile Safari/537.36 MicroMessenger/6.6.6.1300(0x26060637) NetType/WIFI Language/zh_CN
+    let userAgent = navigator.userAgent || '';
+    return !/HUAWEI/.test(userAgent);
+  };
 };

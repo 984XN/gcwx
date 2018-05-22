@@ -31,7 +31,7 @@
                 </template>
               </ul>
               <div class="weui-uploader__input-box" v-show="files.length < maxNumberOfFiles">
-                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*,video/mp4" :multiple="mutiUploadable">
               </div>
             </div>
           </div>
@@ -254,9 +254,11 @@ export default {
               self.$route.query.from &&
               self.$route.query.from === 'user'
             ) {
-              alertContent = '添加成功，审核通过后即可显示，审核通过前你可以重新编辑';
+              alertContent =
+                '添加成功，审核通过后即可显示，审核通过前你可以重新编辑';
             } else {
-              alertContent = '添加成功，审核通过后即可显示，审核状态可在“个人中心-我的正能量”查看';
+              alertContent =
+                '添加成功，审核通过后即可显示，审核状态可在“个人中心-我的正能量”查看';
             }
             self.$vux.alert.show({
               title: '等待审核',

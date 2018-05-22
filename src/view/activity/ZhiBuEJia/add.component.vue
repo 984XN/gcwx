@@ -31,7 +31,7 @@
                 </template>
               </ul>
               <div class="weui-uploader__input-box" v-show="files.length < maxNumberOfFiles">
-                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*" multiple="">
+                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*,video/mp4" :multiple="mutiUploadable">
               </div>
             </div>
           </div>
