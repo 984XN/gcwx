@@ -16,7 +16,7 @@
         <li v-for="(gift,n) in shuffleGifts" :key="n" :style="style[n]" class="gift" :class="'gift-'+n">
           <div class="box">
             <div class="img"><img :src="gift.img"></div>
-            <div class="name">{{gift.name|substr(0,6)}}</div>
+            <div class="name">{{gift.name|substr(0,5)}}</div>
           </div>
         </li>
       </ol>
@@ -238,7 +238,13 @@ export default {
         // giftIndex === -1 了，即没有在清单中定位到奖品
         self.$vux.alert.show({
           title: '数据错误',
-          content: '奖品清单中有已下架或库存为零的物品：' + self.shuffleGifts[self.giftIndex]
+          content:
+            '奖品清单中有已下架或库存为零的物品：' +
+            self.shuffleGifts[self.giftIndex],
+          buttonText: '重新打开',
+          onHide() {
+            window.location.reload();
+          }
         });
         return false;
       }
@@ -316,7 +322,11 @@ export default {
             buttonText: '好的',
             // title: '中奖啦',
             // content: self.shuffleGifts[self.giftIndex].name
-            content: '抽中了' + self.shuffleGifts[self.giftIndex].name
+            content: '抽中了' + self.shuffleGifts[self.giftIndex].name,
+            onHide() {
+              // 更新奖品列表，减少“出现没有库存的奖品”的机率
+              window.location.reload();
+            }
           });
           return false;
         }
