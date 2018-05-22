@@ -44,6 +44,7 @@
     </div> -->
     <div class="control">
       <x-button @click.native="update" type="warn" :disabled="addBtnDisabled">保存</x-button>
+      <x-button @click.native="withdraw">删除</x-button>
     </div>
     <!-- <div v-transfer-dom>
       <previewer :list="previewerList" :options="previewerOptions" ref="previewer" @on-index-change="logIndexChange">
@@ -201,6 +202,7 @@ export default {
         });
     },
     del(uuid = '') {
+      // 删除图片
       let self = this;
       for (const key in self.files) {
         if (self.files.hasOwnProperty(key)) {
@@ -211,6 +213,47 @@ export default {
         }
       }
       // console.log('del:', uuid, self.files);
+    },
+    withdraw() {
+      // 删除，delete 是 JS 关键字不让用
+      let self = this;
+      self.$vux.confirm.show({
+        title: '确定要删除吗？',
+        content: '删除后不可恢复，如果要“恢复”你需要重新录入这条信息',
+        confirmText: '删除',
+        cancelText: '取消',
+        onConfirm() {
+          self.$vux.loading.show({
+            text: '正在删除'
+          });
+          api.activity.ZhengNengLiang.delete({
+            ID: self.id
+          })
+            .then(function(res) {
+              console.log('api.activity.ZhengNengLiang.delete:', res);
+              self.$vux.loading.hide();
+              self.$vux.toast.show({
+                text: '已删除',
+                time: 1000,
+                onHide() {
+                  self.$router.go(-1);
+                }
+              });
+            })
+            .catch(e => {
+              this.$vux.confirm.show({
+                title: '出错了',
+                content: e.message || '接口数据错误',
+                confirmText: '再试一次',
+                cancelText: '关闭提示',
+                onConfirm() {
+                  self.withdraw();
+                }
+              });
+            });
+        },
+        onCancel() {}
+      });
     },
     update() {
       let self = this;
