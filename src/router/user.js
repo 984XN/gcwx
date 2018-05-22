@@ -85,8 +85,7 @@ const RouterUser = {
           components: { default: UserZhengNengLiangList },
           meta: {
             title: '我的正能量',
-            auth: true,
-            keepAlive: true
+            auth: true
           }
         },
         {

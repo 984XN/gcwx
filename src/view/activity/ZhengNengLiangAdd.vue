@@ -189,7 +189,8 @@ export default {
           // 上传下一张
           self.upload();
         })
-        .catch(() => {
+        .catch(e => {
+          console.log('上传出错：', e.message, file.name);
           self.files[index].uploadError = true;
           self.files[index].uploaded = true;
           Vue.set(self.files, index, self.files[index]);
