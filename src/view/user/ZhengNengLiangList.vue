@@ -128,6 +128,7 @@ export default {
   border-radius 5px
   background-color #f17474ba
   text-align center
+  z-index 1
   &:hover {
     background-color #f17474
   }
