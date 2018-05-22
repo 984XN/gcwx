@@ -4,14 +4,21 @@
       <i class="iconfont icon-wechat"></i>
       <div class="text">{{loadingTitle}}</div>
       <div class="process">{{loadingProcess}}</div>
+      <div>
+        <spinner type="ios-small" size="22px"></spinner>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Spinner } from 'vux'
 import * as api from 'src/api/user';
 
 export default {
+  components: {
+    Spinner
+  },
   data() {
     return {
       loadingTitle: '登录中',

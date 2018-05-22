@@ -4,14 +4,21 @@
       <i class="iconfont icon-wechat"></i>
       <div class="text">登录中</div>
       <div class="process">正在向微信申请登录码</div>
+      <div>
+        <spinner type="ios-small" size="22px"></spinner>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Spinner } from 'vux'
 import { Wechat } from 'src/config';
 
 export default {
+  components: {
+    Spinner
+  },
   mounted() {
     // 获取 code
     let code = this.getUrlParam('code');
