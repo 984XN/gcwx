@@ -169,6 +169,7 @@ export default {
       formData.append('flowTotalChunks', 1);
       api.activity.ZhiBuEJia.upload(formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 0, // 不限制超时时间
         onUploadProgress: function(progressEvent) {
           if (progressEvent.lengthComputable) {
             let pct = Math.ceil(
