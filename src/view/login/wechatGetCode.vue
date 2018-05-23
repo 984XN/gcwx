@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Spinner } from 'vux'
+import { Spinner } from 'vux';
 import { Wechat } from 'src/config';
 
 export default {
@@ -26,9 +26,11 @@ export default {
     if (code) {
       let origin = window.location.origin;
       let pathname = window.location.pathname;
+      let search = '?token=' + code; // 用微信返回来的 code 来防止微信缓存页面
       let url =
         origin +
         pathname +
+        search +
         '#/login/wechat/get-user?code=' +
         code +
         '&redirect=' +
