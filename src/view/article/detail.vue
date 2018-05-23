@@ -1,5 +1,7 @@
 <template>
-  <Article :article="article" @online="online"></Article>
+  <container top="0" bottom="0">
+    <Article :article="article" @online="online"></Article>
+  </container>
 </template>
 
 <script>
@@ -88,7 +90,7 @@ export default {
               res.Data.article.files = [];
             }
             for (const video of res.Data.article.videos) {
-              video.type = 'video'
+              video.type = 'video';
               res.Data.article.files.push(video);
             }
             delete res.Data.article.videos;

@@ -1,5 +1,7 @@
 <template>
-  <Article :article="article" @online="online"></Article>
+  <container top="0" bottom="0">
+    <Article :article="article" @online="online"></Article>
+  </container>
 </template>
 
 <script>

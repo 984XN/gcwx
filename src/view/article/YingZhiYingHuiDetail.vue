@@ -1,7 +1,7 @@
 <template>
-  <div class="page-article-yingzhiyinghui-detail">
+  <container class="page-article-yingzhiyinghui-detail" top="0" bottom="0">
     <Article :article="article"></Article>
-  </div>
+  </container>
 </template>
 
 <script>
