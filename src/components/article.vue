@@ -77,7 +77,7 @@ export default {
       let src = encodeURI(self.fileServer + path);
       let id = self.article.baseInfo.id;
       let url =
-        `../doc-reader?src=${src}&id=${id}&title=` +
+        `../doc-reader?id=${id}&src=${src}&title=` +
         encodeURI(self.article.baseInfo.title);
       // console.log('url:', url);
       return { path: url };
