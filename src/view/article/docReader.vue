@@ -64,7 +64,7 @@ export default {
           type: 'text',
           time: 5000,
           width: '10em',
-          position: 'top'
+          position: 'middle'
         });
         console.log('非党员，学习时不加积分');
       } else {
@@ -83,7 +83,7 @@ export default {
                 type: 'text',
                 time: 5000,
                 width: '18em',
-                position: 'top'
+                position: 'middle'
               });
             } else {
               self.$vux.toast.show({
@@ -91,7 +91,7 @@ export default {
                 type: 'text',
                 time: 5000,
                 width: '18em',
-                position: 'top'
+                position: 'middle'
               });
               console.log('addScore error:', res.Message || '加积分时出错');
             }
