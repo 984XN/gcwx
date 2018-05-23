@@ -85,6 +85,21 @@ const strPad = (str, len, sign = '-', dir = 'before') => {
   return newStr;
 };
 
+const clearStyle = html => {
+  html = html.replace(/&nbsp;/gi, ''); // 删除空格
+  html = html.replace(/(<.*?) style=".*?"(>)/gi, '$1$2'); // 删除 style 属性
+  html = html.replace(/(<.*?) width=".*?"(>)/gi, '$1$2'); // 删除 width 属性
+  html = html.replace(/(<.*?) height=".*?"(>)/gi, '$1$2'); // 删除 height 属性
+  html = html.replace(/<br\s*\/?>/gi, ''); // 删除 <br /> <br>
+  html = html.replace(/<\w+>\s*<\/\w+>/gi, ''); // 删除空标签
+  html = html.replace(/<\w+>\s*<\/\w+>/gi, ''); // 删除第2层空标签
+  html = html.replace(/<\w+>\s*<\/\w+>/gi, ''); // 删除第3层空标签
+  html = html.replace(/<\w+>\s*<\/\w+>/gi, '');
+  // html = html.replace(/(<\/?\w+).*?(>)/gi, '$1$2'); // 删除 html标签中的属性（style=""、width=""）除了 src=""
+  // console.log('clearStyle:', html);
+  return html;
+};
+
 export default {
   install(Vue) {
     Vue.filter('trim', trim);
@@ -92,5 +107,6 @@ export default {
     Vue.filter('substr', substr);
     Vue.filter('textTime', textTime);
     Vue.filter('strPad', strPad);
+    Vue.filter('clearStyle', clearStyle);
   }
 };

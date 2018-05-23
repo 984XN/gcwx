@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="article-body">
-      <div v-html="article.baseInfo.content" v-if="article.baseInfo.content" class="article-body-content"></div>
+      <div v-html="$options.filters.clearStyle(article.baseInfo.content)" v-if="article.baseInfo.content" class="article-body-content"></div>
       <div v-if="article.imgs && article.imgs.length" class="article-body-files article-body-files-img">
         <div class="weui-cells__title">图片列表</div>
         <div class="article-body-files-img-body">
