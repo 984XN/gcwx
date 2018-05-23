@@ -214,7 +214,7 @@ export default {
     height 100%
   }
   .learnClock {
-    position absolute
+    position fixed
     right 10px
     bottom 10px
     background-color rgba(255, 255, 255, 0.3)
