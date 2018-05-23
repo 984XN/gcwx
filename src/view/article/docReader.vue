@@ -62,6 +62,7 @@ export default {
         self.$vux.toast.show({
           text: '已学习够 ' + data.minute + ' 分钟了',
           type: 'text',
+          time: 5000,
           width: '10em',
           position: 'top'
         });
@@ -78,8 +79,9 @@ export default {
             console.log('addScore by online:', res);
             if (res.StatusCode === 1200) {
               self.$vux.toast.show({
-                text: '学习了 ' + data.minute + ' 分钟，' + res.Message,
+                text: res.Message,
                 type: 'text',
+                time: 5000,
                 width: '18em',
                 position: 'top'
               });
@@ -87,6 +89,7 @@ export default {
               self.$vux.toast.show({
                 text: res.Message,
                 type: 'text',
+                time: 5000,
                 width: '18em',
                 position: 'top'
               });
@@ -147,7 +150,7 @@ export default {
             let data = {
               id: self.id,
               title: self.title,
-              minute: (online / 60).toFixed(1)
+              minute: parseFloat((online / 60).toFixed(1))
             };
             // console.log('data:', data);
             self.addScore(data);
@@ -171,7 +174,7 @@ export default {
           let player = document.getElementById('player');
           let duration = player.duration;
           let currentTime = player.currentTime;
-          self.learnTime = Math.floor(currentTime);
+          self.learnTime = Math.floor(currentTime < online ? currentTime : online);
           if (currentTime >= duration && duration !== 0) {
             clearInterval(self.learningHandel);
           }
@@ -192,7 +195,7 @@ export default {
         let data = {
           id: self.id,
           title: self.title,
-          minute: (self.learnTime / 60).toFixed(1)
+          minute: parseFloat((self.learnTime / 60).toFixed(1))
         };
         self.learning = false;
         self.addScore(data);
