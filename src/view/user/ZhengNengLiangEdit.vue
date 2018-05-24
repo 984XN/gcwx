@@ -57,7 +57,7 @@
 <script>
 import Vue from 'vue';
 // import { Previewer, TransferDom } from 'vux';
-import * as api from 'src/api/activity.js';
+import * as api from 'src/api/activity';
 
 export default {
   // directives: {
