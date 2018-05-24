@@ -86,7 +86,7 @@ const strPad = (str, len, sign = '-', dir = 'before') => {
 };
 
 const clearStyle = html => {
-  html = html.replace(/&nbsp;/gi, ''); // 删除空格
+  html = html.replace(/(&nbsp;|\s|\u3000)/gi, ' '); // 删除空格、空白、全角空格
   html = html.replace(/(<.*?) style=".*?"(>)/gi, '$1$2'); // 删除 style 属性
   html = html.replace(/(<.*?) width=".*?"(>)/gi, '$1$2'); // 删除 width 属性
   html = html.replace(/(<.*?) height=".*?"(>)/gi, '$1$2'); // 删除 height 属性
