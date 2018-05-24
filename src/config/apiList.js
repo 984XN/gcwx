@@ -429,6 +429,17 @@ export const API_LIST = {
       }
     }
   },
+  '/PartyActivity/PaPartyCare/InsertCare': {
+    name: '申请党内关爱', // 增加党内关爱（增加报销申请表）
+    params: {
+      model: {
+        ApplyForTitle: '标题', // string
+        ProposerCondition: '内容', // string
+        ProposerAddress: '住址' // sting
+      },
+      imageID: [] // number
+    }
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

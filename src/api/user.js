@@ -121,6 +121,59 @@ export const user = {
           };
           return res.data;
         });
+    },
+    DangNeiGuanAi: { // 一个费用报销功能
+      upload: (data, config) => {
+        return service
+          .post('/api/----------------------------------', data, config)
+          .then(res => {
+            return res.data;
+          });
+      },
+      add: params => {
+        return service
+          .post('/api/PartyActivity/PaPartyCare/InsertCare', params)
+          .then(res => {
+            return res.data;
+          });
+      },
+      detail: params => {
+        return service
+          .post('/api/----------------------------------', params)
+          .then(res => {
+            res.data.Data.list = res.data.Data.PageData.map(v => {
+              return {
+                id: v.ID || 0,
+                score: v.AddScore || 0,
+                date: v.CreateDate || '',
+                content: v.AddScoreExplain || ''
+              };
+            });
+            return res.data;
+          });
+      },
+      delete: params => {
+        return service
+          .post('/api/----------------------------------', params)
+          .then(res => {
+            return res.data;
+          });
+      },
+      list: params => {
+        return service
+          .post('/api/----------------------------------', params)
+          .then(res => {
+            res.data.Data.list = res.data.Data.PageData.map(v => {
+              return {
+                id: v.ID || 0,
+                score: v.AddScore || 0,
+                date: v.CreateDate || '',
+                content: v.AddScoreExplain || ''
+              };
+            });
+            return res.data;
+          });
+      }
     }
   },
   wechat: {
@@ -141,7 +194,10 @@ export const user = {
     },
     emitBinded: params => {
       return service
-        .post('/api/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto', params)
+        .post(
+          '/api/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto',
+          params
+        )
         .then(res => res.data);
     }
   },

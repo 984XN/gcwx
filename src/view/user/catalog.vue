@@ -60,6 +60,9 @@
         <cell title="我的正能量" :link="{path:'zhengnengliang',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-Business_-Honor"></i>
         </cell>
+        <cell title="党内关爱" :link="{path:'dangneiguanai',append:true}" :disabled="!hasPower('member')">
+          <i slot="icon" class="listIcon iconfont icon-homepage-reimbursement-icon"></i>
+        </cell>
       </group>
       <group>
         <cell title="通知公告" :link="{path:'list/tongzhigonggao',append:true}" :disabled="!hasPower('member')">

@@ -13,6 +13,10 @@ import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
 import UserDetail from 'src/view/user/detail';
 import UserList from 'src/view/user/list';
 import UserDocReader from 'src/view/user/docReader';
+import UserDangNeiGuanAi from 'src/view/user/DangNeiGuanAi';
+import UserDangNeiGuanAiList from 'src/view/user/DangNeiGuanAiList';
+import UserDangNeiGuanAiAdd from 'src/view/user/DangNeiGuanAiAdd';
+import UserDangNeiGuanAiEdit from 'src/view/user/DangNeiGuanAiEdit';
 
 const RouterUser = {
   path: '/user',
@@ -92,6 +96,31 @@ const RouterUser = {
           path: 'edit/:id',
           components: { default: UserZhengNengLiangEdit },
           meta: { title: '我的正能量', auth: true }
+        }
+      ]
+    },
+    {
+      path: 'dangneiguanai',
+      components: { default: UserDangNeiGuanAi },
+      meta: { title: '党内关爱', auth: true },
+      children: [
+        {
+          path: '/',
+          components: { default: UserDangNeiGuanAiList },
+          meta: {
+            title: '党内关爱',
+            auth: true
+          }
+        },
+        {
+          path: 'add',
+          components: { default: UserDangNeiGuanAiAdd },
+          meta: { title: '党内关爱', auth: true }
+        },
+        {
+          path: 'edit/:id',
+          components: { default: UserDangNeiGuanAiEdit },
+          meta: { title: '党内关爱', auth: true }
         }
       ]
     },
