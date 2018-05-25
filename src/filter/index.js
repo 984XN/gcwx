@@ -40,35 +40,43 @@ const substr = (string, start, length, usetail = true) => {
 
 const textTime = time => {
   var str = '';
-  var now = new Date();
+  let ts = 0;
+  var now = new Date().getTime();
   if (typeof time === 'string') {
-    time = new Date(Date.parse(time));
+    ts = new Date(Date.parse(time.replace(/-/g, '/'))).getTime();
+  } else if (!isNaN(parseFloat(time)) && isFinite(time)) {
+    // isNumber
+    ts = time;
+  } else {
+    return time;
   }
-  var span = now - time;
-  var minutes = (span / 1000).toFixed(0);
-  if (minutes < -60 * 60 * 24 * 30) {
-    str = (-minutes / (60 * 60 * 24 * 30)).toFixed(0) + '月';
-  } else if (minutes < -60 * 60 * 24) {
-    str = (-minutes / (60 * 60 * 24)).toFixed(0) + '天';
-  } else if (minutes < 60) {
+  var span = now - ts;
+  var seconds = (span / 1000).toFixed(0);
+  if (seconds < -60 * 60 * 24 * 30) {
+    str = (-seconds / (60 * 60 * 24 * 30)).toFixed(0) + '月';
+  } else if (seconds < -60 * 60 * 24) {
+    str = (-seconds / (60 * 60 * 24)).toFixed(0) + '天';
+  } else if (seconds < 60) {
     str = '刚刚';
-  } else if (minutes < 60 * 60) {
-    str = (minutes / 60).toFixed(0) + '分钟前';
-  } else if (minutes < 60 * 60 * 24) {
+  } else if (seconds < 60 * 60) {
+    str = (seconds / 60).toFixed(0) + '分钟前';
+  } else if (seconds < 60 * 60 * 24) {
     if (
-      (minutes / (60 * 60)).toFixed(0) >= 24 &&
-      (minutes / (60 * 60)).toFixed(0) <= 48
+      (seconds / (60 * 60)).toFixed(0) >= 24 &&
+      (seconds / (60 * 60)).toFixed(0) <= 48
     ) {
       str = '昨天';
     } else {
-      str = (minutes / (60 * 60)).toFixed(0) + '小时前';
+      str = (seconds / (60 * 60)).toFixed(0) + '小时前';
     }
-  } else if (minutes < 60 * 60 * 24 * 30) {
-    str = (minutes / (60 * 60 * 24)).toFixed(0) + '天前';
-  } else if (minutes < 60 * 60 * 24 * 365) {
-    str = (minutes / (60 * 60 * 24 * 30)).toFixed(0) + '月前';
+  } else if (seconds < 60 * 60 * 24 * 30) {
+    str = (seconds / (60 * 60 * 24)).toFixed(0) + '天前';
+  } else if (seconds < 60 * 60 * 24 * 365) {
+    str = (seconds / (60 * 60 * 24 * 30)).toFixed(0) + '月前';
   } else {
-    str = (minutes / (60 * 60 * 24 * 365)).toFixed(0) + '年前';
+    // str = (seconds / (60 * 60 * 24 * 365)).toFixed(0) + '年前'; // N年前
+    // str = time; // 年月日时分秒
+    str = time.substr(0, 10); // 年月日
   }
   return str;
 };
