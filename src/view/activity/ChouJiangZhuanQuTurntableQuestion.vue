@@ -72,34 +72,73 @@ export default {
     // }
     getGift() {
       let self = this;
-      api.activity.ChouJiangZhuanQu.gift({
-        Type: 2, // 1.积分抽奖, 2.答题促学抽奖
-        RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
-      })
-        .then(res => {
-          // console.log('getGift:', res);
-          if (res.StatusCode === 1200) {
-            self.ready = true;
-            self.giftId = res.Data;
-            // console.log('new index:', i);
-          } else {
-            self.$vux.alert.show({
-              title: '数据错误',
-              content: res.Message
+      if (!self.rid) {
+        self.$vux.loading.hide();
+        self.$vux.confirm.show({
+          title: '答题后可以抽奖',
+          content: '暂时没有抽奖机会了，答题可以获得抽奖机会',
+          confirmText: '去答题',
+          cancelText: '知道了',
+          // cancelText: '返回上一页',
+          onConfirm() {
+            self.$router.replace({
+              path: '/activity/daticuxue/list'
             });
+          },
+          onCancel() {
+            // self.$router.go(-1);
           }
-        })
-        .catch(e => {
-          this.$vux.confirm.show({
-            title: '出错了',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              this.$router.go(-1);
-            }
-          });
         });
+        self.ready = 'cancel';
+      } else {
+        if (self.jeton < self.price) {
+          self.$vux.alert.show({
+            title: this.unit + '数不够',
+            content:
+              '每次需要扣除' +
+              this.price +
+              this.unit +
+              '，剩余' +
+              this.unit +
+              '数为' +
+              this.jeton
+          });
+          // console.log(this.unit + '不够');
+          self.ready = 'cancel';
+          return false;
+        }
+        self.$vux.loading.show({
+          text: '准备中'
+        });
+        api.activity.ChouJiangZhuanQu.gift({
+          Type: 2, // 1.积分抽奖, 2.答题促学抽奖
+          RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
+        })
+          .then(res => {
+            // console.log('getGift:', res);
+            if (res.StatusCode === 1200) {
+              self.ready = true;
+              self.giftId = res.Data;
+              // console.log('new index:', i);
+            } else {
+              self.$vux.alert.show({
+                title: '数据错误',
+                content: res.Message
+              });
+            }
+          })
+          .catch(e => {
+            this.$vux.confirm.show({
+              title: '出错了',
+              content: e.message || '接口数据错误',
+              confirmText: '返回上一页',
+              cancelText: '关闭提示',
+              onConfirm() {
+                this.$router.go(-1);
+              }
+            });
+          });
+      }
     },
     hideLoading() {
       let self = this;
@@ -121,30 +160,31 @@ export default {
   },
   mounted() {
     let self = this;
-    self.$vux.loading.show({
-      text: '加载中'
-    });
+    // self.$vux.loading.show({
+    //   text: '加载中'
+    // });
     self.$nextTick(() => {
       // 有 答题记录的ID 时转换为1次抽奖机会，没有的话提醒他让去答题
       // console.log(self.$route);
       self.rid = self.$route.query.rid || 0;
-      if (!self.rid) {
-        self.$vux.loading.hide();
-        self.$vux.confirm.show({
-          title: '答题后可以抽奖',
-          content: '暂时没有抽奖机会了，答题可以获得抽奖机会',
-          confirmText: '去答题',
-          cancelText: '返回上一页',
-          onConfirm() {
-            self.$router.replace({
-              path: '/activity/daticuxue/list'
-            });
-          },
-          onCancel() {
-            self.$router.go(-1);
-          }
-        });
-      } else {
+      // if (!self.rid) {
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '答题后可以抽奖',
+      //     content: '暂时没有抽奖机会了，答题可以获得抽奖机会',
+      //     confirmText: '去答题',
+      //     cancelText: '返回上一页',
+      //     onConfirm() {
+      //       self.$router.replace({
+      //         path: '/activity/daticuxue/list'
+      //       });
+      //     },
+      //     onCancel() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // }
+      if (self.rid) {
         // console.log('有id:', id);
         // 获取抽奖机会额度
         api.activity.ChouJiangZhuanQu.jeton({
@@ -167,70 +207,70 @@ export default {
               }
             });
           });
-        // 获取奖品清单
-        api.activity.ChouJiangZhuanQu.gifts({
-          Type: 2 // 1.积分商品, 2.答题促学商品
-        })
-          .then(res => {
-            self.loadingList.gifts = true;
-            self.hideLoading();
-            // self.jeton = res.Data.residueDegree || 0;
-            self.gifts = res.Data.goods.map(val => {
-              return {
-                id: val.ID,
-                name: val.GoodsName,
-                img: val.GoodsImgPath
-              };
-            });
-            // 这个 unshift 移入 api/activity.js 中了
-            // self.gifts.unshift({
-            //   // 放在开头可以防止奖品过多截取时缺少空奖
-            //   id: 1,
-            //   name: '谢谢参与',
-            //   img: '/static/img/gift/default.jpg'
-            // });
-            self.gifts.sort((a, b) => {
-              return b.id - a.id;
-            });
-            // self.getGift();
-          })
-          .catch(e => {
-            self.$vux.loading.hide();
-            self.$vux.alert.show({
-              title: '数据错误',
-              content: e.message || '接口数据错误',
-              buttonText: '返回上一页',
-              onHide() {
-                self.$router.go(-1);
-              }
-            });
-          });
-        // 获取中奖名单
-        api.activity.ChouJiangZhuanQu.list({
-          queryModel: {
-            WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
-          },
-          pageModel: { Page: 1, Start: 0, Limit: 50 },
-          api: 'all'
-        })
-          .then(res => {
-            self.loadingList.list = true;
-            self.hideLoading();
-            self.winningList = res.Data.list;
-            // console.log('中奖名单:', res.Data.list);
-          })
-          .catch(e => {
-            self.$vux.loading.hide();
-            self.$vux.alert.show({
-              title: '数据错误',
-              content: e.message || '接口数据错误',
-              buttonText: '返回上一页',
-              onHide() {
-                self.$router.go(-1);
-              }
-            });
-          });
       }
+      // 获取奖品清单
+      api.activity.ChouJiangZhuanQu.gifts({
+        Type: 2 // 1.积分商品, 2.答题促学商品
+      })
+        .then(res => {
+          self.loadingList.gifts = true;
+          self.hideLoading();
+          // self.jeton = res.Data.residueDegree || 0;
+          self.gifts = res.Data.goods.map(val => {
+            return {
+              id: val.ID,
+              name: val.GoodsName,
+              img: val.GoodsImgPath
+            };
+          });
+          // 这个 unshift 移入 api/activity.js 中了
+          // self.gifts.unshift({
+          //   // 放在开头可以防止奖品过多截取时缺少空奖
+          //   id: 1,
+          //   name: '谢谢参与',
+          //   img: '/static/img/gift/default.jpg'
+          // });
+          self.gifts.sort((a, b) => {
+            return b.id - a.id;
+          });
+          // self.getGift();
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.alert.show({
+            title: '数据错误',
+            content: e.message || '接口数据错误',
+            buttonText: '返回上一页',
+            onHide() {
+              self.$router.go(-1);
+            }
+          });
+        });
+      // 获取中奖名单
+      api.activity.ChouJiangZhuanQu.list({
+        queryModel: {
+          WinningType: 1 // number 1.积分抽奖的, 2.答题抽奖的
+        },
+        pageModel: { Page: 1, Start: 0, Limit: 50 },
+        api: 'all'
+      })
+        .then(res => {
+          self.loadingList.list = true;
+          self.hideLoading();
+          self.winningList = res.Data.list;
+          // console.log('中奖名单:', res.Data.list);
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
+          self.$vux.alert.show({
+            title: '数据错误',
+            content: e.message || '接口数据错误',
+            buttonText: '返回上一页',
+            onHide() {
+              self.$router.go(-1);
+            }
+          });
+        });
     });
   },
   activated() {

@@ -66,6 +66,25 @@ export default {
     // }
     getGift() {
       let self = this;
+      if (self.jeton < self.price) {
+        self.$vux.alert.show({
+          title: this.unit + '数不够',
+          content:
+            '每次需要扣除' +
+            this.price +
+            this.unit +
+            '，剩余' +
+            this.unit +
+            '数为' +
+            this.jeton
+        });
+        // console.log(this.unit + '不够');
+        self.ready = 'cancel';
+        return false;
+      }
+      self.$vux.loading.show({
+        text: '准备中'
+      });
       api.activity.ChouJiangZhuanQu.gift({
         Type: 1, // 1.积分抽奖, 2.答题促学抽奖
         RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传

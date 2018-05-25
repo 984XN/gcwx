@@ -38,7 +38,7 @@ export default {
     jeton: Number, // 剩余额度
     unit: String, // 单位（积分、道题、份试卷）
     price: Number, // 每转一次扣这个数
-    ready: Boolean // 中奖信息是否准备好
+    ready: null // 中奖信息是否准备好
   },
   data() {
     return {
@@ -190,36 +190,20 @@ export default {
   methods: {
     getGift() {
       let self = this;
-      if (self.jeton < self.price) {
-        self.$vux.alert.show({
-          title: this.unit + '数不够',
-          content:
-            '每次需要扣除' +
-            this.price +
-            this.unit +
-            '，剩余' +
-            this.unit +
-            '数为' +
-            this.jeton
-        });
-        // console.log(this.unit + '不够');
-        return false;
-      }
-      self.$vux.loading.show({
-        text: '准备中'
-      });
       self.$emit('update:ready', false);
       self.$emit('getGift');
       self.watchReady();
     },
     watchReady() {
       let self = this;
-      if (!self.ready) {
+      if (self.ready === false) {
         console.log('!ready.');
         setTimeout(() => {
           self.watchReady();
         }, 100);
-      } else {
+      } else if (self.ready === 'cancel') {
+        console.log('watchReady: cancel');
+      } else if (self.ready === true) {
         self.$vux.loading.hide();
         self.luckDraw();
       }
