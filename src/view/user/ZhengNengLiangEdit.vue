@@ -274,14 +274,14 @@ export default {
         });
         return false;
       }
-      if (self.content.length < 30) {
-        self.$vux.toast.show({
-          type: 'warn',
-          width: '12em',
-          text: '内容至少需要30个字'
-        });
-        return false;
-      }
+      // if (self.content.length < 30) {
+      //   self.$vux.toast.show({
+      //     type: 'warn',
+      //     width: '12em',
+      //     text: '内容至少需要30个字'
+      //   });
+      //   return false;
+      // }
       self.$vux.loading.show({
         text: '正在保存'
       });
