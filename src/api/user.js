@@ -112,6 +112,16 @@ export const user = {
             }
             year = data.Year ? data.Year + '年' : '';
             totalDues = data.YearPaid;
+          } else {
+            // 无数据时造个数据，显示成“暂无数据”时没有显示出具体数据格式效果直接
+            list = [
+              { title: '第1季度', content: '-' },
+              { title: '第2季度', content: '-' },
+              { title: '第3季度', content: '-' },
+              { title: '第4季度', content: '-' }
+            ];
+            year = new Date().getFullYear();
+            totalDues = 0;
           }
           delete res.data.Data;
           res.data.Data = {
@@ -121,59 +131,60 @@ export const user = {
           };
           return res.data;
         });
+    }
+  },
+  DangNeiGuanAi: {
+    // 一个费用报销功能
+    upload: (data, config) => {
+      return service
+        .post('/api/----------------------------------', data, config)
+        .then(res => {
+          return res.data;
+        });
     },
-    DangNeiGuanAi: { // 一个费用报销功能
-      upload: (data, config) => {
-        return service
-          .post('/api/----------------------------------', data, config)
-          .then(res => {
-            return res.data;
+    add: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyCare/InsertCare', params)
+        .then(res => {
+          return res.data;
+        });
+    },
+    detail: params => {
+      return service
+        .post('/api/----------------------------------', params)
+        .then(res => {
+          res.data.Data.list = res.data.Data.PageData.map(v => {
+            return {
+              id: v.ID || 0,
+              score: v.AddScore || 0,
+              date: v.CreateDate || '',
+              content: v.AddScoreExplain || ''
+            };
           });
-      },
-      add: params => {
-        return service
-          .post('/api/PartyActivity/PaPartyCare/InsertCare', params)
-          .then(res => {
-            return res.data;
+          return res.data;
+        });
+    },
+    delete: params => {
+      return service
+        .post('/api/----------------------------------', params)
+        .then(res => {
+          return res.data;
+        });
+    },
+    list: params => {
+      return service
+        .post('/api/----------------------------------', params)
+        .then(res => {
+          res.data.Data.list = res.data.Data.PageData.map(v => {
+            return {
+              id: v.ID || 0,
+              score: v.AddScore || 0,
+              date: v.CreateDate || '',
+              content: v.AddScoreExplain || ''
+            };
           });
-      },
-      detail: params => {
-        return service
-          .post('/api/----------------------------------', params)
-          .then(res => {
-            res.data.Data.list = res.data.Data.PageData.map(v => {
-              return {
-                id: v.ID || 0,
-                score: v.AddScore || 0,
-                date: v.CreateDate || '',
-                content: v.AddScoreExplain || ''
-              };
-            });
-            return res.data;
-          });
-      },
-      delete: params => {
-        return service
-          .post('/api/----------------------------------', params)
-          .then(res => {
-            return res.data;
-          });
-      },
-      list: params => {
-        return service
-          .post('/api/----------------------------------', params)
-          .then(res => {
-            res.data.Data.list = res.data.Data.PageData.map(v => {
-              return {
-                id: v.ID || 0,
-                score: v.AddScore || 0,
-                date: v.CreateDate || '',
-                content: v.AddScoreExplain || ''
-              };
-            });
-            return res.data;
-          });
-      }
+          return res.data;
+        });
     }
   },
   wechat: {
