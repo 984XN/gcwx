@@ -19,10 +19,10 @@ export const article = {
             return {
               id: val.ID,
               thumb: val.FilePath ? val.FilePath.replace(/^~/g, '') : '',
-              // sign: val.FileType === 10 ? '视频' : val.FileType === 20 ? '文档' : '',
-              sign: val.ExtName
-                ? val.ExtName.split('.').reverse()[0].substr(0, 4).toUpperCase()
-                : '',
+              sign: val.FileType === 10 ? '视频' : val.FileType === 20 ? '文档' : '',
+              // sign: val.ExtName
+              //   ? val.ExtName.split('.').reverse()[0].substr(0, 4).toUpperCase()
+              //   : '',
               title: val.Title,
               content: val.Remark,
               view: val.ReadNumber,

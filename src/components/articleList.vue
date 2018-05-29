@@ -108,7 +108,7 @@ export default {
         top 0
         background-color #20619ac7
         color #FFF
-        font-size 12px
+        font-size 10px
         line-height 1
         padding 5px
         border-radius 0 0 5px 0
