@@ -146,9 +146,10 @@ exports.install = function(Vue, options) {
   };
 
   Vue.prototype.mutiUploadable = () => {
-    // 部分Android手机在微信里的WEB上传功能有问题，华为好像被特殊对待得比较严重
+    // 微信中太多基于安卓的手机不支持多传（点击上传按钮没反应，微信的问题跟 Android 无关）
     // [华为的UA] => Mozilla/5.0 (Linux; Android 8.0.0; VKY-AL00 Build/HUAWEIVKY-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/63.0.3239.111 Mobile Safari/537.36 MicroMessenger/6.6.6.1300(0x26060637) NetType/WIFI Language/zh_CN
+    // 小米 和 ViVO 也没有幸免
     let userAgent = navigator.userAgent || '';
-    return !/HUAWEI/.test(userAgent);
+    return !/Android/i.test(userAgent);
   };
 };
