@@ -38,8 +38,8 @@ export default {
         lineHeight: '140%'
       };
       if (item.thumb) {
-        style['-webkit-line-clamp'] = '2';
-        style.height = '44px';
+        style['-webkit-line-clamp'] = '3';
+        style.height = '68px';
       } else {
         style['-webkit-line-clamp'] = '1';
         style.height = '22px';
@@ -73,6 +73,8 @@ export default {
     padding 15px
     margin-bottom 5px
     border-radius 5px
+    position relative
+    overflow hidden
     a {
       display block
       color #333
@@ -91,8 +93,8 @@ export default {
       overflow hidden
       position relative
       img {
-        width 160px
-        height 110px
+        width 120px
+        height 90px
         float left
       }
       .sign {
@@ -103,8 +105,8 @@ export default {
         color #FFF
         font-size 12px
         line-height 1
-        padding 5px
-        border-radius 0 0 5px 0
+        padding 10px 15px 10px 10px
+        border-radius 0 0 20px 0
         text-transform uppercase
       }
     }

@@ -34,8 +34,8 @@ export default {
       if (self.lazyload.nodata) {
         self.lazyload.loading = false;
       } else {
-        api
-          .getArticleList({
+        api.article
+          .list({
             model: {},
             pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
             Theme: 40

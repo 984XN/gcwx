@@ -7,29 +7,6 @@
 
 import service from 'src/api';
 
-export const getArticleList = params => {
-  // console.log('api.getArticleList', service);
-  return service
-    .post('/api/PartyStudy/PsPartyStudyCoursewareV2/Query', params)
-    .then(res => {
-      let list = [];
-      if (res.data.Data.PageData) {
-        list = res.data.Data.PageData.map((val, index, arr) => {
-          return {
-            id: val.ID,
-            thumb: val.FilePath ? val.FilePath.replace(/^~/g, '') : '',
-            title: val.Title,
-            content: val.Remark,
-            view: val.ReadNumber,
-            date: val.CreateDate
-          };
-        });
-      }
-      res.data.Data.PageData = list;
-      return res.data;
-    });
-};
-
 export const article = {
   // 获取列表
   list: params => {
@@ -42,6 +19,10 @@ export const article = {
             return {
               id: val.ID,
               thumb: val.FilePath ? val.FilePath.replace(/^~/g, '') : '',
+              // sign: val.FileType === 10 ? '视频' : val.FileType === 20 ? '文档' : '',
+              sign: val.ExtName
+                ? val.ExtName.split('.').reverse()[0].substr(0, 4).toUpperCase()
+                : '',
               title: val.Title,
               content: val.Remark,
               view: val.ReadNumber,
@@ -128,6 +109,5 @@ export const article = {
 };
 
 export default {
-  getArticleList,
   article
 };
