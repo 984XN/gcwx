@@ -71,7 +71,7 @@ export default {
         .catch(e => {
           self.$vux.loading.hide();
           self.$vux.confirm.show({
-            title: '出错了',
+            title: '提示',
             content: e.message || '接口数据错误',
             confirmText: '返回上一页',
             cancelText: '关闭提示',

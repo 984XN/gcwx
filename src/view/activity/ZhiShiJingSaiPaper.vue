@@ -289,7 +289,7 @@ export default {
             self.countdown();
           } else {
             self.$vux.alert.show({
-              title: '出错了',
+              title: '提示',
               content: res.Data.Message || res.Message || '未知错误',
               buttonText: '返回上一页',
               onHide() {
