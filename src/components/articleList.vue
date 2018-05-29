@@ -13,6 +13,10 @@
             <i class="iconfont icon-eye"></i>
             {{item.view}}
           </span>
+          <span class="type" v-if="!item.thumb && item.sign">
+            <i class="iconfont icon-type"></i>
+            {{item.sign}}
+          </span>
           <span class="date">{{item.date|substr(0,10,false)}}</span>
         </div>
       </router-link>
@@ -96,6 +100,7 @@ export default {
         width 120px
         height 90px
         float left
+        color #EEE
       }
       .sign {
         position absolute
@@ -105,8 +110,8 @@ export default {
         color #FFF
         font-size 12px
         line-height 1
-        padding 10px 15px 10px 10px
-        border-radius 0 0 20px 0
+        padding 5px
+        border-radius 0 0 5px 0
         text-transform uppercase
       }
     }
@@ -134,6 +139,10 @@ export default {
       font-size 12px
       padding-top 10px
       line-height 1
+      i {
+        font-size inherit
+        color #12a2ff
+      }
       &:after {
         content ''
         display block
@@ -142,11 +151,11 @@ export default {
       .date {
         float right
       }
+      .type {
+      }
       .view {
-        float left
+        margin-right 10px
         i {
-          color rgb(18, 162, 263)
-          font-size 12px
           margin-right 3px
         }
       }
