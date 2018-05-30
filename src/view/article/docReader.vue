@@ -2,7 +2,7 @@
   <div class="article-detail-doc-reader">
     <iframe v-if="type==='file'" :src="src" frameborder="0"></iframe>
     <div v-else-if="type==='video'">
-      <video id="player" width="100%" class="video" autoplay="autoplay" poster="">
+      <video id="player" width="100%" class="video" autoplay="autoplay" controls="controls" poster="">
         <source :src="src" type="video/mp4" />
       </video>
     </div>
@@ -23,8 +23,9 @@ export default {
         file: 30, // 学习够这个秒数可得积分
         video: 0 // 视频根据时长加积分，具体规划在后台管理，前端控制不了，这个数值也没有作用，仅用于标志有这个功能
       },
+      videoScoreAdded: false, // 视频已看完并已得分不需要退出时再得分了
       learningHandel: null,
-      learning: false,
+      learning: false, // 是否显示“学习中”的提示
       learnTime: 0, // 视频页面停留时间
       type: 'file', // file | video
       src: '/static/html/docReaderLoading.html'
@@ -43,11 +44,12 @@ export default {
   methods: {
     showRole() {
       let self = this;
+      let threshold = self.scoreRequireTimeThreshold.file;
       self.$vux.alert.show({
         title: '积分规则',
         content: `
           <ol style="text-align:left;font-size:14px;list-style:none;">
-            <li>1. 文档类学习${self.scoreRequireTimeThreshold.file}秒即可得到积分</li>
+            <li>1. 文档类学习${threshold}秒即可得到积分</li>
             <li>2. 视频类详见相关规则文件</li>
             <li>3. 重复学习不得积分</li>
           </ol>
@@ -121,15 +123,14 @@ export default {
         // console.log('找到了SRC:', src);
         self.src = src;
         self.learning = true;
-        let ext = src
-          .toLowerCase()
-          .split('')
-          .reverse()
-          .join('')
-          .split('.')[0]
-          .split('')
-          .reverse()
-          .join('');
+        let ext = src.toLowerCase();
+        ext = ext.split('');
+        ext = ext.reverse();
+        ext = ext.join('');
+        ext = ext.split('.')[0];
+        ext = ext.split('');
+        ext = ext.reverse();
+        ext = ext.join('');
         switch (ext) {
           case 'mp4':
             self.type = 'video';
@@ -172,15 +173,25 @@ export default {
             // console.log('已全屏', isFullscreen);
           }
           let player = document.getElementById('player');
-          let duration = player.duration;
+          let duration = Math.floor(player.duration);
           let currentTime = player.currentTime;
-          self.learnTime = Math.floor(currentTime < online ? currentTime : online);
+          self.learnTime = Math.floor(
+            currentTime < online ? currentTime : online
+          );
           if (currentTime >= duration && duration !== 0) {
+            self.videoScoreAdded = true;
+            let data = {
+              id: self.id,
+              title: self.title,
+              minute: parseFloat((self.learnTime / 60).toFixed(1))
+            };
+            self.learning = false;
+            self.addScore(data);
             clearInterval(self.learningHandel);
           }
           // console.log('duration:', duration, currentTime);
           // 提示活动中
-          console.log('正在观看……', self.learnTime);
+          console.log('正在观看……', self.learnTime, duration, currentTime);
         } else {
           console.log('正在计时，未知类型……', self.type, self.learnTime);
         }
@@ -191,7 +202,7 @@ export default {
     let self = this;
     try {
       clearInterval(self.learningHandel);
-      if (self.type === 'video') {
+      if (self.type === 'video' && !self.videoScoreAdded) {
         let data = {
           id: self.id,
           title: self.title,
