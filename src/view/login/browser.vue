@@ -1,9 +1,9 @@
 <template>
   <div class="login-browser" @keyup.enter="loginFn">
     <group title="登录">
-      <x-input title="帐号" v-model="user.username" :icon-type="usernameValid" novalidate placeholder="输入帐号"></x-input>
-      <x-input title="密码" v-model="user.password" :icon-type="passwordValid" novalidate type="password" placeholder="输入密码"></x-input>
-      <x-input title="验证码" v-model="user.vcode" @on-focus="user.vcode=''" :icon-type="passwordValid" novalidate class="vcode" placeholder="输入验证码">
+      <x-input title="帐号" v-model="user.username" placeholder="输入帐号" :is-type="idCardNoCheck"></x-input>
+      <x-input title="密码" v-model="user.password" type="password" placeholder="输入密码"></x-input>
+      <x-input title="验证码" v-model="user.vcode" @on-focus="user.vcode=''" class="vcode" placeholder="输入验证码">
         <img slot="right-full-height" :src="'/api/Sys/SysUser/GetValidateCode?'+random" onclick="this.src=this.src+'?'+Math.random()">
       </x-input>
     </group>
@@ -27,10 +27,14 @@ export default {
         username: localStorage.getItem('username') || '',
         password: ''
       },
-      usernameValid: '',
-      passwordValid: '',
       errMessage: '',
-      random: ''
+      random: '',
+      idCardNoCheck: string => {
+        return {
+          valid: this.isIdCardNo(string),
+          msg: '请输入正确的身份证号'
+        };
+      }
     };
   },
   methods: {
@@ -38,17 +42,19 @@ export default {
       this.errMessage = '';
     },
     loginFn() {
+      let self = this;
       // 记住用户名
-      localStorage.setItem('username', this.user.username);
+      localStorage.setItem('username', self.user.username);
       // JS验证
-      if (!this.user.username || !this.user.password) {
-        this.errMessage = ' 帐号和密码不能为空 ';
+      if (!self.user.username || !self.user.password) {
+        self.errMessage = ' 帐号和密码不能为空 ';
         sessionStorage.logined = 0;
+      } else if (!self.isIdCardNo(self.user.username)) {
+        self.errMessage = ' 身份证号不正确 ';
       } else {
         // // api 验证
         // // 转到登录前的页面
-        let jumpTo = this.$route.query.redirect || '/article';
-        let self = this;
+        let jumpTo = self.$route.query.redirect || '/article';
         self.$vux.loading.show({
           text: '正在登录'
         });
@@ -72,8 +78,8 @@ export default {
               sessionStorage.userWechat = JSON.stringify(
                 res.Data.WechatUserInfo || { WechatUserInfo: false }
               );
-              // this.$store.commit('setSystemUserInfo', res.Data.UserInfo);
-              this.$router.replace({ path: jumpTo });
+              // self.$store.commit('setSystemUserInfo', res.Data.UserInfo);
+              self.$router.replace({ path: jumpTo });
             } else {
               self.random = Math.random();
               self.errMessage = res.Message;
