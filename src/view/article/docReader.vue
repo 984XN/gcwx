@@ -1,11 +1,9 @@
 <template>
   <div class="article-detail-doc-reader">
     <iframe v-if="type==='file'" :src="src" frameborder="0"></iframe>
-    <div v-else-if="type==='video'">
-      <video id="player" width="100%" class="video" autoplay="autoplay" controls="controls" poster="">
-        <source :src="src" type="video/mp4" />
-      </video>
-    </div>
+    <video v-else-if="type==='video'" id="player" style="background-color:#000;" width="100%" height="100%" class="video" autoplay="autoplay" controls="controls" poster="" x5-playsinline="" playsinline="" webkit-playsinline="" preload="auto">
+      <source :src="src" type="video/mp4" />
+    </video>
     <div v-else data-remark="正常情况下不可能执行到这里，请检查文末JS代码">未知文件类型：{{type}}</div>
     <div class="learnClock" v-if="learning" @click="showRole">
       {{learnClock}}
@@ -223,6 +221,7 @@ export default {
   position absolute
   left 0
   top 0
+  background-color #fff
   iframe {
     width 100%
     height 100%
@@ -230,13 +229,13 @@ export default {
   .learnClock {
     position fixed
     right 10px
-    bottom 10px
-    background-color rgba(255, 255, 255, 0.3)
-    color #000
+    top 10px
+    background-color rgba(255, 255, 255, 0.8)
+    color #C00
     padding 5px
     line-height 1
     font-size 12px
-    border 1px solid #CCC
+    border 1px solid rgba(128, 128, 128, 0.4)
     border-radius 3px
   }
 }
