@@ -7,15 +7,15 @@
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
-        <div class="intro" v-if="!item.thumb" v-html="item.content"></div>
+        <div class="intro" v-if="!item.thumb && item.intro" v-html="item.content"></div>
         <div class="attr" :style="getStyleAttr(item)">
-          <span class="view">
-            <i class="iconfont icon-eye"></i>
-            {{item.view}}
-          </span>
           <span class="type" v-if="!item.thumb && item.sign">
             <i class="iconfont icon-type"></i>
             {{item.sign}}
+          </span>
+          <span class="view">
+            <i class="iconfont icon-eye"></i>
+            {{item.view}}
           </span>
           <span class="date">{{item.date|substr(0,10,false)}}</span>
         </div>
@@ -45,8 +45,13 @@ export default {
         style['-webkit-line-clamp'] = '3';
         style.height = '68px';
       } else {
-        style['-webkit-line-clamp'] = '1';
-        style.height = '22px';
+        if (item.intro) {
+          style['-webkit-line-clamp'] = '1';
+          style.height = '22px';
+        } else {
+          style['-webkit-line-clamp'] = '3';
+          style.height = '65px';
+        }
       }
       return style;
     },
@@ -139,6 +144,7 @@ export default {
       font-size 12px
       padding-top 10px
       line-height 1
+      color #999
       i {
         font-size inherit
         color #12a2ff
@@ -151,13 +157,9 @@ export default {
       .date {
         float right
       }
-      .type {
-      }
+      .type,
       .view {
         margin-right 10px
-        i {
-          margin-right 3px
-        }
       }
     }
   }

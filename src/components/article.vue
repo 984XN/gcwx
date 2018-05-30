@@ -4,7 +4,7 @@
       <h1>{{article.baseInfo.title}}</h1>
       <div class="atricle-head-attr">
         <span v-if="article.baseInfo.author" class="author">作者：{{article.baseInfo.author}}</span>
-        <span v-if="article.baseInfo.date" class="date">发布：{{article.baseInfo.date}}</span>
+        <span v-if="article.baseInfo.date" class="date">发布：{{article.baseInfo.date|substr(0,10,0)}}</span>
         <span v-if="article.baseInfo.view" class="date">阅读：{{article.baseInfo.view}}</span>
       </div>
     </div>
