@@ -48,7 +48,7 @@
         </cell>
       </group>
       <group>
-        <cell title="个人积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score" :disabled="!hasPower('member')">
+        <cell title="我的积分" :link="{path:'score',append:true}" :is-loading="score === null" :value="score" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-coin"></i>
         </cell>
         <cell title="党费查询" is-link @click.native="hasPower('member') ? show.dues = !show.dues : ''" :is-loading="dues.total === null" :value="dues.total" :disabled="!hasPower('member')">

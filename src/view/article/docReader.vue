@@ -78,12 +78,16 @@ export default {
           .then(res => {
             console.log('addScore by online:', res);
             if (res.StatusCode === 1200) {
-              self.$vux.toast.show({
-                text: res.Message,
-                type: 'text',
-                time: 5000,
-                width: '18em',
-                position: 'middle'
+              self.$vux.confirm.show({
+                content: res.Message,
+                confirmText: '关闭提示',
+                cancelText: '积分记录',
+                onCancel() {
+                  self.$router.replace({ path: '/user/score' });
+                },
+                onConfirm() {
+                  // console.log('plugin confirm');
+                }
               });
             } else {
               self.$vux.toast.show({
