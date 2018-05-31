@@ -64,9 +64,9 @@ service.interceptors.response.use(
     // console.log('response.config:', response.config); // 为请求提供的配置信息
     let api = response.config.url.replace('/api/', '/');
     let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块[' + api + ']';
-    if (response.data.StatusCode === 200) {
+    if (response.data.StatusCode >= 200 && response.data.StatusCode <= 299) {
       response.data.StatusCodeOrigin = response.data.StatusCode;
-      response.data.StatusCode = 1200;
+      response.data.StatusCode += 1000;
     } else if (response.data.StatusCode === 1500) {
       Vue.$vux.loading.hide();
       // Vue.$vux.alert.hide();
