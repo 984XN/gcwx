@@ -59,7 +59,7 @@ export default {
         //   path = 'preview/' + item.id;
         // }
         // 过期的就转到排名
-        if (item.expire) {
+        if (item.expire || item.done) {
           path = 'order/' + item.id;
         }
       }
