@@ -1,6 +1,6 @@
 <template>
   <div class="page-activity-liangdiantoupiao-item-detail">
-    <container :lazyload="lazyload" @loadData="loadData" bottom="53" top="0">
+    <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0">
       <Article :article="article"></Article>
       <group title="投票列表">
         <cell v-for="(v,i) in list" :key="i" :title="v.date" :value="v.title"></cell>
