@@ -2,8 +2,8 @@
   <div class="page-activity-liangdiantoupiao-vote">
     <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0">
       <div class="banner" :style="bannerStyle" :class="{hasBg: article.cover}">
-        <div class="title">{{article.title}}</div>
-        <div class="subTitle">{{article.cover}}</div>
+        <div class="title">{{article.title|substr(0,6,0)}}</div>
+        <div class="subTitle">{{article.title|substr(6)}}</div>
         <form class="search">
           <input type="text" placeholder="请输入编号或关键字" v-model="keyword">
           <button @click="query">
@@ -227,11 +227,12 @@ export default {
               title: '投票成功',
               content
             });
-            // 将“已选”改为“已投”
+            // 将“已选”改为“已投”，并为票数+1
             for (let i = 0; i < self.list.length; i++) {
               const item = self.list[i];
               if (item.selected) {
                 self.list[i].voted = true;
+                self.list[i].votes += 1;
                 delete self.list[i].selected;
               }
             }
