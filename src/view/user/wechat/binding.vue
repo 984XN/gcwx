@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       user: {
-        username: '',
+        username: localStorage.getItem('username') || '',
         password: ''
       },
       wechat: {
@@ -54,6 +54,8 @@ export default {
         self.$vux.loading.show({
           text: '正在绑定'
         });
+        // 存下帐号，修改密码的 isDefaultPassword 要用
+        localStorage.setItem('username', self.user.username);
         // console.log('wechat binding...', this.wechat, this.user);
         api.user.wechat
           .bindMember({
