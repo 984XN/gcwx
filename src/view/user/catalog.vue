@@ -43,7 +43,7 @@
         <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
           <i slot="icon" class="listIcon iconfont icon-custom-wechat"></i>
         </cell>
-        <cell title="修改密码" :link="{path:'password',append:true}" :disabled="!hasPower('member')">
+        <cell title="我的密码" :link="{path:'password',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-password"></i>
           <span v-if="isDefaultPassword" style="color:#C00;">不安全</span>
         </cell>

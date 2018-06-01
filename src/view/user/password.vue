@@ -1,7 +1,7 @@
 <template>
   <div class="page-user-password">
     <div class="changePasswordTip" v-if="isDefaultPassword">
-      不安全：为了你的帐号安全，请不要使用默认密码。
+      提醒：为了你的帐号安全，请不要使用默认密码。
     </div>
     <group title="修改密码">
       <x-input title="旧密码" v-model="user.password0" :min="6" placeholder="正在使用的密码" type="password"></x-input>
