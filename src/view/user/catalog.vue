@@ -43,8 +43,9 @@
         <cell title="微信绑定" @click.native="getWechatLink" is-link :value="wechatName">
           <i slot="icon" class="listIcon iconfont icon-custom-wechat"></i>
         </cell>
-        <cell title="修改密码" :link="{path:'password',append:true}" value="" :disabled="!hasPower('member')">
+        <cell title="修改密码" :link="{path:'password',append:true}" :disabled="!hasPower('member')">
           <i slot="icon" class="listIcon iconfont icon-password"></i>
+          <span v-if="isDefaultPassword" style="color:#C00;">不安全</span>
         </cell>
       </group>
       <group>
@@ -135,6 +136,7 @@ export default {
       binded: false,
       userSystem: {},
       userWechat: {},
+      isDefaultPassword: false,
       show: {
         dues: false
       },
@@ -245,10 +247,17 @@ export default {
       let self = this;
       console.log('process.env:', process.env);
       let version = `Ver${process.env.APP_VERSION}`;
-      version += ' Build ' + self.date('Y-m-d H:i:s', self.time(process.env.APP_UPDATE)).replace(/[\u2E80-\uFE4F-/:\s]/g, '').substr(4, 6);
+      version +=
+        ' Build ' +
+        self
+          .date('Y-m-d H:i:s', self.time(process.env.APP_UPDATE))
+          .replace(/[\u2E80-\uFE4F-/:\s]/g, '')
+          .substr(4, 6);
       self.$vux.alert.show({
         title: '关于',
-        content: `${process.env.APP_NAME}<br /> ${version} <br />中国共产党石家庄市藁城区委员会组织部版权所有<br /> 鸿卓电子提供技术支持`
+        content: `${
+          process.env.APP_NAME
+        }<br /> ${version} <br />中国共产党石家庄市藁城区委员会组织部版权所有<br /> 鸿卓电子提供技术支持`
       });
     }
   },
@@ -258,6 +267,7 @@ export default {
       self.binded = self.session('binded');
       self.userSystem = self.session('userSystem');
       self.userWechat = self.session('userWechat');
+      self.isDefaultPassword = self.session('isDefaultPassword');
       if (!self.hasPower('member')) {
         self.score = 0;
         self.dues.total = 0;

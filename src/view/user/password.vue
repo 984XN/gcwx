@@ -1,5 +1,8 @@
 <template>
   <div class="page-user-password">
+    <div class="changePasswordTip" v-if="isDefaultPassword">
+      不安全：为了你的帐号安全，请不要使用默认密码。
+    </div>
     <group title="修改密码">
       <x-input title="旧密码" v-model="user.password0" :min="6" placeholder="正在使用的密码" type="password"></x-input>
       <x-input title="新密码" v-model="user.password1" :min="6" placeholder="输入新密码" type="password"></x-input>
@@ -22,7 +25,8 @@ export default {
         password0: '',
         password1: '',
         password2: ''
-      }
+      },
+      isDefaultPassword: false
     };
   },
   computed: {
@@ -60,6 +64,15 @@ export default {
         });
         return false;
       }
+      if (self.user.password0 === self.user.password2) {
+        self.$vux.toast.show({
+          text: '新旧密码相同不需要修改',
+          type: 'warn',
+          time: 2000,
+          width: '13em'
+        });
+        return false;
+      }
       api.user
         .password({
           OldLoginPWD: self.user.password0,
@@ -75,6 +88,14 @@ export default {
                 self.$router.replace({ path: '/user' });
               }
             });
+            if (localStorage.username) {
+              self.isDefaultPassword = sessionStorage.isDefaultPassword = self.usedDefaultPassword(
+                localStorage.username,
+                self.user.password1
+              );
+            } else {
+              self.isDefaultPassword = sessionStorage.isDefaultPassword = false;
+            }
           } else {
             self.$vux.alert.show({
               title: '修改失败',
@@ -84,6 +105,20 @@ export default {
           }
         });
     }
+  },
+  mounted() {
+    let self = this;
+    self.isDefaultPassword = self.session('isDefaultPassword');
   }
 };
 </script>
+
+<style lang="stylus" scoped>
+.changePasswordTip {
+  padding 10px
+  background-color #C00
+  color #FFF
+  text-align center
+  font-size 12px
+}
+</style>

@@ -78,6 +78,10 @@ export default {
               sessionStorage.userWechat = JSON.stringify(
                 res.Data.WechatUserInfo || { WechatUserInfo: false }
               );
+              sessionStorage.isDefaultPassword = self.usedDefaultPassword(
+                self.user.username,
+                self.user.password
+              );
               // self.$store.commit('setSystemUserInfo', res.Data.UserInfo);
               self.$router.replace({ path: jumpTo });
             } else {

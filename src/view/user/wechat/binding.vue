@@ -66,6 +66,10 @@ export default {
             if (res.StatusCode === 1200) {
               sessionStorage.binded = true;
               sessionStorage.userSystem = JSON.stringify(res.Data.UserInfo);
+              sessionStorage.isDefaultPassword = self.usedDefaultPassword(
+                self.user.username,
+                self.user.password
+              );
               self.$vux.toast.show({
                 text: '绑定成功',
                 time: 1000,

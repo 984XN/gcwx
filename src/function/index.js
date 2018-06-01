@@ -34,7 +34,7 @@ exports.install = function(Vue, options) {
 
   // 从 sessionStorage 中取出 SESSION
   Vue.prototype.session = item => {
-    return sessionStorage[item] ? JSON.parse(sessionStorage[item]) : {};
+    return sessionStorage[item] ? JSON.parse(sessionStorage[item]) : '';
   };
 
   // 是否身份证号
@@ -151,5 +151,14 @@ exports.install = function(Vue, options) {
     // 小米 和 ViVO 也没有幸免
     let userAgent = navigator.userAgent || '';
     return !/Android/i.test(userAgent);
+  };
+
+  Vue.prototype.usedDefaultPassword = (username = '', password = '') => {
+    return (
+      username
+        .replace(/\s/g, '')
+        .toUpperCase()
+        .substr(-6) === password.replace(/\s/g, '').toUpperCase()
+    );
   };
 };
