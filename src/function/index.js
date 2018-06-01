@@ -56,7 +56,7 @@ exports.install = function(Vue, options) {
     return f || (n && r === v); // 通过15位正则 或者 （通过18位正则并且校验码正确）
   };
 
-  // 是否微信内置浏览器（router.js里也有类似的功能，见 router.getLoginUrl）
+  // 是否微信内置浏览器（router.js里也有类似的代码，见 router.getLoginUrl）
   // Vue.prototype.isWechat = () => {
   //   return navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
   // };
