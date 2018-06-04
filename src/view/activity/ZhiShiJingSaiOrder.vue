@@ -1,6 +1,6 @@
 <template>
   <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="0" class="page-activity-zhishijingsai-order">
-    <h1 class="pageTitle">竞赛排名</h1>
+    <!-- <h1 class="pageTitle">竞赛排名</h1> -->
     <dl class="examOrderList">
       <dt>
         <div class="total" v-if="total > 0">共{{total}}人</div>
@@ -42,6 +42,8 @@ export default {
       mid: '-',
       total: '0',
       order: '0',
+      orderMaxScore: -1,
+      orderIndex: 0,
       list: []
     };
   },
@@ -61,12 +63,22 @@ export default {
         // console.log( 'XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据' );
         api.activity.examination
           .order({
-            ID: self.$route.params.id || 0
+            ID: self.$route.params.id || 0,
+            pageModel: { Page: self.lazyload.page, Start: 0, Limit: 30 }
           })
           .then(res => {
             console.log('loadData res:', res);
             if (res.Data.list && res.Data.list.length > 0) {
-              self.list = [...this.list, ...res.Data.list];
+              res.Data.list = res.Data.list.map(v => {
+                if (v.score !== self.orderMaxScore) {
+                  self.orderIndex++;
+                  self.orderMaxScore = v.score;
+                }
+                v.order = self.orderIndex;
+                return { ...v };
+              });
+
+              self.list = [...self.list, ...res.Data.list];
               self.total = res.Data.RowCount || 0;
               self.lazyload.page += 1;
               if (!res.Data.PageIndex) {
