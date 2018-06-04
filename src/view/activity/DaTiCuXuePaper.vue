@@ -403,6 +403,7 @@ input[type='radio'] + i {
       padding 15px 0 10px
       word-wrap break-word
       word-break break-all
+      line-height 1.4
     }
   }
   .answers {
