@@ -7,7 +7,7 @@
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
-        <div class="intro" v-if="!item.thumb && item.intro" v-html="item.content"></div>
+        <div class="intro" v-if="!item.thumb && item.content" v-html="item.content"></div>
         <div class="attr" :style="getStyleAttr(item)">
           <span class="type" v-if="!item.thumb && item.sign">
             <i class="iconfont icon-type"></i>
@@ -45,7 +45,7 @@ export default {
         style['-webkit-line-clamp'] = '3';
         style.height = '68px';
       } else {
-        if (item.intro) {
+        if (item.content) {
           style['-webkit-line-clamp'] = '1';
           style.height = '22px';
         } else {
