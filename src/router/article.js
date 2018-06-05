@@ -2,8 +2,6 @@ import Article from 'src/view/article/index';
 import ArticleTab from 'src/view/article/indexTab';
 import ArticleMenu from 'src/view/article/indexMenu';
 import ArticleYingZhiYingHui from 'src/view/article/YingZhiYingHui';
-import ArticleYingZhiYingHuiDetail from 'src/view/article/YingZhiYingHuiDetail';
-import ArticleYingZhiYingHuiList from 'src/view/article/YingZhiYingHuiList';
 import ArticleDangZhangDangGui from 'src/view/article/DangZhangDangGui';
 import ArticleXiLieJiangHua from 'src/view/article/XiLieJiangHua';
 import ArticleDangShiBoLan from 'src/view/article/DangShiBoLan';
@@ -26,39 +24,15 @@ const RouterArticle = {
     {
       path: 'yingzhiyinghui',
       components: {
+        tab: ArticleTab,
+        menu: ArticleMenu,
         page: ArticleYingZhiYingHui
       },
       meta: {
         title: '应知应会',
         auth: true,
         keepAlive: true
-      },
-      children: [
-        {
-          path: '/',
-          components: {
-            tab: ArticleTab,
-            menu: ArticleMenu,
-            page: ArticleYingZhiYingHuiList
-          },
-          meta: {
-            title: '应知应会',
-            auth: true,
-            keepAlive: true
-          }
-        },
-        {
-          path: 'detail',
-          components: {
-            detail: ArticleYingZhiYingHuiDetail
-          },
-          meta: {
-            title: '应知应会',
-            auth: true,
-            keepAlive: false
-          }
-        }
-      ]
+      }
     },
     {
       path: 'dangzhangdanggui',
