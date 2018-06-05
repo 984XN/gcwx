@@ -111,7 +111,8 @@ export default {
           let lotteryNum = res.Data.lotteryNum; // 获得N次抽奖机会
           let integral = res.Data.integral; // 获得N个积分
           let score = res.Data.score; // 成绩是这个分数
-          let rid = res.Data.rid || 0;
+          // let rid = res.Data.rid || 0; // 答题记录的ID
+          let pid = self.$route.params.id || 0;
           let pass = res.Data.pass || false;
           let threshold = res.Data.threshold || false;
           let message = '';
@@ -145,7 +146,7 @@ export default {
               onConfirm() {
                 self.$router.replace({
                   path: '/activity/choujiangzhuanqu/turntable-question',
-                  query: { rid }
+                  query: { pid }
                 });
               }
             });
@@ -174,7 +175,7 @@ export default {
           //     onConfirm() {
           //       self.$router.replace({
           //         path: '/activity/choujiangzhuanqu/turntable-question',
-          //         query: { rid }
+          //         query: { pid }
           //       });
           //     }
           //   });

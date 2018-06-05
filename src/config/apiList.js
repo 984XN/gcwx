@@ -225,18 +225,19 @@ export const API_LIST = {
       ID: ''
     }
   },
-  // // 更新可抽奖额度（答题抽奖时用）
-  // '/PartyStudy/PsScoreRecord/UpdateScoreRecord': {
-  //   name: '剩余可抽奖额度',
-  //   params: {
-  //     ID: ''
-  //   }
-  // },
+  // 更新可抽奖额度（答题抽奖时用）告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+  '/PartyStudy/PsScoreRecord/UpdateScoreRecord': {
+    name: '抽奖次数归零',
+    params: {
+      ID: ''
+    }
+  },
   // 抽奖
   '/PartyActivity/PaPartyLotteryGoods/GetLotteryByMember': {
     name: '抽奖',
     params: {
-      Type: '' // number 1.积分抽奖, 2.答题促学抽奖
+      Type: '', // number 1.积分抽奖, 2.答题促学抽奖
+      PapersID: '' // number 验证有没有“答题抽奖”的机会
     }
   },
   // 获奖名单

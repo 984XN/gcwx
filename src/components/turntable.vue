@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import * as api from 'src/api/activity';
+
 export default {
   props: {
     gift: Number, // 指定中哪个奖（required）
@@ -311,6 +313,10 @@ export default {
               // 更新奖品列表，减少“出现没有库存的奖品”的机率
               window.location.reload();
             }
+          });
+          // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+          api.activity.ChouJiangZhuanQu.notify2server({
+            ID: self.$route.query.pid || 0
           });
           return false;
         }

@@ -604,10 +604,16 @@ export const activity = {
           return res.data;
         });
     },
-    // 验证答题抽奖的资格
+    // 获取答题抽奖的资格
     jeton: params => {
       return service
         .post('/api/PartyStudy/PsScoreRecord/GetScoreRecordByID', params)
+        .then(res => res.data);
+    },
+    // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+    notify2server: params => {
+      return service
+        .post('/api/PartyStudy/PsScoreRecord/UpdateScoreRecord', params)
         .then(res => res.data);
     },
     // 中的哪个奖

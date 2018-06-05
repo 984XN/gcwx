@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      rid: 0,
+      pid: 0,
       jeton: 0,
       price: 1,
       unit: '次',
@@ -72,7 +72,7 @@ export default {
     // }
     getGift() {
       let self = this;
-      if (!self.rid) {
+      if (!self.pid) {
         self.$vux.loading.hide();
         self.$vux.confirm.show({
           title: '答题后可以抽奖',
@@ -86,6 +86,8 @@ export default {
             });
           },
           onCancel() {
+            // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+            api.activity.ChouJiangZhuanQu.notify2server({ ID: self.pid });
             // self.$router.go(-1);
           }
         });
@@ -112,18 +114,18 @@ export default {
         });
         api.activity.ChouJiangZhuanQu.gift({
           Type: 2, // 1.积分抽奖, 2.答题促学抽奖
-          RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
+          PapersID: self.pid // 2.答题促学抽奖时试卷的ID，积分抽奖时不需要传
         })
           .then(res => {
             // console.log('getGift:', res);
-            if (res.StatusCode === 1200) {
+            if (res.StatusCode && res.StatusCode === 1200) {
               self.ready = true;
               self.giftId = res.Data;
               // console.log('new index:', i);
             } else {
               self.$vux.alert.show({
                 title: '数据错误',
-                content: res.Message
+                content: res.Message || '没有错误信息'
               });
             }
           })
@@ -166,8 +168,8 @@ export default {
     self.$nextTick(() => {
       // 有 答题记录的ID 时转换为1次抽奖机会，没有的话提醒他让去答题
       // console.log(self.$route);
-      self.rid = self.$route.query.rid || 0;
-      // if (!self.rid) {
+      self.pid = self.$route.query.pid || 0;
+      // if (!self.pid) {
       //   self.$vux.loading.hide();
       //   self.$vux.confirm.show({
       //     title: '答题后可以抽奖',
@@ -184,11 +186,11 @@ export default {
       //     }
       //   });
       // }
-      if (self.rid) {
+      if (self.pid) {
         // console.log('有id:', id);
         // 获取抽奖机会额度
         api.activity.ChouJiangZhuanQu.jeton({
-          ID: self.rid
+          ID: self.pid
         })
           .then(res => {
             console.log('getJeton:', res);
