@@ -32,7 +32,7 @@
                 </template>
               </ul>
               <div class="weui-uploader__input-box" v-show="files.length < maxNumberOfFiles">
-                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*,video/mp4" :multiple="mutiUploadable">
+                <input @change="add2queue($event)" :disabled="uploadBtnDisabled" class="weui-uploader__input" type="file" accept="image/*,video/mp4" :multiple="multiple">
               </div>
             </div>
           </div>
@@ -95,6 +95,9 @@ export default {
     //     };
     //   });
     // },
+    multiple() {
+      return this.mutiUploadable();
+    },
     fids() {
       let list = [];
       for (let index = 0; index < this.files.length; index++) {
