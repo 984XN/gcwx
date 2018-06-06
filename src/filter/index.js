@@ -108,6 +108,18 @@ const clearStyle = html => {
   return html;
 };
 
+// 秒数转时间
+const second2clock = val => {
+  // 强制转换为非NAN的数值
+  val = parseInt(val);
+  val = isNaN(val) ? 0 : val;
+  let m = Math.floor(val / 60);
+  let s = val % 60;
+  m = m < 10 ? '0' + m : m;
+  s = s < 10 ? '0' + s : s;
+  return m + ':' + s;
+};
+
 export default {
   install(Vue) {
     Vue.filter('trim', trim);
@@ -116,5 +128,6 @@ export default {
     Vue.filter('textTime', textTime);
     Vue.filter('strPad', strPad);
     Vue.filter('clearStyle', clearStyle);
+    Vue.filter('second2clock', second2clock);
   }
 };

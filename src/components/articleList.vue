@@ -12,6 +12,9 @@
           <span class="type" v-if="!item.thumb && item.sign">
             <i class="iconfont icon-type"></i>
             {{item.sign}}
+            <template v-if="item.type === 10">
+              [{{item.length|second2clock}}]
+            </template>
           </span>
           <span class="view">
             <i class="iconfont icon-eye"></i>
