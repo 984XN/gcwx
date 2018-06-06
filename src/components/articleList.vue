@@ -4,7 +4,12 @@
       <router-link :to="'detail/'+item.id">
         <div class="thumb" v-if="item.thumb">
           <img :src="item.thumb" :alt="item.title">
-          <div class="sign" v-if="item.sign">{{item.sign}}</div>
+          <div class="sign" v-if="item.sign">
+            {{item.sign}}
+            <template v-if="item.type === 10">
+              [{{item.length|second2clock}}]
+            </template>
+          </div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
         <div class="intro" v-if="!item.thumb && item.content" v-html="item.content"></div>
