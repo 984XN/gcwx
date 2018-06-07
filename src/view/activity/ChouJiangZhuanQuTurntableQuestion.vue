@@ -86,8 +86,6 @@ export default {
             });
           },
           onCancel() {
-            // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
-            api.activity.ChouJiangZhuanQu.notify2server({ ID: self.pid });
             // self.$router.go(-1);
           }
         });

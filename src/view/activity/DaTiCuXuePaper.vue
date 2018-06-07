@@ -141,6 +141,10 @@ export default {
               cancelText: '放弃',
               confirmText: '去抽奖',
               onCancel() {
+                // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+                api.activity.ChouJiangZhuanQu.notify2server({
+                  ID: self.$route.params.id || 0
+                });
                 self.$router.go(-1);
               },
               onConfirm() {
