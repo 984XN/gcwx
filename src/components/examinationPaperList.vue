@@ -12,13 +12,13 @@
           <span class="date" v-if="item.date">考试时间：{{item.date|substr(0,10,false)}}</span>
         </div>
         <template v-if="type === 10">
-          <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
+          <x-button v-if="!item.expire && !item.done" mini type="warn">开始答题</x-button>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini default>已结束</x-button>
           <x-button v-if="item.notYet" mini default :disabled="true">尚未开始</x-button>
         </template>
         <template v-else-if="type === 20">
-          <x-button v-if="!item.expire && !item.done" mini type="warn">开始测试</x-button>
+          <x-button v-if="!item.expire && !item.done" mini type="warn">开始答题</x-button>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini type="primary">查看排名</x-button>
           <x-button v-if="item.notYet" mini default :disabled="true">尚未开始</x-button>
