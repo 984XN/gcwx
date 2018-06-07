@@ -198,7 +198,7 @@ export default {
     left 8%
     width 50px
     height 33px
-    background url('img/choujiangzhuanqu/notice.png')
+    background url('/static/img/choujiangzhuanqu/notice.png')
     background-size contain
   }
   .date {
