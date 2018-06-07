@@ -1,7 +1,7 @@
 <template>
   <container bottom="0" class="page-activity-choujiangzhuanqu-turntable">
     <div class="banner">
-      <img src="./img/choujiangzhuanqu/banner_question.png">
+      <img src="/static/img/choujiangzhuanqu/banner_question.jpg">
     </div>
     <div class="nameList">
       <marquee>
