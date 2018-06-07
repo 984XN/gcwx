@@ -137,7 +137,7 @@ export const user = {
     // 一个费用报销功能
     upload: (data, config) => {
       return service
-        .post('/api/----------------------------------', data, config)
+        .post('/api/PartyActivity/PaPartyCare/UploadFile?op=upload', data, config)
         .then(res => {
           return res.data;
         });

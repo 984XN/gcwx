@@ -441,6 +441,10 @@ export const API_LIST = {
       imageID: [] // number
     }
   },
+  '/PartyActivity/PaPartyCare/UploadFile?op=upload': {
+    name: '上传党内关爱的资料',
+    params: {}
+  },
   ____________: {
     name: '默认的空接口',
     params: {}

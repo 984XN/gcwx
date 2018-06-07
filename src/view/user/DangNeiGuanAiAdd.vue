@@ -44,7 +44,7 @@
       <a href="javascript:;" class="agree">《相关协议》</a>
     </div> -->
     <div class="control">
-      <x-button @click.native="add" type="warn" :disabled="addBtnDisabled">保存</x-button>
+      <x-button @click.native="add" type="warn" :disabled="addBtnDisabled">提交审核</x-button>
     </div>
     <!-- <div v-transfer-dom>
       <previewer :list="previewerList" :options="previewerOptions" ref="previewer" @on-index-change="logIndexChange">
@@ -225,6 +225,14 @@ export default {
         });
         return false;
       }
+      if (self.address === '') {
+        self.$vux.toast.show({
+          type: 'warn',
+          width: '10em',
+          text: '请填写住址'
+        });
+        return false;
+      }
       if (self.content === '') {
         self.$vux.toast.show({
           type: 'warn',
@@ -256,7 +264,7 @@ export default {
           self.$vux.loading.hide();
           console.log('add res:', res);
           if (res.StatusCode === 1200) {
-            let alertContent = '添加成功，请等待审核，审核通过前你可以重新编辑';
+            let alertContent = '信息已提交，请等待审核，如果审核拒绝你可以整理资料后重新提交申请';
             self.$vux.alert.show({
               title: '等待审核',
               content: alertContent,
@@ -267,7 +275,7 @@ export default {
             });
           } else {
             self.$vux.alert.show({
-              title: '添加失败',
+              title: '提交失败',
               content: res.Message
             });
           }
