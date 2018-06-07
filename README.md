@@ -142,10 +142,10 @@ npm run build
     ```
     # Nginx:
     server {
-      listen 443;
-      server_name m.upall.cn;
+      listen 80;
+      server_name wechat.app.com;
       location / {
-        root /webroot/m.upall.cn;
+        root /webroot/wechat.app.com;
       }
       location /api {
         proxy_pass http://apiServer/;
@@ -157,6 +157,30 @@ npm run build
         proxy_pass http://apiServer/;
       }
     }
+
+    # Apache
+    <VirtualHost *:80>
+      ServerName wechat.app.com
+      DocumentRoot "/webroot/wechat.app.com"
+      <Directory   "/webroot/wechat.app.com">
+        Options +Indexes +Includes +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+      </Directory>
+      ProxyRequests off
+      <Proxy *>  
+        Order allow,deny
+        Allow from all  
+      </Proxy> 
+      <Location /api>
+        ProxyPass    http://apiServer
+        ProxyPassReverse    http://apiServer
+      </Location>
+      <Location /Upload>
+        ProxyPass    http://apiServer
+        ProxyPassReverse    http://apiServer
+      </Location>
+    </VirtualHost>
     ```
 
     ```xml
@@ -193,5 +217,6 @@ npm run build
   1. 单数并不代表单个，复数并不代表多个
   1. 名称只是一个代号，与实际功能并不一一对应，
   1. 数组并不代表一个列表，它可能只是索引用0的一个对象
+  1. 前端参与后端的逻辑处理
 
 -- 完 --
