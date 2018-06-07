@@ -1,25 +1,33 @@
 <template>
-  <container :lazyload="lazyload" @loadData="loadData" top="0" bottom="0">
-    <no-data v-if="!list.length && !lazyload.loading">暂无数据</no-data>
-    <div v-if="list.length" class="list">
-      <div class="weui-panel">
-        <!-- <div class="weui-panel__hd">文字列表附来源</div> -->
-        <div class="weui-panel__bd">
-          <div @click="go2url(item)" v-for="(item, index) in list" :key="index" class="weui-media-box weui-media-box_text">
-            <h4 class="weui-media-box__title">{{item.title}}</h4>
-            <p class="weui-media-box__desc" v-html="item.desc"></p>
-            <ul class="weui-media-box__info">
-              <li class="weui-media-box__info__meta">{{item.meta.date}}</li>
-              <li class="weui-media-box__info__meta weui-media-box__info__meta_extra" v-html="item.meta.other"></li>
-            </ul>
+  <div class="page-user-dangneiguanai">
+    <tab :animate="false">
+      <tab-item @on-item-click="jumpTo('all')" selected>全部</tab-item>
+      <tab-item @on-item-click="jumpTo('ing')">审核中</tab-item>
+      <tab-item @on-item-click="jumpTo('pass')">通过</tab-item>
+      <tab-item @on-item-click="jumpTo('reject')">拒绝</tab-item>
+    </tab>
+    <container :lazyload="lazyload[type]" @loadData="loadData" bottom="0">
+      <no-data v-if="!list[type].length && !lazyload[type].loading">暂无数据</no-data>
+      <div v-if="list[type].length" class="list">
+        <div class="weui-panel">
+          <!-- <div class="weui-panel__hd">文字列表附来源</div> -->
+          <div class="weui-panel__bd">
+            <div @click="go2url(item)" v-for="(item, index) in list" :key="index" class="weui-media-box weui-media-box_text">
+              <h4 class="weui-media-box__title">{{item.title}}</h4>
+              <p class="weui-media-box__desc" v-html="item.desc"></p>
+              <ul class="weui-media-box__info">
+                <li class="weui-media-box__info__meta">{{item.meta.date}}</li>
+                <li class="weui-media-box__info__meta weui-media-box__info__meta_extra" v-html="item.meta.other"></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <router-link :to="{path:'add',append:true}" class="btnAdd">
-      <i class="iconfont icon-add"></i>
-    </router-link>
-  </container>
+      <router-link :to="{path:'add',append:true}" class="btnAdd">
+        <i class="iconfont icon-add"></i>
+      </router-link>
+    </container>
+  </div>
 </template>
 
 <script>
@@ -28,32 +36,65 @@ import * as api from 'src/api/user';
 export default {
   data() {
     return {
+      type: 'all',
       lazyload: {
-        enable: true,
-        nodata: false,
-        loading: false,
-        page: 1
+        all: {
+          enable: true,
+          nodata: false,
+          loading: false,
+          page: 1
+        },
+        ing: {
+          enable: true,
+          nodata: false,
+          loading: false,
+          page: 1
+        },
+        pass: {
+          enable: true,
+          nodata: false,
+          loading: false,
+          page: 1
+        },
+        reject: {
+          enable: true,
+          nodata: false,
+          loading: false,
+          page: 1
+        }
       },
-      list: []
+      list: {
+        all: [],
+        ing: [],
+        pass: [],
+        reject: []
+      }
     };
   },
   methods: {
-    loadData() {
-      // console.log('XiLieJianHua.loadData...');
+    jumpTo(type) {
       let self = this;
-      if (self.lazyload.loading) {
+      let path = self.$route.path;
+      self.$router.push({ path, query: { type } });
+    },
+    loadData() {
+      console.log('DangNeiGuangAi.loadData...');
+      let self = this;
+      let type = self.type;
+      if (self.lazyload[type].loading) {
         // console.log('已经在加载中，return');
         return false;
       }
-      self.lazyload.loading = true;
-      if (self.lazyload.nodata) {
-        // console.log('XiLieJianHua.loadData...没有数据了');
-        self.lazyload.loading = false;
+      self.lazyload[type].loading = true;
+      if (self.lazyload[type].nodata) {
+        // console.log('DangNeiGuangAi.loadData...没有数据了');
+        self.lazyload[type].loading = false;
       } else {
-        // console.log('XiLieJianHua.loadData...加载第 ' + self.lazyload.page + ' 页数据');
+        self.lazyload[type].nodata = true;
+        self.lazyload[type].loading = false;
+        // console.log('DangNeiGuangAi.loadData...加载第 ' + self.lazyload[type].page + ' 页数据');
         api.user.DangNeiGuanAi.list({
-          pageModel: { Page: self.lazyload.page, Start: 0, Limit: 10 },
-          api: 'self'
+          pageModel: { Page: self.lazyload[type].page, Start: 0, Limit: 10 }
         }).then(res => {
           if (res.Data.PageData && res.Data.PageData.length > 0) {
             res.Data.PageData = res.Data.PageData.map(val => {
@@ -78,34 +119,39 @@ export default {
                 }
               };
             });
-            this.list = [...this.list, ...res.Data.PageData];
+            self.list[type] = [...self.list[type], ...res.Data.PageData];
             console.log('loadData res:', res.Data.PageData);
-            self.lazyload.page += 1;
+            self.lazyload[type].page += 1;
             if (!res.Data.PageIndex) {
               // 没有分页功能
-              self.lazyload.nodata = true;
+              self.lazyload[type].nodata = true;
             }
           } else {
             // console.log('木有数据了');
-            self.lazyload.nodata = true;
+            self.lazyload[type].nodata = true;
           }
-          self.lazyload.loading = false;
+          self.lazyload[type].loading = false;
         });
       }
     },
     go2url(item) {
-      let to = '';
-      // 通过只能看，其它只能改：0待审，1通过，2拒绝
-      if (item.public === 1) {
-        to = { path: '/activity/zhengnengliang/list?id=' + item.id };
-      } else {
-        to = { path: 'edit/' + item.id, append: true };
-      }
-      console.log('path:', to);
+      let to = { path: 'detail/' + item.id, append: true };
       this.$router.push(to);
     }
   },
-  mounted() {},
+  watch: {
+    $route(to, from) {
+      console.log('watch $route:', to, from);
+      let self = this;
+      self.type = to.query.type || 'all';
+      self.loadData();
+    }
+  },
+  mounted() {
+    let self = this;
+    self.type = self.$route.query.type || 'all';
+    console.log('mounted $route:', self.$route);
+  },
   activated() {
     this.scrollTo(this);
   }
@@ -113,6 +159,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.page-user-dangneiguanai {
+  height 100%
+}
 .list {
   padding 10px
   border-radius 3px
