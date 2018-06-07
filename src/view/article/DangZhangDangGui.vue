@@ -27,7 +27,7 @@ export default {
       banners: [
         {
           url: 'javascript:',
-          img: '/static/img/banner/02.png'
+          img: '/static/img/banner/02.jpg'
         }
       ],
       list: []

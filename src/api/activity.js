@@ -598,7 +598,7 @@ export const activity = {
             UpdateUID: 0,
             UpdateDate: '',
             IsPutaway: 1,
-            GoodsImgPath: '/static/img/gift/default.png',
+            GoodsImgPath: '/static/img/gift/default.gif',
             GoodsType: 0
           });
           return res.data;
@@ -882,7 +882,7 @@ export const activity = {
                 return {
                   id: v.ID || 0,
                   title: v.ItemName || '-',
-                  thumb: v.PictureImg || '/static/img/default.png',
+                  thumb: v.PictureImg || '/static/img/default.gif',
                   voted: v.IsVote || false,
                   votes: v.VoteCount || 0
                 };
@@ -918,7 +918,7 @@ export const activity = {
                 return {
                   id: v.ID || 0,
                   title: v.ItemName || '-',
-                  thumb: v.PictureImg || '/static/img/default.png',
+                  thumb: v.PictureImg || '/static/img/default.gif',
                   voted: v.IsVote || false,
                   votes: v.VoteCount || 0,
                   order: v.order || '-'

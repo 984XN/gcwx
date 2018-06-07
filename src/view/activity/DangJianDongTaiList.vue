@@ -46,7 +46,7 @@ export default {
       banners: [
         {
           url: 'javascript:',
-          img: '/static/img/banner/01.png'
+          img: '/static/img/banner/01.jpg'
         }
       ],
       tabs: [
