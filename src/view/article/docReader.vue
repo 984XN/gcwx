@@ -164,16 +164,6 @@ export default {
           console.log('正在阅读……', self.learnTime);
         } else if (self.type === 'video') {
           // 视频
-          var isFullscreen =
-            document.fullscreen ||
-            document.webkitIsFullScreen ||
-            document.mozFullScreen ||
-            false;
-          if (!isFullscreen) {
-            // console.log('未全屏', isFullscreen);
-          } else {
-            // console.log('已全屏', isFullscreen);
-          }
           let player = document.getElementById('player');
           let duration = Math.floor(player.duration);
           let currentTime = player.currentTime;
@@ -182,14 +172,35 @@ export default {
           );
           if (currentTime >= duration && duration !== 0) {
             self.videoScoreAdded = true;
+            self.learning = false;
             let data = {
               id: self.id,
               title: self.title,
               minute: parseFloat((self.learnTime / 60).toFixed(1))
             };
-            self.learning = false;
             self.addScore(data);
             clearInterval(self.learningHandel);
+            // 退出全屏（挡住得积分的提示了）
+            let isFullscreen =
+              document.fullscreen ||
+              document.webkitIsFullScreen ||
+              document.mozFullScreen ||
+              false;
+            if (isFullscreen) {
+              try {
+                if (document.exitFullscreen) {
+                  document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                  document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                  document.webkitExitFullscreen();
+                }
+              } catch (e) {
+                console.log('不能退出全屏：', e);
+              }
+            } else {
+              console.log('非全屏，不需要退出全屏以显示得分结果');
+            }
           }
           // console.log('duration:', duration, currentTime);
           // 提示活动中
