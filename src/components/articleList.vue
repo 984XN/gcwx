@@ -7,7 +7,7 @@
           <div class="sign" v-if="item.sign">
             {{item.sign}}
             <template v-if="item.type === 10">
-              [{{item.length|second2clock}}]
+              {{item.length|second2clock}}
             </template>
           </div>
         </div>
@@ -18,7 +18,7 @@
             <i class="iconfont icon-type"></i>
             {{item.sign}}
             <template v-if="item.type === 10">
-              [{{item.length|second2clock}}]
+              {{item.length|second2clock}}
             </template>
           </span>
           <span class="view">
