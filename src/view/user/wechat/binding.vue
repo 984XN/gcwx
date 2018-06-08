@@ -1,7 +1,7 @@
 <template>
   <div class="page-user-wechat-binding">
     <group title="绑定党员帐号">
-      <cell title="微信" :value="wechat.NickName"></cell>
+      <x-input title="微信" :value="wechat.NickName" :disabled="true"></x-input>
       <x-input title="帐号" v-model="user.username" placeholder="请输入身份证号" :is-type="idCardNoCheck"></x-input>
       <x-input title="密码" v-model="user.password" placeholder="请输入密码" type="password"></x-input>
     </group>

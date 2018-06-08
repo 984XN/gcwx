@@ -130,7 +130,7 @@ service.interceptors.response.use(
       // 服务器会把登录超时的链接强行302到 '/Home/Login'
       if (
         statusCode === 404 &&
-        error.request.responseURL.indexOf('/Home/Login')
+        error.request.responseURL.indexOf('/Home/Login') !== -1
       ) {
         Vue.$vux.confirm.show({
           title: '登录超时',
