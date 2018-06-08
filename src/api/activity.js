@@ -6,7 +6,7 @@
 // //////////////////////////////////////////////////////////////////////// //
 
 import service from 'src/api';
-import { System } from 'src/config';
+import { Config } from 'src/config';
 
 // 当前时间戳
 function time(dateString = '') {
@@ -179,7 +179,7 @@ export const activity = {
                 uid: val.UserID ? val.UserID : '',
                 author: val.Commentator || '',
                 content: val.CommentContent || '',
-                avatar: val.PhotoName || System.avatarDefault,
+                avatar: val.PhotoName || Config.avatarDefault,
                 date: val.CommentDate || '',
                 comment:
                   val.comment.map(val => {
@@ -188,7 +188,7 @@ export const activity = {
                       uid: val.UserID ? val.UserID : '',
                       author: val.Commentator || '',
                       content: val.CommentContent || '',
-                      avatar: val.PhotoName || System.avatarDefault,
+                      avatar: val.PhotoName || Config.avatarDefault,
                       date: val.CommentDate || ''
                     };
                   }) || []
@@ -307,7 +307,7 @@ export const activity = {
                   uid: val.UserID ? val.UserID : '',
                   author: val.Commentator || '',
                   content: val.CommentContent || '',
-                  avatar: val.PhotoName || System.avatarDefault,
+                  avatar: val.PhotoName || Config.avatarDefault,
                   date: val.CommentDate || '',
                   comment:
                     val.comment.map(val => {
@@ -316,7 +316,7 @@ export const activity = {
                         uid: val.UserID ? val.UserID : '',
                         author: val.Commentator || '',
                         content: val.CommentContent || '',
-                        avatar: val.PhotoName || System.avatarDefault,
+                        avatar: val.PhotoName || Config.avatarDefault,
                         date: val.CommentDate || ''
                       };
                     }) || []
@@ -491,7 +491,7 @@ export const activity = {
                 uid: val.UserID ? val.UserID : '',
                 author: val.Commentator || '',
                 content: val.CommentContent || '',
-                avatar: val.PhotoName || System.avatarDefault,
+                avatar: val.PhotoName || Config.avatarDefault,
                 date: val.CommentDate || '',
                 comment:
                   val.comment.map(val => {
@@ -500,7 +500,7 @@ export const activity = {
                       uid: val.UserID ? val.UserID : '',
                       author: val.Commentator || '',
                       content: val.CommentContent || '',
-                      avatar: val.PhotoName || System.avatarDefault,
+                      avatar: val.PhotoName || Config.avatarDefault,
                       date: val.CommentDate || ''
                     };
                   }) || []

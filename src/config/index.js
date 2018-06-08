@@ -6,11 +6,11 @@ export const Wechat = {
   state: 1
 }; // snsapi_base or snsapi_userinfo
 
-export const System = {
+export const Config = {
   avatarDefault: '/static/img/avatar.jpg'
 };
 
 export default {
   Wechat,
-  System
+  Config
 };

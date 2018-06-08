@@ -22,7 +22,7 @@
 
 <script>
 import Vue from 'vue';
-import { System } from 'src/config';
+import { Config } from 'src/config';
 import MessageList from 'src/components/messageList';
 import * as api from 'src/api/activity';
 
@@ -144,7 +144,7 @@ export default {
             if (res.Data.PageData && res.Data.PageData.length > 0) {
               res.Data.PageData = res.Data.PageData.map(val => {
                 return {
-                  avatar: System.avatarDefault,
+                  avatar: Config.avatarDefault,
                   detailAppended: false,
                   viewed: false,
                   ...val
@@ -190,7 +190,7 @@ export default {
           // console.log('appendDetail res:', message.id);
           let body = res.Data.activitie[0];
           self.list[index].detailAppended = true;
-          self.list[index].avatar = body.PhotoName || System.avatarDefault;
+          self.list[index].avatar = body.PhotoName || Config.avatarDefault;
           self.list[index].replies =
             res.Data.Data.map(val => {
               return {
@@ -198,7 +198,7 @@ export default {
                 uid: val.UserID ? val.UserID : '',
                 author: val.Commentator || '',
                 content: val.CommentContent || '',
-                avatar: val.PhotoName || System.avatarDefault,
+                avatar: val.PhotoName || Config.avatarDefault,
                 date: val.CommentDate || '',
                 comment:
                   val.comment.map(val => {
@@ -207,7 +207,7 @@ export default {
                       uid: val.UserID ? val.UserID : '',
                       author: val.Commentator || '',
                       content: val.CommentContent || '',
-                      avatar: val.PhotoName || System.avatarDefault,
+                      avatar: val.PhotoName || Config.avatarDefault,
                       date: val.CommentDate || ''
                     };
                   }) || []
@@ -309,7 +309,7 @@ export default {
                   if (reply.id === rid) {
                     self.list[j].replies[i].comment.unshift({
                       author: session.UserName || '',
-                      avatar: session.PhotoName || System.avatarDefault,
+                      avatar: session.PhotoName || Config.avatarDefault,
                       content: self.form.content,
                       date: self.date('Y-m-d H:i:s'),
                       id: res.Data || -1,
@@ -322,7 +322,7 @@ export default {
               } else {
                 self.list[j].replies.unshift({
                   author: session.UserName || '',
-                  avatar: session.PhotoName || System.avatarDefault,
+                  avatar: session.PhotoName || Config.avatarDefault,
                   comment: [],
                   content: self.form.content,
                   date: self.date('Y-m-d H:i:s'),

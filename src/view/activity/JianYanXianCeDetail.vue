@@ -14,7 +14,7 @@
 
 <script>
 import Vue from 'vue';
-import { System } from 'src/config';
+import { Config } from 'src/config';
 import Article from 'src/components/article';
 import * as api from 'src/api/activity';
 
@@ -97,7 +97,7 @@ export default {
             if (reply.id === self.form.reply.id) {
               self.article.replies[i].comment.unshift({
                 author: session.UserName || '',
-                avatar: session.PhotoName || System.avatarDefault,
+                avatar: session.PhotoName || Config.avatarDefault,
                 content: self.form.content,
                 date: self.date('Y-m-d H:i:s'),
                 id: res.Data || -1,

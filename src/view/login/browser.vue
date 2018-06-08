@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { System } from 'src/config';
+import { Config } from 'src/config';
 import * as api from 'src/api/user';
 
 export default {
@@ -70,7 +70,7 @@ export default {
             if (res.success === true) {
               console.log('登录成功');
               res.Data.UserInfo.PhotoName =
-                res.Data.UserInfo.PhotoName || System.avatarDefault;
+                res.Data.UserInfo.PhotoName || Config.avatarDefault;
               sessionStorage.logined = self.time();
               sessionStorage.userSystem = JSON.stringify(
                 res.Data.UserInfo || { UserInfo: false }
