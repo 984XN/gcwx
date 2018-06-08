@@ -134,7 +134,7 @@ service.interceptors.response.use(
       ) {
         Vue.$vux.confirm.show({
           title: '登录超时',
-          content: '请求' + moduleName + '时服务器给了个登录地址让重新登录',
+          content: '请求' + moduleName + '时服务器给了个电脑版的登录地址让重新登录',
           cancelText: '关闭提示',
           confirmText: '重新登录',
           onConfirm: function() {
