@@ -13,7 +13,7 @@
         <div class="process" :class="statusClass">
           <step v-model="processStep">
             <step-item title="发起申请"></step-item>
-            <step-item title="正在审核"></step-item>
+            <step-item title="等待审核"></step-item>
             <step-item title="审核结束"></step-item>
           </step>
           <div class="process-text" v-if="article.statusCode !== 2 || article.statusCode !== 3">

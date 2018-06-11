@@ -10,7 +10,7 @@
         <div class="weui-cell__bd">
           <div class="weui-uploader">
             <div class="weui-uploader__hd">
-              <p class="weui-uploader__title">添加图片</p>
+              <p class="weui-uploader__title">上传凭证图片</p>
               <div class="weui-uploader__info">{{files.length}}/{{maxNumberOfFiles}}</div>
             </div>
             <div class="weui-uploader__bd">
@@ -106,7 +106,7 @@ export default {
       return list;
     },
     addBtnDisabled() {
-      return (this.useTitle && this.title === '') || this.content === '';
+      return (this.useTitle && this.title === '') || this.content === '' || this.files.length === 0;
     }
   },
   methods: {
@@ -238,6 +238,14 @@ export default {
           type: 'warn',
           width: '10em',
           text: '请填写内容'
+        });
+        return false;
+      }
+      if (self.files.length > 0) {
+        self.$vux.toast.show({
+          type: 'warn',
+          width: '10em',
+          text: '请上传凭证图片'
         });
         return false;
       }
