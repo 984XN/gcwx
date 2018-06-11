@@ -250,7 +250,7 @@ a.weui-media-box:active {
 }
 .weui-media-box__info__meta_extra {
   padding-left 1em
-  border-left 1px solid #CECECE
+  border-left 1px solid #e6e6e6
 }
 .weui-media-box_text .weui-media-box__title {
   margin-bottom 8px
