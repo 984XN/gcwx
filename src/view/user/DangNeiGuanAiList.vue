@@ -3,8 +3,8 @@
     <tab :animate="false">
       <tab-item :selected="tabIndex == 0" @on-item-click="jumpTo('all')">全部</tab-item>
       <tab-item :selected="tabIndex == 1" @on-item-click="jumpTo('ing')">审核中</tab-item>
-      <tab-item :selected="tabIndex == 2" @on-item-click="jumpTo('pass')">通过</tab-item>
-      <tab-item :selected="tabIndex == 3" @on-item-click="jumpTo('reject')">拒绝</tab-item>
+      <tab-item :selected="tabIndex == 2" @on-item-click="jumpTo('pass')">已通过</tab-item>
+      <tab-item :selected="tabIndex == 3" @on-item-click="jumpTo('reject')">被拒绝</tab-item>
     </tab>
     <container :lazyload="lazyload[type]" @loadData="loadData" bottom="0">
       <no-data v-if="!list[type].length && !lazyload[type].loading">暂无数据</no-data>
