@@ -7,6 +7,21 @@
 
 import service from 'src/api';
 
+const DangNeiGuanAiStatusCode = {
+  0: '等待党支部审核',
+  1: '党支部审核通过',
+  2: '党支部审核退回',
+  3: '等待党总支、党委审核',
+  4: '党总支、党委审核通过',
+  5: '党总支、党委审核退回',
+  6: '等待党工委审核',
+  7: '党工委审核通过',
+  8: '党工委审核退回',
+  9: '等待区委审核',
+  10: '区委审核通过',
+  11: '区委审核退回'
+}; // 审核状态
+
 export const user = {
   login: params => {
     return service
@@ -135,9 +150,46 @@ export const user = {
   },
   DangNeiGuanAi: {
     // 一个费用报销功能
+    list: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyCare/GetCare', params)
+        .then(res => {
+          res.data.Data.list = res.data.Data.PageData.map(v => {
+            // 1待审核、2.审核通过、3审核退回
+            let statusText =
+              DangNeiGuanAiStatusCode[v.CheckRate] ||
+              '未知状态[' + v.CheckRate + ']';
+            if (v.CheckState === 1) {
+              statusText =
+                '<span style="color:#FF9800;">' + statusText + '</span>';
+            } else if (v.CheckState === 2) {
+              statusText =
+                '<span style="color:#4CAF50;">' + statusText + '</span>';
+            } else if (v.CheckState === 3) {
+              statusText =
+                '<span style="color:#F44336;">' + statusText + '</span>';
+            }
+            return {
+              id: v.ID,
+              statusText,
+              statusCode: v.CheckState || -1, // 1审核中 2通过 3拒绝
+              title: v.ApplyForTitle,
+              content: v.ProposerCondition,
+              address: v.ProposerAddress,
+              date: v.CreateDate
+            };
+          });
+          // console.log('api DangNeiGuanAi list res:', res.data);
+          return res.data;
+        });
+    },
     upload: (data, config) => {
       return service
-        .post('/api/PartyActivity/PaPartyCare/UploadFile?op=upload', data, config)
+        .post(
+          '/api/PartyActivity/PaPartyCare/UploadFile?op=upload',
+          data,
+          config
+        )
         .then(res => {
           return res.data;
         });
@@ -151,41 +203,58 @@ export const user = {
     },
     detail: params => {
       return service
-        .post('/api/----------------------------------', params)
+        .post('/api/PartyActivity/PaPartyCare/GetCareByID', params)
         .then(res => {
-          res.data.Data.list = res.data.Data.PageData.map(v => {
+          // 文章正文信息
+          let baseinfo = res.data.Data.careInfo[0];
+          let article = {
+            id: baseinfo.ID || '',
+            title: baseinfo.ApplyForTitle || '未命名',
+            address: baseinfo.ProposerAddress || '未填写',
+            content: baseinfo.ProposerCondition || '暂无备注',
+            author: baseinfo.Name || '',
+            processCode: baseinfo.CheckRate,
+            process:
+              DangNeiGuanAiStatusCode[baseinfo.CheckRate] ||
+              '未知状态[' + baseinfo.CheckRate + ']',
+            statusCode: baseinfo.CheckState, // 1审核中 2通过 3拒绝
+            status: { 1: '审核中', 2: '通过', 3: '拒绝' }[baseinfo.CheckState], // 1审核中 2通过 3拒绝
+            date: baseinfo.CreateDate || ''
+          };
+          // 附件
+          let file = res.data.Data.imgInfo || [];
+          article.imgs = file.map(v => {
             return {
-              id: v.ID || 0,
-              score: v.AddScore || 0,
-              date: v.CreateDate || '',
-              content: v.AddScoreExplain || ''
+              name: v.FileName,
+              src: v.FilePath
             };
           });
-          return res.data;
-        });
-    },
-    delete: params => {
-      return service
-        .post('/api/----------------------------------', params)
-        .then(res => {
-          return res.data;
-        });
-    },
-    list: params => {
-      return service
-        .post('/api/----------------------------------', params)
-        .then(res => {
-          res.data.Data.list = res.data.Data.PageData.map(v => {
+          // 审核记录
+          let record = res.data.Data.checkInfo || [];
+          article.records = record.map(v => {
             return {
-              id: v.ID || 0,
-              score: v.AddScore || 0,
-              date: v.CreateDate || '',
-              content: v.AddScoreExplain || ''
+              id: v.ID,
+              date: v.CheckDate,
+              organization:
+                v.OrganizationName || 'ID为' + v.OrganizationID + '的组织',
+              remark: v.CheckOpinion || '-',
+              src: v.CheckImgPath
             };
           });
+          article.records = article.records.sort(function(a, b) {
+            return b.id - a.id;
+          });
+          res.data.Data.article = article;
           return res.data;
         });
     }
+    // delete: params => {
+    //   return service
+    //     .post('/api/----------------------------------', params)
+    //     .then(res => {
+    //       return res.data;
+    //     });
+    // },
   },
   wechat: {
     getUserInfoByCode: params => {

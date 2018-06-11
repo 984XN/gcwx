@@ -430,6 +430,18 @@ export const API_LIST = {
       }
     }
   },
+  '/PartyActivity/PaPartyCare/GetCare': {
+    name: '党内关爱列表',
+    params: {
+      queryModel: {
+        IsCheck: '', // int，0全部、1待审核、2.审核通过、3审核退回
+        Name: ''
+      },
+      OrganizationID: '', // number
+      OrganizationCode: '', // string
+      pageModel: {}
+    }
+  },
   '/PartyActivity/PaPartyCare/InsertCare': {
     name: '申请党内关爱', // 增加党内关爱（增加报销申请表）
     params: {
@@ -444,6 +456,12 @@ export const API_LIST = {
   '/PartyActivity/PaPartyCare/UploadFile?op=upload': {
     name: '上传党内关爱的资料',
     params: {}
+  },
+  '/PartyActivity/PaPartyCare/GetCareByID': {
+    name: '党内关爱详情',
+    params: {
+      ID: '' // number
+    }
   },
   ____________: {
     name: '默认的空接口',

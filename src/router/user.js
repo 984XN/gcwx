@@ -16,7 +16,8 @@ import UserDocReader from 'src/view/user/docReader';
 import UserDangNeiGuanAi from 'src/view/user/DangNeiGuanAi';
 import UserDangNeiGuanAiList from 'src/view/user/DangNeiGuanAiList';
 import UserDangNeiGuanAiAdd from 'src/view/user/DangNeiGuanAiAdd';
-import UserDangNeiGuanAiEdit from 'src/view/user/DangNeiGuanAiEdit';
+// import UserDangNeiGuanAiEdit from 'src/view/user/DangNeiGuanAiEdit';
+import UserDangNeiGuanAiDetail from 'src/view/user/DangNeiGuanAiDetail';
 
 const RouterUser = {
   path: '/user',
@@ -117,9 +118,14 @@ const RouterUser = {
           components: { default: UserDangNeiGuanAiAdd },
           meta: { title: '党内关爱', auth: true }
         },
+        // {
+        //   path: 'edit/:id',
+        //   components: { default: UserDangNeiGuanAiEdit },
+        //   meta: { title: '党内关爱', auth: true }
+        // },
         {
-          path: 'edit/:id',
-          components: { default: UserDangNeiGuanAiEdit },
+          path: 'detail/:id',
+          components: { default: UserDangNeiGuanAiDetail },
           meta: { title: '党内关爱', auth: true }
         }
       ]
