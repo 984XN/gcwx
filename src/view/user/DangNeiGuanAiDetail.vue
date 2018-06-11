@@ -1,5 +1,5 @@
 <template>
-  <container top="0" bottom="0" v-if="article.title">
+  <container top="0" bottom="0" v-if="article.title" class="page-user-dangneiguanai-detail">
     <article class="article">
       <div class="article-head">
         <h1>{{article.title}}</h1>
