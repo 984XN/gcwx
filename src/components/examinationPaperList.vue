@@ -7,18 +7,43 @@
           <div class="sign" v-if="item.sign">{{item.sign}}</div>
         </div>
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
-        <div class="intro" v-if="!item.thumb && item.content">{{item.content}}</div>
+        <div class="intro" v-if="!item.thumb && item.content">
+          {{item.content}}
+          <div class="status" v-if="item.statusCode === 1 || item.statusCode === 2">
+            {{item.statusText}}
+          </div>
+        </div>
         <div class="attr" :style="getStyleAttr(item)">
           <span class="date" v-if="item.date">考试时间：{{item.date|substr(0,10,false)}}</span>
         </div>
         <template v-if="type === 10">
-          <x-button v-if="!item.expire && !item.done" mini type="warn">开始答题</x-button>
+          <template v-if="!item.expire && !item.done">
+            <template v-if="item.statusCode === 1">
+              <x-button mini type="warn">继续答题</x-button>
+            </template>
+            <template v-else-if="item.statusCode === 2">
+              <x-button mini default>{{item.statusText}}</x-button>
+            </template>
+            <template v-else>
+              <x-button mini type="warn">开始答题</x-button>
+            </template>
+          </template>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini default>已结束</x-button>
           <x-button v-if="item.notYet" mini default :disabled="true">尚未开始</x-button>
         </template>
         <template v-else-if="type === 20">
-          <x-button v-if="!item.expire && !item.done" mini type="warn">开始答题</x-button>
+          <template v-if="!item.expire && !item.done">
+            <template v-if="item.statusCode === 1">
+              <x-button mini type="warn">继续答题</x-button>
+            </template>
+            <template v-else-if="item.statusCode === 2">
+              <x-button mini default>{{item.statusText}}</x-button>
+            </template>
+            <template v-else>
+              <x-button mini type="warn">开始答题</x-button>
+            </template>
+          </template>
           <x-button v-if="!item.expire && item.done" mini default>已完成</x-button>
           <x-button v-if="item.expire" mini type="primary">查看排名</x-button>
           <x-button v-if="item.notYet" mini default :disabled="true">尚未开始</x-button>
@@ -183,9 +208,9 @@ export default {
       bottom 0
       font-size 12px
       line-height 30px
-      min-width 6em
+      min-width 8em
       display inline-block
-      padding 0
+      padding 0 0.5em
     }
   }
 }

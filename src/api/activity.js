@@ -677,7 +677,7 @@ export const activity = {
                 notYet = true;
               }
             }
-            let done = v.isAnswer || 0;
+            let done = v.isAnswer === 3 || false; // 0、未答、1微信答题中，2PC端答题中，3答过了
             if (params.api === 'my') {
               // my 时没有这返回 isAnswer ，这里补上
               done = true;
@@ -698,6 +698,8 @@ export const activity = {
               done: done, // 已参与过考试
               expire: expire, // 已过期
               notYet: notYet, // 未开始
+              statusCode: v.isAnswer,
+              statusText: ['未答', '微信端正在答题', 'PC端正在答题', '答过了'][v.isAnswer],
               date: date
             };
           });
@@ -804,6 +806,14 @@ export const activity = {
         return res.data;
       });
     },
+    // 解锁试卷（开始答题后试卷会被锁定，需要解锁才能在其它设备上答题）
+    unlock: params => {
+      return service
+        .post('/api/PartyStudy/PsScoreRecord/CancleAnswer', params)
+        .then(res => {
+          return res.data;
+        });
+    },
     // 交卷，获取考试成绩
     result: params => {
       return service
@@ -827,7 +837,9 @@ export const activity = {
                 name: v.Name,
                 score: v.PapersScore,
                 mid: v.PartyMemberID,
-                date: v.PapersScoreTime
+                times: v.AnswerTookTime,
+                sign: v.PapersScore + v.AnswerTookTime,
+                date: v.StartQuizTime || '-'
               };
             });
           }

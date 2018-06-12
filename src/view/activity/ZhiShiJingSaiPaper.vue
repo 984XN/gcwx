@@ -35,7 +35,12 @@
         </li>
       </ol>
       <div class="control">
-        <x-button type="warn" action-type="button" @click.native="getNextQuestion">{{buttonText}}</x-button>
+        <div>
+          <x-button type="default" action-type="button" @click.native="cancel">放弃答题</x-button>
+        </div>
+        <div>
+          <x-button type="warn" action-type="button" @click.native="getNextQuestion">{{buttonText}}</x-button>
+        </div>
       </div>
     </div>
     <div v-transfer-dom>
@@ -99,7 +104,7 @@ export default {
           self.checked = false;
           self.index++;
           if (self.index === total - 1) {
-            self.buttonText = '交卷';
+            self.buttonText = '提交试卷';
           }
         }, 100);
       } else {
@@ -261,6 +266,15 @@ export default {
           });
         });
       // return;
+    },
+    cancel() {
+      let self = this;
+      api.activity.examination
+        .unlock({ ID: self.$route.params.id })
+        .then(res => {
+          self.$router.go(-1);
+          console.log('api.activity.examination.unlock res:', res);
+        });
     }
   },
   mounted() {
@@ -474,6 +488,7 @@ label {
       padding 15px 0 10px
       word-wrap break-word
       word-break break-all
+      line-height 1.4
     }
   }
   .answers {
@@ -492,12 +507,17 @@ label {
   }
 }
 .control {
-  padding 10px
+  padding 5px
   position fixed
   left 0
   right 0
   bottom 0
   background-color #fff
   border-top 1px solid #EEE
+  display flex
+  div {
+    flex 1
+    padding 5px
+  }
 }
 </style>

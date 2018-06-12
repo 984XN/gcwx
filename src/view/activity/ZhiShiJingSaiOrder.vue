@@ -13,12 +13,25 @@
       <dd>
         <no-data v-if="!list.length && !lazyload.loading">还没有排名记录</no-data>
         <table v-if="list.length" class="data">
+          <thead>
+            <th>名次</th>
+            <th>姓名</th>
+            <th>得分</th>
+            <th>用时</th>
+            <th>答题时间</th>
+          </thead>
           <tbody>
             <tr v-for="(v,i) in list" :key="i" :class="{active: v.mid === mid}">
-              <td :class="'i_'+v.order">第{{v.order}}名</td>
+              <td :class="'i_'+(i+1)">第{{i+1}}名</td>
               <td>{{v.name}}</td>
               <td>{{v.score}}分</td>
-              <td>{{v.date}}</td>
+              <td>
+                <template v-if="v.times">
+                  {{v.times|second2clock}}
+                </template>
+                <template v-else>-</template>
+              </td>
+              <td>{{v.date|substr(0,16,0)}}</td>
             </tr>
           </tbody>
         </table>
@@ -41,9 +54,9 @@ export default {
       },
       mid: '-',
       total: '0',
-      order: '0',
-      orderMaxScore: -1,
-      orderIndex: 0,
+      order: '0', // 我的排名
+      // orderMaxScore: -1,
+      // orderIndex: 0,
       list: []
     };
   },
@@ -69,15 +82,14 @@ export default {
           .then(res => {
             console.log('loadData res:', res);
             if (res.Data.list && res.Data.list.length > 0) {
-              res.Data.list = res.Data.list.map(v => {
-                if (v.score !== self.orderMaxScore) {
-                  self.orderIndex++;
-                  self.orderMaxScore = v.score;
-                }
-                v.order = self.orderIndex;
-                return { ...v };
-              });
-
+              // res.Data.list = res.Data.list.map(v => {
+              //   if (v.score !== self.orderMaxScore) {
+              //     self.orderIndex++;
+              //     self.orderMaxScore = v.score;
+              //   }
+              //   v.order = self.orderIndex;
+              //   return { ...v };
+              // });
               self.list = [...self.list, ...res.Data.list];
               self.total = res.Data.RowCount || 0;
               self.lazyload.page += 1;
@@ -176,6 +188,7 @@ export default {
     font-size 14px
     table.data {
       width 100%
+      text-align center
       tr {
         td.i_1 {
           color #CC0000
@@ -186,16 +199,16 @@ export default {
         td.i_3 {
           color #2196F3
         }
-        td {
-          padding 5px 0
-          &:nth-child(3) {
-            text-align right
-          }
-          &:nth-child(4) {
-            text-align right
-            color #666
-          }
-        }
+        // td {
+        //   padding 5px 0
+        //   &:nth-child(3) {
+        //     text-align right
+        //   }
+        //   &:nth-child(4) {
+        //     text-align right
+        //     color #666
+        //   }
+        // }
       }
     }
   }

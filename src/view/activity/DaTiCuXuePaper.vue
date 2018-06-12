@@ -41,7 +41,12 @@
         </li>
       </ol>
       <div class="control">
-        <x-button type="warn" action-type="button" @click.native="submit">交卷</x-button>
+        <div>
+          <x-button type="default" action-type="button" @click.native="cancel">放弃答题</x-button>
+        </div>
+        <div>
+          <x-button type="warn" action-type="button" @click.native="submit">提交试卷</x-button>
+        </div>
       </div>
     </div>
   </container>
@@ -207,6 +212,15 @@ export default {
           });
         });
       // return;
+    },
+    cancel() {
+      let self = this;
+      api.activity.examination
+        .unlock({ ID: self.$route.params.id })
+        .then(res => {
+          self.$router.go(-1);
+          console.log('api.activity.examination.unlock res:', res);
+        });
     }
   },
   mounted() {
@@ -241,9 +255,9 @@ export default {
             });
             console.log('答题卡初始化:', self.answerCard);
           } else if (code === 202) {
-            // 202 答过了
+            // 202 答过了或正在其它设备上答题
             self.$vux.alert.show({
-              title: '明天再来',
+              title: '提示',
               content: res.Data.Message || res.Message || '未知错误',
               buttonText: '返回上一页',
               onHide() {
@@ -427,12 +441,17 @@ input[type='radio'] + i {
   }
 }
 .control {
-  padding 10px
+  padding 5px
   position fixed
   left 0
   right 0
   bottom 0
   background-color #fff
   border-top 1px solid #EEE
+  display flex
+  div {
+    flex 1
+    padding 5px
+  }
 }
 </style>
