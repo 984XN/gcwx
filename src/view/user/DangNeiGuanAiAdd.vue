@@ -106,7 +106,7 @@ export default {
       return list;
     },
     addBtnDisabled() {
-      return (this.useTitle && this.title === '') || this.content === '' || this.files.length === 0;
+      return (this.useTitle && this.title === '') || this.content === '' || this.address === '' || this.files.length === 0;
     }
   },
   methods: {
