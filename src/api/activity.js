@@ -598,7 +598,7 @@ export const activity = {
             UpdateUID: 0,
             UpdateDate: '',
             IsPutaway: 1,
-            GoodsImgPath: '/static/img/gift/default.gif',
+            GoodsImgPath: '/static/img/gift/default.png',
             GoodsType: 0
           });
           return res.data;
@@ -699,7 +699,7 @@ export const activity = {
               expire: expire, // 已过期
               notYet: notYet, // 未开始
               statusCode: v.isAnswer,
-              statusText: ['未答', '微信端正在答题', 'PC端正在答题', '答过了'][v.isAnswer],
+              statusText: ['未答', '微信端正在答题', 'PC端正在答题', '答过了'][ v.isAnswer ],
               date: date
             };
           });
@@ -830,18 +830,28 @@ export const activity = {
       return service
         .post('/api/PartyStudy/PsExamPapers/GetTestScores', params)
         .then(res => {
+          function strPad(str, len, sign = '0') {
+            str += ''; // 转换为字符串
+            len = len < str.length ? str.length : len; // 负值 new Array 时会出错
+            return new Array(len - str.length + 1).join(sign) + str;
+          }
           if (res.data.Data && res.data.Data.PageData) {
-            res.data.Data.list = res.data.Data.PageData.map(v => {
+            let list = res.data.Data.PageData.map(v => {
+              let score = strPad(v.PapersScore, 8);
+              let time = strPad(v.AnswerTookTime, 8);
+              let start = strPad(v.StartQuizTime.replace(/[^\d]/g, ''), 16);
+              let sign = '' + score + time + start;
               return {
                 id: v.ID,
                 name: v.Name,
                 score: v.PapersScore,
                 mid: v.PartyMemberID,
                 times: v.AnswerTookTime,
-                sign: v.PapersScore + v.AnswerTookTime,
+                sign,
                 date: v.StartQuizTime || '-'
               };
             });
+            res.data.Data.list = list;
           }
           return res.data;
         });

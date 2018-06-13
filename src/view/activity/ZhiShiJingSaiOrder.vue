@@ -21,8 +21,8 @@
             <th>答题时间</th>
           </thead>
           <tbody>
-            <tr v-for="(v,i) in list" :key="i" :class="{active: v.mid === mid}">
-              <td :class="'i_'+(i+1)">第{{i+1}}名</td>
+            <tr v-for="(v,i) in list" :key="i" :class="[v.mid === mid ? 'active' : '', 'i_'+v.order]">
+              <td>第{{v.order}}名</td>
               <td>{{v.name}}</td>
               <td>{{v.score}}分</td>
               <td>
@@ -31,7 +31,7 @@
                 </template>
                 <template v-else>-</template>
               </td>
-              <td>{{v.date|substr(0,16,0)}}</td>
+              <td>{{v.date|substr(11,8,0)}}</td>
             </tr>
           </tbody>
         </table>
@@ -55,8 +55,8 @@ export default {
       mid: '-',
       total: '0',
       order: '0', // 我的排名
-      // orderMaxScore: -1,
-      // orderIndex: 0,
+      orderSign: -1,
+      orderIndex: 0,
       list: []
     };
   },
@@ -82,14 +82,14 @@ export default {
           .then(res => {
             console.log('loadData res:', res);
             if (res.Data.list && res.Data.list.length > 0) {
-              // res.Data.list = res.Data.list.map(v => {
-              //   if (v.score !== self.orderMaxScore) {
-              //     self.orderIndex++;
-              //     self.orderMaxScore = v.score;
-              //   }
-              //   v.order = self.orderIndex;
-              //   return { ...v };
-              // });
+              res.Data.list = res.Data.list.map(v => {
+                if (v.sign !== self.orderSign) {
+                  self.orderIndex++;
+                  self.orderSign = v.sign;
+                }
+                v.order = self.orderIndex;
+                return { ...v };
+              });
               self.list = [...self.list, ...res.Data.list];
               self.total = res.Data.RowCount || 0;
               self.lazyload.page += 1;
@@ -114,6 +114,7 @@ export default {
                 self.$router.go(-1);
               }
             });
+            console.log(e);
           });
         api.activity.examination
           .myOrder({
@@ -155,6 +156,7 @@ export default {
   border-radius 5px
   box-shadow 0 3px 5px rgba(0, 0, 0, 0.3)
   list-style none
+  padding 10px 0 20px
   dt {
     font-size 12px
     padding 10px 15px
@@ -184,20 +186,25 @@ export default {
     }
   }
   dd {
-    padding 0px 15px
+    padding 0
     font-size 14px
     table.data {
       width 100%
       text-align center
+      border-collapse collapse
+      line-height 2
       tr {
-        td.i_1 {
+        &.i_1 {
           color #CC0000
         }
-        td.i_2 {
+        &.i_2 {
           color #FF9800
         }
-        td.i_3 {
+        &.i_3 {
           color #2196F3
+        }
+        &.active {
+          background-color #ffeae9
         }
         // td {
         //   padding 5px 0
