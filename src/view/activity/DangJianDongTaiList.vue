@@ -1,6 +1,6 @@
 <template>
-  <div class="page-activity-dangjiandongtai-list fix-nav">
-    <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0">
+  <div class="page-activity-dangjiandongtai-list" :class="{'fix-nav': fixNav}">
+    <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0" @scroll="scroll">
       <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
         <tab-item @on-item-click="jumpTo" v-for="(tab,n) in tabs" :key="n" :disabled="!hasPower(tab.allowRole)">
@@ -41,6 +41,7 @@ export default {
         loading: false,
         page: 1
       },
+      fixNav: false,
       tabIndex: 0,
       list: [],
       banners: [
@@ -173,6 +174,15 @@ export default {
         let tab = self.$el.querySelector('.menu-sub .vux-tab.scrollable');
         let tabItemWidth = tab.querySelector('.vux-tab-item').offsetWidth;
         tab.scrollLeft = tabItemWidth * (index - 1);
+      }
+    },
+    scroll(st) {
+      console.log('scroll:', st);
+      let self = this;
+      if (st >= 180) { // 180 是 swiper 的高度
+        self.fixNav = true;
+      } else {
+        self.fixNav = false;
       }
     }
   },

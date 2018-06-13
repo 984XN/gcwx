@@ -94,6 +94,8 @@ export default {
       //   !self.nodata
       // );
       // console.log('container scroll.', container.scrollTop);
+      // 通知父标签自己的 scrollTop
+      self.$emit('scroll', container.scrollTop);
       // 保存滚动位置
       let path = self.$route.fullPath;
       let scrollTopObj = {};
