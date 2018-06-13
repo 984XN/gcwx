@@ -55,6 +55,13 @@ axios.defaults.withCredentials = true;
 
 // respone interceptor
 service.interceptors.response.use(
+  // 已经请求回来了，转小写也没啥意义了
+  // // URL 转小写
+  // config => {
+  //   let url = config.config.url.toLocaleLowerCase();
+  //   config.config.url = url;
+  //   return config;
+  // },
   // response => response,
   response => {
     // console.log('response.data:', response.data); // 由服务器提供的响应
@@ -63,7 +70,9 @@ service.interceptors.response.use(
     // console.log('response.headers:', response.headers); // 服务器响应的头
     // console.log('response.config:', response.config); // 为请求提供的配置信息
     let api = response.config.url.replace('/api/', '/');
-    let moduleName = API_LIST[api] ? API_LIST[api].name : '未知模块[' + api + ']';
+    let moduleName = API_LIST[api]
+      ? API_LIST[api].name
+      : '未知模块[' + api + ']';
     if (response.data.StatusCode >= 200 && response.data.StatusCode <= 299) {
       response.data.StatusCodeOrigin = response.data.StatusCode;
       response.data.StatusCode += 1000;
@@ -134,7 +143,8 @@ service.interceptors.response.use(
       ) {
         Vue.$vux.confirm.show({
           title: '登录超时',
-          content: '请求' + moduleName + '时服务器给了个电脑版的登录地址让重新登录',
+          content:
+            '请求' + moduleName + '时服务器给了个电脑版的登录地址让重新登录',
           cancelText: '关闭提示',
           confirmText: '重新登录',
           onConfirm: function() {

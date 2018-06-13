@@ -128,6 +128,7 @@ export default {
             }
           })
           .catch(e => {
+            this.ready = 'cancel';
             this.$vux.confirm.show({
               title: '提示',
               content: e.message || '接口数据错误',
@@ -192,7 +193,7 @@ export default {
         })
           .then(res => {
             console.log('getJeton:', res);
-            self.jeton = res.Data.LotteryNum || 0;
+            self.jeton = res.Data[0].LotteryNum || 0;
             self.loadingList.jeton = true;
             self.hideLoading();
           })

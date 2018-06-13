@@ -9,9 +9,6 @@
         <div class="title" :style="getStyleTitle(item)">{{item.title}}</div>
         <div class="intro" v-if="!item.thumb && item.content">
           {{item.content}}
-          <div class="status" v-if="item.statusCode === 1 || item.statusCode === 2">
-            {{item.statusText}}
-          </div>
         </div>
         <div class="attr" :style="getStyleAttr(item)">
           <span class="date" v-if="item.date">考试时间：{{item.date|substr(0,10,false)}}</span>

@@ -109,6 +109,7 @@ export default {
           }
         })
         .catch(e => {
+          this.ready = 'cancel';
           this.$vux.confirm.show({
             title: '提示',
             content: e.message || '接口数据错误',

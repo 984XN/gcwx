@@ -100,6 +100,7 @@ export default {
   border-radius 5px
   box-shadow 0 3px 5px rgba(0, 0, 0, 0.3)
   list-style none
+  padding-bottom 20px
   dt {
     font-size 12px
     padding 10px 15px
@@ -124,6 +125,7 @@ export default {
     font-size 12px
     table.data {
       width 100%
+      line-height 2
       tr {
         // &:nth-child(1) td:nth-child(1) {
         // color #CC0000

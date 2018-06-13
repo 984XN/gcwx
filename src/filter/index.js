@@ -82,8 +82,9 @@ const textTime = time => {
 };
 
 const strPad = (str, len, sign = '-', dir = 'before') => {
-  str = str + ''; // 转换为字符串
   let newStr = '';
+  str += ''; // 转换为字符串
+  len = len < str.length ? str.length : len; // 负值 new Array 时会出错
   if (dir === 'before') {
     // before, after
     newStr = new Array(len - str.length + 1).join(sign) + str;
