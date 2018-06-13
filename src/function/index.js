@@ -145,6 +145,7 @@ exports.install = function(Vue, options) {
     }
   };
 
+  // 上传时启用多选
   Vue.prototype.mutiUploadable = () => {
     // 微信中太多基于安卓的手机不支持多传（点击上传按钮没反应，微信的问题跟 Android 无关）
     // [华为的UA] => Mozilla/5.0 (Linux; Android 8.0.0; VKY-AL00 Build/HUAWEIVKY-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/63.0.3239.111 Mobile Safari/537.36 MicroMessenger/6.6.6.1300(0x26060637) NetType/WIFI Language/zh_CN
@@ -153,6 +154,7 @@ exports.install = function(Vue, options) {
     return !/Android/i.test(userAgent);
   };
 
+  // 是否使用了默认密码
   Vue.prototype.usedDefaultPassword = (username = '', password = '') => {
     return (
       username
