@@ -57,9 +57,9 @@ exports.install = function(Vue, options) {
   };
 
   // 是否微信内置浏览器（router.js里也有类似的代码，见 router.getLoginUrl）
-  // Vue.prototype.isWechat = () => {
-  //   return navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
-  // };
+  Vue.prototype.isWechat = () => {
+    return navigator.userAgent.toLowerCase().match(/MicroMessenger/i);
+  };
 
   // 获取URL坡地中的参数
   Vue.prototype.getUrlParam = name => {

@@ -15,8 +15,11 @@
         </div>
         <template v-if="type === 10">
           <template v-if="!item.expire && !item.done">
-            <template v-if="item.statusCode === 1">
+            <template v-if="item.statusCode === 1 && inWechat">
               <x-button mini type="warn">继续答题</x-button>
+            </template>
+            <template v-else-if="item.statusCode === 1 && !inWechat">
+              <x-button mini default>{{item.statusText}}</x-button>
             </template>
             <template v-else-if="item.statusCode === 2">
               <x-button mini default>{{item.statusText}}</x-button>
@@ -31,8 +34,11 @@
         </template>
         <template v-else-if="type === 20">
           <template v-if="!item.expire && !item.done">
-            <template v-if="item.statusCode === 1">
+            <template v-if="item.statusCode === 1 && inWechat">
               <x-button mini type="warn">继续答题</x-button>
+            </template>
+            <template v-else-if="item.statusCode === 1 && !inWechat">
+              <x-button mini default>{{item.statusText}}</x-button>
             </template>
             <template v-else-if="item.statusCode === 2">
               <x-button mini default>{{item.statusText}}</x-button>
@@ -60,6 +66,11 @@ export default {
   },
   data() {
     return {};
+  },
+  computed: {
+    inWechat() {
+      return this.isWechat();
+    }
   },
   methods: {
     go(item) {
