@@ -1,5 +1,5 @@
 <template>
-  <div class="page-activity-liangdiantoupiao-list">
+  <div class="page-activity-dangjiandongtai-list fix-nav">
     <container :lazyload="lazyload" @loadData="loadData" bottom="50" top="0">
       <swiper :list="banners" auto loop dots-class="swiper-control-dot" dots-position="center"></swiper>
       <tab v-model="tabIndex" :scroll-threshold="4" active-color="#f17474" class="tab-icon">
@@ -200,6 +200,21 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.page-activity-dangjiandongtai-list {
+  height 100%
+  &.fix-nav {
+    .vux-slider {
+      margin-bottom 60px
+    }
+    .vux-tab-wrap {
+      position fixed
+      z-index 12
+      left 0
+      right 0
+      top 0
+    }
+  }
+}
 .voteList {
   margin 10px
   list-style none

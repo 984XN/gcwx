@@ -184,7 +184,7 @@ export default {
             } else {
               title = '好可惜<br />答题失败';
               message = `很遗憾你的正确率低于${threshold}%，未通过，你的正确率为${accuracy}，分数为${score}分`;
-              motto = '不要泄气，下次肯定能成功！！';
+              motto = '不要泄气，努力就有好成绩！！';
             }
             // let Message = res.Message;
             // let StatusCode = res.StatusCode;
