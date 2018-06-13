@@ -839,7 +839,10 @@ export const activity = {
             let list = res.data.Data.PageData.map(v => {
               let score = strPad(v.PapersScore, 8);
               let time = strPad(v.AnswerTookTime, 8);
-              let start = strPad(v.StartQuizTime.replace(/[^\d]/g, ''), 16);
+              let start = strPad(
+                (v.StartQuizTime + '').replace(/[^\d]/g, ''),
+                16
+              );
               let sign = '' + score + time + start;
               return {
                 id: v.ID,
