@@ -297,13 +297,16 @@ export default {
             self.paper = res.Data.paper || {};
             self.list = res.Data.list;
             self.duration = self.paper.duration * 60; // 分钟转为秒
-            if (res.Data.list.length === 0) {
+            if (self.list.length === 0) {
               self.$vux.alert.show({
                 title: '不能考试',
                 content: '试卷中没有题目'
               });
               return false;
+            } else if (self.list.length === 1) {
+              self.buttonText = '提交试卷';
             }
+
             // 答题卡初始化（后台接口要求每道题都必需传值，未答的填写空的字符串，不能是null）
             self.list.forEach(v => {
               self.answerCard[v.id] = '';
