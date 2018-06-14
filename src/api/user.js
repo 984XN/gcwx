@@ -74,7 +74,7 @@ export const user = {
       total: params => {
         return service
           .post(
-            '/api/PartyActivity/PaPartyMemberAddScore/GetMemberBySum',
+            '/api/Integration/IgPartyMemberAddScore/GetMemberBySum',
             params
           )
           .then(res => {
@@ -84,7 +84,7 @@ export const user = {
       list: params => {
         return service
           .post(
-            '/api/PartyActivity/PaPartyMemberAddScore/GetMemberScore',
+            '/api/Integration/IgPartyMemberAddScore/GetMemberScore',
             params
           )
           .then(res => {
@@ -275,7 +275,7 @@ export const user = {
     emitBinded: params => {
       return service
         .post(
-          '/api/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto',
+          '/api/Integration/IgPartyMemberAddScore/InsertMemberAddScoreByAuto',
           params
         )
         .then(res => res.data);

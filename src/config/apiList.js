@@ -16,7 +16,7 @@ export const API_LIST = {
     name: '微信绑定',
     params: { model: { LoginName: '', LoginPWD: '' } }
   },
-  '/PartyActivity/PaPartyMemberAddScore/InsertMemberAddScoreByAuto': {
+  '/Integration/IgPartyMemberAddScore/InsertMemberAddScoreByAuto': {
     name: '微信绑定送积分',
     params: {}
   },
@@ -343,11 +343,11 @@ export const API_LIST = {
     name: '获取个人资料',
     params: {}
   },
-  '/PartyActivity/PaPartyMemberAddScore/GetMemberBySum': {
+  '/Integration/IgPartyMemberAddScore/GetMemberBySum': {
     name: '获取积分总数',
     params: {}
   },
-  '/PartyActivity/PaPartyMemberAddScore/GetMemberScore': {
+  '/Integration/IgPartyMemberAddScore/GetMemberScore': {
     name: '获取积分记录',
     params: {}
   },

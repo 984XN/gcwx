@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import * as api from 'src/api/activity';
+// import * as api from 'src/api/activity';
 
 export default {
   props: {
@@ -314,10 +314,11 @@ export default {
               window.location.reload();
             }
           });
-          // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
-          api.activity.ChouJiangZhuanQu.notify2server({
-            ID: self.$route.query.pid || 0
-          });
+          // 服务器自动收回抽奖机会，不用手动通知了，在放弃抽奖的时候还是需要通知的
+          // // 告诉服务器抽过（或放弃）奖了，可以把抽奖机会收回了
+          // api.activity.ChouJiangZhuanQu.notify2server({
+          //   ID: self.$route.query.pid || 0
+          // });
           return false;
         }
         self.turntable.timer = setTimeout(roll, self.turntable.speed);
