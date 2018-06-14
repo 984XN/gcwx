@@ -70,7 +70,7 @@ export default {
           position: 'absolute',
           bottom: '0',
           right: '0',
-          left: '170px'
+          left: '130px'
         };
       }
       return style;
