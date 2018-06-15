@@ -690,6 +690,12 @@ export const activity = {
             } else {
               content += '，未限制考试时间';
             }
+            let statusText = [
+              '未答',
+              '微信端正在答题',
+              'PC端正在答题',
+              '答过了'
+            ][v.isAnswer];
             return {
               id: v.ID,
               thumb: v.ImgPath || '',
@@ -699,7 +705,7 @@ export const activity = {
               expire: expire, // 已过期
               notYet: notYet, // 未开始
               statusCode: v.isAnswer,
-              statusText: ['未答', '微信端正在答题', 'PC端正在答题', '答过了'][ v.isAnswer ],
+              statusText,
               date: date
             };
           });
@@ -754,6 +760,16 @@ export const activity = {
         if (res.data.Data && res.data.Data.question) {
           res.data.Data.list = res.data.Data.question.map(v => {
             let type = v.QuestionType; // 10判断，20单选，30多选
+            let selected = v.SelectedAnswers || ''; // 用户选中的项（答题卡上的）回看试卷时有这个属性
+            let answer = v.QuestionRightAnswers || '';
+            selected = selected
+              .split(',')
+              .sort()
+              .join(',');
+            answer = answer
+              .split(',')
+              .sort()
+              .join(',');
             let question = {
               id: v.ID || '[无标题]',
               question: v.QuestionDescribe || '[无标题]',
@@ -763,8 +779,8 @@ export const activity = {
               //   { val: 'A', key: '江泽民' },
               //   { val: 'A', key: '习近平' }
               // ],
-              answer: v.QuestionRightAnswers,
-              selected: v.SelectedAnswers || '', // 用户选中的项（答题卡上的）回看试卷时有这个属性
+              answer,
+              selected,
               inputType: type === 10 || type === 20 ? 'radio' : 'checkbox',
               type: '' // // radio or multiselect
             };
@@ -779,7 +795,7 @@ export const activity = {
               default:
                 break;
             }
-            // 10判断题共2个答案项，20单选答案共4个答案项，30多选答案共X项（目前没有多选题20180506）
+            // 10判断题共2个答案项，20单选答案共4个答案项，30多选答案共X项
             let options = [];
             for (const i of 'ABCD'.split('')) {
               let val = 'QuestionOption' + i;
@@ -796,8 +812,13 @@ export const activity = {
             } else if (type === 20) {
               question.options = options;
             } else if (type === 30) {
-              // 目前没有多选题
-              console.error('检测到多选题，系统目前不支持多选题');
+              question.options = options;
+            } else {
+              console.error(
+                '检测到了未知类型的考试题：',
+                v.ID,
+                v.QuestionDescribe
+              );
             }
             return question;
           });

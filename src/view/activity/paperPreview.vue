@@ -23,14 +23,15 @@
               <div class="index">
                 <strong>第{{i+1}}题</strong>
                 <span>（共{{paper.count || list.length}}题）</span>
+                <span class="questionType">({{getQuestionType(v.type)}})</span>
               </div>
-              <div class="text">{{v.question}}</div>
+              <div class="text"> {{v.question}} </div>
             </dt>
             <dd class="content">
               <ol class="answers">
                 <li class="answer" v-for="(answer, j) in v.options" :key="j">
                   <label>
-                    <input :checked="v.selected === answer.val" disabled="disabled" :type="v.inputType" :value="answer.val" :name="'t_' + v.id + '_' + i + '[]'">
+                    <input :checked="checked(v.selected, answer.val)" disabled="disabled" :type="v.inputType" :value="answer.val" :name="'t_' + v.id + '_' + i + '[]'">
                     <i></i>
                     {{answer.key}}
                   </label>
@@ -61,6 +62,30 @@ export default {
       paper: {},
       list: []
     };
+  },
+  methods: {
+    getQuestionType(enType) {
+      let type = '未知试题类型' + enType;
+      switch (enType) {
+        case 'radio':
+          type = '单选题';
+          break;
+        case 'multiselect':
+          type = '多选题';
+          break;
+      }
+      return type;
+    },
+    checked(selected, val) {
+      let checked = false;
+      if (selected.indexOf(',') !== -1) {
+        checked = selected.split(',').indexOf(val) !== -1;
+      } else {
+        checked = selected === val;
+      }
+      // console.log('用户选择：' + selected, '当前项：' + val, checked, selected.indexOf(','));
+      return checked;
+    }
   },
   mounted() {
     let self = this;
@@ -245,6 +270,10 @@ input[type='radio'] + i {
       padding 15px 0 10px
       word-wrap break-word
       word-break break-all
+      line-height 1.4
+    }
+    .questionType {
+      color #666
     }
   }
   .answers {

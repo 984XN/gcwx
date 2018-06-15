@@ -95,7 +95,7 @@ export default {
   },
   computed: {},
   mounted() {
-    console.log('wechatBrowser:', this.$route);
+    // console.log('wechatBrowser:', this.$route);
   }
 };
 </script>

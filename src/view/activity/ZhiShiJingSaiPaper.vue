@@ -17,6 +17,7 @@
               <div class="index">
                 <strong>第{{index+1}}题</strong>
                 <span>（共{{paper.count || list.length}}题）</span>
+                <span class="questionType">({{getQuestionType(list[index].type)}})</span>
               </div>
               <div class="text">{{list[index].question}}</div>
             </dt>
@@ -24,7 +25,7 @@
               <ol class="answers">
                 <li class="answer" v-for="(answer, i) in list[index].options" :key="i">
                   <label>
-                    <input @click="write(list[index].id, answer.val)" :checked="answerCard[list[index].id] === answer.val" :type="list[index].inputType" :value="answer.val" :name="'t' + list[index].id + '[]'">
+                    <input :checked="checked(list[index].id, answer.val)" :type="list[index].inputType" :value="answer.val" v-model="answerCard[list[index].id]" :name="'t_' + list[index].id + '_' + i">
                     <i></i>
                     {{answer.key}}
                   </label>
@@ -65,7 +66,6 @@ export default {
       handle: null,
       duration: 0, // 倒计时总秒数
       index: -1, // 答题进度
-      checked: false,
       buttonText: '下一题', // 最后一题会变成“交卷”
       loading: false,
       answerCard: {},
@@ -82,14 +82,43 @@ export default {
     };
   },
   methods: {
-    // 填写答题卡
-    write(questionId, selected) {
-      this.answerCard[questionId] = selected;
-      // this.answerCard.push({
-      //   QuestionID: questionId,
-      //   SelectedAnswers: selected
-      // });
-      console.log('this.answerCard:', this.answerCard);
+    getQuestionType(enType) {
+      let type = '未知试题类型' + enType;
+      switch (enType) {
+        case 'radio':
+          type = '单选题';
+          break;
+        case 'multiselect':
+          type = '多选题';
+          break;
+      }
+      return type;
+    },
+    checked(id, val) {
+      let self = this;
+      let type = '';
+      let checked = false;
+      for (const v of self.list) {
+        if (v.id === id) {
+          type = v.type;
+          break;
+        }
+      }
+      if (type === 'radio') {
+        if (self.answerCard[id] === val) {
+          checked = true;
+        }
+      } else if (type === 'multiselect') {
+        for (const v of self.answerCard[id]) {
+          if (v === val) {
+            checked = true;
+            break;
+          }
+        }
+      } else {
+        console.error('未知的答案类型：', type);
+      }
+      return checked;
     },
     getNextQuestion() {
       let self = this;
@@ -101,7 +130,7 @@ export default {
           console.log('人工暂停');
           // 人工暂停(就是外边那个setTimeout)
           self.loading = false;
-          self.checked = false;
+          // self.checked = false;
           self.index++;
           if (self.index === total - 1) {
             self.buttonText = '提交试卷';
@@ -140,10 +169,23 @@ export default {
       for (const key in self.answerCard) {
         if (self.answerCard.hasOwnProperty(key)) {
           const val = self.answerCard[key];
-          answerCard.push({
-            QuestionID: key, // int 题目id,
-            SelectedAnswers: val // string 所选答案
-          });
+          let isArray =
+            typeof val === 'object' &&
+            Object.prototype.toString.call(val) === '[object Array]';
+          let isString = typeof val === 'string';
+          if (isArray) {
+            answerCard.push({
+              QuestionID: key, // int 题目id,
+              SelectedAnswers: val.join(',') // string 所选答案
+            });
+          } else if (isString) {
+            answerCard.push({
+              QuestionID: key, // int 题目id,
+              SelectedAnswers: val // string 所选答案
+            });
+          } else {
+            console.error('未知的答案类型', val);
+          }
         }
       }
       console.log('交卷，答题卡：', answerCard);
@@ -309,7 +351,13 @@ export default {
 
             // 答题卡初始化（后台接口要求每道题都必需传值，未答的填写空的字符串，不能是null）
             self.list.forEach(v => {
-              self.answerCard[v.id] = '';
+              if (v.type === 'radio') {
+                self.answerCard[v.id] = '';
+              } else if (v.type === 'multiselect') {
+                self.answerCard[v.id] = [];
+              } else {
+                self.answerCard[v.id] = '';
+              }
             });
             console.log(self.answerCard);
             self.countdown();
@@ -462,6 +510,7 @@ label {
   font-weight normal
   color #ea3d3d
   border-left 5px solid #ea3d3d
+  word-wrap break-word
 }
 .questions {
   padding-bottom 65px

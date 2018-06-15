@@ -23,14 +23,15 @@
               <div class="index">
                 <strong>第{{i+1}}题</strong>
                 <span>（共{{paper.count || list.length}}题）</span>
+                <span class="questionType">({{getQuestionType(v.type)}})</span>
               </div>
-              <div class="text">{{v.question}}</div>
+              <div class="text"> {{v.question}} </div>
             </dt>
             <dd class="content">
               <ol class="answers">
                 <li class="answer" v-for="(answer, j) in v.options" :key="j">
                   <label>
-                    <input @click="write(v.id, answer.val)" :checked="answerCard[v.id] === answer.val" :type="v.inputType" :value="answer.val" :name="'t_' + v.id + '_' + i + '[]'">
+                    <input :checked="checked(v.id, answer.val)" :type="v.inputType" :value="answer.val" v-model="answerCard[v.id]" :name="'t_' + v.id + '_' + i">
                     <i></i>
                     {{answer.key}}
                   </label>
@@ -77,14 +78,43 @@ export default {
     };
   },
   methods: {
-    // 填写答题卡
-    write(questionId, selected) {
-      this.answerCard[questionId] = selected;
-      // this.answerCard.push({
-      //   QuestionID: questionId,
-      //   SelectedAnswers: selected
-      // });
-      console.log('this.answerCard:', this.answerCard);
+    getQuestionType(enType) {
+      let type = '未知试题类型' + enType;
+      switch (enType) {
+        case 'radio':
+          type = '单选题';
+          break;
+        case 'multiselect':
+          type = '多选题';
+          break;
+      }
+      return type;
+    },
+    checked(id, val) {
+      let self = this;
+      let type = '';
+      let checked = false;
+      for (const v of self.list) {
+        if (v.id === id) {
+          type = v.type;
+          break;
+        }
+      }
+      if (type === 'radio') {
+        if (self.answerCard[id] === val) {
+          checked = true;
+        }
+      } else if (type === 'multiselect') {
+        for (const v of self.answerCard[id]) {
+          if (v === val) {
+            checked = true;
+            break;
+          }
+        }
+      } else {
+        console.error('未知的答案类型：', type);
+      }
+      return checked;
     },
     // 交卷
     submit() {
@@ -93,10 +123,23 @@ export default {
       for (const key in self.answerCard) {
         if (self.answerCard.hasOwnProperty(key)) {
           const val = self.answerCard[key];
-          answerCard.push({
-            QuestionID: key, // int 题目id,
-            SelectedAnswers: val // string 所选答案
-          });
+          let isArray =
+            typeof val === 'object' &&
+            Object.prototype.toString.call(val) === '[object Array]';
+          let isString = typeof val === 'string';
+          if (isArray) {
+            answerCard.push({
+              QuestionID: key, // int 题目id,
+              SelectedAnswers: val.join(',') // string 所选答案
+            });
+          } else if (isString) {
+            answerCard.push({
+              QuestionID: key, // int 题目id,
+              SelectedAnswers: val // string 所选答案
+            });
+          } else {
+            console.error('未知的答案类型', val);
+          }
         }
       }
       console.log('交卷，答题卡：', answerCard);
@@ -263,9 +306,15 @@ export default {
             }
             // 答题卡初始化（后台接口要求每道题都必需传值，未答的填写空的字符串，不能是null）
             self.list.forEach(v => {
-              self.answerCard[v.id] = '';
+              if (v.type === 'radio') {
+                self.answerCard[v.id] = '';
+              } else if (v.type === 'multiselect') {
+                self.answerCard[v.id] = [];
+              } else {
+                self.answerCard[v.id] = '';
+              }
             });
-            console.log('答题卡初始化:', self.answerCard);
+            console.log('答题卡初始化', self.answerCard);
           } else if (code === 202) {
             // 202 答过了或正在其它设备上答题
             self.$vux.alert.show({
@@ -405,6 +454,7 @@ input[type='radio'] + i {
   font-weight normal
   color #ea3d3d
   border-left 5px solid #ea3d3d
+  word-wrap break-word
 }
 .questions {
   padding-bottom 65px
@@ -435,6 +485,9 @@ input[type='radio'] + i {
       word-wrap break-word
       word-break break-all
       line-height 1.4
+    }
+    .questionType {
+      color #666
     }
   }
   .answers {
