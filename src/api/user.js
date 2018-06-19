@@ -124,9 +124,9 @@ export const user = {
                 title: '第' + (i + 1) + '季度',
                 content: data[item] ? data[item] + '元' : '-'
               });
+              totalDues += data[item] || 0;
             }
             year = data.Year ? data.Year + '年' : '';
-            totalDues = data.YearPaid;
           } else {
             // 无数据时造个数据，显示成“暂无数据”时没有显示出具体数据格式效果直接
             list = [
