@@ -105,6 +105,12 @@ export const activity = {
           res.data.Data.article = article;
           return res.data;
         });
+    },
+    // 增加点击
+    setViewed: params => {
+      return service
+        .post('/api/PartyActivity/PaPartyDynamic/ReadNumber', params)
+        .then(res => res.data);
     }
   },
   ZhiBuEJia: {

@@ -18,7 +18,7 @@ export default {
       status: {
         viewed: false // 是否已经标记成了已读
       },
-      setViewedThreshold: 30, // 这个秒数后访问量+1
+      setViewedThreshold: 2, // 这个秒数后访问量+1
       viewSecond: 0, // 已阅读秒数
       readyTime: null, // 页面加载完成时的时间戳
       videoAddScoreUnit: 10, // 每这个秒数加一次分
@@ -27,25 +27,23 @@ export default {
   },
   methods: {
     setViewed() {
-      // let self = this;
-      // api.article.setViewed({ ID: self.article.baseInfo.id }).then(res => {
-      //   // console.log('setViewed by online:', res);
-      // });
+      let self = this;
+      api.activity.DangJianDongTai.setViewed({ ID: self.$route.params.id || 0 }).then(res => {
+        console.log('setViewed by online:', res);
+      });
     },
-    // 文档停留30秒才算阅读过
+    // 文档停留 setViewedThreshold 秒才算阅读过
     // 视频停留 5分钟内、10分钟内、10分钟以上分别得 0.5、1个积分
     online(second) {
-      // let self = this;
-      // // let type = self.article.baseInfo.type;
-      // self.viewSecond = second;
-      // // console.log('online:', second, 'sec. type:' + type);
-      // // 30秒即可标记为已读
-      // if (!self.status.viewed && self.viewSecond > self.setViewedThreshold) {
-      //   self.status.viewed = true; // api 200 ok 时再标记会导致请求过程中多次执行标记操作
-      //   api.article.setViewed({ ID: self.article.baseInfo.id }).then(res => {
-      //     // console.log('setViewed by online:', res);
-      //   });
-      // }
+      let self = this;
+      // let type = self.article.baseInfo.type;
+      self.viewSecond = second;
+      // console.log('online:', second, 'sec. type:' + type);
+      // setViewedThreshold 秒即可标记为已读
+      if (!self.status.viewed && self.viewSecond > self.setViewedThreshold) {
+        self.status.viewed = true; // api 200 ok 时再标记会导致请求过程中多次执行标记操作
+        self.setViewed();
+      }
     }
   },
   mounted() {

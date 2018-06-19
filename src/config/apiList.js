@@ -379,6 +379,10 @@ export const API_LIST = {
     name: '获取党建动态详情',
     params: {}
   },
+  '/PartyActivity/PaPartyDynamic/ReadNumber': {
+    name: '增加党建动态点击次数',
+    params: {}
+  },
   '/Ballot/BltBallotTask/GetBltBallotTask': {
     name: '投票活动列表',
     params: {}

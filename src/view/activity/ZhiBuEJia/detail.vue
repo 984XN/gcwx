@@ -17,7 +17,7 @@ export default {
       status: {
         viewed: false // 是否已经标记成了已读
       },
-      setViewedThreshold: 30, // 这个秒数后访问量+1
+      setViewedThreshold: 2, // 这个秒数后访问量+1
       viewSecond: 0, // 已阅读秒数
       readyTime: null, // 页面加载完成时的时间戳
       article: { baseInfo: {}, files: [] }
@@ -28,17 +28,17 @@ export default {
       let self = this;
       api.activity.ZhiBuEJia.setViewed({ ID: self.article.baseInfo.id }).then(
         res => {
-          console.log('setViewed by online:', res);
+          // console.log('setViewed by online:', res);
         }
       );
     },
-    // 文档停留30秒才算阅读过
+    // 文档停留 setViewedThreshold 秒才算阅读过
     online(second) {
       let self = this;
       // let type = self.article.baseInfo.type;
       self.viewSecond = second;
       // console.log('online:', second, 'sec. type:' + type);
-      // 30秒即可标记为已读
+      // setViewedThreshold 秒即可标记为已读
       if (!self.status.viewed && self.viewSecond > self.setViewedThreshold) {
         self.status.viewed = true; // api 200 ok 时再标记会导致请求过程中多次执行标记操作
         api.activity.ZhiBuEJia.setViewed({ ID: self.article.baseInfo.id }).then(
