@@ -17,7 +17,7 @@ export default {
       status: {
         viewed: false // 是否已经标记成了已读
       },
-      setViewedThreshold: 2, // 这个秒数后访问量+1
+      setViewedThreshold: 1, // 这个秒数后访问量+1
       viewSecond: 0, // 已阅读秒数
       readyTime: null, // 页面加载完成时的时间戳
       article: { baseInfo: {}, files: [] }
