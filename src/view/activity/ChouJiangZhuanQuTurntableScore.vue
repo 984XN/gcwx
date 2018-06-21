@@ -4,12 +4,13 @@
       <img src="/static/img/choujiangzhuanqu/banner_score.jpg">
     </div>
     <div class="nameList">
-      <marquee>
+      <marquee v-if="winningList.length">
         <marquee-item v-for="(v,i) in winningList" :key="i">
           <span class="date">{{v.date|substr(0,10,false)}}</span>
           {{v.name|substr(0,3)}}抽中了{{v.gift|substr(0,5)}}
         </marquee-item>
       </marquee>
+      <template v-else>暂无中奖记录</template>
     </div>
     <div class="pageTitle">
       <div class="text">幸运大转盘</div>
