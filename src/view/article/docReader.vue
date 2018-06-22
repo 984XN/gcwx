@@ -60,7 +60,7 @@ export default {
       // console.log('methods.addScore:', self.viewSecond);
       if (!self.hasPower('member')) {
         self.$vux.toast.show({
-          text: '已学习够 ' + data.minute + ' 分钟了',
+          text: '已学习了 ' + self.$options.filters.second2clock(data.timeLength),
           type: 'text',
           time: 5000,
           width: '10em',
@@ -73,7 +73,7 @@ export default {
             // ID: self.article.files[0].id,
             ID: data.id || '',
             Title: data.title || '',
-            Minute: data.minute || ''
+            timeLength: data.timeLength || ''
           })
           .then(res => {
             console.log('addScore by online:', res);
@@ -153,7 +153,7 @@ export default {
             let data = {
               id: self.id,
               title: self.title,
-              minute: parseFloat((online / 60).toFixed(1))
+              timeLength: online
             };
             // console.log('data:', data);
             self.addScore(data);
@@ -176,7 +176,7 @@ export default {
             let data = {
               id: self.id,
               title: self.title,
-              minute: parseFloat((self.learnTime / 60).toFixed(1))
+              timeLength: self.learnTime
             };
             self.addScore(data);
             clearInterval(self.learningHandel);
@@ -219,7 +219,7 @@ export default {
         let data = {
           id: self.id,
           title: self.title,
-          minute: parseFloat((self.learnTime / 60).toFixed(1))
+          timeLength: self.learnTime
         };
         self.learning = false;
         self.addScore(data);
