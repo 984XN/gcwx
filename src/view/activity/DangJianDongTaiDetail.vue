@@ -28,7 +28,9 @@ export default {
   methods: {
     setViewed() {
       let self = this;
-      api.activity.DangJianDongTai.setViewed({ ID: self.$route.params.id || 0 }).then(res => {
+      api.activity.DangJianDongTai.setViewed({
+        ID: self.$route.params.id || 0
+      }).then(res => {
         console.log('setViewed by online:', res);
       });
     },
@@ -64,25 +66,24 @@ export default {
       });
       api.activity.DangJianDongTai.detail({
         ID: id
-      })
-        .then(res => {
-          self.$vux.loading.hide();
-          // console.log('detail:', res);
-          self.article = res.Data.article;
-        })
-        .catch(e => {
-          let self = this;
-          self.$vux.loading.hide();
-          self.$vux.confirm.show({
-            title: '提示',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              self.$router.go(-1);
-            }
-          });
-        });
+      }).then(res => {
+        self.$vux.loading.hide();
+        // console.log('detail:', res);
+        self.article = res.Data.article;
+      });
+      // .catch(e => {
+      //   let self = this;
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '提示',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   }
 };

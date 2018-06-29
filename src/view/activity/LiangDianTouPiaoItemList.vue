@@ -178,7 +178,8 @@ export default {
     },
     jumpTo(item) {
       let self = this;
-      let path = '../detail/' + parseInt(item.id.replace(/^v/i, '')) + '?tid=' + self.id; // 'V36 -> 36'
+      let path =
+        '../detail/' + parseInt(item.id.replace(/^v/i, '')) + '?tid=' + self.id; // 'V36 -> 36'
       self.$router.push({
         path
       });
@@ -210,50 +211,49 @@ export default {
         //   {ItemID: 7},
         // ],
         model: ItemID
-      })
-        .then(res => {
-          console.log('vote res:', res);
-          self.$vux.loading.hide();
-          if (res.StatusCode === 1200) {
-            // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
-            let voteCount = self.selected.length;
-            let content = '操作成功';
-            if (voteCount === 1) {
-              content = '为“' + self.selected[0].title + '”投票成功';
-            } else {
-              content = '已成功为' + voteCount + '项投了票';
-            }
-            self.$vux.alert.show({
-              title: '投票成功',
-              content
-            });
-            // 将“已选”改为“已投”，并为票数+1
-            for (let i = 0; i < self.list.length; i++) {
-              const item = self.list[i];
-              if (item.selected) {
-                self.list[i].voted = true;
-                self.list[i].votes += 1;
-                delete self.list[i].selected;
-              }
-            }
-            // 清空已选
-            self.selected = [];
+      }).then(res => {
+        console.log('vote res:', res);
+        self.$vux.loading.hide();
+        if (res.StatusCode === 1200) {
+          // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
+          let voteCount = self.selected.length;
+          let content = '操作成功';
+          if (voteCount === 1) {
+            content = '为“' + self.selected[0].title + '”投票成功';
           } else {
-            self.$vux.alert.show({
-              title: '投票出错',
-              content: res.Message || '返回的数据有误',
-              cancelText: '过会再试'
-            });
+            content = '已成功为' + voteCount + '项投了票';
           }
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
+          self.$vux.alert.show({
+            title: '投票成功',
+            content
+          });
+          // 将“已选”改为“已投”，并为票数+1
+          for (let i = 0; i < self.list.length; i++) {
+            const item = self.list[i];
+            if (item.selected) {
+              self.list[i].voted = true;
+              self.list[i].votes += 1;
+              delete self.list[i].selected;
+            }
+          }
+          // 清空已选
+          self.selected = [];
+        } else {
           self.$vux.alert.show({
             title: '投票出错',
-            content: e.message || '接口数据错误',
-            cancelText: '知道了'
+            content: res.Message || '返回的数据有误',
+            cancelText: '过会再试'
           });
-        });
+        }
+      });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.alert.show({
+      //     title: '投票出错',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     cancelText: '知道了'
+      //   });
+      // });
     },
     loadData() {
       // console.log('XiLieJianHua.loadData...');

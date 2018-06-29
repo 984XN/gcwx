@@ -89,38 +89,37 @@ export default {
       api.activity.ChouJiangZhuanQu.gift({
         Type: 1, // 1.积分抽奖, 2.答题促学抽奖
         RID: self.rid // 2.答题促学抽奖时答题记录的ID，积分抽奖时不需要传
-      })
-        .then(res => {
-          // console.log('getGift:', res);
-          if (res.StatusCode === 1200) {
-            self.ready = true;
-            self.giftId = res.Data || -1;
-            console.log('getGift:', res);
-            if (self.giftId === -1) {
-              self.$vux.alert.show({
-                title: '数据错误',
-                content: res.Message
-              });
-            }
-          } else {
+      }).then(res => {
+        // console.log('getGift:', res);
+        if (res.StatusCode === 1200) {
+          self.ready = true;
+          self.giftId = res.Data || -1;
+          console.log('getGift:', res);
+          if (self.giftId === -1) {
             self.$vux.alert.show({
               title: '数据错误',
               content: res.Message
             });
           }
-        })
-        .catch(e => {
-          this.ready = 'cancel';
-          this.$vux.confirm.show({
-            title: '提示',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              this.$router.go(-1);
-            }
+        } else {
+          self.$vux.alert.show({
+            title: '数据错误',
+            content: res.Message
           });
-        });
+        }
+      });
+      // .catch(e => {
+      //   this.ready = 'cancel';
+      //   this.$vux.confirm.show({
+      //     title: '提示',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       this.$router.go(-1);
+      //     }
+      //   });
+      // });
     }
   },
   mounted() {

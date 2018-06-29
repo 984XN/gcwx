@@ -7,6 +7,9 @@ import UserWechatUnbinding from 'src/view/user/wechat/unbinding';
 import UserPassword from 'src/view/user/password';
 import UserGifts from 'src/view/user/gifts';
 import UserScore from 'src/view/user/score';
+import UserScoreTab from 'src/view/user/scoreTab';
+import UserScoreList from 'src/view/user/scoreList';
+import UserScoreOrder from 'src/view/user/scoreOrder';
 import UserZhengNengLiang from 'src/view/user/ZhengNengLiang';
 import UserZhengNengLiangList from 'src/view/user/ZhengNengLiangList';
 import UserZhengNengLiangEdit from 'src/view/user/ZhengNengLiangEdit';
@@ -68,8 +71,34 @@ const RouterUser = {
       meta: {
         title: '个人积分',
         auth: true,
-        keepAlive: true
-      }
+        keepAlive: false
+      },
+      children: [
+        {
+          path: '/',
+          components: {
+            page: UserScoreList,
+            menu: UserScoreTab
+          },
+          meta: {
+            title: '个人积分',
+            auth: true,
+            keepAlive: false
+          }
+        },
+        {
+          path: 'order',
+          components: {
+            page: UserScoreOrder,
+            menu: UserScoreTab
+          },
+          meta: {
+            title: '个人积分',
+            auth: true,
+            keepAlive: false
+          }
+        }
+      ]
     },
     {
       path: 'gifts',
@@ -77,7 +106,7 @@ const RouterUser = {
       meta: {
         title: '中奖记录',
         auth: true,
-        keepAlive: true
+        keepAlive: false
       }
     },
     {

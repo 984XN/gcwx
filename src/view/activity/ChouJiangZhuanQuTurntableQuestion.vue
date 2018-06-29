@@ -114,32 +114,31 @@ export default {
         api.activity.ChouJiangZhuanQu.gift({
           Type: 2, // 1.积分抽奖, 2.答题促学抽奖
           PapersID: self.pid // 2.答题促学抽奖时试卷的ID，积分抽奖时不需要传
-        })
-          .then(res => {
-            // console.log('getGift:', res);
-            if (res.StatusCode && res.StatusCode === 1200) {
-              self.ready = true;
-              self.giftId = res.Data;
-              // console.log('new index:', i);
-            } else {
-              self.$vux.alert.show({
-                title: '数据错误',
-                content: res.Message || '没有错误信息'
-              });
-            }
-          })
-          .catch(e => {
-            this.ready = 'cancel';
-            this.$vux.confirm.show({
-              title: '提示',
-              content: e.message || '接口数据错误',
-              confirmText: '返回上一页',
-              cancelText: '关闭提示',
-              onConfirm() {
-                this.$router.go(-1);
-              }
+        }).then(res => {
+          // console.log('getGift:', res);
+          if (res.StatusCode && res.StatusCode === 1200) {
+            self.ready = true;
+            self.giftId = res.Data;
+            // console.log('new index:', i);
+          } else {
+            self.$vux.alert.show({
+              title: '数据错误',
+              content: res.Message || '没有错误信息'
             });
-          });
+          }
+        });
+        // .catch(e => {
+        //   this.ready = 'cancel';
+        //   this.$vux.confirm.show({
+        //     title: '提示',
+        //     content: e.message || e.Message || '接口数据错误',
+        //     confirmText: '返回上一页',
+        //     cancelText: '关闭提示',
+        //     onConfirm() {
+        //       this.$router.go(-1);
+        //     }
+        //   });
+        // });
       }
     },
     hideLoading() {
@@ -191,63 +190,61 @@ export default {
         // 获取抽奖机会额度
         api.activity.ChouJiangZhuanQu.jeton({
           ID: self.pid
-        })
-          .then(res => {
-            console.log('getJeton:', res);
-            self.jeton = res.Data[0].LotteryNum || 0;
-            self.loadingList.jeton = true;
-            self.hideLoading();
-          })
-          .catch(e => {
-            self.$vux.loading.hide();
-            self.$vux.alert.show({
-              title: '数据错误',
-              content: e.message || '接口数据错误',
-              buttonText: '返回上一页',
-              onHide() {
-                self.$router.go(-1);
-              }
-            });
-          });
+        }).then(res => {
+          console.log('getJeton:', res);
+          self.jeton = res.Data[0].LotteryNum || 0;
+          self.loadingList.jeton = true;
+          self.hideLoading();
+        });
+        // .catch(e => {
+        //   self.$vux.loading.hide();
+        //   self.$vux.alert.show({
+        //     title: '数据错误',
+        //     content: e.message || e.Message || '接口数据错误',
+        //     buttonText: '返回上一页',
+        //     onHide() {
+        //       self.$router.go(-1);
+        //     }
+        //   });
+        // });
       }
       // 获取奖品清单
       api.activity.ChouJiangZhuanQu.gifts({
         Type: 2 // 1.积分商品, 2.答题促学商品
-      })
-        .then(res => {
-          self.loadingList.gifts = true;
-          self.hideLoading();
-          // self.jeton = res.Data.residueDegree || 0;
-          self.gifts = res.Data.goods.map(val => {
-            return {
-              id: val.ID,
-              name: val.GoodsName,
-              img: val.GoodsImgPath
-            };
-          });
-          // 这个 unshift 移入 api/activity.js 中了
-          // self.gifts.unshift({
-          //   // 放在开头可以防止奖品过多截取时缺少空奖
-          //   id: 1,
-          //   name: '谢谢参与',
-          //   img: '/static/img/gift/default.jpg'
-          // });
-          self.gifts.sort((a, b) => {
-            return b.id - a.id;
-          });
-          // self.getGift();
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.alert.show({
-            title: '数据错误',
-            content: e.message || '接口数据错误',
-            buttonText: '返回上一页',
-            onHide() {
-              self.$router.go(-1);
-            }
-          });
+      }).then(res => {
+        self.loadingList.gifts = true;
+        self.hideLoading();
+        // self.jeton = res.Data.residueDegree || 0;
+        self.gifts = res.Data.goods.map(val => {
+          return {
+            id: val.ID,
+            name: val.GoodsName,
+            img: val.GoodsImgPath
+          };
         });
+        // 这个 unshift 移入 api/activity.js 中了
+        // self.gifts.unshift({
+        //   // 放在开头可以防止奖品过多截取时缺少空奖
+        //   id: 1,
+        //   name: '谢谢参与',
+        //   img: '/static/img/gift/default.jpg'
+        // });
+        self.gifts.sort((a, b) => {
+          return b.id - a.id;
+        });
+        // self.getGift();
+      });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.alert.show({
+      //     title: '数据错误',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     buttonText: '返回上一页',
+      //     onHide() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
       // 获取中奖名单
       api.activity.ChouJiangZhuanQu.list({
         queryModel: {
@@ -255,24 +252,23 @@ export default {
         },
         pageModel: { Page: 1, Start: 0, Limit: 50 },
         api: 'all'
-      })
-        .then(res => {
-          self.loadingList.list = true;
-          self.hideLoading();
-          self.winningList = res.Data.list;
-          // console.log('中奖名单:', res.Data.list);
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.alert.show({
-            title: '数据错误',
-            content: e.message || '接口数据错误',
-            buttonText: '返回上一页',
-            onHide() {
-              self.$router.go(-1);
-            }
-          });
-        });
+      }).then(res => {
+        self.loadingList.list = true;
+        self.hideLoading();
+        self.winningList = res.Data.list;
+        // console.log('中奖名单:', res.Data.list);
+      });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.alert.show({
+      //     title: '数据错误',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     buttonText: '返回上一页',
+      //     onHide() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   },
   activated() {

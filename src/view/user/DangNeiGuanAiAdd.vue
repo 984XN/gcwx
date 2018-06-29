@@ -241,7 +241,7 @@ export default {
         });
         return false;
       }
-      if (self.files.length > 0) {
+      if (self.files.length === 0) {
         self.$vux.toast.show({
           type: 'warn',
           width: '10em',

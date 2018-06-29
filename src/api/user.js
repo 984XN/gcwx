@@ -73,20 +73,14 @@ export const user = {
     score: {
       total: params => {
         return service
-          .post(
-            '/api/Integration/IgPartyMemberAddScore/GetMemberBySum',
-            params
-          )
+          .post('/api/Integration/IgPartyMemberAddScore/GetMemberBySum', params)
           .then(res => {
             return res.data;
           });
       },
       list: params => {
         return service
-          .post(
-            '/api/Integration/IgPartyMemberAddScore/GetMemberScore',
-            params
-          )
+          .post('/api/Integration/IgPartyMemberAddScore/GetMemberScore', params)
           .then(res => {
             res.data.Data.list = res.data.Data.PageData.map(v => {
               return {
@@ -96,6 +90,25 @@ export const user = {
                 content: v.AddScoreExplain || ''
               };
             });
+            return res.data;
+          });
+      },
+      order: params => {
+        return service
+          .post(
+            '/api/Integration/IgPartyMemberAddScore/GetMemberScoreByYear',
+            params
+          )
+          .then(res => {
+            res.data.Data.list = res.data.Data.PageData.map(v => {
+              return {
+                id: v.ID || 0,
+                name: v.Name || '',
+                score: v.Score || v.TotalScore || 0,
+                organization: v.OrganizationName || ''
+              };
+            });
+            // console.log('res.data:', res.data);
             return res.data;
           });
       }

@@ -351,6 +351,10 @@ export const API_LIST = {
     name: '获取积分记录',
     params: {}
   },
+  '/Integration/IgPartyMemberAddScore/GetMemberScoreByYear': {
+    name: '获取积分排名',
+    params: {}
+  },
   '/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember': {
     name: '获取党费缴纳信息',
     params: {}

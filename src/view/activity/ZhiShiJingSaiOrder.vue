@@ -102,20 +102,20 @@ export default {
               self.lazyload.nodata = true;
             }
             self.lazyload.loading = false;
-          })
-          .catch(e => {
-            self.$vux.loading.hide();
-            self.$vux.confirm.show({
-              title: '获取不到排名',
-              content: e.message || '接口数据错误',
-              confirmText: '返回上一页',
-              cancelText: '关闭提示',
-              onConfirm() {
-                self.$router.go(-1);
-              }
-            });
-            console.log(e);
           });
+        // .catch(e => {
+        //   self.$vux.loading.hide();
+        //   self.$vux.confirm.show({
+        //     title: '获取不到排名',
+        //     content: e.message || e.Message || '接口数据错误',
+        //     confirmText: '返回上一页',
+        //     cancelText: '关闭提示',
+        //     onConfirm() {
+        //       self.$router.go(-1);
+        //     }
+        //   });
+        //   console.log(e);
+        // });
         api.activity.examination
           .myOrder({
             ID: self.$route.params.id || 0
@@ -206,16 +206,6 @@ export default {
         &.active {
           background-color #ffeae9
         }
-        // td {
-        //   padding 5px 0
-        //   &:nth-child(3) {
-        //     text-align right
-        //   }
-        //   &:nth-child(4) {
-        //     text-align right
-        //     color #666
-        //   }
-        // }
       }
     }
   }

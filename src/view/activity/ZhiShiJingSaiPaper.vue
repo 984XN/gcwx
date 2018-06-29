@@ -201,112 +201,94 @@ export default {
         .then(res => {
           self.$vux.loading.hide();
           console.log('成绩:', res);
-          if (res.StatusCode !== 1200) {
-            let message = res.Message || '错误码' + res.StatusCode;
-            self.$vux.alert.show({
-              title: '提示',
-              content: '出错了：' + message
+          if (res.StatusCode) {
+            if (res.StatusCode !== 1200) {
+              let message = res.Message || '错误码' + res.StatusCode;
+              self.$vux.alert.show({
+                title: '提示',
+                content: '出错了：' + message
+              });
+            }
+            if (res.StatusCode === 1200) {
+              let accuracy = res.Data.accuracy; // 正确率
+              let lotteryNum = res.Data.lotteryNum; // 获得N次抽奖机会
+              let integral = res.Data.integral; // 获得N个积分
+              let score = res.Data.score; // 成绩是这个分数
+              let rid = res.Data.rid || 0;
+              let pass = res.Data.pass || false;
+              let threshold = res.Data.threshold || false;
+              let message = '';
+              let motto = '';
+              let title = '';
+              if (pass) {
+                title = '恭喜你<br />答题成功';
+                message = `恭喜你得到了${score}分的高分，正确率达到了${accuracy}`;
+                motto = '不要骄傲继续加油哦！！';
+              } else {
+                title = '好可惜<br />答题失败';
+                message = `很遗憾你的正确率低于${threshold}%，未通过，你的正确率为${accuracy}，分数为${score}分`;
+                motto = '不要泄气，努力就有好成绩！！';
+              }
+              // let Message = res.Message;
+              // let StatusCode = res.StatusCode;
+              if (integral > 0) {
+                message += `，获得了${integral}积分`;
+              }
+              if (lotteryNum > 0) {
+                message += '和' + lotteryNum + '次抽奖机会';
+                self.faceAlert.show({
+                  title,
+                  content: `<div style="color:#E64340">${message}</div><div style="font-size:0.8em;color:#666;">${motto}</div>`,
+                  type: pass ? 'success' : 'fail', // success fail
+                  cancelText: '放弃',
+                  confirmText: '去抽奖',
+                  onCancel() {
+                    self.$router.go(-1);
+                  },
+                  onConfirm() {
+                    self.$router.replace({
+                      path: '/activity/choujiangzhuanqu/turntable-question',
+                      query: { rid }
+                    });
+                  }
+                });
+              } else {
+                self.faceAlert.show({
+                  title,
+                  content: `<div style="color:#E64340">${message}</div><div style="font-size:0.8em;color:#666;">${motto}</div>`,
+                  type: pass ? 'success' : 'fail', // success fail
+                  cancelText: false,
+                  confirmText: '返回上一页',
+                  onConfirm() {
+                    self.$router.go(-1);
+                  }
+                });
+              }
+            }
+          } else {
+            self.$vux.confirm.show({
+              title: '获取不到成绩数据',
+              content: JSON.stringify(res) || '接口数据错误',
+              confirmText: '返回上一页',
+              cancelText: '关闭提示',
+              onConfirm() {
+                self.$router.go(-1);
+              }
             });
           }
-          if (res.StatusCode === 1200) {
-            let accuracy = res.Data.accuracy; // 正确率
-            let lotteryNum = res.Data.lotteryNum; // 获得N次抽奖机会
-            let integral = res.Data.integral; // 获得N个积分
-            let score = res.Data.score; // 成绩是这个分数
-            let rid = res.Data.rid || 0;
-            let pass = res.Data.pass || false;
-            let threshold = res.Data.threshold || false;
-            let message = '';
-            let motto = '';
-            let title = '';
-            if (pass) {
-              title = '恭喜你<br />答题成功';
-              message = `恭喜你得到了${score}分的高分，正确率达到了${accuracy}`;
-              motto = '不要骄傲继续加油哦！！';
-            } else {
-              title = '好可惜<br />答题失败';
-              message = `很遗憾你的正确率低于${threshold}%，未通过，你的正确率为${accuracy}，分数为${score}分`;
-              motto = '不要泄气，努力就有好成绩！！';
-            }
-            // let Message = res.Message;
-            // let StatusCode = res.StatusCode;
-            if (integral > 0) {
-              message += `，获得了${integral}积分`;
-            }
-            if (lotteryNum > 0) {
-              message += '和' + lotteryNum + '次抽奖机会';
-              self.faceAlert.show({
-                title,
-                content: `<div style="color:#E64340">${message}</div><div style="font-size:0.8em;color:#666;">${motto}</div>`,
-                type: pass ? 'success' : 'fail', // success fail
-                cancelText: '放弃',
-                confirmText: '去抽奖',
-                onCancel() {
-                  self.$router.go(-1);
-                },
-                onConfirm() {
-                  self.$router.replace({
-                    path: '/activity/choujiangzhuanqu/turntable-question',
-                    query: { rid }
-                  });
-                }
-              });
-            } else {
-              self.faceAlert.show({
-                title,
-                content: `<div style="color:#E64340">${message}</div><div style="font-size:0.8em;color:#666;">${motto}</div>`,
-                type: pass ? 'success' : 'fail', // success fail
-                cancelText: false,
-                confirmText: '返回上一页',
-                onConfirm() {
-                  self.$router.go(-1);
-                }
-              });
-            }
-          }
-          // let Message = res.Message;
-          // let StatusCode = res.StatusCode;
-          // let message = '' + score + '分';
-          // if (lotteryNum > 0) {
-          //   message += '，获得' + lotteryNum + '次抽奖机会';
-          //   self.$vux.confirm.show({
-          //     title: '恭喜',
-          //     content: message,
-          //     confirmText: '去抽奖',
-          //     cancelText: '放弃',
-          //     onCancel() {
-          //       self.$router.go(-1);
-          //     },
-          //     onConfirm() {
-          //       self.$router.replace({
-          //         path: '/activity/choujiangzhuanqu/turntable-question',
-          //         query: { rid }
-          //       });
-          //     }
-          //   });
-          // } else {
-          //   self.$vux.alert.show({
-          //     title: '成绩',
-          //     content: message,
-          //     buttonText: '返回上一页',
-          //     onHide() {
-          //       self.$router.go(-1);
-          //     }
-          //   });
-          // }
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.confirm.show({
-            title: '获取不到成绩',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              self.$router.go(-1);
-            }
-          });
         });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '获取不到成绩',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
       // return;
     },
     cancel() {
@@ -371,19 +353,19 @@ export default {
               }
             });
           }
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.confirm.show({
-            title: '获取不到试卷',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              self.$router.go(-1);
-            }
-          });
         });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '获取不到试卷',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   },
   beforeDestroy() {

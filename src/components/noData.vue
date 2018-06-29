@@ -1,5 +1,16 @@
 <template>
   <div class="noData">
-    <slot>暂无数据</slot>
+    <slot>{{text}}</slot>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    text: {
+      type: String,
+      default: '暂无数据'
+    }
+  }
+};
+</script>

@@ -66,24 +66,23 @@ export default {
       });
       api.activity.ZhiBuEJia.detail({
         ID: id
-      })
-        .then(res => {
-          this.$vux.loading.hide();
-          this.article = res.Data.article;
-          // console.log('detail:', res);
-        })
-        .catch(e => {
-          this.$vux.loading.hide();
-          this.$vux.confirm.show({
-            title: '提示',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              this.$router.go(-1);
-            }
-          });
-        });
+      }).then(res => {
+        this.$vux.loading.hide();
+        this.article = res.Data.article;
+        // console.log('detail:', res);
+      });
+      // .catch(e => {
+      //   this.$vux.loading.hide();
+      //   this.$vux.confirm.show({
+      //     title: '提示',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       this.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   }
 };

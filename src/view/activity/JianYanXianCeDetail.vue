@@ -157,35 +157,34 @@ export default {
       });
       api.activity.JianYanXianCe.detail({
         ID: id
-      })
-        .then(res => {
-          this.$vux.loading.hide();
-          this.article = res.Data.article;
-          if (
-            res.Data.suggestions &&
-            res.Data.suggestions[0] &&
-            res.Data.suggestions[0].OrganizationName
-          ) {
-            this.article.baseInfo.content =
-              '<div><span style="font-size:14px;color:#999;">建言对象：</span><br />' +
-              res.Data.suggestions[0].OrganizationName +
-              '</div><span style="font-size:14px;color:#999;">建言内容：</span><br />' +
-              this.article.baseInfo.content;
-          }
-          console.log('detail:', res);
-        })
-        .catch(e => {
-          this.$vux.loading.hide();
-          this.$vux.confirm.show({
-            title: '提示',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              this.$router.go(-1);
-            }
-          });
-        });
+      }).then(res => {
+        this.$vux.loading.hide();
+        this.article = res.Data.article;
+        if (
+          res.Data.suggestions &&
+          res.Data.suggestions[0] &&
+          res.Data.suggestions[0].OrganizationName
+        ) {
+          this.article.baseInfo.content =
+            '<div><span style="font-size:14px;color:#999;">建言对象：</span><br />' +
+            res.Data.suggestions[0].OrganizationName +
+            '</div><span style="font-size:14px;color:#999;">建言内容：</span><br />' +
+            this.article.baseInfo.content;
+        }
+        console.log('detail:', res);
+      });
+      // .catch(e => {
+      //   this.$vux.loading.hide();
+      //   this.$vux.confirm.show({
+      //     title: '提示',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       this.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   },
   activated() {

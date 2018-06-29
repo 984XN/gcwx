@@ -232,29 +232,28 @@ export default {
           });
           api.activity.ZhengNengLiang.delete({
             ID: self.id
-          })
-            .then(function(res) {
-              console.log('api.activity.ZhengNengLiang.delete:', res);
-              self.$vux.loading.hide();
-              self.$vux.toast.show({
-                text: '已删除',
-                time: 1000,
-                onHide() {
-                  self.$router.go(-1);
-                }
-              });
-            })
-            .catch(e => {
-              this.$vux.confirm.show({
-                title: '提示',
-                content: e.message || '接口数据错误',
-                confirmText: '再试一次',
-                cancelText: '关闭提示',
-                onConfirm() {
-                  self.withdraw();
-                }
-              });
+          }).then(function(res) {
+            console.log('api.activity.ZhengNengLiang.delete:', res);
+            self.$vux.loading.hide();
+            self.$vux.toast.show({
+              text: '已删除',
+              time: 1000,
+              onHide() {
+                self.$router.go(-1);
+              }
             });
+          });
+          // .catch(e => {
+          //   this.$vux.confirm.show({
+          //     title: '提示',
+          //     content: e.message || e.Message || '接口数据错误',
+          //     confirmText: '再试一次',
+          //     cancelText: '关闭提示',
+          //     onConfirm() {
+          //       self.withdraw();
+          //     }
+          //   });
+          // });
         },
         onCancel() {}
       });

@@ -73,12 +73,16 @@ export default {
         });
         return false;
       }
+      self.$vux.loading.show({
+        text: '请稍等'
+      });
       api.user
         .password({
           OldLoginPWD: self.user.password0,
           NewLoginPWD: self.user.password1
         })
         .then(res => {
+          self.$vux.loading.hide();
           // console.log('password:', res);
           if (res.StatusCode === 1200) {
             self.$vux.toast.show({
@@ -103,6 +107,9 @@ export default {
               buttonText: '好的'
             });
           }
+        })
+        .catch(e => {
+          self.$vux.loading.hide();
         });
     }
   },

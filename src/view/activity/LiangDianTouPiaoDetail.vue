@@ -56,34 +56,33 @@ export default {
             ItemID: parseInt(ItemID) // 字符串后台提成成功，实际没成功，需要转 Number
           }
         ]
-      })
-        .then(res => {
-          console.log('vote res:', res);
-          self.$vux.loading.hide();
-          if (res.StatusCode === 1200) {
-            // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
-            self.$vux.alert.show({
-              title: '投票成功',
-              content: '为“' + self.article.baseInfo.title + '”投票成功'
-            });
-            // 将“已选”改为“已投”
-            self.article.voted = true;
-          } else {
-            self.$vux.alert.show({
-              title: '投票出错',
-              content: res.Message || '返回的数据有误',
-              cancelText: '过会再试'
-            });
-          }
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
+      }).then(res => {
+        console.log('vote res:', res);
+        self.$vux.loading.hide();
+        if (res.StatusCode === 1200) {
+          // todo: 这里应该有第二个 StatusCode 用来显示投票是否成功
+          self.$vux.alert.show({
+            title: '投票成功',
+            content: '为“' + self.article.baseInfo.title + '”投票成功'
+          });
+          // 将“已选”改为“已投”
+          self.article.voted = true;
+        } else {
           self.$vux.alert.show({
             title: '投票出错',
-            content: e.message || '接口数据错误',
-            cancelText: '知道了'
+            content: res.Message || '返回的数据有误',
+            cancelText: '过会再试'
           });
-        });
+        }
+      });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.alert.show({
+      //     title: '投票出错',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     cancelText: '知道了'
+      //   });
+      // });
     },
     loadData() {
       // console.log('XiLieJianHua.loadData...');

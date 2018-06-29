@@ -133,19 +133,19 @@ export default {
               }
             });
           }
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.confirm.show({
-            title: '获取不到试卷',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              self.$router.go(-1);
-            }
-          });
         });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '获取不到试卷',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       self.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   },
   activated() {

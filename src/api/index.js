@@ -64,6 +64,7 @@ service.interceptors.response.use(
   // },
   // response => response,
   response => {
+    // console.log('response:', response); // 由服务器提供的响应
     // console.log('response.data:', response.data); // 由服务器提供的响应
     // console.log('response.status:', response.status); // 来自服务器响应的 HTTP 状态码
     // console.log('response.statusText:', response.statusText); // 来自服务器响应的 HTTP 状态信息
@@ -73,41 +74,74 @@ service.interceptors.response.use(
     let moduleName = API_LIST[api]
       ? API_LIST[api].name
       : '未知模块[' + api + ']';
-    if (response.data.StatusCode >= 200 && response.data.StatusCode <= 299) {
-      response.data.StatusCodeOrigin = response.data.StatusCode;
-      response.data.StatusCode += 1000;
-    } else if (response.data.StatusCode === 1500) {
+    if (response.data.StatusCode) {
+      if (response.data.StatusCode >= 200 && response.data.StatusCode <= 299) {
+        response.data.StatusCodeOrigin = response.data.StatusCode;
+        response.data.StatusCode += 1000;
+      } else if (
+        response.data.StatusCode === 1500 ||
+        response.data.StatusCode === 403
+      ) {
+        Vue.$vux.loading.hide();
+        // Vue.$vux.alert.hide();
+        Vue.$vux.confirm.hide();
+        Vue.$vux.toast.hide();
+        Vue.$vux.alert.show({
+          title: '无权访问' + moduleName,
+          content: response.data.Message + ' 请联系您的上级部门',
+          buttonText: '知道了'
+        });
+        return Promise.reject(response);
+      } else if (
+        response.data.StatusCode === 1300 ||
+        response.data.StatusCode === 401
+      ) {
+        Vue.$vux.loading.hide();
+        Vue.$vux.alert.hide();
+        // Vue.$vux.confirm.hide();
+        Vue.$vux.toast.hide();
+        Vue.$vux.confirm.show({
+          title: '登录超时',
+          content: moduleName + '时服务器回复说“' + response.data.Message + '”',
+          cancelText: '关闭提示',
+          confirmText: '重新登录',
+          onConfirm: function() {
+            router.replace({
+              path: router.getLoginUrl(),
+              query: { redirect: router.currentRoute.fullPath }
+            });
+          },
+          onCancel: function() {
+            router.go(-1);
+          }
+        });
+        return Promise.reject(response);
+      } else {
+        Vue.$vux.loading.hide();
+        // Vue.$vux.alert.hide();
+        Vue.$vux.confirm.hide();
+        Vue.$vux.toast.hide();
+        let message = response.data.Message
+          ? '说“' + response.data.Message + '”'
+          : '没有回复';
+        let code = response.data.StatusCode || '-';
+        Vue.$vux.alert.show({
+          title: '应用错误',
+          // response.data.Message
+          content: moduleName + '时服务器' + message + '[' + code + ']',
+          buttonText: '关闭提示'
+        });
+        return Promise.reject(response);
+      }
+    } else {
       Vue.$vux.loading.hide();
-      // Vue.$vux.alert.hide();
       Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
-        title: '无权访问' + moduleName,
-        content: response.data.Message + ' 请联系您的上级部门',
+        title: '数据错误',
+        content: '缺少 StatusCode：' + JSON.stringify(response.data),
         buttonText: '知道了'
       });
-      return Promise.reject(response);
-    } else if (response.data.StatusCode === 1300) {
-      Vue.$vux.loading.hide();
-      Vue.$vux.alert.hide();
-      // Vue.$vux.confirm.hide();
-      Vue.$vux.toast.hide();
-      Vue.$vux.confirm.show({
-        title: '登录超时',
-        content: response.data.Message,
-        cancelText: '关闭提示',
-        confirmText: '重新登录',
-        onConfirm: function() {
-          router.replace({
-            path: router.getLoginUrl(),
-            query: { redirect: router.currentRoute.fullPath }
-          });
-        },
-        onCancel: function() {
-          router.go(-1);
-        }
-      });
-
       return Promise.reject(response);
     }
     if (response.data === '') {
@@ -116,7 +150,7 @@ service.interceptors.response.use(
       Vue.$vux.confirm.hide();
       Vue.$vux.toast.hide();
       Vue.$vux.alert.show({
-        title: '获取不到数据',
+        title: '服务器没有回应',
         content:
           '服务器可能心情不好，请求' +
           moduleName +

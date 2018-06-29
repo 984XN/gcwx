@@ -61,25 +61,23 @@ export default {
       text: '获取数据'
     });
     self.$nextTick(() => {
-      api.user.member
-        .profile()
-        .then(res => {
-          self.$vux.loading.hide();
-          self.userInfo = res.Data.userInfo || {};
-          console.log('api.user.member.profile:', res);
-        })
-        .catch(e => {
-          self.$vux.loading.hide();
-          self.$vux.confirm.show({
-            title: '提示',
-            content: e.message || '接口数据错误',
-            confirmText: '返回上一页',
-            cancelText: '关闭提示',
-            onConfirm() {
-              this.$router.go(-1);
-            }
-          });
-        });
+      api.user.member.profile().then(res => {
+        self.$vux.loading.hide();
+        self.userInfo = res.Data.userInfo || {};
+        console.log('api.user.member.profile:', res);
+      });
+      // .catch(e => {
+      //   self.$vux.loading.hide();
+      //   self.$vux.confirm.show({
+      //     title: '提示',
+      //     content: e.message || e.Message || '接口数据错误',
+      //     confirmText: '返回上一页',
+      //     cancelText: '关闭提示',
+      //     onConfirm() {
+      //       this.$router.go(-1);
+      //     }
+      //   });
+      // });
     });
   }
 };

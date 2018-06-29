@@ -136,6 +136,7 @@ export default {
         switch (ext) {
           case 'mp4':
             self.type = 'video';
+            document.title = '视频'
             break;
           default:
             self.type = 'file';

@@ -177,10 +177,14 @@ export default {
     },
     getWechatLink() {
       let self = this;
-      self.$vux.alert.show({
-        title: '不能解除微信',
-        content: '如需解绑，请使用其它微信绑定这个党员帐号'
-      });
+      if (self.userWechat.NickName) {
+        self.$vux.alert.show({
+          title: '不能解除微信',
+          content: '如需解绑，请使用其它微信绑定这个党员帐号'
+        });
+      } else {
+        self.$router.push({ path: '/login/wechat', append: false });
+      }
       // 解绑功能因为后台有加分逻辑未处理好，先不开通
       // let self = this;
       // let mid = self.userSystem.ID || 0;
