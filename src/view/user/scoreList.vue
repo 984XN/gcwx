@@ -1,5 +1,5 @@
 <template>
-  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="44" class="page-user-score">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="44" class="page-user-score-list">
     <no-data v-if="!list.length && !lazyload.loading" text="暂无积分记录"></no-data>
     <panel v-if="list.length" header="积分列表" :list="list" type="4"></panel>
   </container>

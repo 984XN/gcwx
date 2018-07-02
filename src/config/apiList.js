@@ -355,6 +355,14 @@ export const API_LIST = {
     name: '获取积分排名',
     params: {}
   },
+  '/PartyActivity/PaPartyMemberAddScore/GetCurrentOrgRanking': {
+    name: '获取积分排名列表', // 个人中心
+    params: {}
+  },
+  '/PartyActivity/PaPartyMemberAddScore/GetMemberAddScore': {
+    name: '获取我的积分排名名次', // 个人中心
+    params: {}
+  },
   '/PartyMember/PdPartyMemberCostPay/GetCostPayByLoginMember': {
     name: '获取党费缴纳信息',
     params: {}

@@ -93,10 +93,11 @@ export const user = {
             return res.data;
           });
       },
+      // 积分排名列表
       order: params => {
         return service
           .post(
-            '/api/Integration/IgPartyMemberAddScore/GetMemberScoreByYear',
+            '/api/Integration/IgPartyMemberAddScore/GetCurrentOrgRanking',
             params
           )
           .then(res => {
@@ -111,6 +112,17 @@ export const user = {
             // console.log('res.data:', res.data);
             return res.data;
           });
+      },
+      // 我的名次
+      place: params => {
+        return service
+          .post(
+            '/api/Integration/IgPartyMemberAddScore/GetMemberAddScore',
+            params
+          )
+          .then(res => {
+            return res.data;
+          })
       }
     },
     dues: params => {

@@ -1,9 +1,9 @@
 <template>
-  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="44" class="page-user-score">
+  <container :lazyload="lazyload" @loadData="loadData" bottom="0" top="44" class="page-user-score-order">
     <no-data v-if="!list.length && !lazyload.loading" text="暂无积分记录"></no-data>
-    <group title="积分排名" v-if="list.length">
+    <group :title="'我的名次：'+order" v-if="list.length">
       <cell :title="m.name" :value="m.score" v-for="(m,i) in list" :key="i">
-        <div class="index" slot="icon">第{{i+1}}名</div>
+        <div class="index" :class="'i'+i" slot="icon">第 {{i+1}} 名</div>
       </cell>
     </group>
   </container>
@@ -21,7 +21,7 @@ export default {
         loading: false,
         page: 1
       },
-      order: 0, // user's order
+      order: '-', // user's order
       list: [
         // {
         //   name: 'NAME1',
@@ -78,13 +78,41 @@ export default {
           });
       }
     }
+  },
+  mounted() {
+    let self = this;
+    self.$nextTick(() => {
+      api.user.member.score.place().then(res => {
+        self.order = res.Data.CurrentOrgRanking[0].rownum;
+      });
+    });
   }
 };
 </script>
 
 <style lang="stylus" scoped>
 .index {
-  color #333
+  color #000
   padding-right 5px
+  background-color #DDD
+  padding 3px 5px
+  border-radius 3px
+  font-size 12px
+  line-height 16px
+  margin-right 5px
+  vertical-align middle
+  &.i0 {
+    background-color #C00
+    color #FFF
+  }
+  &.i1 {
+    background-color #FF5722
+    color #FFF
+  }
+  &.i2 {
+    background-color #2196F3
+    color #FFF
+  }
 }
+
 </style>
