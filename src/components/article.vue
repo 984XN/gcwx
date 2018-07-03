@@ -106,6 +106,7 @@ export default {
 <style lang="stylus" scoped>
 .article-body-content {
   margin-bottom 10px
+  text-align justify
 }
 .weui-cells__title {
   margin-top 0.77em
