@@ -1,5 +1,9 @@
 <template>
   <div class="page-activity-liuyanpinglun-add">
+    <!-- <div class="reject" v-if="reject"> {{reject}} </div> -->
+    <group title="退回原因" v-if="reject">
+      <cell class="reject" :title="reject"></cell>
+    </group>
     <group title="基本信息">
       <x-input v-if="useTitle" v-model="title" placeholder="请填写标题"></x-input>
       <x-textarea :max="MaxNumberOfWords" placeholder="请填写内容" v-model="content" :autosize="true"></x-textarea>
@@ -75,6 +79,7 @@ export default {
       files: [],
       title: '',
       content: '',
+      reject: false,
       agree: true,
       uploadBtnDisabled: false
       // previewerOptions: {
@@ -344,6 +349,7 @@ export default {
         }
         self.title = info.title || '';
         self.content = info.content || '';
+        self.reject = info.reject || false;
         if (res.Data.article && res.Data.article.imgs) {
           self.files = res.Data.article.imgs.map((v, i, a) => {
             return {
@@ -373,5 +379,21 @@ export default {
 .icon-error {
   font-size 36px
   color #C00
+}
+// .reject {
+//   margin 10px
+//   padding 15px
+//   background #FFEB3B
+//   border-left solid 3px #FF5722
+//   color #C00
+//   font-size 16px
+//   // &:before {
+//   //   content '退回原因：'
+//   //   display block
+//   //   font-size 12px
+//   // }
+// }
+.reject {
+  color #c00
 }
 </style>

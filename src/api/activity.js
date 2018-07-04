@@ -451,6 +451,7 @@ export const activity = {
               organization: val.OrganizationName || '',
               content: content,
               public: val.IsAdopt || 0,
+              reject: val.CheckIntro ? val.CheckIntro : false,
               view: val.ReadNumber || 0,
               like: val.FabulousNumber || 0,
               liked: val.IsLike || false,
@@ -477,6 +478,7 @@ export const activity = {
                 uid: val.CreateUID ? val.CreateUID : '',
                 title: val.PositiveEnergyTitle || '未命名',
                 author: val.UserName || '',
+                reject: val.CheckIntro ? val.CheckIntro : false,
                 view: val.ReadNumber || 0,
                 like: val.FabulousNumber || 0,
                 content:
