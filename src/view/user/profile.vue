@@ -1,6 +1,6 @@
 <template>
   <div class="page-user-profile">
-    <group title="基本信息">
+    <group title="基本信息" class="userProfile">
       <cell title="姓名" :value="userInfo.Name"></cell>
       <cell title="性别" :value="userInfo.Sex"></cell>
       <cell title="民族" :value="userInfo.Nation"></cell>
