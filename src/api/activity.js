@@ -851,6 +851,57 @@ export const activity = {
           params
         )
         .then(res => {
+          // 后端开发人员想知道接口返回的内容（用于捕捉接口返回的异常数据）
+          try {
+            var Ajax = {
+              // datat应为'a=a1&b=b1'这种字符串格式，在jq里如果data为对象会自动将对象转成这种字符串格式
+              post: function(url, data, fn) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', url, true);
+                // 添加http头，发送信息至服务器时内容编码类型
+                xhr.setRequestHeader(
+                  'Content-Type',
+                  'application/x-www-form-urlencoded'
+                  // 'text/plain'
+                );
+                xhr.onreadystatechange = function() {
+                  if (
+                    xhr.readyState === 4 &&
+                    (xhr.status === 200 || xhr.status === 304)
+                  ) {
+                    fn.call(this, xhr.responseText);
+                  }
+                };
+                xhr.send(data);
+              }
+            };
+            Ajax.post(
+              'http://gocoxing.cn/uloc/InsertLog',
+              'content=' + Date() + '####' + encodeURI(JSON.stringify(res)),
+              // {content: Date() + '####' + JSON.stringify(res)},
+              function(r) {
+                console.log('R:', r);
+              }
+            );
+            // service.post(
+            //   'http://gocoxing.cn/uloc/InsertLog',
+            //   {
+            //     method: 'post',
+            //     params: {
+            //       content: Date() + '####' + JSON.stringify(res)
+            //     }
+            //   },
+            //   {
+            //     headers: {
+            //       'Access-Control-Allow-Origin': '*',
+            //       'Content-Type': 'text/plain'
+            //       // 'Content-Type': 'application/json'
+            //     }
+            //   }
+            // );
+          } catch (e) {
+            console.error('http://gocoxing.cn/uloc/InsertLog:', e);
+          }
           return res.data;
         });
     },
