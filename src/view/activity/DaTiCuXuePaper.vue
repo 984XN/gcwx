@@ -23,7 +23,7 @@
               <div class="index">
                 <strong>第{{i+1}}题</strong>
                 <span>（共{{paper.count || list.length}}题）</span>
-                <span class="questionType">({{getQuestionType(v.type)}})</span>
+                <span class="questionType">({{v.typeCn}})</span>
               </div>
               <div class="text"> {{v.question}} </div>
             </dt>
@@ -78,18 +78,18 @@ export default {
     };
   },
   methods: {
-    getQuestionType(enType) {
-      let type = '未知试题类型' + enType;
-      switch (enType) {
-        case 'radio':
-          type = '单选题';
-          break;
-        case 'multiselect':
-          type = '多选题';
-          break;
-      }
-      return type;
-    },
+    // getQuestionType(enType) {
+    //   let type = '未知试题类型' + enType;
+    //   switch (enType) {
+    //     case 'radio':
+    //       type = '单选题';
+    //       break;
+    //     case 'multiselect':
+    //       type = '多选题';
+    //       break;
+    //   }
+    //   return type;
+    // },
     checked(id, val) {
       let self = this;
       let type = '';

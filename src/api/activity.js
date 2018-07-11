@@ -790,17 +790,25 @@ export const activity = {
               answer,
               selected,
               inputType: type === 10 || type === 20 ? 'radio' : 'checkbox',
-              type: '' // // radio or multiselect
+              type: '', // // radio or multiselect
+              typeCn: ''
             };
             switch (type) {
               case 10: // 判断也是单选：是或否
+                question.typeCn = '判断题';
+                question.type = 'radio';
+                break;
               case 20: // 单选
+                question.typeCn = '单选题';
                 question.type = 'radio';
                 break;
               case 30:
+                question.typeCn = '多选题';
                 question.type = 'multiselect';
                 break;
               default:
+                question.typeCn = '未知类型' + type;
+                question.type = '';
                 break;
             }
             // 10判断题共2个答案项，20单选答案共4个答案项，30多选答案共X项
