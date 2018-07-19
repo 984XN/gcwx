@@ -65,6 +65,7 @@ export default {
       second: '-',
       handle: null,
       duration: 0, // 倒计时总秒数
+      timer: 0, // 答题所用秒数
       index: -1, // 答题进度
       buttonText: '下一题', // 最后一题会变成“交卷”
       loading: false,
@@ -158,6 +159,7 @@ export default {
           self.duration = duration;
           self.minute = minute;
           self.second = second;
+          self.timer++;
         }
       }, 1000);
     },
@@ -220,6 +222,13 @@ export default {
               let message = '';
               let motto = '';
               let title = '';
+              let clock = {
+                minute: Math.floor(self.timer / 60),
+                second: self.timer % 60
+              };
+              clock = clock.minute
+                ? `${clock.minute}分${clock.second}秒`
+                : `${clock.second}秒`;
               if (pass) {
                 title = '恭喜你<br />答题成功';
                 message = `恭喜你得到了${score}分的高分，正确率达到了${accuracy}`;
@@ -227,6 +236,7 @@ export default {
               } else {
                 title = '好可惜<br />答题失败';
                 message = `很遗憾你的正确率低于${threshold}%，未通过，你的正确率为${accuracy}，分数为${score}分`;
+                message = `未通过，你的分数为${score}分，用时${clock}`;
                 motto = '不要泄气，努力就有好成绩！！';
               }
               // let Message = res.Message;
