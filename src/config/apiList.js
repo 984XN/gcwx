@@ -8,6 +8,10 @@ export const API_LIST = {
       Theme: ''
     }
   },
+  '/Sys/SysUser/LoginV2': {
+    name: '验证登录帐号',
+    params: {}
+  },
   '/Sys/SysUser/GetWechatUserInfo': {
     name: '微信登录',
     params: { model: { code: '' } }

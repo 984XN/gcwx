@@ -68,6 +68,8 @@ Vue.directive('scroll', scroll);
 
 Vue.config.productionTip = false;
 
+// require('src/api/mock'); // 模拟数据
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
